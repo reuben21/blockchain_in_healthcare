@@ -1,6 +1,7 @@
 import 'package:blockchain_healthcare_frontend/screens/medical_records_screen.dart';
 import 'package:blockchain_healthcare_frontend/screens/prescription_screen.dart';
 import 'package:blockchain_healthcare_frontend/screens/wallet.dart';
+import 'package:blockchain_healthcare_frontend/theme.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -56,9 +57,9 @@ class _TabsScreenState extends State<TabsScreen> {
         selectedIndex: _selectPageIndex,
         onItemSelected: _selectPage,
         items: <BottomNavyBarItem> [
-          BottomNavyBarItem(icon: Icon(Icons.receipt_long_rounded), title: Text('Record')),
-          BottomNavyBarItem(icon: Icon(Icons.medication_rounded), title: Text('Medicine')),
-          BottomNavyBarItem(icon: Icon(Icons.medical_services_rounded), title: Text('Wallet'))
+          BottomNavyBarItem(icon: Image.asset("assets/icons/medical_history.png",color: justBlue,width: 32,height: 32,), title: Text('Record',style: TextStyle(color: justBlue),)),
+          BottomNavyBarItem(icon: Image.asset("assets/icons/medicine.png",color: justBlue,width: 32,height: 32), title: Text('Medicine',style: TextStyle(color: justBlue),)),
+          BottomNavyBarItem(icon: Image.asset("assets/icons/wallet.png",color: justBlue,width: 32,height: 32), title: Text('Wallet',style: TextStyle(color: justBlue),))
         ],
       ),
     );

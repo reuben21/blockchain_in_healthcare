@@ -81,6 +81,9 @@ flutter:
     - assets/abis/Pharmacy.json
     - assets/abis/SafeERC20.json
     - assets/abis/Strings.json
+    - assets/icons/medical_history.png
+    - assets/icons/medicine.png
+    - assets/icons/wallet.png
 
 
   # The following line ensures that the Material Icons font is
