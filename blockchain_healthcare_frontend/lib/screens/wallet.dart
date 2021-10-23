@@ -106,8 +106,14 @@ class _WalletScreenState extends State<WalletScreen> {
           (context.percentHeight * 3).heightBox,
           VxBox(
                   child: VStack([
-            balance.toString().text.black.xl2.semiBold.makeCentered(),
+            "Balance".text.black.xl2.semiBold.makeCentered(),
             10.heightBox,
+            (balance.toString() + " Ethers")
+                .text
+                .black
+                .xl2
+                .semiBold
+                .makeCentered(),
           ]))
               .p16
               .white
@@ -125,7 +131,7 @@ class _WalletScreenState extends State<WalletScreen> {
                 onPressed: () {
                   // Respond to button press
                 },
-                icon: Icon(Icons.add),
+                icon: Icon(Icons.refresh),
                 label: Text('Refresh'),
               ),
               FloatingActionButton.extended(
@@ -134,7 +140,7 @@ class _WalletScreenState extends State<WalletScreen> {
                 onPressed: () {
                   // Respond to button press
                 },
-                icon: Icon(Icons.add),
+                icon: Icon(Icons.call_made_outlined),
                 label: Text('Send'),
               ),
               FloatingActionButton.extended(
@@ -143,7 +149,7 @@ class _WalletScreenState extends State<WalletScreen> {
                 onPressed: () {
                   // Respond to button press
                 },
-                icon: Icon(Icons.add),
+                icon: Icon(Icons.call_received_outlined),
                 label: Text('Recieve'),
               ),
             ],
