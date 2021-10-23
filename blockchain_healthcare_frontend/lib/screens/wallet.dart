@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
+import 'package:velocity_x/velocity_x.dart';
 import 'package:web3dart/web3dart.dart';
 
 class WalletScreen extends StatefulWidget {
@@ -15,15 +16,16 @@ class WalletScreen extends StatefulWidget {
 }
 
 class _WalletScreenState extends State<WalletScreen> {
-   Client httpClient;
-   Web3Client ethClient;
-   String rpcUrl = 'http://127.0.0.1:7545';
+  EtherAmount bal;
+  BigInt balance;
+  Client httpClient;
+  Web3Client ethClient;
+  String rpcUrl = 'http://10.0.2.2:7545';
 
   @override
   void initState() {
     super.initState();
     initialSetup();
-
   }
 
   Future<void> initialSetup() async {
@@ -31,16 +33,13 @@ class _WalletScreenState extends State<WalletScreen> {
     ethClient = Web3Client(rpcUrl, httpClient);
 
     await getCredentials();
-
   }
 
-   Credentials credentials;
-   EthereumAddress myAddress;
+  Credentials credentials;
+  EthereumAddress myAddress;
 
   String privateKey =
-      '81ec06bd270aba1032e3b9e87a41c201cb0f33c2cfaaf45a07d56316e14ca93d';
-
-
+      '60dcd659d87040d9f534bd081e4af2a027638ece77b278543fb555710902eaf9';
 
   Future<void> getCredentials() async {
     credentials = await EthPrivateKey.fromHex(privateKey);
@@ -48,23 +47,24 @@ class _WalletScreenState extends State<WalletScreen> {
     print(myAddress.toString());
     print(myAddress.hexEip55);
     print(await ethClient.getBalance(myAddress));
+    bal = await ethClient.getBalance(myAddress);
+    balance = bal.getInEther;
+    print(balance);
   }
-
-
-
-
 
   Future<DeployedContract> getDeployedContract() async {
     String abi;
     EthereumAddress contractAddress;
 
-    String abiString = await rootBundle.loadString('assets/abis/HospitalToken.json');
+    String abiString =
+        await rootBundle.loadString('assets/abis/HospitalToken.json');
     var abiJson = jsonDecode(abiString);
     abi = jsonEncode(abiJson['abi']);
 
     print(abi);
 
-    contractAddress = EthereumAddress.fromHex(abiJson['networks']['5777']['address']);
+    contractAddress =
+        EthereumAddress.fromHex(abiJson['networks']['5777']['address']);
     final contract = DeployedContract(
         ContractAbi.fromJson(abi, "HospitalToken"), contractAddress);
     return contract;
@@ -75,19 +75,16 @@ class _WalletScreenState extends State<WalletScreen> {
   Future<List<dynamic>> query(String functionName, List<dynamic> args) async {
     final contract = await getDeployedContract();
     final ethFunction = contract.function(functionName);
-    final result = await ethClient.call(contract: contract, function: ethFunction, params: args);
+    final result = await ethClient.call(
+        contract: contract, function: ethFunction, params: args);
     return result;
   }
 
-
-
   Future<void> getBalance() async {
-
-    List<dynamic> result = await query("totalSupply",[]);
+    List<dynamic> result = await query("totalSupply", []);
 
     print(result[0].toString());
   }
-
 
   @override
   void dispose() {
@@ -98,7 +95,63 @@ class _WalletScreenState extends State<WalletScreen> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-
+      body: ZStack([
+        VxBox()
+            .blue600
+            .size(context.screenWidth, context.percentHeight * 30)
+            .make(),
+        VStack([
+          (context.percentHeight * 10).heightBox,
+          "\$Ethers".text.xl4.white.bold.center.makeCentered().py16(),
+          (context.percentHeight * 3).heightBox,
+          VxBox(
+                  child: VStack([
+            balance.toString().text.black.xl2.semiBold.makeCentered(),
+            10.heightBox,
+          ]))
+              .p16
+              .white
+              .size(context.screenWidth, context.percentHeight * 18)
+              .rounded
+              .shadowXl
+              .make()
+              .p16(),
+          30.heightBox,
+          HStack(
+            [
+              FloatingActionButton.extended(
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.black,
+                onPressed: () {
+                  // Respond to button press
+                },
+                icon: Icon(Icons.add),
+                label: Text('Refresh'),
+              ),
+              FloatingActionButton.extended(
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.black,
+                onPressed: () {
+                  // Respond to button press
+                },
+                icon: Icon(Icons.add),
+                label: Text('Send'),
+              ),
+              FloatingActionButton.extended(
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.black,
+                onPressed: () {
+                  // Respond to button press
+                },
+                icon: Icon(Icons.add),
+                label: Text('Recieve'),
+              ),
+            ],
+            alignment: MainAxisAlignment.spaceAround,
+            axisSize: MainAxisSize.max,
+          ).p16()
+        ])
+      ]),
     );
   }
 }
