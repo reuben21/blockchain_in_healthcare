@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
@@ -20,7 +20,7 @@ class _WalletScreenState extends State<WalletScreen> {
   BigInt balance;
   Client httpClient;
   Web3Client ethClient;
-  String rpcUrl = 'http://10.0.2.2:7545';
+  String rpcUrl;
 
   @override
   void initState() {
@@ -30,6 +30,13 @@ class _WalletScreenState extends State<WalletScreen> {
 
   Future<void> initialSetup() async {
     httpClient = Client();
+    if (Platform.isAndroid) {
+      // Android-specific code
+      rpcUrl = 'http://10.0.2.2:7545';
+    } else if (Platform.isIOS) {
+      // iOS-specific code
+      rpcUrl = 'http://127.0.0.1:7545';
+    }
     ethClient = Web3Client(rpcUrl, httpClient);
 
     await getCredentials();
@@ -39,17 +46,25 @@ class _WalletScreenState extends State<WalletScreen> {
   EthereumAddress myAddress;
 
   String privateKey =
-      '60dcd659d87040d9f534bd081e4af2a027638ece77b278543fb555710902eaf9';
+      'fa2181fddd12174b96472263139f8c046b4074d27b71a63b7a0633a05e9dc08d';
 
   Future<void> getCredentials() async {
     credentials = await EthPrivateKey.fromHex(privateKey);
     myAddress = await credentials.extractAddress();
-    print(myAddress.toString());
-    print(myAddress.hexEip55);
+
     print(await ethClient.getBalance(myAddress));
     bal = await ethClient.getBalance(myAddress);
-    balance = bal.getInEther;
+    setState(() {
+      balance = bal.getInEther;
+    });
     print(balance);
+  }
+
+  Future<void> refreshBalance() async {
+    bal = await ethClient.getBalance(myAddress);
+    setState(() {
+      balance = bal.getInEther;
+    });
   }
 
   Future<DeployedContract> getDeployedContract() async {
@@ -60,8 +75,6 @@ class _WalletScreenState extends State<WalletScreen> {
         await rootBundle.loadString('assets/abis/HospitalToken.json');
     var abiJson = jsonDecode(abiString);
     abi = jsonEncode(abiJson['abi']);
-
-    print(abi);
 
     contractAddress =
         EthereumAddress.fromHex(abiJson['networks']['5777']['address']);
@@ -102,7 +115,7 @@ class _WalletScreenState extends State<WalletScreen> {
             .make(),
         VStack([
           (context.percentHeight * 10).heightBox,
-          "\$Ethers".text.xl4.white.bold.center.makeCentered().py16(),
+          "\$ Ethers 1".text.xl4.white.bold.center.makeCentered().py16(),
           (context.percentHeight * 3).heightBox,
           VxBox(
                   child: VStack([
@@ -129,10 +142,10 @@ class _WalletScreenState extends State<WalletScreen> {
                 backgroundColor: Colors.blue,
                 foregroundColor: Colors.black,
                 onPressed: () {
-                  // Respond to button press
+                  refreshBalance();
                 },
-                icon: Icon(Icons.refresh),
-                label: Text('Refresh'),
+                icon: const Icon(Icons.refresh),
+                label: const Text('Refresh'),
               ),
               FloatingActionButton.extended(
                 backgroundColor: Colors.blue,
@@ -140,8 +153,8 @@ class _WalletScreenState extends State<WalletScreen> {
                 onPressed: () {
                   // Respond to button press
                 },
-                icon: Icon(Icons.call_made_outlined),
-                label: Text('Send'),
+                icon: const Icon(Icons.call_made_outlined),
+                label: const Text('Send'),
               ),
               FloatingActionButton.extended(
                 backgroundColor: Colors.blue,
@@ -149,13 +162,13 @@ class _WalletScreenState extends State<WalletScreen> {
                 onPressed: () {
                   // Respond to button press
                 },
-                icon: Icon(Icons.call_received_outlined),
-                label: Text('Recieve'),
+                icon: const Icon(Icons.call_received_outlined),
+                label: const Text('Recieve'),
               ),
             ],
             alignment: MainAxisAlignment.spaceAround,
             axisSize: MainAxisSize.max,
-          ).p16()
+          )
         ])
       ]),
     );
