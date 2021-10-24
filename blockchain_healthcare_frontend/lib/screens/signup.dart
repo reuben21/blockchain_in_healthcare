@@ -1,9 +1,20 @@
+import 'dart:convert';
+
 import 'package:blockchain_healthcare_frontend/screens/login.dart';
 import 'package:blockchain_healthcare_frontend/theme.dart';
 import 'package:blockchain_healthcare_frontend/widgets/forms/signup_form.dart';
 import 'package:flutter/material.dart';
+import 'package:web3dart/crypto.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget {
+
+  @override
+  State<SignUpScreen> createState() => _SignUpScreenState();
+
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
+
 
 
   @override
@@ -34,7 +45,7 @@ class SignUpScreen extends StatelessWidget {
                     'Already a member?',
                     style: subTitle,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
                   GestureDetector(
@@ -57,7 +68,7 @@ class SignUpScreen extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Padding(

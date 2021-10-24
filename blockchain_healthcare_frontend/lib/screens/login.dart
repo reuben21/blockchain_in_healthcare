@@ -5,10 +5,14 @@ import 'package:blockchain_healthcare_frontend/widgets/forms/login_form.dart';
 import 'package:blockchain_healthcare_frontend/widgets/forms/primary_button.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key key}) : super(key: key);
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
 
-// ignore_for_file: prefer_const_constructors
+class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,14 +20,14 @@ class LoginScreen extends StatelessWidget {
         padding: kDefaultPadding,
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 120,
             ),
             Text(
               'Welcome Back',
               style: titleText,
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             Row(
@@ -32,7 +36,7 @@ class LoginScreen extends StatelessWidget {
                   'New to this app?',
                   style: subTitle,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 5,
                 ),
                 GestureDetector(
@@ -54,14 +58,14 @@ class LoginScreen extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             LoginForm(),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
-            Text(
+            const Text(
               'Forgot Password?',
               style: TextStyle(
                 color: kPrimaryColor,
@@ -70,7 +74,7 @@ class LoginScreen extends StatelessWidget {
                 decorationThickness: 1,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             PrimaryButton(
