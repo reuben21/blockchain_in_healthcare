@@ -191,6 +191,91 @@ class _WalletScreenState extends State<WalletScreen> {
             ]),
           ]),
           10.heightBox,
+          Expanded(
+            child: SizedBox(
+              height: 200.0,
+              child: ListView(
+                children: const [
+                  Card(
+                    elevation: 0.0,
+                    child: ListTile(
+                      leading: Icon(Icons.download_done),
+                      title: Text(
+                        'Recieved',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      subtitle: Text(
+                        'From: 0xE1ab66A6f9157b02C32DE2682B0Fea298eA0b3eE',
+                        maxLines: 1,
+                        overflow: TextOverflow.fade,
+                        softWrap: false,
+                      ),
+                      trailing: Text('+ 0,0012 ETH'),
+                    ),
+                  ),
+                  Card(
+                    elevation: 0.0,
+                    child: ListTile(
+                      leading: Icon(Icons.download_done),
+                      title: Text(
+                        'Recieved',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      subtitle: Text(
+                        '0xE1ab66A6f9157b02C32DE2682B0Fea298eA0b3eE',
+                        maxLines: 1,
+                        overflow: TextOverflow.fade,
+                        softWrap: false,
+                      ),
+                      trailing: Text('+ 2 ETH'),
+                    ),
+                  ),
+                  Card(
+                    elevation: 0.0,
+                    child: ListTile(
+                      leading: Icon(Icons.download_done),
+                      title: Text(
+                        'Sent',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      subtitle: Text(
+                        '0xE1ab66A6f9157b  02C32DE2682B0Fea298eA0b3eE',
+                        maxLines: 1,
+                        overflow: TextOverflow.fade,
+                        softWrap: false,
+                      ),
+                      trailing: Text('- 0,003 ETH'),
+                    ),
+                  ),
+                  Card(
+                    elevation: 0.0,
+                    child: ListTile(
+                      leading: Icon(Icons.download_done),
+                      title: Text(
+                        'Recieved',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      subtitle: Text(
+                        '0xE1ab66A6f9157b02C32DE2682B0Fea298eA0b3eE',
+                        maxLines: 1,
+                        overflow: TextOverflow.fade,
+                        softWrap: false,
+                      ),
+                      trailing: Text('+ 0,0220 ETH'),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          )
         ],
       ),
     );
