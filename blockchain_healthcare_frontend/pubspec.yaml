@@ -59,35 +59,10 @@ dev_dependencies:
 # The following section is specific to Flutter.
 flutter:
   assets:
-    - assets/abis/AccessControl.json
-    - assets/abis/AccessControlEnumerable.json
-    - assets/abis/Address.json
-    - assets/abis/Context.json
-    - assets/abis/Counters.json
-    - assets/abis/Doctor.json
-    - assets/abis/ECDSA.json
-    - assets/abis/EIP712.json
-    - assets/abis/ERC165.json
-    - assets/abis/ERC20.json
-    - assets/abis/ERC20Permit.json
-    - assets/abis/EnumerableSet.json
-    - assets/abis/Healthcare.json
-    - assets/abis/Hospital.json
-    - assets/abis/HospitalToken.json
-    - assets/abis/IAccessControl.json
-    - assets/abis/IAccessControlEnumerable.json
-    - assets/abis/IERC165.json
-    - assets/abis/IERC20.json
-    - assets/abis/IERC20Metadata.json
-    - assets/abis/IERC20Permit.json
-    - assets/abis/Migrations.json
-    - assets/abis/Patient.json
-    - assets/abis/Pharmacy.json
-    - assets/abis/SafeERC20.json
-    - assets/abis/Strings.json
     - assets/icons/medical_history.png
     - assets/icons/medicine.png
     - assets/icons/wallet.png
+    - assets/icons/ethereum.png
 
 
   # The following line ensures that the Material Icons font is

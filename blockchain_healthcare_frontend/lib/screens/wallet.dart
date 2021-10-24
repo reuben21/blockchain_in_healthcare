@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io' show Platform;
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
@@ -108,69 +109,90 @@ class _WalletScreenState extends State<WalletScreen> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      body: ZStack([
-        VxBox()
-            .blue600
-            .size(context.screenWidth, context.percentHeight * 30)
-            .make(),
-        VStack([
-          (context.percentHeight * 10).heightBox,
-          "\$ Ethers 1".text.xl4.white.bold.center.makeCentered().py16(),
-          (context.percentHeight * 3).heightBox,
-          VxBox(
-                  child: VStack([
-            "Balance".text.black.xl2.semiBold.makeCentered(),
-            10.heightBox,
-            (balance.toString() + " Ethers")
-                .text
-                .black
-                .xl2
-                .semiBold
-                .makeCentered(),
-          ]))
-              .p16
-              .white
-              .size(context.screenWidth, context.percentHeight * 18)
-              .rounded
-              .shadowXl
-              .make()
-              .p16(),
-          30.heightBox,
-          HStack(
-            [
-              FloatingActionButton.extended(
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.black,
-                onPressed: () {
-                  refreshBalance();
-                },
-                icon: const Icon(Icons.refresh),
-                label: const Text('Refresh'),
+      body: Column(
+        children: [
+          ZStack([
+            VxBox()
+                .blue600
+                .size(context.screenWidth, context.percentHeight * 30)
+                .make(),
+            VStack([
+              // const Image(image: AssetImage('assets/ethereum.png')),
+              // (context.percentHeight * 10).heightBox,
+              // "\$ Ethers 1".text.xl4.white.bold.center.makeCentered().py16(),
+              // Image(
+              //     image: new AssetImage("assets/icons/ethereum.png"),
+              //     height: 100,
+              //     width: MediaQuery.of(context).size.width,
+              //     fit: BoxFit.cover,
+              //     // scale: 0.8
+              //
+              //     // fit: BoxFit.fitHeight,
+              //     ),
+              Image.asset(
+                'assets/icons/ethereum.png',
+                height: 140,
+                width: MediaQuery.of(context).size.width * 2,
               ),
-              FloatingActionButton.extended(
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.black,
-                onPressed: () {
-                  // Respond to button press
-                },
-                icon: const Icon(Icons.call_made_outlined),
-                label: const Text('Send'),
-              ),
-              FloatingActionButton.extended(
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.black,
-                onPressed: () {
-                  // Respond to button press
-                },
-                icon: const Icon(Icons.call_received_outlined),
-                label: const Text('Recieve'),
-              ),
-            ],
-            alignment: MainAxisAlignment.spaceAround,
-            axisSize: MainAxisSize.max,
-          )
-        ])
-      ]),
+
+              // (context.percentHeight * 1).heightBox,
+              VxBox(
+                      child: VStack([
+                "Balance".text.black.xl2.semiBold.makeCentered(),
+                10.heightBox,
+                (balance.toString() + " Ethers")
+                    .text
+                    .black
+                    .xl2
+                    .semiBold
+                    .makeCentered(),
+              ]))
+                  .p16
+                  .white
+                  .size(context.screenWidth, context.percentHeight * 18)
+                  .rounded
+                  .shadowXl
+                  .make()
+                  .p16(),
+              30.heightBox,
+              HStack(
+                [
+                  FloatingActionButton.extended(
+                    backgroundColor: Colors.blue,
+                    foregroundColor: Colors.black,
+                    onPressed: () {
+                      refreshBalance();
+                    },
+                    icon: const Icon(Icons.refresh),
+                    label: const Text('Refresh'),
+                  ),
+                  FloatingActionButton.extended(
+                    backgroundColor: Colors.blue,
+                    foregroundColor: Colors.black,
+                    onPressed: () {
+                      // Respond to button press
+                    },
+                    icon: const Icon(Icons.call_made_outlined),
+                    label: const Text('Send'),
+                  ),
+                  FloatingActionButton.extended(
+                    backgroundColor: Colors.blue,
+                    foregroundColor: Colors.black,
+                    onPressed: () {
+                      // Respond to button press
+                    },
+                    icon: const Icon(Icons.call_received_outlined),
+                    label: const Text('Recieve'),
+                  ),
+                ],
+                alignment: MainAxisAlignment.spaceAround,
+                axisSize: MainAxisSize.max,
+              )
+            ]),
+          ]),
+          10.heightBox,
+        ],
+      ),
     );
   }
 }
