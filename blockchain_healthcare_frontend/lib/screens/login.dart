@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:blockchain_healthcare_frontend/screens/signup.dart';
 import 'package:blockchain_healthcare_frontend/theme.dart';
 import 'package:blockchain_healthcare_frontend/widgets/forms/login_form.dart';
 import 'package:blockchain_healthcare_frontend/widgets/forms/primary_button.dart';
@@ -44,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SignUpScreen(),
+                        builder: (context) => null,
                       ),
                     );
                   },
