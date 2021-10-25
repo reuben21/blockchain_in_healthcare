@@ -47,7 +47,7 @@ class _WalletScreenState extends State<WalletScreen> {
   EthereumAddress myAddress;
 
   String privateKey =
-      'fa2181fddd12174b96472263139f8c046b4074d27b71a63b7a0633a05e9dc08d';
+      '0e75aade5bd385616574bd6252b0d810f3f03f013dc43cbe15dc2e21e6ff4f14';
 
   Future<void> getCredentials() async {
     credentials = await EthPrivateKey.fromHex(privateKey);
@@ -66,6 +66,9 @@ class _WalletScreenState extends State<WalletScreen> {
     setState(() {
       balance = bal.getInEther;
     });
+
+
+
   }
 
   Future<DeployedContract> getDeployedContract() async {
@@ -201,7 +204,7 @@ class _WalletScreenState extends State<WalletScreen> {
                     child: ListTile(
                       leading: Icon(Icons.download_done),
                       title: Text(
-                        'Recieved',
+                        'Received',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
@@ -220,7 +223,7 @@ class _WalletScreenState extends State<WalletScreen> {
                     child: ListTile(
                       leading: Icon(Icons.download_done),
                       title: Text(
-                        'Recieved',
+                        'Received',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
