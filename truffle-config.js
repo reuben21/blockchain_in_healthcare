@@ -5,8 +5,10 @@ module.exports = {
     develop: {
       host: "127.0.0.1",
       port: 7545,
-      defaultEtherBalance: 500,
       network_id: "5777",
+    },
+    advanced: {
+      websockets: true, // Enable EventEmitter interface for web3 (default: false)
     },
   },
   contracts_build_directory: "./blockchain_healthcare_frontend/assets/abis/",
@@ -20,7 +22,7 @@ module.exports = {
       settings: {
         optimizer: {
           enabled: true,
-          runs: 0, // Optimize for how many times you intend to run the code
+         runs: 200,// Optimize for how many times you intend to run the code
         }, // Default: "istanbul"
       },
     },

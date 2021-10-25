@@ -98,6 +98,18 @@ class _WalletScreenState extends State<WalletScreen> {
   }
 
   Future<void> getBalance() async {
+    List<dynamic> result = await query("balanceOf", []);
+
+    print(result[0].toString());
+  }
+
+  Future<void> getCoinName() async {
+    List<dynamic> result = await query("totalSupply", []);
+
+    print(result[0].toString());
+  }
+
+  Future<void> getCoinSymbol() async {
     List<dynamic> result = await query("totalSupply", []);
 
     print(result[0].toString());

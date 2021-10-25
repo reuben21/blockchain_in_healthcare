@@ -1,6 +1,22 @@
 import 'package:flutter/material.dart';
 // ignore_for_file: prefer_const_constructors
-const kPrimaryColor = Color(0xFF16c2d5);
+
+const MaterialColor kPrimaryColor = MaterialColor(
+  0xFF0E7AC7,
+  <int, Color>{
+    50: const Color(0xFF16c2d5),
+    100: const Color(0xFF16c2d5),
+    200: const Color(0xFF16c2d5),
+    300: const Color(0xFF16c2d5),
+    400: const Color(0xFF16c2d5),
+    500: const Color(0xFF16c2d5),
+    600: const Color(0xFF16c2d5),
+    700: const Color(0xFF16c2d5),
+    800: const Color(0xFF16c2d5),
+    900: const Color(0xFF16c2d5),
+  },
+);
+
 const kPrimaryColorAccent = Color(0xFF89dee2);
 
 const kSecondaryColor = Color(0xFF527c88);

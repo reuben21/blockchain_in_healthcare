@@ -56,58 +56,99 @@ class PatientsModel with ChangeNotifier {
 
     _client = Web3Client(_rpcUrl, Client());
 
-    await getAbi();
-    await getCredentials();
-    await getDeployedContract();
+    getDeployedContract();
   }
 
-  Future<void> getAbi() async {
-    String abiStringFile =
-    await rootBundle.loadString("assets/abis/Patient.json");
-    var jsonAbi = jsonDecode(abiStringFile);
-    _abiCode = jsonEncode(jsonAbi["abi"]);
-    _contractAddress =
-        EthereumAddress.fromHex(jsonAbi["networks"]["5777"]["address"]);
-    print(_contractAddress);
+
+
+  Future<DeployedContract> getDeployedContract() async {
+    String abi;
+    EthereumAddress contractAddress;
+
+    String abiString =
+    await rootBundle.loadString('assets/abis/Patient.json');
+    var abiJson = jsonDecode(abiString);
+    abi = jsonEncode(abiJson['abi']);
+
+    contractAddress =
+        EthereumAddress.fromHex(abiJson['networks']['5777']['address']);
+    final contract = DeployedContract(
+        ContractAbi.fromJson(abi, "Patient"), contractAddress);
+    print("Patient Contract Address:- "+contract.address.toString());
+    _registerPatient = contract.function('registerPatient');
+    _getSignatureHash = contract.function('getSignatureHash');
+    _getPatientData = contract.function('getPatientData');
+
+    return contract;
   }
 
-  Future<void> getCredentials() async {
-    _credentials = EthPrivateKey.fromHex(keys.privateKey);
-    _ownAddress = await _credentials.extractAddress();
-  }
 
-  Future<void> getDeployedContract() async {
-    _contract = DeployedContract(
-        ContractAbi.fromJson(_abiCode, "Patient"), _contractAddress);
 
-    _registerPatient = _contract.function("registerPatient");
-    _getPatientData = _contract.function("getPatientData");
-    _updatePatientMedicalRecords = _contract.function("updatePatientMedicalRecords");
-    _getUserAddress = _contract.function("getUserAddress");
-    _getSignatureHash = _contract.function("getSignatureHash");
-    _getNewRecords = _contract.function("getNewRecords");
 
-    // print("");
-  }
-
-  Future<void> registerPatient(Patient patient) async {
+  Future<void> registerPatient(Patient patient,Credentials credentials) async {
     isLoading = true;
     notifyListeners();
-    final result = await _client.sendTransaction(
-        _credentials,
-        Transaction.callContract(
-            contract: _contract,
-            function: _registerPatient,
-            parameters: [
-              patient.name,
-              patient.personalDetails,
-              patient.hospitalAddress,
-              patient.walletAddress
-            ]));
-
-    return result;
 
 
+    await writeContract(_registerPatient,[patient.name,
+      patient.personalDetails,
+      patient.hospitalAddress,
+      patient.walletAddress,
+      patient.signatureHash],credentials);
+
+
+
+
+
+  }
+
+  Future<void> getSignatureHash(Patient patient) async {
+    isLoading = true;
+    notifyListeners();
+    List<dynamic> result = await readContract(_getSignatureHash,
+        [patient.walletAddress]);
+
+    print(result);
+
+  }
+
+  Future<void> getPatientData(Patient patient) async {
+    isLoading = true;
+    notifyListeners();
+    List<dynamic> result = await readContract(_getPatientData, [patient.walletAddress]);
+
+    print(result);
+
+  }
+
+  Future<List<dynamic>> readContract(
+      ContractFunction functionName,
+      List<dynamic> functionArgs,
+      ) async {
+    final contract = await getDeployedContract();
+    var queryResult = await _client.call(
+      contract: contract,
+      function: functionName,
+      params: functionArgs,
+    );
+
+    return queryResult;
+  }
+
+  Future<void> writeContract(
+      ContractFunction functionName,
+      List<dynamic> functionArgs,
+      Credentials credentials
+      ) async {
+    final contract = await getDeployedContract();
+    await _client.sendTransaction(
+      credentials,
+      Transaction.callContract(
+        contract:  contract,
+        function: functionName,
+        parameters: functionArgs,
+      ),
+    );
   }
 
 }

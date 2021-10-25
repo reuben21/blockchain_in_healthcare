@@ -1,41 +1,33 @@
+import 'dart:async';
 import 'package:blockchain_healthcare_frontend/providers/patient.dart';
-import 'package:blockchain_healthcare_frontend/screens/login_screen.dart';
+import 'package:blockchain_healthcare_frontend/theme.dart';
+import 'package:blockchain_healthcare_frontend/widgets/forms/login_form.dart';
+import 'package:blockchain_healthcare_frontend/widgets/forms/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:web3dart/credentials.dart';
 
-import '../theme.dart';
-
-class SignUpScreen extends StatefulWidget {
-  SignUpScreen({Key key}) : super(key: key);
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key key}) : super(key: key);
 
   @override
-  _SignUpScreenState createState() {
-    return _SignUpScreenState();
-  }
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _LoginScreenState extends State<LoginScreen> {
 
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   final _formKey = GlobalKey<FormBuilderState>();
 
 
+  Future<void> login() {
+
+  }
+
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(body: SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -48,13 +40,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: <Widget>[
-                      const SizedBox(height: 35,),
-                      Center(child: Image.asset("assets/images/sign_up.png")),
+                      const SizedBox(height: 80,),
+                      Center(child: Image.asset("assets/images/sign_in.png")),
                       const SizedBox(
-                        height: 120,
+                        height: 80,
                       ),
                       Text(
-                        'Sign Up With Us',
+                        'Welcome Back',
                         style: titleText,
                       ),
                       const SizedBox(
@@ -85,31 +77,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           FormBuilderValidators.max(context, 20),
                         ]),
                         keyboardType: TextInputType.name,
-                      ),
-                      const SizedBox(height: 15,),
-                      FormBuilderTextField(
-                        maxLines: 1,
-                        name: 'emailId',
-                        decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.email),
-                          border: OutlineInputBorder(),
-                          labelText: 'Email ID',
-                          labelStyle: TextStyle(
-                            color: justBlue,
-                          ),
-                          helperText: 'Enter email Id',
-
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFF6200EE)),
-                          ),
-                        ),
-
-                        // valueTransformer: (text) => num.tryParse(text),
-                        validator: FormBuilderValidators.compose([
-                          FormBuilderValidators.required(context),
-                          FormBuilderValidators.max(context, 20),
-                        ]),
-                        keyboardType: TextInputType.emailAddress,
                       ),
                       const SizedBox(height: 15,),
 
@@ -143,33 +110,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       const SizedBox(height: 15,),
                       FormBuilderTextField(
                         maxLines: 1,
-                        name: 'hospitalAddress',
-                        decoration: const InputDecoration(
-                          prefixIcon: Icon(
-                            Icons.local_hospital,
-                          ),
-                          labelText: 'Hospital Address',
-                          border: OutlineInputBorder(),
-                          labelStyle: TextStyle(
-                            color: Color(0xFF6200EE),
-                          ),
-                          helperText: 'Enter Hex Hospital Address',
-
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFF6200EE)),
-                          ),
-                        ),
-
-                        // valueTransformer: (text) => num.tryParse(text),
-                        validator: FormBuilderValidators.compose([
-                          FormBuilderValidators.required(context),
-
-                        ]),
-
-                      ),
-                      const SizedBox(height: 15,),
-                      FormBuilderTextField(
-                        maxLines: 1,
                         name: 'privateAddress',
                         decoration: const InputDecoration(
                           prefixIcon: Icon(
@@ -194,8 +134,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ]),
 
                       ),
-                      const SizedBox(height: 15,),
-
                     ],
                   ),
                 ),
@@ -214,17 +152,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     .of(context)
                     .accentColor,
                 child: const Text(
-                  "Submit",
+                  "Login",
                   style: TextStyle(color: justBlue),
                 ),
                 onPressed: () async {
                   _formKey.currentState.save();
                   if (_formKey.currentState.validate()) {
-                    print(_formKey.currentState.value["hospitalAddress"]);
-                    Credentials credentials1 = EthPrivateKey.fromHex(
-                        _formKey.currentState.value["hospitalAddress"]);
-                    EthereumAddress _hospitalAddress = await credentials1
-                        .extractAddress();
+                    print(_formKey.currentState.value["privateAddress"]);
+
 
 
                     Credentials credentials = EthPrivateKey.fromHex(
@@ -233,35 +168,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         .extractAddress();
 
                     Provider.of<PatientsModel>(context, listen: false)
-                        .registerPatient(
-                        Patient(name: _formKey.currentState.value["name"],
-                            personalDetails: _formKey.currentState
-                                .value["emailId"],
-                            signatureHash: _formKey.currentState.value["PIN"],
-                            hospitalAddress: _hospitalAddress,
+                        .getSignatureHash(
+                        Patient(
                             walletAddress: publicKey
-                        ),credentials);
+                        ));
 
                   } else {
                     print("validation failed");
                   }
                 },
               ),
-              MaterialButton(
-                minWidth: 50.0,
-                color: Theme
-                    .of(context)
-                    .colorScheme.secondary,
-                child: const Text(
-                  "Login",
-                  style: TextStyle(color: justBlue),
-                ),
-                onPressed: () async {
-                  Navigator.push(context,MaterialPageRoute(builder: (context) => const LoginScreen()),);
-                },
-              ),
 
-              SizedBox(width: 20),
+
+
 
             ],
           )

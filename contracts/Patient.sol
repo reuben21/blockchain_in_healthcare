@@ -18,7 +18,13 @@ contract Patient is AccessControl {
         string newPatientPrescriptionHashes;
     }
 
-    event LogPatient(string name, address hospitalAddress, address owner);
+    event LogPatient(
+        string name,
+        address hospitalAddress,
+        string _personalDetails,
+        string _signatureHash,
+        address owner
+    );
     event LogUpdatePatientDOB(string name, string dateOfBirth);
     event LogDeleteEmp(string name, uint256 empIdIndex);
 
@@ -39,26 +45,31 @@ contract Patient is AccessControl {
         patientDatabase[_walletAddress].walletAddress = _walletAddress;
         patientDatabase[_walletAddress].signatureHash = _signatureHash;
 
-        // emit LogPatient(
-        //     patientDatabase[_walletAddress].name,
-        //     patientDatabase[_walletAddress].hospitalAddress,
-        //     _walletAddress
-        // );
+        emit LogPatient(
+            patientDatabase[_walletAddress].name,
+            patientDatabase[_walletAddress].hospitalAddress,
+            patientDatabase[_walletAddress].personalDetails,
+            patientDatabase[_walletAddress].signatureHash,
+            _walletAddress
+        );
 
         return "PATIENT REGISTERED";
     }
 
-    function getSignatureHash() public view returns (string memory) {
-        require(
-            msg.sender == patientDatabase[msg.sender].walletAddress,
-            "Not allowed"
-        );
-
-        return patientDatabase[msg.sender].signatureHash;
+    function getSignatureHash(address _walletAddress)
+        public
+        view
+        returns (string memory)
+    {
+        return patientDatabase[_walletAddress].signatureHash;
     }
 
-    function getUserAddress() public view returns (address) {
-        return patientDatabase[msg.sender].walletAddress;
+    function getUserAddress(address _walletAddress)
+        public
+        view
+        returns (address)
+    {
+        return patientDatabase[_walletAddress].walletAddress;
     }
 
     function getPatientData(address _walletAddress)
