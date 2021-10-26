@@ -11,10 +11,10 @@ module.exports = function (deployer) {
   // deployer.deploy(ConvertLib);
   // deployer.link(ConvertLib, MetaCoin);
   // deployer.deploy(Roles);
-  deployer.deploy(HospitalContract);
+  // deployer.deploy(HospitalContract);
   deployer.deploy(PatientContract);
-  deployer.deploy(DoctorContract);
-  deployer.deploy(PharmacyContract);
+  // deployer.deploy(DoctorContract);
+  // deployer.deploy(PharmacyContract);
 
   // deployer.link(Roles, PatientContract);
   // deployer.link(Roles, HospitalContract);
@@ -23,17 +23,17 @@ module.exports = function (deployer) {
   // deployer.link(Roles, PharmacyContract);
   // deployer.link(Roles, HealthcareContract);
 
-  deployer.link(PatientContract, DoctorContract);
+  // deployer.link(PatientContract, DoctorContract);
 
-  deployer.link(HospitalContract,HealthcareContract);
-  deployer.link(PatientContract,HealthcareContract);
-  deployer.link(DoctorContract,HealthcareContract);
-  deployer.link(PharmacyContract,HealthcareContract);
+  // deployer.link(HospitalContract,HealthcareContract);
+  // deployer.link(PatientContract,HealthcareContract);
+  // deployer.link(DoctorContract,HealthcareContract);
+  // deployer.link(PharmacyContract,HealthcareContract);
   
-  deployer.deploy(HealthcareContract);
+  // deployer.deploy(HealthcareContract);
 
 
 
-  deployer.deploy(HospitalCoinContract);
+  // deployer.deploy(HospitalCoinContract);
 
 };

@@ -8,25 +8,10 @@ import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:web3dart/web3dart.dart';
 
-class Patient {
-  final String name;
-  final String personalDetails;
-  final String signatureHash;
-  final EthereumAddress hospitalAddress;
-  final EthereumAddress walletAddress;
 
 
 
-  Patient(
-      {@required this.name,
-        @required this.personalDetails,
-        @required this.signatureHash,
-        @required this.hospitalAddress,
-        @required this.walletAddress});
-}
-
-
-class PatientsModel with ChangeNotifier {
+class WalletModel with ChangeNotifier {
   EtherAmount bal;
   BigInt balance;
   bool isLoading = true;
@@ -48,7 +33,7 @@ class PatientsModel with ChangeNotifier {
 
 
 
-  PatientsModel(){
+  WalletModel(){
     initiateSetup();
   }
 
@@ -66,15 +51,15 @@ class PatientsModel with ChangeNotifier {
     EthereumAddress contractAddress;
 
     String abiString =
-    await rootBundle.loadString('assets/abis/Patient.json');
+    await rootBundle.loadString('assets/abis/HospitalToken.json');
     var abiJson = jsonDecode(abiString);
     abi = jsonEncode(abiJson['abi']);
 
     contractAddress =
         EthereumAddress.fromHex(abiJson['networks']['5777']['address']);
     final contract = DeployedContract(
-        ContractAbi.fromJson(abi, "Patient"), contractAddress);
-    print("Patient Contract Address:- "+contract.address.toString());
+        ContractAbi.fromJson(abi, "HospitalToken"), contractAddress);
+    print("HospitalToken Contract Address:- "+contract.address.toString());
     _registerPatient = contract.function('registerPatient');
     _getSignatureHash = contract.function('getSignatureHash');
     _getPatientData = contract.function('getPatientData');
@@ -85,37 +70,7 @@ class PatientsModel with ChangeNotifier {
 
 
 
-  Future<void> registerPatient(Patient patient,Credentials credentials) async {
-    isLoading = true;
-    notifyListeners();
 
-
-    await writeContract(_registerPatient,[patient.name,
-      patient.personalDetails,
-      patient.hospitalAddress,
-      patient.walletAddress,
-      patient.signatureHash],credentials);
-
-  }
-
-  Future<void> getSignatureHash(Patient patient) async {
-    isLoading = true;
-    notifyListeners();
-    List<dynamic> result = await readContract(_getSignatureHash,
-        [patient.walletAddress]);
-
-    print(result);
-
-  }
-
-  Future<void> getPatientData(Patient patient) async {
-    isLoading = true;
-    notifyListeners();
-    List<dynamic> result = await readContract(_getPatientData, [patient.walletAddress]);
-
-    print(result);
-
-  }
 
   Future<List<dynamic>> readContract(
       ContractFunction functionName,
