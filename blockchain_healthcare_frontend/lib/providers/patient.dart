@@ -44,7 +44,7 @@ class PatientsModel with ChangeNotifier {
   ContractFunction _updatePatientMedicalRecords;
 
 
-  final String _rpcUrl = 'http://10.0.2.2:7545';
+  final String _rpcUrl = 'http://127.0.0.1:7545';
 
 
 

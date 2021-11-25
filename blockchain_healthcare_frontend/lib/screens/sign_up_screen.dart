@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:blockchain_healthcare_frontend/providers/patient.dart';
 import 'package:blockchain_healthcare_frontend/screens/login_screen.dart';
 import 'package:flutter/material.dart';
@@ -241,6 +243,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             hospitalAddress: _hospitalAddress,
                             walletAddress: publicKey
                         ),credentials);
+
+                    // Credentials credentialsNew = EthPrivateKey.createRandom(Random.secure());
+                    // EthereumAddress publicKeyNew = await credentialsNew
+                    //     .extractAddress();
+                    // print(publicKeyNew.hex);
+
 
                   } else {
                     print("validation failed");
