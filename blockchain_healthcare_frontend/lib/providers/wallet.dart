@@ -88,14 +88,14 @@ class WalletModel with ChangeNotifier {
   }
 
 
-  Future<void> createWallet() async {
+  Future<void> createWallet(String password) async {
 
     Credentials credentials;
     EthereumAddress myAddress;
 
     final url = Uri.parse("http://localhost:3000/wallet/create");
     final response = await http.post(url,body: json.encode({
-    "password":"Reuben21"
+    "password":password
     }),headers: { 'Content-type': 'application/json',
     'Accept': 'application/json'}
     );
@@ -106,7 +106,7 @@ class WalletModel with ChangeNotifier {
     return;
     }
 
-    final wallet = Wallet.fromJson(json.encode(extractedData), "Reuben21");
+    final wallet = Wallet.fromJson(json.encode(extractedData), password);
     print(wallet.privateKey);
     credentials = await wallet.privateKey;
     myAddress = await credentials.extractAddress();
