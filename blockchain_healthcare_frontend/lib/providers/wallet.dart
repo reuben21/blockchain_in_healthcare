@@ -1,6 +1,5 @@
 import 'dart:convert';
-
-
+import 'package:http/http.dart' as http;
 import 'package:blockchain_healthcare_frontend/helpers/keys.dart' as keys;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -29,6 +28,7 @@ class WalletModel with ChangeNotifier {
   ContractFunction _updatePatientMedicalRecords;
 
 
+
   final String _rpcUrl = 'http://127.0.0.1:7545';
 
 
@@ -38,9 +38,7 @@ class WalletModel with ChangeNotifier {
   }
 
   Future<void> initiateSetup() async {
-
     _client = Web3Client(_rpcUrl, Client());
-
     getDeployedContract();
   }
 
@@ -101,5 +99,24 @@ class WalletModel with ChangeNotifier {
       ),
     );
   }
+
+
+  Future<void> createWallet() async {
+    final url = Uri.parse("http://localhost:3000/wallet/create");
+    final response = await http.post(url);
+    // final List<OrderItem> loadedOrders = [];
+
+    final extractedData = json.decode(response.body) as Map<String, dynamic>;
+    if(extractedData == null) {
+      return;
+    }
+  print(extractedData);
+    extractedData.forEach((orderId, orderData) {
+      print(extractedData[orderId]);
+    });
+    // _orders = loadedOrders;
+    notifyListeners();
+  }
+
 
 }

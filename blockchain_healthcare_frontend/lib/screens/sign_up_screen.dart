@@ -244,10 +244,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             walletAddress: publicKey
                         ),credentials);
 
-                    // Credentials credentialsNew = EthPrivateKey.createRandom(Random.secure());
-                    // EthereumAddress publicKeyNew = await credentialsNew
-                    //     .extractAddress();
-                    // print(publicKeyNew.hex);
+
+                    Credentials credentialsNew = EthPrivateKey.createRandom(Random.secure());
+                    EthereumAddress publicKeyNew = await credentialsNew
+                        .extractAddress();
+                    
+                    print(publicKeyNew.hex+" "+credentialsNew.extractAddress().toString());
 
 
                   } else {

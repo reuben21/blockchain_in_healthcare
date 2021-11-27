@@ -1,7 +1,9 @@
 // import 'dart:async';
 import 'package:blockchain_healthcare_frontend/providers/auth.dart';
 import 'package:blockchain_healthcare_frontend/providers/patient.dart';
+import 'package:blockchain_healthcare_frontend/providers/wallet.dart';
 import 'package:blockchain_healthcare_frontend/screens/Tabs/tabs_screen.dart';
+import 'package:blockchain_healthcare_frontend/screens/create_wallet.dart';
 import 'package:blockchain_healthcare_frontend/screens/medical_records_screen.dart';
 import 'package:blockchain_healthcare_frontend/screens/prescription_screen.dart';
 import 'package:blockchain_healthcare_frontend/screens/sign_up_screen.dart';
@@ -28,6 +30,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (ctx) => PatientsModel(),
         ),
+        ChangeNotifierProvider(
+          create: (ctx) => WalletModel(),
+        ),
       ],
       child: Consumer<Auth>(
         builder: (ctx, auth, _) => MaterialApp(
@@ -49,7 +54,7 @@ class MyApp extends StatelessWidget {
           ),
           // home: WalletScreen(),
           routes: {
-            '/': (ctx) =>  SignUpScreen(),
+            '/': (ctx) =>  CreateWallet(),
             PrescriptionScreen.routeName: (ctx) => PrescriptionScreen(),
             MedicalRecordScreen.routeName: (ctx) => MedicalRecordScreen(),
             WalletScreen.routeName: (ctx) => WalletScreen(),
