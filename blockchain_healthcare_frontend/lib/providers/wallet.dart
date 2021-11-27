@@ -8,8 +8,6 @@ import 'package:provider/provider.dart';
 import 'package:web3dart/web3dart.dart';
 
 
-
-
 class WalletModel with ChangeNotifier {
   EtherAmount bal;
   BigInt balance;
@@ -28,12 +26,10 @@ class WalletModel with ChangeNotifier {
   ContractFunction _updatePatientMedicalRecords;
 
 
-
   final String _rpcUrl = 'http://127.0.0.1:7545';
 
 
-
-  WalletModel(){
+  WalletModel() {
     initiateSetup();
   }
 
@@ -41,7 +37,6 @@ class WalletModel with ChangeNotifier {
     _client = Web3Client(_rpcUrl, Client());
     getDeployedContract();
   }
-
 
 
   Future<DeployedContract> getDeployedContract() async {
@@ -57,7 +52,7 @@ class WalletModel with ChangeNotifier {
         EthereumAddress.fromHex(abiJson['networks']['5777']['address']);
     final contract = DeployedContract(
         ContractAbi.fromJson(abi, "HospitalToken"), contractAddress);
-    print("HospitalToken Contract Address:- "+contract.address.toString());
+    print("HospitalToken Contract Address:- " + contract.address.toString());
     _registerPatient = contract.function('registerPatient');
     _getSignatureHash = contract.function('getSignatureHash');
     _getPatientData = contract.function('getPatientData');
@@ -66,14 +61,8 @@ class WalletModel with ChangeNotifier {
   }
 
 
-
-
-
-
-  Future<List<dynamic>> readContract(
-      ContractFunction functionName,
-      List<dynamic> functionArgs,
-      ) async {
+  Future<List<dynamic>> readContract(ContractFunction functionName,
+      List<dynamic> functionArgs,) async {
     final contract = await getDeployedContract();
     var queryResult = await _client.call(
       contract: contract,
@@ -84,16 +73,14 @@ class WalletModel with ChangeNotifier {
     return queryResult;
   }
 
-  Future<void> writeContract(
-      ContractFunction functionName,
+  Future<void> writeContract(ContractFunction functionName,
       List<dynamic> functionArgs,
-      Credentials credentials
-      ) async {
+      Credentials credentials) async {
     final contract = await getDeployedContract();
     await _client.sendTransaction(
       credentials,
       Transaction.callContract(
-        contract:  contract,
+        contract: contract,
         function: functionName,
         parameters: functionArgs,
       ),
@@ -102,21 +89,31 @@ class WalletModel with ChangeNotifier {
 
 
   Future<void> createWallet() async {
+
+    Credentials credentials;
+    EthereumAddress myAddress;
+
     final url = Uri.parse("http://localhost:3000/wallet/create");
-    final response = await http.post(url);
+    final response = await http.post(url,body: json.encode({
+    "password":"Reuben21"
+    }),headers: { 'Content-type': 'application/json',
+    'Accept': 'application/json'}
+    );
     // final List<OrderItem> loadedOrders = [];
 
     final extractedData = json.decode(response.body) as Map<String, dynamic>;
     if(extractedData == null) {
-      return;
+    return;
     }
-  print(extractedData);
-    extractedData.forEach((orderId, orderData) {
-      print(extractedData[orderId]);
-    });
+
+    final wallet = Wallet.fromJson(json.encode(extractedData), "Reuben21");
+    print(wallet.privateKey);
+    credentials = await wallet.privateKey;
+    myAddress = await credentials.extractAddress();
+    print(myAddress.hex);
     // _orders = loadedOrders;
     notifyListeners();
+    }
+
+
   }
-
-
-}

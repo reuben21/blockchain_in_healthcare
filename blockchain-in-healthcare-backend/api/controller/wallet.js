@@ -6,18 +6,17 @@ const contract = require("truffle-contract");
 
 
 exports.createWallet = (req, res, next) => { 
-
+   const password = req.body.password;
+  
     var self = this;
     account = self.web3.eth.accounts.create();
-    console.log(account)
+    console.log(account.address)
     result = self.web3.eth.accounts.wallet.add({
         privateKey: account.privateKey,
         address: account.address
     })
-    
-    console.log(result);
-
-    res.send(account);
+    var encryptedWallet = self.web3.eth.accounts.encrypt(result.privateKey,password);
+    res.send(encryptedWallet);
 }
 
 exports.getBalanceWallet = (req, res, next) => {

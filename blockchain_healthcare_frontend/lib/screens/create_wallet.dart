@@ -11,51 +11,35 @@ class CreateWallet extends StatelessWidget {
     // TODO: implement build
     return Scaffold(
       body: Container(
-        child: ZStack([
+        child:  Column(
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            Text('Top'),
+            Expanded(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child:   HStack(
+                  [
+                    FloatingActionButton.extended(
+                      backgroundColor: Colors.blue,
+                      foregroundColor: Colors.black,
+                      onPressed: () {
+                        Provider.of<WalletModel>(context, listen: false)
+                            .createWallet();
+                      },
+                      icon: const Icon(Icons.add_circle_outline_outlined),
+                      label: const Text('Create Wallet'),
+                    ),
 
-          VStack([
-            (context.percentHeight * 10).heightBox,
-            "\$ Ethers 1".text.xl4.white.bold.center.makeCentered().py16(),
-            (context.percentHeight * 3).heightBox,
-            VxBox(
-                child: VStack([
-                  "Balance".text.black.xl2.semiBold.makeCentered(),
-                  10.heightBox,
-                  (" Ethers")
-                      .text
-                      .black
-                      .xl2
-                      .semiBold
-                      .makeCentered(),
-                ]))
-                .p16
-                .white
-                .size(context.screenWidth, context.percentHeight * 18)
-                .rounded
-                .shadowXl
-                .make()
-                .p16(),
-            400.heightBox,
-            HStack(
-              [
-                FloatingActionButton.extended(
-                  backgroundColor: Colors.blue,
-                  foregroundColor: Colors.black,
-                  onPressed: () {
-                    Provider.of<WalletModel>(context, listen: false)
-                        .createWallet();
-                  },
-                  icon: const Icon(Icons.add_circle_outline_outlined),
-                  label: const Text('Create Wallet'),
+                  ],
+                  alignment: MainAxisAlignment.spaceAround,
+                  axisSize: MainAxisSize.max,
                 ),
-
-              ],
-              alignment: MainAxisAlignment.spaceAround,
-              axisSize: MainAxisSize.max,
-            )
-          ])
-        ]),
-      ),
+              ),
+            ),
+          ],
+        ),
+        ),
     );
   }
 }
