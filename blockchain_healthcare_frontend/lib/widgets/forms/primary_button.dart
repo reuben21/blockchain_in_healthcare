@@ -5,6 +5,7 @@ class PrimaryButton extends StatelessWidget {
   // const PrimaryButton({Key? key}) : super(key: key);
   final String buttonText;
   PrimaryButton({this.buttonText});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -15,7 +16,7 @@ class PrimaryButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(16), color: kPrimaryColor),
       child: Text(
         buttonText,
-        style: textButton.copyWith(color: kWhiteColor),
+        style: textButton.copyWith(color: Theme.of(context).primaryColor),
       ),
     );
   }

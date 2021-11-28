@@ -1,12 +1,12 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:blockchain_healthcare_frontend/helpers/keys.dart' as keys;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
+import 'package:blockchain_healthcare_frontend/helpers/http_exception.dart' as exception;
 import 'package:provider/provider.dart';
 import 'package:web3dart/web3dart.dart';
-
 
 class WalletModel with ChangeNotifier {
   EtherAmount bal;
@@ -25,9 +25,7 @@ class WalletModel with ChangeNotifier {
   ContractFunction _getNewRecords;
   ContractFunction _updatePatientMedicalRecords;
 
-
   final String _rpcUrl = 'http://127.0.0.1:7545';
-
 
   WalletModel() {
     initiateSetup();
@@ -38,13 +36,12 @@ class WalletModel with ChangeNotifier {
     getDeployedContract();
   }
 
-
   Future<DeployedContract> getDeployedContract() async {
     String abi;
     EthereumAddress contractAddress;
 
     String abiString =
-    await rootBundle.loadString('assets/abis/HospitalToken.json');
+        await rootBundle.loadString('assets/abis/HospitalToken.json');
     var abiJson = jsonDecode(abiString);
     abi = jsonEncode(abiJson['abi']);
 
@@ -60,9 +57,10 @@ class WalletModel with ChangeNotifier {
     return contract;
   }
 
-
-  Future<List<dynamic>> readContract(ContractFunction functionName,
-      List<dynamic> functionArgs,) async {
+  Future<List<dynamic>> readContract(
+    ContractFunction functionName,
+    List<dynamic> functionArgs,
+  ) async {
     final contract = await getDeployedContract();
     var queryResult = await _client.call(
       contract: contract,
@@ -74,8 +72,7 @@ class WalletModel with ChangeNotifier {
   }
 
   Future<void> writeContract(ContractFunction functionName,
-      List<dynamic> functionArgs,
-      Credentials credentials) async {
+      List<dynamic> functionArgs, Credentials credentials) async {
     final contract = await getDeployedContract();
     await _client.sendTransaction(
       credentials,
@@ -87,33 +84,41 @@ class WalletModel with ChangeNotifier {
     );
   }
 
-
   Future<void> createWallet(String password) async {
-
     Credentials credentials;
     EthereumAddress myAddress;
 
     final url = Uri.parse("http://localhost:3000/wallet/create");
-    final response = await http.post(url,body: json.encode({
-    "password":password
-    }),headers: { 'Content-type': 'application/json',
-    'Accept': 'application/json'}
-    );
-    // final List<OrderItem> loadedOrders = [];
+    try {
+      final response = await http.post(url,
+          body: json.encode({"password": password}),
+          headers: {
+            'Content-type': 'application/json',
+            'Accept': 'application/json'
+          });
+      // final List<OrderItem> loadedOrders = [];
 
-    final extractedData = json.decode(response.body) as Map<String, dynamic>;
-    if(extractedData == null) {
-    return;
+      final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      if (extractedData == null) {
+        return;
+      }
+
+      final wallet = Wallet.fromJson(json.encode(extractedData), password);
+      print(wallet.privateKey);
+      credentials = await wallet.privateKey;
+      myAddress = await credentials.extractAddress();
+      print(myAddress.hex);
+      // _orders = loadedOrders;
+      notifyListeners();
+    } on SocketException {
+      throw exception.HttpException("No Internet connection 😑");
+    } on HttpException {
+      throw exception.HttpException("Couldn't find the post 😱");
+    } on FormatException {
+      throw exception.HttpException("Bad response format 👎");
+    } catch (error) {
+      throw exception.HttpException(error);
     }
-
-    final wallet = Wallet.fromJson(json.encode(extractedData), password);
-    print(wallet.privateKey);
-    credentials = await wallet.privateKey;
-    myAddress = await credentials.extractAddress();
-    print(myAddress.hex);
-    // _orders = loadedOrders;
     notifyListeners();
-    }
-
-
   }
+}

@@ -173,8 +173,8 @@ class _WalletScreenState extends State<WalletScreen> {
               HStack(
                 [
                   FloatingActionButton.extended(
-                    backgroundColor: Colors.blue,
-                    foregroundColor: Colors.black,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    foregroundColor: Theme.of(context).colorScheme.secondary,
                     onPressed: () {
                       refreshBalance();
                     },
@@ -182,8 +182,8 @@ class _WalletScreenState extends State<WalletScreen> {
                     label: const Text('Refresh'),
                   ),
                   FloatingActionButton.extended(
-                    backgroundColor: Colors.blue,
-                    foregroundColor: Colors.black,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    foregroundColor: Theme.of(context).colorScheme.secondary,
                     onPressed: () {
                       // Respond to button press
                     },
@@ -191,8 +191,8 @@ class _WalletScreenState extends State<WalletScreen> {
                     label: const Text('Send'),
                   ),
                   FloatingActionButton.extended(
-                    backgroundColor: Colors.blue,
-                    foregroundColor: Colors.black,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    foregroundColor: Theme.of(context).colorScheme.secondary,
                     onPressed: () {
                       // Respond to button press
                     },

@@ -4,29 +4,22 @@ import 'package:flutter/material.dart';
 const MaterialColor kPrimaryColor = MaterialColor(
   0xFF0E7AC7,
   <int, Color>{
-    50: const Color(0xFF16c2d5),
-    100: const Color(0xFF16c2d5),
-    200: const Color(0xFF16c2d5),
-    300: const Color(0xFF16c2d5),
-    400: const Color(0xFF16c2d5),
-    500: const Color(0xFF16c2d5),
-    600: const Color(0xFF16c2d5),
-    700: const Color(0xFF16c2d5),
-    800: const Color(0xFF16c2d5),
-    900: const Color(0xFF16c2d5),
+    50: Color(0xFF6200EE),
+    100: Color(0xFF6200EE),
+
   },
 );
 
-const kPrimaryColorAccent = Color(0xFF89dee2);
 
-const kSecondaryColor = Color(0xFF527c88);
-const kSecondaryColorAccent = Color(0xFF2e4450);
+const kSecondaryColor =  MaterialColor(
+    0xFF0E7AC7,
+    <int, Color>{
+      50: Color(0xFFf5f7ec),
+      100:Color(0xFFf5f7ec),
 
-const justBlue = Color(0xFF10217d);
+    }
+);
 
-const kWhiteColor = Color(0xFFFFFFFF);
-const kBlackColor = Color(0xFF272726);
-const kTextFieldColor = Color(0xFF979797);
 
 
 

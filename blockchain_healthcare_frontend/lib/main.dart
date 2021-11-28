@@ -11,6 +11,7 @@ import 'package:blockchain_healthcare_frontend/screens/splash_screen.dart';
 import 'package:blockchain_healthcare_frontend/screens/wallet.dart';
 import 'package:blockchain_healthcare_frontend/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 // ignore_for_file: prefer_const_constructors
@@ -37,24 +38,53 @@ class MyApp extends StatelessWidget {
       child: Consumer<Auth>(
         builder: (ctx, auth, _) => MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Flutter Demo',
+          title: 'Blockchain in Flutter',
           theme: ThemeData(
-            // This is the theme of your application.
-            //
-            // Try running your application with "flutter run". You'll see the
-            // application has a blue toolbar. Then, without quitting the app, try
-            // changing the primarySwatch below to Colors.green and then invoke
-            // "hot reload" (press "r" in the console where you ran "flutter run",
-            // or simply save your changes to "hot reload" in a Flutter IDE).
-            // Notice that the counter didn't reset back to zero; the application
-            // is not restarted.
-            primarySwatch: kPrimaryColor,
-            primaryColor: kPrimaryColor,
-
+            primaryColor: Color(0xff732eca),
+            colorScheme: ColorScheme.fromSwatch().copyWith(
+              primary: Color(0xff732eca),
+              secondary: Color(0xFFf5f7ec),
+            ),
+            backgroundColor: Color(0xFFf5f7ec),
+            bottomAppBarColor: Color(0xFFf5f7ec),
+            textTheme: ThemeData.light().textTheme.copyWith(
+                  bodyText1: TextStyle(
+                      color: Colors.white, fontSize: 18, fontFamily: 'Handlee'),
+                  bodyText2: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'Handlee',
+                  ),
+                  headline6: TextStyle(
+                    color: kSecondaryColor[100],
+                    fontSize: 15,
+                    fontFamily: 'PlayfairDisplay',
+                  ),
+                  headline5: TextStyle(
+                    color: kSecondaryColor[100],
+                    fontSize: 12,
+                    fontFamily: 'PlayfairDisplay',
+                  ),
+                  headline4: GoogleFonts.lato(
+                      color: Color(0xff732eca),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500),
+                  headline3: GoogleFonts.lato(
+                      color: Color(0xff732eca),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500),
+                  headline2: GoogleFonts.lato(
+                      color: Color(0xff732eca),
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500),
+                  headline1: GoogleFonts.lato(
+                      color: Color(0xff732eca),
+                      fontSize: 40,
+                      fontWeight: FontWeight.w500),
+                ),
           ),
           // home: WalletScreen(),
           routes: {
-            '/': (ctx) =>  CreateWallet(),
+            '/': (ctx) => CreateWallet(),
             PrescriptionScreen.routeName: (ctx) => PrescriptionScreen(),
             MedicalRecordScreen.routeName: (ctx) => MedicalRecordScreen(),
             WalletScreen.routeName: (ctx) => WalletScreen(),

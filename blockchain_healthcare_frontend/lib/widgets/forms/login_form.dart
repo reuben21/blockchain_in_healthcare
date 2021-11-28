@@ -27,7 +27,7 @@ class _LoginFormState extends State<LoginForm> {
           child:TextFormField(
             obscureText: pass? _isObscure:false,
             decoration: InputDecoration(labelText: label,
-              labelStyle: TextStyle(color: kTextFieldColor,
+              labelStyle: TextStyle(color: kPrimaryColor,
               ),
             focusedBorder: UnderlineInputBorder(
               borderSide:

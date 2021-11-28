@@ -37,6 +37,7 @@ dependencies:
   sqflite: ^2.0.0+3
   sqflite_common: ^2.0.0+2
   velocity_x: ^3.3.0
+  google_fonts: ^2.1.0
   flutter_form_builder: ^6.2.0
 
   # The following adds the Cupertino Icons font to your application.

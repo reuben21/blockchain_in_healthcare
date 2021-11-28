@@ -97,7 +97,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           border: OutlineInputBorder(),
                           labelText: 'Email ID',
                           labelStyle: TextStyle(
-                            color: justBlue,
+                            color: kSecondaryColor,
                           ),
                           helperText: 'Enter email Id',
 
@@ -217,7 +217,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     .accentColor,
                 child: const Text(
                   "Submit",
-                  style: TextStyle(color: justBlue),
+                  style: TextStyle(color: kSecondaryColor),
                 ),
                 onPressed: () async {
                   _formKey.currentState.save();
@@ -264,7 +264,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     .colorScheme.secondary,
                 child: const Text(
                   "Login",
-                  style: TextStyle(color: justBlue),
+                  style: TextStyle(color: kSecondaryColor),
                 ),
                 onPressed: () async {
                   Navigator.push(context,MaterialPageRoute(builder: (context) => const LoginScreen()),);

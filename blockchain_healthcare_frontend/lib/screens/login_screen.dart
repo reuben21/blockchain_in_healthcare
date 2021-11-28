@@ -153,7 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     .accentColor,
                 child: const Text(
                   "Login",
-                  style: TextStyle(color: justBlue),
+                  style: TextStyle(color: kSecondaryColor),
                 ),
                 onPressed: () async {
                   _formKey.currentState.save();

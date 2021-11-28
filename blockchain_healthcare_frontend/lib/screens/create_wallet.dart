@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:blockchain_healthcare_frontend/providers/wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:blockchain_healthcare_frontend/helpers/http_exception.dart' as exception;
 
 class CreateWallet extends StatefulWidget {
   CreateWallet({Key key}) : super(key: key);
@@ -12,66 +15,118 @@ class CreateWallet extends StatefulWidget {
 }
 
 class _CreateWalletState extends State<CreateWallet> {
+
+  void _submit(String password) async {
+    try {
+      await Provider.of<WalletModel>(context, listen: false)
+          .createWallet(password);
+      _showErrorDialog("Good");
+    }  on exception.HttpException catch (error)  {
+      _showErrorDialog(error.toString());
+     
+    }
+
+
+  }
   final _formKey = GlobalKey<FormBuilderState>();
+
+  void _showErrorDialog(String message) {
+    showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text('An Error Occurred'),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+                child: Text('Okay'))
+          ],
+        ));
+  }
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       body: Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              "Let's Start By Creating your wallet",
-              style: TextStyle(
-                color: Color(0xFF6200EE),
-              ),
-            ),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Flexible(
+                    fit: FlexFit.loose,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 30),
+                      child: Text(
+                        "Let's Start By Creating Your Wallet",
+                        style: Theme.of(context).textTheme.headline1,
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                  ),
+                ]),
             Padding(
-              padding: const EdgeInsets.only(top: 100),
+              padding: const EdgeInsets.only(top: 50),
               child:
                   Center(child: Image.asset("assets/images/undraw_wallet.png")),
             ),
-            Text(
-              "Enter Password",
-              style: TextStyle(
-                color: Color(0xFF6200EE),
+            Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(left: 25),
+                child: Text(
+                  "Enter Password",
+                  style: Theme.of(context).textTheme.headline2,
+                  textAlign: TextAlign.left,
+                ),
               ),
-            ),
-            FormBuilder(
-                key: _formKey,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                child: Padding(
-                    padding: const EdgeInsets.all(25.0),
-                    child: FormBuilderTextField(
-                      maxLines: 1,
-                      name: 'password',
-                      obscureText: true,
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.password),
-                        border: OutlineInputBorder(),
-                        labelStyle: TextStyle(
-                          color: Color(0xFF6200EE),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFF6200EE)),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFF6200EE)),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFF6200EE)),
-                        ),
-                      ),
+            ]),
+            Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+               Flexible(
+                 fit: FlexFit.tight,
+                 child: FormBuilder(
 
-                      // valueTransformer: (text) => num.tryParse(text),
-                      validator: FormBuilderValidators.compose([
-                        FormBuilderValidators.required(context),
-                        FormBuilderValidators.maxLength(context, 15)
-                      ]),
-                      keyboardType: TextInputType.visiblePassword,
-                    ))),
+                      key: _formKey,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      child: Padding(
+                          padding: const EdgeInsets.all(25.0),
+                          child: FormBuilderTextField(
+
+                            maxLines: 1,
+                            name: 'password',
+                            obscureText: true,
+                            decoration: const InputDecoration(
+
+                              prefixIcon: Icon(Icons.password),
+                              border: OutlineInputBorder(),
+                              labelStyle: TextStyle(
+                                color: Color(0xFF6200EE),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Color(0xFF6200EE)),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Color(0xFF6200EE)),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Color(0xFF6200EE)),
+                              ),
+                            ),
+
+                            // valueTransformer: (text) => num.tryParse(text),
+                            validator: FormBuilderValidators.compose([
+                              FormBuilderValidators.required(context),
+                              FormBuilderValidators.maxLength(context, 15)
+                            ]),
+                            keyboardType: TextInputType.visiblePassword,
+                          ))),
+               ),
+
+            ]),
             Align(
               alignment: Alignment.bottomCenter,
               child: HStack(
@@ -82,10 +137,7 @@ class _CreateWalletState extends State<CreateWallet> {
                     onPressed: () async {
                       _formKey.currentState.save();
                       if (_formKey.currentState.validate()) {
-                        print(_formKey.currentState.value["password"]);
-                        Provider.of<WalletModel>(context, listen: false)
-                            .createWallet(
-                                _formKey.currentState.value["password"]);
+                        _submit(_formKey.currentState.value["password"]);
                       }
                     },
                     icon: const Icon(Icons.add_circle_outline_outlined),
