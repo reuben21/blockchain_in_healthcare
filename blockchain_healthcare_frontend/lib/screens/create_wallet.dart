@@ -20,10 +20,10 @@ class _CreateWalletState extends State<CreateWallet> {
     try {
       await Provider.of<WalletModel>(context, listen: false)
           .createWallet(password);
-      _showErrorDialog("Good");
+     
     }  on exception.HttpException catch (error)  {
       _showErrorDialog(error.toString());
-     
+
     }
 
 
