@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:blockchain_healthcare_frontend/databases/wallet_database.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -9,6 +10,32 @@ import 'package:provider/provider.dart';
 import 'package:web3dart/web3dart.dart';
 
 class WalletModel with ChangeNotifier {
+  String _walletAddress;
+  String _walletPassword;
+  String _walletDecryptedKey;
+  DateTime _expiryDate;
+
+
+  bool get isWalletAvailable {
+
+    print(_walletDecryptedKey != null);
+    return _walletDecryptedKey != null;
+  }
+
+  String get walletDecryptedKey {
+    return _walletDecryptedKey;
+  }
+
+  String get token {
+    if (_expiryDate != null &&
+        _expiryDate.isAfter(DateTime.now()) &&
+        _walletDecryptedKey != null) {
+      return _walletDecryptedKey;
+    }
+    return null;
+  }
+
+
   EtherAmount bal;
   BigInt balance;
   bool isLoading = true;
@@ -108,6 +135,16 @@ class WalletModel with ChangeNotifier {
       credentials = await wallet.privateKey;
       myAddress = await credentials.extractAddress();
       print(myAddress.hex);
+
+      _walletAddress = myAddress.hex.toString() ;
+      _walletPassword = password.toString();
+      _walletDecryptedKey = extractedData.toString();
+      _expiryDate = DateTime.now()
+          .add(Duration(seconds: 172800));
+
+
+      var dbResponse = await DBProviderWallet.db.newWallet(
+          _walletAddress, _walletPassword, _walletDecryptedKey,_expiryDate.toIso8601String());
       // _orders = loadedOrders;
       notifyListeners();
     } on SocketException {

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:blockchain_healthcare_frontend/providers/wallet.dart';
+import 'package:blockchain_healthcare_frontend/screens/view_wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +21,9 @@ class _CreateWalletState extends State<CreateWallet> {
     try {
       await Provider.of<WalletModel>(context, listen: false)
           .createWallet(password);
-     
+
+      _showErrorDialog("Wallet Has Been Created");
+      Navigator.of(context).pushNamed(WalletView.routeName);
     }  on exception.HttpException catch (error)  {
       _showErrorDialog(error.toString());
 
@@ -132,8 +135,8 @@ class _CreateWalletState extends State<CreateWallet> {
               child: HStack(
                 [
                   FloatingActionButton.extended(
-                    backgroundColor: const Color(0xFF6200EE),
-                    foregroundColor: Colors.white,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    foregroundColor: Theme.of(context).colorScheme.secondary,
                     onPressed: () async {
                       _formKey.currentState.save();
                       if (_formKey.currentState.validate()) {
