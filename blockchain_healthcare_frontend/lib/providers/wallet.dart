@@ -9,6 +9,15 @@ import 'package:blockchain_healthcare_frontend/helpers/http_exception.dart' as e
 import 'package:provider/provider.dart';
 import 'package:web3dart/web3dart.dart';
 
+class UniqueWalletModel {
+  const UniqueWalletModel(this.walletAddress,this.walletString);
+  final String walletAddress;
+  final String walletString;
+
+
+}
+
+
 class WalletModel with ChangeNotifier {
   String _walletAddress;
   String _walletPassword;
@@ -60,7 +69,7 @@ class WalletModel with ChangeNotifier {
 
   Future<void> initiateSetup() async {
     _client = Web3Client(_rpcUrl, Client());
-    // getDeployedContract();
+    getDeployedContract();
   }
 
   Future<DeployedContract> getDeployedContract() async {
@@ -77,12 +86,18 @@ class WalletModel with ChangeNotifier {
     final contract = DeployedContract(
         ContractAbi.fromJson(abi, "HospitalToken"), contractAddress);
     print("HospitalToken Contract Address:- " + contract.address.toString());
-    _registerPatient = contract.function('registerPatient');
-    _getSignatureHash = contract.function('getSignatureHash');
-    _getPatientData = contract.function('getPatientData');
+    // _registerPatient = contract.function('registerPatient');
+    // _getSignatureHash = contract.function('getSignatureHash');
+    // _getPatientData = contract.function('getPatientData');
 
     return contract;
   }
+  Future<EtherAmount> getAccountBalance(EthereumAddress address) async {
+
+     return _client.getBalance(address);
+
+  }
+
 
   Future<List<dynamic>> readContract(
     ContractFunction functionName,

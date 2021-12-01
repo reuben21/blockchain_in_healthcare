@@ -65,6 +65,18 @@ class DBProviderWallet {
     }
   }
 
+  getWalletByWalletAddress(String walletAddress) async {
+    final db = await database;
+    var res = await db.rawQuery(""" Select * from WalletTable where walletAddress = ? """,[walletAddress]);
+
+    if (res.length == 0) {
+      return null;
+    } else {
+      var resMap = res[0];
+      return resMap.isNotEmpty ? resMap : null;
+    }
+  }
+
   Future<dynamic> get getWallet async {
     final db = await database;
     var res = await db.query("WalletTable");

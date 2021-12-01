@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:io' show Platform;
 import 'package:blockchain_healthcare_frontend/databases/wallet_database.dart';
+import 'package:blockchain_healthcare_frontend/providers/wallet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
+import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:web3dart/web3dart.dart';
 
@@ -18,67 +20,72 @@ class WalletView extends StatefulWidget {
 }
 
 class _WalletViewState extends State<WalletView> {
-  int _value = 0;
+  Credentials credentials;
+  EthereumAddress myAddress;
+  String balanceOfAccount;
+
+
   List<String> options = <String>['Select Account'];
   String dropdownValue = 'Select Account';
-  String _selectedField;
+
 
   @override
   void initState() {
-    print("Hello Init");
-
     super.initState();
-
   }
+
   @override
   Future<void> didChangeDependencies() async {
     // TODO: implement didChangeDependencies
-
-    print("Hello Init didChangeDependencies");
     getWalletFromDatabase();
     super.didChangeDependencies();
   }
 
   Future<void> getWalletFromDatabase() async {
-
     var dbResponse = await DBProviderWallet.db.getWallet;
-    print(dbResponse['walletAddress']);
-    var newAddress = dbResponse["walletAddress"].toString().substring(0,5)+".."+dbResponse["walletAddress"].toString().lastChars(10);
-    options.add(newAddress);
+
+    options.add(dbResponse['walletAddress']);
 
     setState(() {
       options;
     });
-
-
   }
 
 
 
+  Future<void> getAccountBalance(String walletAddress) async {
+    var dbResponse = await DBProviderWallet.db.getWalletByWalletAddress(walletAddress);
+    print(dbResponse['walletDecryptedKey']);
+    // final wallet = Wallet.fromJson(dbResponse['walletDecryptedKey'].toString(), dbResponse['walletPassword']);
+    // print(wallet.privateKey);
+    // credentials = await wallet.privateKey;
+    // myAddress = await credentials.extractAddress();
+    // print(myAddress.hex);
+    var balance = await Provider.of<WalletModel>(context, listen: false).getAccountBalance(EthereumAddress.fromHex(walletAddress));
+    setState(() {
+      balanceOfAccount = balance.getInEther.toString();
+    });
 
+    
+  }
 
   @override
   void dispose() {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    print(options);
+
     return Scaffold(
       body: Container(
         color: Theme.of(context).colorScheme.primary,
         child: Column(
-
           children: [
             ZStack([
-
               Column(
                 children: [
-
-
                   const SizedBox(
                     height: 80,
                   ),
@@ -101,49 +108,68 @@ class _WalletViewState extends State<WalletView> {
                       Container(
                         width: 100,
                         height: 100,
-
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: Theme.of(context).colorScheme.secondary,
                           image: const DecorationImage(
                               image: AssetImage('assets/icons/ethereum.png'),
-                              fit: BoxFit.contain
-                          ),
+                              fit: BoxFit.contain),
                         ),
                       ),
                       const SizedBox(
                         height: 10,
                       ),
-                      Text("0 ETH", style: Theme.of(context).textTheme.headline2,),
+                      Text(balanceOfAccount == null ? "0" :
+                        "$balanceOfAccount ETH",
+                        style: Theme.of(context).textTheme.headline2,
+                      ),
                       const SizedBox(
                         height: 10,
                       ),
                       DropdownButton<String>(
-                          focusColor:Theme.of(context).colorScheme.secondary ,
+
+                          focusColor: Theme.of(context).colorScheme.secondary,
                           dropdownColor: Theme.of(context).colorScheme.primary,
                           value: dropdownValue,
                           selectedItemBuilder: (BuildContext context) {
                             return options.map((String value) {
-                              return Text(
-                                dropdownValue,
-                                style: const TextStyle(color: Colors.white),
-                              );
+                              if (value == "Select Account") {
+                                return Text("Select Account",
+                                  style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary),
+                                );
+                              } else {
+                                return Text(
+                                  dropdownValue.toString().substring(0, 5) +"..."+
+                                      dropdownValue.toString().lastChars(5),
+                                  style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary),
+                                );
+                              }
+
                             }).toList();
                           },
-                          items: options.map<DropdownMenuItem<String>>((String value) {
+                          items: options
+                              .map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
-                              child: Text(value),
+                              child: value == "Select Account"? const Text("Select Account") : Text(value.toString().substring(0, 5) +"..."+
+                            value.toString().lastChars(5)),
                             );
                           }).toList(),
-                          onChanged:(String newValue) {
+                          onChanged: (String newValue) {
                             setState(() {
                               dropdownValue = newValue;
                             });
+                            getAccountBalance(newValue);
+                            print(newValue);
                           },
                           style: Theme.of(context).textTheme.headline5,
-                          hint:const Text("Select Account")
-                      ),
+                          hint: const Text("Select Account")),
                     ],
                   ),
                   const SizedBox(
@@ -152,16 +178,18 @@ class _WalletViewState extends State<WalletView> {
                   HStack(
                     [
                       FloatingActionButton.extended(
-                        backgroundColor: Theme.of(context).colorScheme.secondary,
+                        backgroundColor:
+                            Theme.of(context).colorScheme.secondary,
                         foregroundColor: Theme.of(context).colorScheme.primary,
                         onPressed: () {
-                          getWalletFromDatabase();
+                          getAccountBalance(dropdownValue);
                         },
                         icon: const Icon(Icons.refresh),
                         label: const Text('Refresh'),
                       ),
                       FloatingActionButton.extended(
-                        backgroundColor: Theme.of(context).colorScheme.secondary,
+                        backgroundColor:
+                            Theme.of(context).colorScheme.secondary,
                         foregroundColor: Theme.of(context).colorScheme.primary,
                         onPressed: () {
                           // Respond to button press
@@ -170,7 +198,8 @@ class _WalletViewState extends State<WalletView> {
                         label: const Text('Send'),
                       ),
                       FloatingActionButton.extended(
-                        backgroundColor: Theme.of(context).colorScheme.secondary,
+                        backgroundColor:
+                            Theme.of(context).colorScheme.secondary,
                         foregroundColor: Theme.of(context).colorScheme.primary,
                         onPressed: () {
                           // Respond to button press
@@ -182,7 +211,6 @@ class _WalletViewState extends State<WalletView> {
                     alignment: MainAxisAlignment.spaceAround,
                     axisSize: MainAxisSize.max,
                   )
-
                 ],
               ),
             ]),
@@ -278,7 +306,6 @@ class _WalletViewState extends State<WalletView> {
     );
   }
 }
-
 
 extension E on String {
   String lastChars(int n) => substring(length - n);
