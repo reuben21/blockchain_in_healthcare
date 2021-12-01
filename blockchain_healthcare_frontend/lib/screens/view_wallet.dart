@@ -18,7 +18,10 @@ class WalletView extends StatefulWidget {
 }
 
 class _WalletViewState extends State<WalletView> {
-
+  int _value = 0;
+  List<String> options = <String>['Select Account'];
+  String dropdownValue = 'Select Account';
+  String _selectedField;
 
   @override
   void initState() {
@@ -32,9 +35,22 @@ class _WalletViewState extends State<WalletView> {
     // TODO: implement didChangeDependencies
 
     print("Hello Init didChangeDependencies");
-    var dbResponse = await DBProviderWallet.db.getWallet;
-    print(dbResponse);
+    getWalletFromDatabase();
     super.didChangeDependencies();
+  }
+
+  Future<void> getWalletFromDatabase() async {
+
+    var dbResponse = await DBProviderWallet.db.getWallet;
+    print(dbResponse['walletAddress']);
+    var newAddress = dbResponse["walletAddress"].toString().substring(0,5)+".."+dbResponse["walletAddress"].toString().lastChars(10);
+    options.add(newAddress);
+
+    setState(() {
+      options;
+    });
+
+
   }
 
 
@@ -46,9 +62,11 @@ class _WalletViewState extends State<WalletView> {
     super.dispose();
   }
 
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    print(options);
     return Scaffold(
       body: Container(
         color: Theme.of(context).colorScheme.primary,
@@ -93,12 +111,43 @@ class _WalletViewState extends State<WalletView> {
                           ),
                         ),
                       ),
-
-                      Text("0 ETH", style: Theme.of(context).textTheme.headline2,)
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text("0 ETH", style: Theme.of(context).textTheme.headline2,),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      DropdownButton<String>(
+                          focusColor:Theme.of(context).colorScheme.secondary ,
+                          dropdownColor: Theme.of(context).colorScheme.primary,
+                          value: dropdownValue,
+                          selectedItemBuilder: (BuildContext context) {
+                            return options.map((String value) {
+                              return Text(
+                                dropdownValue,
+                                style: const TextStyle(color: Colors.white),
+                              );
+                            }).toList();
+                          },
+                          items: options.map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged:(String newValue) {
+                            setState(() {
+                              dropdownValue = newValue;
+                            });
+                          },
+                          style: Theme.of(context).textTheme.headline5,
+                          hint:const Text("Select Account")
+                      ),
                     ],
                   ),
                   const SizedBox(
-                    height: 80,
+                    height: 50,
                   ),
                   HStack(
                     [
@@ -106,7 +155,7 @@ class _WalletViewState extends State<WalletView> {
                         backgroundColor: Theme.of(context).colorScheme.secondary,
                         foregroundColor: Theme.of(context).colorScheme.primary,
                         onPressed: () {
-
+                          getWalletFromDatabase();
                         },
                         icon: const Icon(Icons.refresh),
                         label: const Text('Refresh'),
@@ -228,4 +277,9 @@ class _WalletViewState extends State<WalletView> {
       ),
     );
   }
+}
+
+
+extension E on String {
+  String lastChars(int n) => substring(length - n);
 }

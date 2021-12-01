@@ -60,10 +60,10 @@ class MyApp extends StatelessWidget {
                     fontSize: 15,
                     fontFamily: 'PlayfairDisplay',
                   ),
-                  headline5: TextStyle(
-                    color: kSecondaryColor[100],
-                    fontSize: 12,
-                    fontFamily: 'PlayfairDisplay',
+                  headline5: GoogleFonts.lato(
+                    color: Color(0xFFf5f7ec),
+                    fontSize: 20,
+                    backgroundColor:Color(0xff732eca),
                   ),
                   headline4: GoogleFonts.lato(
                       color: Color(0xff732eca),

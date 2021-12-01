@@ -68,7 +68,7 @@ class DBProviderWallet {
   Future<dynamic> get getWallet async {
     final db = await database;
     var res = await db.query("WalletTable");
-    print(res);
+
     if (res.length == 0) {
       return null;
     } else {
