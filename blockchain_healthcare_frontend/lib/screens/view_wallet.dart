@@ -201,7 +201,7 @@ class _WalletViewState extends State<WalletView> {
                         backgroundColor: Theme.of(context).colorScheme.primary,
                         foregroundColor: Theme.of(context).colorScheme.secondary,
                         onPressed: () async {
-                          
+
                         },
                         icon: const Icon(Icons.add_circle_outline_outlined),
                         label: const Text('Add Wallet'),
