@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:blockchain_healthcare_frontend/providers/wallet.dart';
 import 'package:blockchain_healthcare_frontend/screens/view_wallet.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:fullscreen/fullscreen.dart';
 import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:blockchain_healthcare_frontend/helpers/http_exception.dart' as exception;
@@ -17,8 +19,16 @@ class CreateWallet extends StatefulWidget {
 
 class _CreateWalletState extends State<CreateWallet> {
 
+  @override
+  void initState() {
+
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+    super.initState();
+  }
+
   void _submit(String password) async {
     try {
+      // TODO: WALLET CREATION
       await Provider.of<WalletModel>(context, listen: false)
           .createWallet(password);
 

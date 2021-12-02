@@ -55,7 +55,7 @@ class _WalletViewState extends State<WalletView> {
 
   Future<void> getAccountBalance(String walletAddress) async {
     var dbResponse = await DBProviderWallet.db.getWalletByWalletAddress(walletAddress);
-    print(dbResponse['walletDecryptedKey']);
+    print(dbResponse['walletEncryptedKey']);
     // final wallet = Wallet.fromJson(dbResponse['walletDecryptedKey'].toString(), dbResponse['walletPassword']);
     // print(wallet.privateKey);
     // credentials = await wallet.privateKey;
@@ -197,16 +197,7 @@ class _WalletViewState extends State<WalletView> {
                         icon: const Icon(Icons.call_made_outlined),
                         label: const Text('Send'),
                       ),
-                      FloatingActionButton.extended(
-                        backgroundColor:
-                            Theme.of(context).colorScheme.secondary,
-                        foregroundColor: Theme.of(context).colorScheme.primary,
-                        onPressed: () {
-                          // Respond to button press
-                        },
-                        icon: const Icon(Icons.call_received_outlined),
-                        label: const Text('Recieve'),
-                      ),
+
                     ],
                     alignment: MainAxisAlignment.spaceAround,
                     axisSize: MainAxisSize.max,
