@@ -18,14 +18,16 @@
 
 ## Current Status
 
-1. After Entering Password, An account is created through the node server that and the encrypted key is sent to the flutter app. which is stored in SQLite database
+### Working with Files -> main.dart, create_wallet.dart, view_wallet.dart, wallet_database.dart
 
+1. After Entering Password, An account is created through the node server that and the encrypted key is sent to the flutter app from the node server. we are storing the wallet address, password to encrypted key and encrypted key in SQLite database where you find it in the databases folder the wallet_database.dart has the code.
 
-### NOTE
-
-1. A Wallet can have multiple accounts
-
+2. The next screen your redirected to a view_wallet.dart screen where you can select an account and after selecting the account Ether price is dispalyed. (Make sure truffle console and node server is running.)
 
 ## Work to be done
  
+ 1. The view_wallet.dart shows the ether price for one account, that was previously created, add a create button beside send button to create another account (refer to createWallet function in  wallet.dart in providers folder) to be added to the drop down menu, also when u select another account that maybe the 3rd or 4th account in the added list, the entire Image and price in Ether should vertically scroll automatically to that account showing the price for the account selected. 
+ Use Package https://pub.dev/packages/scrollable_positioned_list to implement automatic vertical scrolling.
 
+### NOTE
+1. A Wallet can have multiple accounts

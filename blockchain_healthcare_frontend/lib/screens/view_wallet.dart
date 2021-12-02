@@ -197,7 +197,15 @@ class _WalletViewState extends State<WalletView> {
                         icon: const Icon(Icons.call_made_outlined),
                         label: const Text('Send'),
                       ),
-
+                      FloatingActionButton.extended(
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        foregroundColor: Theme.of(context).colorScheme.secondary,
+                        onPressed: () async {
+                          
+                        },
+                        icon: const Icon(Icons.add_circle_outline_outlined),
+                        label: const Text('Add Wallet'),
+                      )
                     ],
                     alignment: MainAxisAlignment.spaceAround,
                     axisSize: MainAxisSize.max,

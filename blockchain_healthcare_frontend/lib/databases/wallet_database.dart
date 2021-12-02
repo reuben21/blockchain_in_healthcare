@@ -21,7 +21,7 @@ class DBProviderWallet {
     try {
       var databasesPath = await getDatabasesPath();
       await deleteDatabase(databasesPath);
-      String path = join(databasesPath, 'DatabaseWallet.db');
+      String path = join(databasesPath, 'WalletDatabase.db');
       return await openDatabase(path, version: 3,
           onCreate: (Database db, int version) async {
             await db.execute("""
@@ -38,7 +38,7 @@ class DBProviderWallet {
     }
   }
 
-  newWallet(String walletAddress, String walletPassword, String walletDecryptedKey, String expiryDate) async {
+  newWallet(String walletAddress, String walletPassword, String walletEncryptedKey, String expiryDate) async {
     print("New WalletTable Session");
     try {
       final db = await database;
@@ -47,7 +47,7 @@ class DBProviderWallet {
     INSERT INTO WalletTable (
     walletAddress,walletPassword,walletEncryptedKey,expiryDate
     ) VALUES (?,?,?,?)
-    ''', [walletAddress, walletPassword, walletDecryptedKey,expiryDate ]);
+    ''', [walletAddress, walletPassword, walletEncryptedKey,expiryDate ]);
       return res;
     } catch (error) {
       print(error);
