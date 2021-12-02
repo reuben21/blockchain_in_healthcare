@@ -61,7 +61,7 @@ class WalletModel with ChangeNotifier {
   ContractFunction _getNewRecords;
   ContractFunction _updatePatientMedicalRecords;
 
-  final String _rpcUrl = 'http://127.0.0.1:7545';
+  final String _rpcUrl = 'http://10.0.2.2:7545';
 
   WalletModel() {
     initiateSetup();
@@ -130,7 +130,7 @@ class WalletModel with ChangeNotifier {
     Credentials credentials;
     EthereumAddress myAddress;
 
-    final url = Uri.parse("http://localhost:3000/wallet/create");
+    final url = Uri.parse("http://10.0.2.2:3000/wallet/create");
     try {
       final response = await http.post(url,
           body: json.encode({"password": password}),

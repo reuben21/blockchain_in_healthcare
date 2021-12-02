@@ -54,101 +54,108 @@ class _CreateWalletState extends State<CreateWallet> {
     // TODO: implement build
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      body: Container(
+      body: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(height: 80,),
+            Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Flexible(
-                    fit: FlexFit.loose,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 30),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Flexible(
+                          fit: FlexFit.loose,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 30),
+                            child: Text(
+                              "Let's Start By Creating Your Wallet",
+                              style: Theme.of(context).textTheme.headline1,
+                              textAlign: TextAlign.left,
+                            ),
+                          ),
+                        ),
+                      ]),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 50),
+                    child:
+                        Center(child: Image.asset("assets/images/undraw_wallet.png")),
+                  ),
+                  Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(left: 25),
                       child: Text(
-                        "Let's Start By Creating Your Wallet",
-                        style: Theme.of(context).textTheme.headline1,
+                        "Enter Password",
+                        style: Theme.of(context).textTheme.headline2,
                         textAlign: TextAlign.left,
                       ),
                     ),
-                  ),
-                ]),
-            Padding(
-              padding: const EdgeInsets.only(top: 50),
-              child:
-                  Center(child: Image.asset("assets/images/undraw_wallet.png")),
-            ),
-            Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(left: 25),
-                child: Text(
-                  "Enter Password",
-                  style: Theme.of(context).textTheme.headline2,
-                  textAlign: TextAlign.left,
-                ),
-              ),
-            ]),
-            Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
-               Flexible(
-                 fit: FlexFit.tight,
-                 child: FormBuilder(
+                  ]),
+                  Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+                     Flexible(
+                       fit: FlexFit.tight,
+                       child: FormBuilder(
 
-                      key: _formKey,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      child: Padding(
-                          padding: const EdgeInsets.all(25.0),
-                          child: FormBuilderTextField(
+                            key: _formKey,
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            child: Padding(
+                                padding: const EdgeInsets.all(25.0),
+                                child: FormBuilderTextField(
 
-                            maxLines: 1,
-                            name: 'password',
-                            obscureText: true,
-                            decoration: const InputDecoration(
+                                  maxLines: 1,
+                                  name: 'password',
+                                  obscureText: true,
+                                  decoration: const InputDecoration(
 
-                              prefixIcon: Icon(Icons.password),
-                              border: OutlineInputBorder(),
-                              labelStyle: TextStyle(
-                                color: Color(0xFF6200EE),
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Color(0xFF6200EE)),
-                              ),
-                              focusedErrorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Color(0xFF6200EE)),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Color(0xFF6200EE)),
-                              ),
-                            ),
+                                    prefixIcon: Icon(Icons.password),
+                                    border: OutlineInputBorder(),
+                                    labelStyle: TextStyle(
+                                      color: Color(0xFF6200EE),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Color(0xFF6200EE)),
+                                    ),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Color(0xFF6200EE)),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Color(0xFF6200EE)),
+                                    ),
+                                  ),
 
-                            // valueTransformer: (text) => num.tryParse(text),
-                            validator: FormBuilderValidators.compose([
-                              FormBuilderValidators.required(context),
-                              FormBuilderValidators.maxLength(context, 15)
-                            ]),
-                            keyboardType: TextInputType.visiblePassword,
-                          ))),
-               ),
+                                  // valueTransformer: (text) => num.tryParse(text),
+                                  validator: FormBuilderValidators.compose([
+                                    FormBuilderValidators.required(context),
+                                    FormBuilderValidators.maxLength(context, 15)
+                                  ]),
+                                  keyboardType: TextInputType.visiblePassword,
+                                ))),
+                     ),
 
-            ]),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: HStack(
-                [
-                  FloatingActionButton.extended(
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    foregroundColor: Theme.of(context).colorScheme.secondary,
-                    onPressed: () async {
-                      _formKey.currentState.save();
-                      if (_formKey.currentState.validate()) {
-                        _submit(_formKey.currentState.value["password"]);
-                      }
-                    },
-                    icon: const Icon(Icons.add_circle_outline_outlined),
-                    label: const Text('Create Wallet'),
+                  ]),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: HStack(
+                      [
+                        FloatingActionButton.extended(
+                          backgroundColor: Theme.of(context).colorScheme.primary,
+                          foregroundColor: Theme.of(context).colorScheme.secondary,
+                          onPressed: () async {
+                            _formKey.currentState.save();
+                            if (_formKey.currentState.validate()) {
+                              _submit(_formKey.currentState.value["password"]);
+                            }
+                          },
+                          icon: const Icon(Icons.add_circle_outline_outlined),
+                          label: const Text('Create Wallet'),
+                        ),
+                      ],
+                      alignment: MainAxisAlignment.spaceAround,
+                      axisSize: MainAxisSize.max,
+                    ),
                   ),
                 ],
-                alignment: MainAxisAlignment.spaceAround,
-                axisSize: MainAxisSize.max,
               ),
             ),
           ],
