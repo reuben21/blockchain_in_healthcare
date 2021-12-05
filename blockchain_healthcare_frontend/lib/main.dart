@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
             bottomAppBarColor: Color(0xFFf5f7ec),
             textTheme: ThemeData.light().textTheme.copyWith(
                   bodyText1: TextStyle(
-                      color: Color(0xFFf5f7ec), fontSize: 18, fontFamily: 'Handlee'),
+                      color: Color(0xff732eca), fontSize: 18, fontFamily: 'Handlee'),
                   bodyText2: TextStyle(
                     color: Color(0xFFf5f7ec),
                     fontFamily: 'Handlee',
@@ -67,7 +67,7 @@ class MyApp extends StatelessWidget {
                   ),
                   headline5: GoogleFonts.lato(
                     color: Color(0xFFf5f7ec),
-                    fontSize: 20,
+                    fontSize: 18,
                     backgroundColor:Color(0xff732eca),
                   ),
                   headline4: GoogleFonts.lato(

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:web3dart/web3dart.dart';
 
@@ -27,6 +28,7 @@ class _WalletViewState extends State<WalletView> {
 
   List<String> options = <String>['Select Account'];
   String dropdownValue = 'Select Account';
+  String dropDownCurrentValue;
 
 
   @override
@@ -66,7 +68,7 @@ class _WalletViewState extends State<WalletView> {
       balanceOfAccount = balance.getInEther.toString();
     });
 
-    
+
   }
 
   @override
@@ -77,7 +79,7 @@ class _WalletViewState extends State<WalletView> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-
+    print(dropDownCurrentValue);
     return Scaffold(
       body: Container(
         color: Theme.of(context).colorScheme.primary,
@@ -164,6 +166,7 @@ class _WalletViewState extends State<WalletView> {
                           onChanged: (String newValue) {
                             setState(() {
                               dropdownValue = newValue;
+                              dropDownCurrentValue = newValue;
                             });
                             getAccountBalance(newValue);
                             print(newValue);
@@ -177,17 +180,19 @@ class _WalletViewState extends State<WalletView> {
                   ),
                   HStack(
                     [
-                      FloatingActionButton.extended(
-                        backgroundColor:
-                            Theme.of(context).colorScheme.secondary,
-                        foregroundColor: Theme.of(context).colorScheme.primary,
-                        onPressed: () {
-                          getAccountBalance(dropdownValue);
-                        },
-                        icon: const Icon(Icons.refresh),
-                        label: const Text('Refresh'),
+                      ElevatedButton(
+                        onPressed: () {},
+                        child: Icon(Icons.refresh, color: Theme.of(context).colorScheme.primary),
+                        style: ElevatedButton.styleFrom(
+                          shape: CircleBorder(),
+                          padding: EdgeInsets.all(14),
+                          primary: Theme.of(context).colorScheme.secondary,
+                          onPrimary: Colors.black,
+                        ),
                       ),
+
                       FloatingActionButton.extended(
+
                         backgroundColor:
                             Theme.of(context).colorScheme.secondary,
                         foregroundColor: Theme.of(context).colorScheme.primary,
@@ -198,14 +203,42 @@ class _WalletViewState extends State<WalletView> {
                         label: const Text('Send'),
                       ),
                       FloatingActionButton.extended(
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                        foregroundColor: Theme.of(context).colorScheme.secondary,
-                        onPressed: () async {
 
+                        backgroundColor:
+                        Theme.of(context).colorScheme.secondary,
+                        foregroundColor: Theme.of(context).colorScheme.primary,
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (ctx) => AlertDialog(
+                              backgroundColor: Theme.of(context).colorScheme.secondary,
+                              title: Text("Show the QR Code",style: Theme.of(context).textTheme.bodyText1,),
+                              content: Container(
+                                width: 200,
+                                height: 200,
+                                child: Center(
+                                  child: QrImage(
+                                    data: dropDownCurrentValue == "Select Account" ? "" : dropDownCurrentValue,
+                                    version: QrVersions.auto,
+                                    size: 200.0,
+                                  ),
+                                ),
+                              ),
+                              actions: <Widget>[
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(ctx).pop();
+                                  },
+                                  child: Text("okay"),
+                                ),
+                              ],
+                            ),
+                          );
                         },
-                        icon: const Icon(Icons.add_circle_outline_outlined),
-                        label: const Text('Add Wallet'),
-                      )
+                        icon: const Icon(Icons.call_received),
+                        label: const Text('Receive'),
+                      ),
+
                     ],
                     alignment: MainAxisAlignment.spaceAround,
                     axisSize: MainAxisSize.max,
