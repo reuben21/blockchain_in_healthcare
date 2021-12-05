@@ -29,9 +29,8 @@
  1. The view_wallet.dart shows the ether price for one account, that was previously created, add a create button beside send button to create another account (refer to createWallet function in  wallet.dart in providers folder) to be added to the drop down menu, also when u select another account that maybe the 3rd or 4th account in the added list, the entire Image and price in Ether should vertically scroll automatically to that account showing the price for the account selected. 
  Use Package https://pub.dev/packages/scrollable_positioned_list to implement automatic vertical scrolling.
 
-2. Create a qr code by converting the wallet address to qr code  use https://pub.dev/packages/qr_flutter in the view_wallet.dart above the 2 buttons.
 
- 3. Implement A TextField https://material.io/components/text-fields/flutter#filled-text component when clicked should open a qr scanner. The link https://flutterawesome.com/a-basic-qr-scanner-app-built-using-flutter/ can be refered for opening a qr scanner, get the data from qr scanner to be enterd in text.
+ 2. Implement A TextField https://material.io/components/text-fields/flutter#filled-text component when clicked should open a qr scanner. The link https://flutterawesome.com/a-basic-qr-scanner-app-built-using-flutter/ can be refered for opening a qr scanner, get the data from qr scanner to be enterd in text.
 
 ### NOTE
 1. A Wallet can have multiple accounts
