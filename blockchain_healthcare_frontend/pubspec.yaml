@@ -39,7 +39,8 @@ dependencies:
   velocity_x: ^3.3.0
   google_fonts: ^2.1.0
   flutter_form_builder: ^6.2.0
-  fullscreen: ^1.0.3
+
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

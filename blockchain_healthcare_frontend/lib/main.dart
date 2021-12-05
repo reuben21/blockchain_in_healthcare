@@ -1,5 +1,6 @@
 // import 'dart:async';
 import 'package:blockchain_healthcare_frontend/providers/auth.dart';
+import 'package:blockchain_healthcare_frontend/providers/ipfs.dart';
 import 'package:blockchain_healthcare_frontend/providers/patient.dart';
 import 'package:blockchain_healthcare_frontend/providers/wallet.dart';
 import 'package:blockchain_healthcare_frontend/screens/Tabs/tabs_screen.dart';
@@ -10,6 +11,7 @@ import 'package:blockchain_healthcare_frontend/screens/sign_up_screen.dart';
 import 'package:blockchain_healthcare_frontend/screens/splash_screen.dart';
 import 'package:blockchain_healthcare_frontend/screens/view_wallet.dart';
 import 'package:blockchain_healthcare_frontend/screens/wallet.dart';
+import 'package:blockchain_healthcare_frontend/test_screens/ipfs_test.dart';
 import 'package:blockchain_healthcare_frontend/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -34,6 +36,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (ctx) => WalletModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => IPFSModel(),
         ),
       ],
       child: Consumer<Auth>(
@@ -85,7 +90,9 @@ class MyApp extends StatelessWidget {
           ),
           // home: WalletScreen(),
           routes: {
+            // '/': (ctx) => Ipfs_screen(),
             '/': (ctx) => CreateWallet(),
+            // '/': (ctx) => Ipfs_screen(),
             PrescriptionScreen.routeName: (ctx) => PrescriptionScreen(),
             MedicalRecordScreen.routeName: (ctx) => MedicalRecordScreen(),
             WalletScreen.routeName: (ctx) => WalletScreen(),

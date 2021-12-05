@@ -5,7 +5,7 @@ import 'package:blockchain_healthcare_frontend/screens/view_wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:fullscreen/fullscreen.dart';
+
 import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:blockchain_healthcare_frontend/helpers/http_exception.dart' as exception;
