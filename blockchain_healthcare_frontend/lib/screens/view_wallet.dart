@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io' show Platform;
 import 'package:blockchain_healthcare_frontend/databases/wallet_database.dart';
 import 'package:blockchain_healthcare_frontend/providers/wallet.dart';
+import 'package:carousel_slider/carousel_controller.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,6 +23,8 @@ class WalletView extends StatefulWidget {
 }
 
 class _WalletViewState extends State<WalletView> {
+  CarouselController buttonCarouselController = CarouselController();
+
   Credentials credentials;
   EthereumAddress myAddress;
   String balanceOfAccount;
@@ -107,27 +111,44 @@ class _WalletViewState extends State<WalletView> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Container(
-                        width: 100,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Theme.of(context).colorScheme.secondary,
-                          image: const DecorationImage(
-                              image: AssetImage('assets/icons/ethereum.png'),
-                              fit: BoxFit.contain),
+                      CarouselSlider.builder(
+                        itemCount: 15,
+                        itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) =>
+                            Column(
+                              children: [
+                                Container(
+                                  width: 100,
+                                  height: 100,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Theme.of(context).colorScheme.secondary,
+                                    image: const DecorationImage(
+                                        image: AssetImage('assets/icons/ethereum.png'),
+                                        fit: BoxFit.contain),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Text(balanceOfAccount == null ? "0" :
+                                "$balanceOfAccount ETH",
+                                  style: Theme.of(context).textTheme.headline2,
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                              ],
+                            ),
+                        carouselController: buttonCarouselController,
+                        options: CarouselOptions(
+                          autoPlay: false,
+                          enlargeCenterPage: true,
+                          viewportFraction: 0.9,
+                          aspectRatio: 2.0,
+                          initialPage: 2,
                         ),
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(balanceOfAccount == null ? "0" :
-                        "$balanceOfAccount ETH",
-                        style: Theme.of(context).textTheme.headline2,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
+
                       DropdownButton<String>(
 
                           focusColor: Theme.of(context).colorScheme.secondary,
