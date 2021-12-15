@@ -77,15 +77,16 @@ class DBProviderWallet {
     }
   }
 
-  Future<dynamic> get getWallet async {
+  Future<List<Map<String, Object>>> get getWallet async {
     final db = await database;
     var res = await db.query("WalletTable");
 
     if (res.length == 0) {
       return null;
     } else {
+      print(res);
       var resMap = res[0];
-      return resMap.isNotEmpty ? resMap : null;
+      return resMap.isNotEmpty ? res : null;
     }
   }
 }

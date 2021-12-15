@@ -7,11 +7,13 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:web3dart/web3dart.dart';
+import 'package:blockchain_healthcare_frontend/helpers/http_exception.dart' as exception;
 
 class WalletView extends StatefulWidget {
   static const routeName = '/view-wallet';
@@ -49,12 +51,16 @@ class _WalletViewState extends State<WalletView> {
 
   Future<void> getWalletFromDatabase() async {
     var dbResponse = await DBProviderWallet.db.getWallet;
-
-    options.add(dbResponse['walletAddress']);
-
-    setState(() {
-      options;
+    dbResponse.forEach((element) {
+      print(element.toString());
+      options.add(element['walletAddress']);
+      setState(() {
+        options;
+      });
     });
+
+
+
   }
 
 
@@ -75,10 +81,44 @@ class _WalletViewState extends State<WalletView> {
 
   }
 
+  void _showErrorDialog(String message) {
+    showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text('An Error Occurred'),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+                child: Text('Okay'))
+          ],
+        ));
+  }
+
+  void _submit(String password) async {
+    try {
+      // TODO: WALLET CREATION
+      await Provider.of<WalletModel>(context, listen: false)
+          .createWallet(password);
+
+      _showErrorDialog("Wallet Has Been Created");
+      Navigator.of(context).pushNamed(WalletView.routeName);
+    }  on exception.HttpException catch (error)  {
+      _showErrorDialog(error.toString());
+
+    }
+
+
+  }
+
   @override
   void dispose() {
     super.dispose();
   }
+
+  final _formKey = GlobalKey<FormBuilderState>();
 
   @override
   Widget build(BuildContext context) {
@@ -211,6 +251,84 @@ class _WalletViewState extends State<WalletView> {
                           onPrimary: Colors.black,
                         ),
                       ),
+                      ElevatedButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (ctx) => AlertDialog(
+                              backgroundColor: Theme.of(context).colorScheme.secondary,
+                              title: Text("Add Another Account",style: Theme.of(context).textTheme.bodyText1,),
+                              content: Container(
+                                width: 200,
+                                height: 150,
+                                child: Column(
+                                  children: [
+                                    Center(
+                                      child:  FormBuilder(
+
+                                          key: _formKey,
+                                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                                          child: Padding(
+                                              padding: const EdgeInsets.all(25.0),
+                                              child: FormBuilderTextField(
+
+                                                maxLines: 1,
+                                                name: 'password',
+                                                obscureText: true,
+                                                decoration: const InputDecoration(
+
+                                                  prefixIcon: Icon(Icons.password),
+                                                  border: OutlineInputBorder(),
+                                                  labelStyle: TextStyle(
+                                                    color: Color(0xFF6200EE),
+                                                  ),
+                                                  errorBorder: OutlineInputBorder(
+                                                    borderSide: BorderSide(color: Color(0xFF6200EE)),
+                                                  ),
+                                                  focusedErrorBorder: OutlineInputBorder(
+                                                    borderSide: BorderSide(color: Color(0xFF6200EE)),
+                                                  ),
+                                                  enabledBorder: OutlineInputBorder(
+                                                    borderSide: BorderSide(color: Color(0xFF6200EE)),
+                                                  ),
+                                                ),
+
+                                                // valueTransformer: (text) => num.tryParse(text),
+                                                validator: FormBuilderValidators.compose([
+                                                  FormBuilderValidators.required(context),
+                                                  FormBuilderValidators.maxLength(context, 15)
+                                                ]),
+                                                keyboardType: TextInputType.visiblePassword,
+                                              ))),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              actions: <Widget>[
+                                ElevatedButton(
+                                  onPressed: () {
+                                    _formKey.currentState.save();
+                                    if (_formKey.currentState.validate()) {
+                                      _submit(_formKey.currentState.value["password"]);
+                                    }
+                                    Navigator.of(ctx).pop();
+
+                                  },
+                                  child: Text("Add"),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                        child: Icon(Icons.add_outlined, color: Theme.of(context).colorScheme.primary),
+                        style: ElevatedButton.styleFrom(
+                          shape: CircleBorder(),
+                          padding: EdgeInsets.all(14),
+                          primary: Theme.of(context).colorScheme.secondary,
+                          onPrimary: Colors.black,
+                        ),
+                      ),
+
 
                       FloatingActionButton.extended(
 
