@@ -152,7 +152,7 @@ class _WalletViewState extends State<WalletView> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       CarouselSlider.builder(
-                        itemCount: 15,
+                        itemCount: options.length,
                         itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) =>
                             Column(
                               children: [
@@ -225,6 +225,8 @@ class _WalletViewState extends State<WalletView> {
                             );
                           }).toList(),
                           onChanged: (String newValue) {
+                            buttonCarouselController.animateToPage(options.indexOf(newValue),
+                                duration: Duration(milliseconds: 300), curve: Curves.linear);
                             setState(() {
                               dropdownValue = newValue;
                               dropDownCurrentValue = newValue;
