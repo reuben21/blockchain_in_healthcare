@@ -84,7 +84,7 @@ class DBProviderWallet {
     if (res.length == 0) {
       return null;
     } else {
-      print(res);
+
       var resMap = res[0];
       return resMap.isNotEmpty ? res : null;
     }

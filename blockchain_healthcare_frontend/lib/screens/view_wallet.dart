@@ -52,7 +52,7 @@ class _WalletViewState extends State<WalletView> {
   Future<void> getWalletFromDatabase() async {
     var dbResponse = await DBProviderWallet.db.getWallet;
     dbResponse.forEach((element) {
-      print(element.toString());
+
       options.add(element['walletAddress']);
       setState(() {
         options;
@@ -67,7 +67,6 @@ class _WalletViewState extends State<WalletView> {
 
   Future<void> getAccountBalance(String walletAddress) async {
     var dbResponse = await DBProviderWallet.db.getWalletByWalletAddress(walletAddress);
-    print(dbResponse['walletEncryptedKey']);
     // final wallet = Wallet.fromJson(dbResponse['walletDecryptedKey'].toString(), dbResponse['walletPassword']);
     // print(wallet.privateKey);
     // credentials = await wallet.privateKey;
