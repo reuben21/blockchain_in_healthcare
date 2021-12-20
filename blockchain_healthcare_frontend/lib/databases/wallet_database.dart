@@ -22,7 +22,7 @@ class DBProviderWallet {
       var databasesPath = await getDatabasesPath();
       await deleteDatabase(databasesPath);
       String path = join(databasesPath, 'WalletDatabase.db');
-      return await openDatabase(path, version: 3,
+      return await openDatabase(path, version: 5,
           onCreate: (Database db, int version) async {
             await db.execute("""
           CREATE TABLE IF NOT EXISTS WalletTable ( 

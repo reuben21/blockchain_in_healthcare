@@ -173,4 +173,27 @@ class WalletModel with ChangeNotifier {
     }
     notifyListeners();
   }
+
+  Future<void> transferEther(
+
+      Credentials credentials,
+      String senderAddress,
+      String receiverAddress,
+      double amount
+
+      ) async {
+
+
+
+    await _client.sendTransaction(
+      credentials,
+        Transaction(
+            from: EthereumAddress.fromHex(senderAddress),
+            to: EthereumAddress.fromHex(receiverAddress),
+            maxGas: 2000,
+            gasPrice: EtherAmount.zero(),
+            value: EtherAmount.fromUnitAndValue(EtherUnit.ether,amount )
+        )
+    );
+  }
 }

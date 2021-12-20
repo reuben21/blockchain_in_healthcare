@@ -30,6 +30,75 @@ exports.getBalanceWallet = (req, res, next) => {
     });
 }
 
+exports.getTransactionsByAccount= async(req, res, next)=> {
+  var self = this;
+
+  const myaccount = req.params.myaccount;
+   var latestBlock = await self.web3.eth.getBlock("latest");
+  var startBlockNumber = 1;
+  var endBlockNumber;
+
+  if (endBlockNumber == null) {
+     
+      console.log(latestBlock);
+    endBlockNumber = latestBlock.number;
+    console.log("Using endBlockNumber: " + endBlockNumber);
+  }
+
+  console.log("Searching for transactions to/from account \"" + myaccount + "\" within blocks "  + startBlockNumber + " and " + endBlockNumber);
+  var transactions = [];
+  for (var i = startBlockNumber; i <= endBlockNumber; i++) {
+      
+    var self = this;
+    var latestBlock = await self.web3.eth.getBlock(i);
+    if (i % 1000 == 0) {
+      console.log("Searching block " + i);
+    }
+  
+    
+    await self.web3.eth.getTransaction(latestBlock.transactions[0]).then((value)=>{
+
+        var currentTransaction = {
+             "hash": value.hash,
+        "nonce": value.nonce,
+        "blockHash": value.blockHash,
+        "blockNumber": value.blockNumber,
+        "from": value.from,
+        "to": value.to,
+        "value": value.value,
+        "gas": value.gas,
+        "gasPrice": value.gasPrice,
+        }
+        transactions.push(currentTransaction);
+       
+    })
+  
+  }
+  console.log(transactions);
+  res.send(transactions);
+}
+
+exports.getTransactionsByAccountAddress = (req, res, next) => { 
+    const walletAddress = req.params.walletAddress;
+  
+    var self = this;
+    transactions = getTransactionsByAccount(walletAddress,0,100);
+    console.log(transactions)
+ 
+    res.send(transactions);
+}
+
+exports.getBalanceWallet = (req, res, next) => {
+    const walletAddress = req.params.walletAddress;
+    console.log(walletAddress);
+
+    var self = this;
+
+    self.web3.eth.getBalance(walletAddress).then(result=>{
+        res.send({balance:result})
+    });
+}
+
 exports.sendEther = (req, res, next) => {
 
     const senderWalletAddress = req.body.senderWalletAddress;

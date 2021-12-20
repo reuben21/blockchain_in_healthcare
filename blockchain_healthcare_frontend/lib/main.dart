@@ -9,6 +9,7 @@ import 'package:blockchain_healthcare_frontend/screens/medical_records_screen.da
 import 'package:blockchain_healthcare_frontend/screens/prescription_screen.dart';
 import 'package:blockchain_healthcare_frontend/screens/sign_up_screen.dart';
 import 'package:blockchain_healthcare_frontend/screens/splash_screen.dart';
+import 'package:blockchain_healthcare_frontend/screens/transfer_screen.dart';
 import 'package:blockchain_healthcare_frontend/screens/view_wallet.dart';
 import 'package:blockchain_healthcare_frontend/screens/wallet.dart';
 import 'package:blockchain_healthcare_frontend/test_screens/ipfs_test.dart';
@@ -93,12 +94,13 @@ class MyApp extends StatelessWidget {
           // home: WalletScreen(),
           routes: {
             // '/': (ctx) => Ipfs_screen(),
-            '/': (ctx) => WalletView(),
+            '/': (ctx) => TransferScreen(),
             // '/': (ctx) => Ipfs_screen(),
             PrescriptionScreen.routeName: (ctx) => PrescriptionScreen(),
             MedicalRecordScreen.routeName: (ctx) => MedicalRecordScreen(),
             WalletScreen.routeName: (ctx) => WalletScreen(),
-            WalletView.routeName: (ctx) => WalletView()
+            WalletView.routeName: (ctx) => WalletView(),
+            TransferScreen.routeName: (ctx) => TransferScreen(),
           },
         ),
       ),

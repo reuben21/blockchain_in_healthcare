@@ -15,6 +15,7 @@ router.get("/balance/:walletAddress", walletController.getBalanceWallet);
 
 router.get("/get/accounts", walletController.getAccountsInWallet);
 
+router.get("/get/account/transactions/:myaccount", walletController.getTransactionsByAccount);
 // router.get("/data/:walletAddress", patientController.getPatientData);
 
 module.exports = router;
