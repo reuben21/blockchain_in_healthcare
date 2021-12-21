@@ -1,8 +1,12 @@
 # Blockchain in Healthcare
 
 ## In the root directory of this repo
+a) Installation:
+1. Run `npm install -g truffle`
+2. Run `npm install -g cli`.
 
-1. Run `truffle develop`
+b) Run `truffle develop` :
+1. Run` develop`
 2. In the console run `deploy`
 
 ## In the backend folder
