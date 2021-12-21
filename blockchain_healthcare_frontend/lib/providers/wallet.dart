@@ -21,25 +21,25 @@ class UniqueWalletModel {
 class WalletModel with ChangeNotifier {
   String _walletAddress;
   String _walletPassword;
-  String _walletDecryptedKey;
+  BigInt _walletPrivateKey;
   DateTime _expiryDate;
 
 
   bool get isWalletAvailable {
 
-    print(_walletDecryptedKey != null);
-    return _walletDecryptedKey != null;
+    print(_walletPrivateKey != null);
+    return _walletPrivateKey != null;
   }
 
-  String get walletDecryptedKey {
-    return _walletDecryptedKey;
+  BigInt get walletDecryptedKey {
+    return _walletPrivateKey;
   }
 
-  String get token {
+  BigInt get token {
     if (_expiryDate != null &&
         _expiryDate.isAfter(DateTime.now()) &&
-        _walletDecryptedKey != null) {
-      return _walletDecryptedKey;
+        _walletPrivateKey != null) {
+      return _walletPrivateKey;
     }
     return null;
   }
@@ -146,20 +146,23 @@ class WalletModel with ChangeNotifier {
       }
 
       final wallet = Wallet.fromJson(json.encode(extractedData), password);
-      print(wallet.privateKey);
-      credentials = await wallet.privateKey;
+      print(wallet.privateKey.privateKeyInt);
+
+      credentials = EthPrivateKey.fromInt(wallet.privateKey.privateKeyInt);
+
+
       myAddress = await credentials.extractAddress();
       print(myAddress.hex);
 
       _walletAddress = myAddress.hex.toString() ;
       _walletPassword = password.toString();
-      _walletDecryptedKey = extractedData.toString();
+      _walletPrivateKey = wallet.privateKey.privateKeyInt;
       _expiryDate = DateTime.now()
           .add(Duration(seconds: 172800));
 
 
       var dbResponse = await DBProviderWallet.db.newWallet(
-          _walletAddress, _walletPassword, _walletDecryptedKey,_expiryDate.toIso8601String());
+          _walletAddress, _walletPassword, _walletPrivateKey.toString(),_expiryDate.toIso8601String());
       // _orders = loadedOrders;
       notifyListeners();
     } on SocketException {
@@ -179,7 +182,7 @@ class WalletModel with ChangeNotifier {
       Credentials credentials,
       String senderAddress,
       String receiverAddress,
-      double amount
+      String amount
 
       ) async {
 
@@ -190,8 +193,6 @@ class WalletModel with ChangeNotifier {
         Transaction(
             from: EthereumAddress.fromHex(senderAddress),
             to: EthereumAddress.fromHex(receiverAddress),
-            maxGas: 2000,
-            gasPrice: EtherAmount.zero(),
             value: EtherAmount.fromUnitAndValue(EtherUnit.ether,amount )
         )
     );

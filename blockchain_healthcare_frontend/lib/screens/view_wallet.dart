@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io' show Platform;
 import 'package:blockchain_healthcare_frontend/databases/wallet_database.dart';
 import 'package:blockchain_healthcare_frontend/providers/wallet.dart';
+import 'package:blockchain_healthcare_frontend/screens/transfer_screen.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
@@ -119,18 +120,11 @@ class _WalletViewState extends State<WalletView> {
     }
   }
 
-  void _onQRViewCreated(QRViewController controller) {
-    this.controller = controller;
-    controller.scannedDataStream.listen((scanData) {
-      setState(() {
-        result = scanData;
-      });
-    });
-  }
+
 
   @override
   void dispose() {
-    controller?.dispose();
+
     super.dispose();
   }
 
@@ -278,233 +272,10 @@ class _WalletViewState extends State<WalletView> {
                           foregroundColor:
                               Theme.of(context).colorScheme.primary,
                           onPressed: () {
-                            // Respond to button press
-                            showDialog(
-                              context: context,
-                              builder: (ctx) => AlertDialog(
-                                backgroundColor:
-                                    Theme.of(context).colorScheme.secondary,
-                                title: Text(
-                                  "Transfer Ether",
-                                  style: Theme.of(context).textTheme.bodyText1,
-                                ),
-                                content: Container(
-                                  width: MediaQuery.of(context).size.width - 10,
-                                  height: 400,
-                                  child: Column(
-                                    children: [
-                                      Text((result != null)
-                                          ? "Ethereum Address: " +
-                                              result.code.toString()
-                                          : "Scan for Address"),
-                                      IconButton(
-                                        icon: const Icon(Icons.qr_code_scanner),
-                                        onPressed: () {
-                                          // do something
-                                          showDialog(
-                                            context: context,
-                                            builder: (ctx) => AlertDialog(
-                                              backgroundColor: Theme.of(context)
-                                                  .colorScheme
-                                                  .secondary,
-                                              title: Text(
-                                                "Show the QR Code",
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyText1,
-                                              ),
-                                              content: Container(
-                                                width: 300,
-                                                height: 500,
-                                                child: Column(
-                                                  children: [
-                                                    Container(
-                                                      width: 300,
-                                                      height: 400,
-                                                      child: QRView(
-                                                        key: qrKey,
-                                                        onQRViewCreated:
-                                                            _onQRViewCreated,
-                                                      ),
-                                                    ),
-                                                    Text((result != null)
-                                                        ? "Ethereum Address: " +
-                                                            result.code
-                                                                .toString()
-                                                        : "Scan for Address"),
-                                                  ],
-                                                ),
-                                              ),
-                                              actions: <Widget>[
-                                                ElevatedButton(
-                                                  onPressed: () async {
-                                                    setState(() {
-                                                      scannedAddress = result.code.toString();
-                                                    });
-                                                  },
-                                                  child: Text("GET"),
-                                                ),
-                                                ElevatedButton(
-                                                  onPressed: () async {},
-                                                  child: Text("okay"),
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                      Center(
-                                        child: FormBuilder(
-                                            key: _formKey,
-                                            autovalidateMode: AutovalidateMode
-                                                .onUserInteraction,
-                                            child: Column(
-                                              children: [
-                                                Padding(
-                                                    padding:
-                                                    const EdgeInsets.only(top: 10,bottom: 10),
-                                                    child: FormBuilderTextField(
-                                                      maxLines: 1,
-                                                      name: 'address',
-                                                      decoration:
-                                                      const InputDecoration(
-                                                        prefixIcon: Icon(Icons
-                                                            .account_balance_wallet_outlined),
-                                                        border:
-                                                        OutlineInputBorder(),
-                                                        labelStyle: TextStyle(
-                                                          color:
-                                                          Color(0xFF6200EE),
-                                                        ),
-                                                        errorBorder:
-                                                        OutlineInputBorder(
-                                                          borderSide: BorderSide(
-                                                              color: Color(
-                                                                  0xFF6200EE)),
-                                                        ),
-                                                        focusedErrorBorder:
-                                                        OutlineInputBorder(
-                                                          borderSide: BorderSide(
-                                                              color: Color(
-                                                                  0xFF6200EE)),
-                                                        ),
-                                                        enabledBorder:
-                                                        OutlineInputBorder(
-                                                          borderSide: BorderSide(
-                                                              color: Color(
-                                                                  0xFF6200EE)),
-                                                        ),
-                                                      ),
-
-                                                      // valueTransformer: (text) => num.tryParse(text),
-                                                      validator:
-                                                      FormBuilderValidators
-                                                          .compose([
-                                                        FormBuilderValidators
-                                                            .required(context)
-
-                                                      ]),
-                                                    )),
-                                                Padding(
-                                                    padding:
-                                                    const EdgeInsets.only(top: 10,bottom: 10),
-                                                    child: FormBuilderTextField(
-                                                      maxLines: 1,
-                                                      name: 'amount',
-
-                                                      decoration:
-                                                          const InputDecoration(
-                                                        prefixIcon: Icon(Icons
-                                                            .paid_outlined),
-                                                        border:
-                                                            OutlineInputBorder(),
-                                                        labelStyle: TextStyle(
-                                                          color:
-                                                              Color(0xFF6200EE),
-                                                        ),
-                                                        errorBorder:
-                                                            OutlineInputBorder(
-                                                          borderSide: BorderSide(
-                                                              color: Color(
-                                                                  0xFF6200EE)),
-                                                        ),
-                                                        focusedErrorBorder:
-                                                            OutlineInputBorder(
-                                                          borderSide: BorderSide(
-                                                              color: Color(
-                                                                  0xFF6200EE)),
-                                                        ),
-                                                        enabledBorder:
-                                                            OutlineInputBorder(
-                                                          borderSide: BorderSide(
-                                                              color: Color(
-                                                                  0xFF6200EE)),
-                                                        ),
-                                                      ),
-
-                                                      // valueTransformer: (text) => num.tryParse(text),
-                                                      validator:
-                                                          FormBuilderValidators
-                                                              .compose([
-                                                        FormBuilderValidators
-                                                            .required(context)
-                                                      ]),
-
-                                                    )),
-                                                Padding(
-                                                    padding:
-                                                    const EdgeInsets.only(top: 10,bottom: 10),
-                                                    child: FormBuilderTextField(
-                                                      maxLines: 1,
-                                                      name: 'password',
-                                                      obscureText: true,
-                                                      decoration:
-                                                      const InputDecoration(
-                                                        prefixIcon: Icon(Icons
-                                                            .paid_outlined),
-                                                        border:
-                                                        OutlineInputBorder(),
-                                                        labelStyle: TextStyle(
-                                                          color:
-                                                          Color(0xFF6200EE),
-                                                        ),
-                                                        errorBorder:
-                                                        OutlineInputBorder(
-                                                          borderSide: BorderSide(
-                                                              color: Color(
-                                                                  0xFF6200EE)),
-                                                        ),
-                                                        focusedErrorBorder:
-                                                        OutlineInputBorder(
-                                                          borderSide: BorderSide(
-                                                              color: Color(
-                                                                  0xFF6200EE)),
-                                                        ),
-                                                        enabledBorder:
-                                                        OutlineInputBorder(
-                                                          borderSide: BorderSide(
-                                                              color: Color(
-                                                                  0xFF6200EE)),
-                                                        ),
-                                                      ),
-
-                                                      // valueTransformer: (text) => num.tryParse(text),
-                                                      validator:
-                                                      FormBuilderValidators
-                                                          .compose([
-                                                        FormBuilderValidators
-                                                            .required(context)
-                                                      ]),
-                                                    )),
-                                              ],
-                                            )),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                actions: <Widget>[
-
-                                ],
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => TransferScreen(address: dropDownCurrentValue,),
                               ),
                             );
                           },

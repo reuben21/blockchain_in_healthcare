@@ -11,7 +11,9 @@ import 'package:web3dart/credentials.dart';
 class TransferScreen extends StatefulWidget {
   static const routeName = '/transfer-screen';
 
-  TransferScreen({Key key}) : super(key: key);
+  final String address;
+
+  TransferScreen({Key key, @required this.address}) : super(key: key);
 
   @override
   _TransferScreenState createState() {
@@ -68,8 +70,19 @@ class _TransferScreenState extends State<TransferScreen> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 30),
                         child: Text(
-                          "Transfer Ether To Pay Anyone",
+                          "Transfer Ether",
                           style: Theme.of(context).textTheme.headline1,
+                          textAlign: TextAlign.left,
+                        ),
+                      ),
+                    ),
+                    Flexible(
+                      fit: FlexFit.loose,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 30,top: 30),
+                        child: Text(
+                          "From: "+widget.address,
+                          style: Theme.of(context).textTheme.bodyText1,
                           textAlign: TextAlign.left,
                         ),
                       ),
@@ -234,16 +247,16 @@ class _TransferScreenState extends State<TransferScreen> {
                                         .currentState.value["address"];
                                     String password = _formKey
                                         .currentState.value["password"];
-                                    print(dropDownCurrentValue);
+                                    print(widget.address+ " "+amount+ " "+ receiverAddress+ " "+password+" ");
                                     var dbResponse =
-                                    await DBProviderWallet.db.getWalletByWalletAddress(dropDownCurrentValue);
+                                    await DBProviderWallet.db.getWalletByWalletAddress(widget.address);
+                                    print(dbResponse['walletPrivateKey']);
                                     if (true) {
-                                      final wallet = Wallet.fromJson(json.encode(dbResponse['walletEncryptedKey']), password);
-                                      print(wallet.privateKey);
-                                      credentialsNew = await wallet.privateKey;
+
+                                      credentialsNew = EthPrivateKey.fromInt(BigInt.parse(dbResponse['walletPrivateKey']));
                                       myAddress = await credentialsNew.extractAddress();
                                       Provider.of<WalletModel>(context, listen: false)
-                                          .transferEther(credentialsNew, myAddress.hex ,receiverAddress,double.parse(amount));
+                                          .transferEther(credentialsNew, myAddress.hex ,receiverAddress,amount);
                                     }
 
                                   }

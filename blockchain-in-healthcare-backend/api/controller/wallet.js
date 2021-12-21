@@ -19,6 +19,7 @@ exports.createWallet = (req, res, next) => {
     res.send(encryptedWallet);
 }
 
+
 exports.getBalanceWallet = (req, res, next) => {
     const walletAddress = req.params.walletAddress;
     console.log(walletAddress);
