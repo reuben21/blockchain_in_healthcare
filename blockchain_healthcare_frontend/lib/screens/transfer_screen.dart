@@ -50,6 +50,24 @@ class _TransferScreenState extends State<TransferScreen> {
     });
   }
 
+
+  void _showErrorDialog(String message) {
+    showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text('An Error Occurred'),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+                child: Text('Okay'))
+          ],
+        ));
+  }
+
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -205,36 +223,6 @@ class _TransferScreenState extends State<TransferScreen> {
                                     validator: FormBuilderValidators.compose(
                                         [FormBuilderValidators.required(context)]),
                                   )),
-                              Padding(
-                                  padding: const EdgeInsets.only(top: 10, bottom: 10),
-                                  child: FormBuilderTextField(
-                                    maxLines: 1,
-                                    name: 'password',
-                                    obscureText: true,
-                                    decoration: const InputDecoration(
-                                      prefixIcon: Icon(Icons.password_outlined),
-                                      border: OutlineInputBorder(),
-                                      labelStyle: TextStyle(
-                                        color: Color(0xFF6200EE),
-                                      ),
-                                      errorBorder: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Color(0xFF6200EE)),
-                                      ),
-                                      focusedErrorBorder: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Color(0xFF6200EE)),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Color(0xFF6200EE)),
-                                      ),
-                                    ),
-
-                                    // valueTransformer: (text) => num.tryParse(text),
-                                    validator: FormBuilderValidators.compose(
-                                        [FormBuilderValidators.required(context)]),
-                                  )),
                               ElevatedButton(
                                 onPressed: () async {
                                   Credentials credentialsNew;
@@ -245,9 +233,7 @@ class _TransferScreenState extends State<TransferScreen> {
                                         .currentState.value["amount"];
                                     String receiverAddress = _formKey
                                         .currentState.value["address"];
-                                    String password = _formKey
-                                        .currentState.value["password"];
-                                    print(widget.address+ " "+amount+ " "+ receiverAddress+ " "+password+" ");
+
                                     var dbResponse =
                                     await DBProviderWallet.db.getWalletByWalletAddress(widget.address);
                                     print(dbResponse['walletPrivateKey']);
@@ -257,6 +243,7 @@ class _TransferScreenState extends State<TransferScreen> {
                                       myAddress = await credentialsNew.extractAddress();
                                       Provider.of<WalletModel>(context, listen: false)
                                           .transferEther(credentialsNew, myAddress.hex ,receiverAddress,amount);
+
                                     }
 
                                   }

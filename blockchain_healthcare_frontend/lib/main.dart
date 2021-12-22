@@ -63,6 +63,7 @@ class MyApp extends StatelessWidget {
                     color: Color(0xFFf5f7ec),
                     fontFamily: 'Handlee',
                   ),
+
                   headline6: TextStyle(
                     color: kSecondaryColor[100],
                     fontSize: 15,

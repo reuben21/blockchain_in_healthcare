@@ -1,22 +1,22 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:blockchain_healthcare_frontend/databases/transactions_database.dart';
 import 'package:blockchain_healthcare_frontend/databases/wallet_database.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
-import 'package:blockchain_healthcare_frontend/helpers/http_exception.dart' as exception;
+import 'package:blockchain_healthcare_frontend/helpers/http_exception.dart'
+    as exception;
 import 'package:provider/provider.dart';
 import 'package:web3dart/web3dart.dart';
 
 class UniqueWalletModel {
-  const UniqueWalletModel(this.walletAddress,this.walletString);
+  const UniqueWalletModel(this.walletAddress, this.walletString);
+
   final String walletAddress;
   final String walletString;
-
-
 }
-
 
 class WalletModel with ChangeNotifier {
   String _walletAddress;
@@ -24,9 +24,7 @@ class WalletModel with ChangeNotifier {
   BigInt _walletPrivateKey;
   DateTime _expiryDate;
 
-
   bool get isWalletAvailable {
-
     print(_walletPrivateKey != null);
     return _walletPrivateKey != null;
   }
@@ -43,7 +41,6 @@ class WalletModel with ChangeNotifier {
     }
     return null;
   }
-
 
   EtherAmount bal;
   BigInt balance;
@@ -92,12 +89,10 @@ class WalletModel with ChangeNotifier {
 
     return contract;
   }
+
   Future<EtherAmount> getAccountBalance(EthereumAddress address) async {
-
-     return _client.getBalance(address);
-
+    return _client.getBalance(address);
   }
-
 
   Future<List<dynamic>> readContract(
     ContractFunction functionName,
@@ -150,19 +145,19 @@ class WalletModel with ChangeNotifier {
 
       credentials = EthPrivateKey.fromInt(wallet.privateKey.privateKeyInt);
 
-
       myAddress = await credentials.extractAddress();
       print(myAddress.hex);
 
-      _walletAddress = myAddress.hex.toString() ;
+      _walletAddress = myAddress.hex.toString();
       _walletPassword = password.toString();
       _walletPrivateKey = wallet.privateKey.privateKeyInt;
-      _expiryDate = DateTime.now()
-          .add(Duration(seconds: 172800));
-
+      _expiryDate = DateTime.now().add(Duration(seconds: 172800));
 
       var dbResponse = await DBProviderWallet.db.newWallet(
-          _walletAddress, _walletPassword, _walletPrivateKey.toString(),_expiryDate.toIso8601String());
+          _walletAddress,
+          _walletPassword,
+          _walletPrivateKey.toString(),
+          _expiryDate.toIso8601String());
       // _orders = loadedOrders;
       notifyListeners();
     } on SocketException {
@@ -177,24 +172,37 @@ class WalletModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> transferEther(
+  Future<void> transferEther(Credentials credentials, String senderAddress,
+      String receiverAddress, String amount) async {
+    try {
+      EthereumAddress transactionTo;
+      EthereumAddress transactionFrom;
 
-      Credentials credentials,
-      String senderAddress,
-      String receiverAddress,
-      String amount
+      String transactionHash = await _client.sendTransaction(
+          credentials,
+          Transaction(
+              from: EthereumAddress.fromHex(senderAddress),
+              to: EthereumAddress.fromHex(receiverAddress),
+              value: EtherAmount.fromUnitAndValue(EtherUnit.ether, amount)));
 
-      ) async {
 
+      TransactionInformation tx =
+          await _client.getTransactionByHash(transactionHash);
 
+      var dbResponse = await DBProviderTransactions.db.newTransaction(transactionHash, tx.blockNumber.toString(),
+          tx.value.getInEther.toString(), tx.from.hex, tx.to.hex);
 
-    await _client.sendTransaction(
-      credentials,
-        Transaction(
-            from: EthereumAddress.fromHex(senderAddress),
-            to: EthereumAddress.fromHex(receiverAddress),
-            value: EtherAmount.fromUnitAndValue(EtherUnit.ether,amount )
-        )
-    );
+      print(dbResponse);
+      notifyListeners();
+    } on SocketException {
+      throw exception.HttpException("No Internet connection 😑");
+    } on HttpException {
+      throw exception.HttpException("Couldn't find the post 😱");
+    } on FormatException {
+      throw exception.HttpException("Bad response format 👎");
+    } catch (error) {
+      throw exception.HttpException(error);
+    }
+    notifyListeners();
   }
 }
