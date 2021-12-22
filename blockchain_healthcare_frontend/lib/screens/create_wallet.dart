@@ -26,7 +26,7 @@ class _CreateWalletState extends State<CreateWallet> {
     super.initState();
   }
 
-  void _submit(String password) async {
+  void _submit() async {
     try {
       // TODO: WALLET CREATION
       await Provider.of<WalletModel>(context, listen: false)
@@ -102,48 +102,7 @@ class _CreateWalletState extends State<CreateWallet> {
                       ),
                     ),
                   ]),
-                  Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
-                     Flexible(
-                       fit: FlexFit.tight,
-                       child: FormBuilder(
 
-                            key: _formKey,
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
-                            child: Padding(
-                                padding: const EdgeInsets.all(25.0),
-                                child: FormBuilderTextField(
-
-                                  maxLines: 1,
-                                  name: 'password',
-                                  obscureText: true,
-                                  decoration: const InputDecoration(
-
-                                    prefixIcon: Icon(Icons.password),
-                                    border: OutlineInputBorder(),
-                                    labelStyle: TextStyle(
-                                      color: Color(0xFF6200EE),
-                                    ),
-                                    errorBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(color: Color(0xFF6200EE)),
-                                    ),
-                                    focusedErrorBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(color: Color(0xFF6200EE)),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(color: Color(0xFF6200EE)),
-                                    ),
-                                  ),
-
-                                  // valueTransformer: (text) => num.tryParse(text),
-                                  validator: FormBuilderValidators.compose([
-                                    FormBuilderValidators.required(context),
-                                    FormBuilderValidators.maxLength(context, 15)
-                                  ]),
-                                  keyboardType: TextInputType.visiblePassword,
-                                ))),
-                     ),
-
-                  ]),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: HStack(
@@ -152,10 +111,7 @@ class _CreateWalletState extends State<CreateWallet> {
                           backgroundColor: Theme.of(context).colorScheme.primary,
                           foregroundColor: Theme.of(context).colorScheme.secondary,
                           onPressed: () async {
-                            _formKey.currentState.save();
-                            if (_formKey.currentState.validate()) {
-                              _submit(_formKey.currentState.value["password"]);
-                            }
+                              _submit();
                           },
                           icon: const Icon(Icons.add_circle_outline_outlined),
                           label: const Text('Create Wallet'),
