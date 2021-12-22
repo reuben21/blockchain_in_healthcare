@@ -63,6 +63,9 @@ class _WalletViewState extends State<WalletView> {
   @override
   Future<void> didChangeDependencies() async {
     // TODO: implement didChangeDependencies
+    setState(() {
+      options = <String>['Select Account'];
+    });
     getWalletFromDatabase();
     super.didChangeDependencies();
   }
@@ -70,10 +73,15 @@ class _WalletViewState extends State<WalletView> {
   Future<void> getWalletFromDatabase() async {
     var dbResponse = await DBProviderWallet.db.getWallet;
     dbResponse.forEach((element) {
-      options.add(element['walletAddress']);
-      setState(() {
-        options;
-      });
+      if(options.contains(element['walletAddress'])) {
+
+      } else {
+        options.add(element['walletAddress']);
+        setState(() {
+          options;
+        });
+      }
+
     });
   }
 
@@ -389,7 +397,7 @@ class _WalletViewState extends State<WalletView> {
                                     physics: NeverScrollableScrollPhysics(),
                                     itemCount: snapshot.data.length,
                                     itemBuilder: (BuildContext context, int position) {
-                                      print(snapshot.data[position]);
+
                                       return  Card(
                                         color: Theme.of(context).colorScheme.secondary,
                                         elevation: 0.0,

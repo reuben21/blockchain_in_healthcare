@@ -172,7 +172,7 @@ class WalletModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> transferEther(Credentials credentials, String senderAddress,
+  Future<bool> transferEther(Credentials credentials, String senderAddress,
       String receiverAddress, String amount) async {
     try {
       EthereumAddress transactionTo;
@@ -192,7 +192,11 @@ class WalletModel with ChangeNotifier {
       var dbResponse = await DBProviderTransactions.db.newTransaction(transactionHash, tx.blockNumber.toString(),
           tx.value.getInEther.toString(), tx.from.hex, tx.to.hex);
 
-      print(dbResponse);
+      if(tx.hash.isNotEmpty) {
+        return true;
+      } else {
+        return false;
+      }
       notifyListeners();
     } on SocketException {
       throw exception.HttpException("No Internet connection 😑");
