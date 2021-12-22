@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 import 'package:blockchain_healthcare_frontend/databases/transactions_database.dart';
 import 'package:blockchain_healthcare_frontend/databases/wallet_database.dart';
 import 'package:http/http.dart' as http;
@@ -121,36 +122,71 @@ class WalletModel with ChangeNotifier {
     );
   }
 
-  Future<void> createWallet(String password) async {
+  // Future<void> createWallet(String password) async {
+  //   Credentials credentials;
+  //   EthereumAddress myAddress;
+  //
+  //   final url = Uri.parse("http://10.0.2.2:3000/wallet/create");
+  //   try {
+  //     final response = await http.post(url,
+  //         body: json.encode({"password": password}),
+  //         headers: {
+  //           'Content-type': 'application/json',
+  //           'Accept': 'application/json'
+  //         });
+  //     // final List<OrderItem> loadedOrders = [];
+  //
+  //     final extractedData = json.decode(response.body) as Map<String, dynamic>;
+  //     if (extractedData == null) {
+  //       return;
+  //     }
+  //
+  //     final wallet = Wallet.fromJson(json.encode(extractedData), password);
+  //     print(wallet.privateKey.privateKeyInt);
+  //
+  //     credentials = EthPrivateKey.fromInt(wallet.privateKey.privateKeyInt);
+  //
+  //     myAddress = await credentials.extractAddress();
+  //     print(myAddress.hex);
+  //
+  //     _walletAddress = myAddress.hex.toString();
+  //     _walletPassword = password.toString();
+  //     _walletPrivateKey = wallet.privateKey.privateKeyInt;
+  //     _expiryDate = DateTime.now().add(Duration(seconds: 172800));
+  //
+  //     var dbResponse = await DBProviderWallet.db.newWallet(
+  //         _walletAddress,
+  //         _walletPassword,
+  //         _walletPrivateKey.toString(),
+  //         _expiryDate.toIso8601String());
+  //     // _orders = loadedOrders;
+  //     notifyListeners();
+  //   } on SocketException {
+  //     throw exception.HttpException("No Internet connection 😑");
+  //   } on HttpException {
+  //     throw exception.HttpException("Couldn't find the post 😱");
+  //   } on FormatException {
+  //     throw exception.HttpException("Bad response format 👎");
+  //   } catch (error) {
+  //     throw exception.HttpException(error);
+  //   }
+  //   notifyListeners();
+  // }
+
+  Future<void> createWalletInternally() async {
     Credentials credentials;
     EthereumAddress myAddress;
 
-    final url = Uri.parse("http://10.0.2.2:3000/wallet/create");
+
     try {
-      final response = await http.post(url,
-          body: json.encode({"password": password}),
-          headers: {
-            'Content-type': 'application/json',
-            'Accept': 'application/json'
-          });
-      // final List<OrderItem> loadedOrders = [];
-
-      final extractedData = json.decode(response.body) as Map<String, dynamic>;
-      if (extractedData == null) {
-        return;
-      }
-
-      final wallet = Wallet.fromJson(json.encode(extractedData), password);
-      print(wallet.privateKey.privateKeyInt);
-
-      credentials = EthPrivateKey.fromInt(wallet.privateKey.privateKeyInt);
-
+      var rng = Random.secure();
+      BigInt EthPrivateKeyInteger = EthPrivateKey.createRandom(rng).privateKeyInt;
+      credentials = EthPrivateKey.fromInt(EthPrivateKeyInteger);
       myAddress = await credentials.extractAddress();
-      print(myAddress.hex);
 
       _walletAddress = myAddress.hex.toString();
-      _walletPassword = password.toString();
-      _walletPrivateKey = wallet.privateKey.privateKeyInt;
+      _walletPassword = "reuben";
+      _walletPrivateKey = EthPrivateKeyInteger;
       _expiryDate = DateTime.now().add(Duration(seconds: 172800));
 
       var dbResponse = await DBProviderWallet.db.newWallet(
@@ -172,6 +208,7 @@ class WalletModel with ChangeNotifier {
     notifyListeners();
   }
 
+
   Future<bool> transferEther(Credentials credentials, String senderAddress,
       String receiverAddress, String amount) async {
     try {
@@ -186,8 +223,12 @@ class WalletModel with ChangeNotifier {
               value: EtherAmount.fromUnitAndValue(EtherUnit.ether, amount)));
 
 
+
       TransactionInformation tx =
           await _client.getTransactionByHash(transactionHash);
+
+      TransactionReceipt txReceipt =
+      await _client.getTransactionReceipt(transactionHash);
 
       var dbResponse = await DBProviderTransactions.db.newTransaction(transactionHash, tx.blockNumber.toString(),
           tx.value.getInEther.toString(), tx.from.hex, tx.to.hex);

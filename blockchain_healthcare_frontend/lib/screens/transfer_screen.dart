@@ -236,11 +236,13 @@ class _TransferScreenState extends State<TransferScreen> {
 
                                     var dbResponse =
                                     await DBProviderWallet.db.getWalletByWalletAddress(widget.address);
+                                    print(dbResponse);
 
                                     if (true) {
 
                                       credentialsNew = EthPrivateKey.fromInt(BigInt.parse(dbResponse['walletPrivateKey']));
                                       myAddress = await credentialsNew.extractAddress();
+                                      print(myAddress);
                                      var txStatus = await Provider.of<WalletModel>(context, listen: false)
                                           .transferEther(credentialsNew, myAddress.hex ,receiverAddress,amount);
                                       if (txStatus) {

@@ -95,7 +95,7 @@ class MyApp extends StatelessWidget {
           // home: WalletScreen(),
           routes: {
             // '/': (ctx) => Ipfs_screen(),
-            '/': (ctx) => WalletView(),
+            '/': (ctx) => CreateWallet(),
             // '/': (ctx) => Ipfs_screen(),
             PrescriptionScreen.routeName: (ctx) => PrescriptionScreen(),
             MedicalRecordScreen.routeName: (ctx) => MedicalRecordScreen(),

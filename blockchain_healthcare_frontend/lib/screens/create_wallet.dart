@@ -30,7 +30,7 @@ class _CreateWalletState extends State<CreateWallet> {
     try {
       // TODO: WALLET CREATION
       await Provider.of<WalletModel>(context, listen: false)
-          .createWallet(password);
+          .createWalletInternally();
 
       _showErrorDialog("Wallet Has Been Created");
       Navigator.of(context).pushNamed(WalletView.routeName);
