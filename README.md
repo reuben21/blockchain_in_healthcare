@@ -3,7 +3,7 @@
 ## In the root directory of this repo
 a) Installation:
 1. Run `npm install -g truffle`
-2. Run `npm install -g cli`.
+2. Run `npm install -g ganache cli`.
 
 b) Run `truffle develop` :
 1. Run` develop`
