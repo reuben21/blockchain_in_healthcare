@@ -22,7 +22,7 @@ class DBProviderTransactions {
       var databasesPath = await getDatabasesPath();
       await deleteDatabase(databasesPath);
       String path = join(databasesPath, 'TransactionsDatabase.db');
-      return await openDatabase(path, version: 6,
+      return await openDatabase(path, version: 2,
           onCreate: (Database db, int version) async {
             await db.execute("""
           CREATE TABLE IF NOT EXISTS TransactionTable ( 
@@ -30,7 +30,8 @@ class DBProviderTransactions {
           blockNumber TEXT,
           value TEXT,
           fromAddress TEXT,
-          toAddress TEXT
+          toAddress TEXT,
+          dateOfTransaction TEXT
           );
           """);
           });
@@ -40,16 +41,16 @@ class DBProviderTransactions {
   }
 
   newTransaction(String transactionHash, String blockNumber, String value,
-      String from, String to) async {
+      String from, String to, String dateOfTransaction) async {
     print("New TransactionTable Session");
     try {
       final db = await database;
 
       var res = await db.rawInsert(''' 
     INSERT INTO TransactionTable (
-    transactionHash, blockNumber , value , fromAddress , toAddress 
+    transactionHash, blockNumber , value , fromAddress , toAddress , dateOfTransaction
     ) VALUES (?,?,?,?,?)
-    ''', [transactionHash, blockNumber, value, from,to ]);
+    ''', [transactionHash, blockNumber, value, from,to ,dateOfTransaction ]);
       return res;
     } catch (error) {
       print(error);

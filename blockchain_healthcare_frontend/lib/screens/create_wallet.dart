@@ -102,7 +102,49 @@ class _CreateWalletState extends State<CreateWallet> {
                       ),
                     ),
                   ]),
+                  Center(
+                    child: FormBuilder(
+                        key: _formKey,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        child: Column(
+                          children: [
+                            Padding(
+                                padding: const EdgeInsets.all(25),
+                                child: FormBuilderTextField(
+                                  obscureText: true,
+                                  maxLines: 1,
+                                  name: 'password',
+                                  decoration: const InputDecoration(
+                                      labelText:'Password',
+                                    prefixIcon:
+                                    Icon(Icons.account_balance_wallet_outlined),
+                                    border: OutlineInputBorder(),
+                                    labelStyle: TextStyle(
+                                      color: Color(0xFF6200EE),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide:
+                                      BorderSide(color: Color(0xFF6200EE)),
+                                    ),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      borderSide:
+                                      BorderSide(color: Color(0xFF6200EE)),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                      BorderSide(color: Color(0xFF6200EE)),
+                                    ),
+                                  ),
 
+                                  // valueTransformer: (text) => num.tryParse(text),
+                                  validator: FormBuilderValidators.compose(
+                                      [FormBuilderValidators.required(context)]),
+                                )),
+
+                           
+                          ],
+                        )),
+                  ),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: HStack(
@@ -111,7 +153,17 @@ class _CreateWalletState extends State<CreateWallet> {
                           backgroundColor: Theme.of(context).colorScheme.primary,
                           foregroundColor: Theme.of(context).colorScheme.secondary,
                           onPressed: () async {
+
+                            _formKey.currentState.save();
+                            if (_formKey.currentState.validate()) {
+                              String amount = _formKey
+                                  .currentState.value["amount"];
+                              String receiverAddress = _formKey
+                                  .currentState.value["address"];
                               _submit();
+
+                            }
+
                           },
                           icon: const Icon(Icons.add_circle_outline_outlined),
                           label: const Text('Create Wallet'),

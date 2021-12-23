@@ -122,57 +122,6 @@ class WalletModel with ChangeNotifier {
     );
   }
 
-  // Future<void> createWallet(String password) async {
-  //   Credentials credentials;
-  //   EthereumAddress myAddress;
-  //
-  //   final url = Uri.parse("http://10.0.2.2:3000/wallet/create");
-  //   try {
-  //     final response = await http.post(url,
-  //         body: json.encode({"password": password}),
-  //         headers: {
-  //           'Content-type': 'application/json',
-  //           'Accept': 'application/json'
-  //         });
-  //     // final List<OrderItem> loadedOrders = [];
-  //
-  //     final extractedData = json.decode(response.body) as Map<String, dynamic>;
-  //     if (extractedData == null) {
-  //       return;
-  //     }
-  //
-  //     final wallet = Wallet.fromJson(json.encode(extractedData), password);
-  //     print(wallet.privateKey.privateKeyInt);
-  //
-  //     credentials = EthPrivateKey.fromInt(wallet.privateKey.privateKeyInt);
-  //
-  //     myAddress = await credentials.extractAddress();
-  //     print(myAddress.hex);
-  //
-  //     _walletAddress = myAddress.hex.toString();
-  //     _walletPassword = password.toString();
-  //     _walletPrivateKey = wallet.privateKey.privateKeyInt;
-  //     _expiryDate = DateTime.now().add(Duration(seconds: 172800));
-  //
-  //     var dbResponse = await DBProviderWallet.db.newWallet(
-  //         _walletAddress,
-  //         _walletPassword,
-  //         _walletPrivateKey.toString(),
-  //         _expiryDate.toIso8601String());
-  //     // _orders = loadedOrders;
-  //     notifyListeners();
-  //   } on SocketException {
-  //     throw exception.HttpException("No Internet connection 😑");
-  //   } on HttpException {
-  //     throw exception.HttpException("Couldn't find the post 😱");
-  //   } on FormatException {
-  //     throw exception.HttpException("Bad response format 👎");
-  //   } catch (error) {
-  //     throw exception.HttpException(error);
-  //   }
-  //   notifyListeners();
-  // }
-
   Future<void> createWalletInternally() async {
     Credentials credentials;
     EthereumAddress myAddress;
@@ -230,8 +179,11 @@ class WalletModel with ChangeNotifier {
       TransactionReceipt txReceipt =
       await _client.getTransactionReceipt(transactionHash);
 
+      DateTime dateTime;
+      dateTime = DateTime.now();
+
       var dbResponse = await DBProviderTransactions.db.newTransaction(transactionHash, tx.blockNumber.toString(),
-          tx.value.getInEther.toString(), tx.from.hex, tx.to.hex);
+          tx.value.getInEther.toString(), tx.from.hex, tx.to.hex,dateTime.toIso8601String());
 
       if(tx.hash.isNotEmpty) {
         return true;
