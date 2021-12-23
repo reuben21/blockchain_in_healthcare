@@ -22,23 +22,23 @@ class UniqueWalletModel {
 class WalletModel with ChangeNotifier {
   String _walletAddress;
   String _walletPassword;
-  BigInt _walletPrivateKey;
+  String _walletCredentials;
   DateTime _expiryDate;
 
   bool get isWalletAvailable {
-    print(_walletPrivateKey != null);
-    return _walletPrivateKey != null;
+    print(_walletCredentials != null);
+    return _walletCredentials != null;
   }
 
-  BigInt get walletDecryptedKey {
-    return _walletPrivateKey;
+  String get walletDecryptedKey {
+    return _walletCredentials;
   }
 
-  BigInt get token {
+  String get token {
     if (_expiryDate != null &&
         _expiryDate.isAfter(DateTime.now()) &&
-        _walletPrivateKey != null) {
-      return _walletPrivateKey;
+        _walletCredentials != null) {
+      return _walletCredentials;
     }
     return null;
   }
@@ -122,28 +122,35 @@ class WalletModel with ChangeNotifier {
     );
   }
 
-  Future<void> createWalletInternally() async {
+  Future<void> createWalletInternally(String password) async {
     Credentials credentials;
     EthereumAddress myAddress;
 
 
     try {
       var rng = Random.secure();
+     
       BigInt EthPrivateKeyInteger = EthPrivateKey.createRandom(rng).privateKeyInt;
+      
       credentials = EthPrivateKey.fromInt(EthPrivateKeyInteger);
       myAddress = await credentials.extractAddress();
-
+      
+      Wallet wallet = Wallet.createNew(credentials, password, rng);
+      
       _walletAddress = myAddress.hex.toString();
-      _walletPassword = "reuben";
-      _walletPrivateKey = EthPrivateKeyInteger;
+      _walletPassword = password;
+      _walletCredentials = wallet.toJson().toString();
       _expiryDate = DateTime.now().add(Duration(seconds: 172800));
 
       var dbResponse = await DBProviderWallet.db.newWallet(
           _walletAddress,
           _walletPassword,
-          _walletPrivateKey.toString(),
+          _walletCredentials,
           _expiryDate.toIso8601String());
       // _orders = loadedOrders;
+
+      Wallet newWallet = Wallet.fromJson(_walletCredentials, password);
+      print(newWallet.privateKey.privateKeyInt);
       notifyListeners();
     } on SocketException {
       throw exception.HttpException("No Internet connection 😑");

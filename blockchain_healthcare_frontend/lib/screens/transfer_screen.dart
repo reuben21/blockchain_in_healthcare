@@ -169,6 +169,7 @@ class _TransferScreenState extends State<TransferScreen> {
                                     maxLines: 1,
                                     name: 'address',
                                     decoration: const InputDecoration(
+                                        labelText: 'Receiver Address',
                                       prefixIcon:
                                           Icon(Icons.account_balance_wallet_outlined),
                                       border: OutlineInputBorder(),
@@ -200,6 +201,7 @@ class _TransferScreenState extends State<TransferScreen> {
                                     name: 'amount',
 
                                     decoration: const InputDecoration(
+                                      labelText: 'Amount',
                                       prefixIcon: Icon(Icons.paid_outlined),
                                       border: OutlineInputBorder(),
                                       labelStyle: TextStyle(
@@ -223,6 +225,37 @@ class _TransferScreenState extends State<TransferScreen> {
                                     validator: FormBuilderValidators.compose(
                                         [FormBuilderValidators.required(context)]),
                                   )),
+                              Padding(
+                                  padding: const EdgeInsets.only(top: 10, bottom: 10),
+                                  child: FormBuilderTextField(
+                                    maxLines: 1,
+                                    name: 'password',
+
+                                    decoration: const InputDecoration(
+                                      labelText: 'password',
+                                      prefixIcon: Icon(Icons.paid_outlined),
+                                      border: OutlineInputBorder(),
+                                      labelStyle: TextStyle(
+                                        color: Color(0xFF6200EE),
+                                      ),
+                                      errorBorder: OutlineInputBorder(
+                                        borderSide:
+                                        BorderSide(color: Color(0xFF6200EE)),
+                                      ),
+                                      focusedErrorBorder: OutlineInputBorder(
+                                        borderSide:
+                                        BorderSide(color: Color(0xFF6200EE)),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide:
+                                        BorderSide(color: Color(0xFF6200EE)),
+                                      ),
+                                    ),
+
+                                    // valueTransformer: (text) => num.tryParse(text),
+                                    validator: FormBuilderValidators.compose(
+                                        [FormBuilderValidators.required(context)]),
+                                  )),
                               ElevatedButton(
                                 onPressed: () async {
                                   Credentials credentialsNew;
@@ -233,14 +266,16 @@ class _TransferScreenState extends State<TransferScreen> {
                                         .currentState.value["amount"];
                                     String receiverAddress = _formKey
                                         .currentState.value["address"];
-
+                                    String password = _formKey
+                                        .currentState.value["password"];
                                     var dbResponse =
                                     await DBProviderWallet.db.getWalletByWalletAddress(widget.address);
                                     print(dbResponse);
 
                                     if (true) {
 
-                                      credentialsNew = EthPrivateKey.fromInt(BigInt.parse(dbResponse['walletPrivateKey']));
+                                      Wallet newWallet = Wallet.fromJson(dbResponse['walletCredentials'], password);
+                                      credentialsNew = newWallet.privateKey;
                                       myAddress = await credentialsNew.extractAddress();
                                       print(myAddress);
                                      var txStatus = await Provider.of<WalletModel>(context, listen: false)

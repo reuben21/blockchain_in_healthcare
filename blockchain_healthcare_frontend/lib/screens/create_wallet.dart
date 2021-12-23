@@ -26,11 +26,11 @@ class _CreateWalletState extends State<CreateWallet> {
     super.initState();
   }
 
-  void _submit() async {
+  void _submit(String password) async {
     try {
       // TODO: WALLET CREATION
       await Provider.of<WalletModel>(context, listen: false)
-          .createWalletInternally();
+          .createWalletInternally(password);
 
       _showErrorDialog("Wallet Has Been Created");
       Navigator.of(context).pushNamed(WalletView.routeName);
@@ -156,11 +156,10 @@ class _CreateWalletState extends State<CreateWallet> {
 
                             _formKey.currentState.save();
                             if (_formKey.currentState.validate()) {
-                              String amount = _formKey
-                                  .currentState.value["amount"];
-                              String receiverAddress = _formKey
-                                  .currentState.value["address"];
-                              _submit();
+                              String password = _formKey
+                                  .currentState.value["password"];
+
+                              _submit(password);
 
                             }
 
