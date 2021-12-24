@@ -159,11 +159,34 @@ class _WalletViewState extends State<WalletView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // appBar: AppBar(
-        //     backgroundColor: Theme.of(context).colorScheme.primary,
-        //     elevation: 0,
-        //     automaticallyImplyLeading: false,
-        //     actions: <Widget>[]),
+        appBar: AppBar(
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            elevation: 0,
+            automaticallyImplyLeading: false,
+            actions: <Widget>[Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: PopupMenuButton(
+                icon: Icon(Icons.more_vert),
+                itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                  PopupMenuItem(
+                    child: const ListTile(
+                      leading: Icon(Icons.add),
+                      title: Text('Log Out'),
+
+                    ),
+                   onTap:() async {
+                     var dbResponse =
+                         await DBProviderWallet.db.deleteWalletSession();
+                     Navigator.of(context).pop();
+
+                   } ,
+                  ),
+
+                  const PopupMenuDivider(),
+
+                ],
+              ),
+            ),]),
         body: SingleChildScrollView(
           
           child: Container(
@@ -176,7 +199,7 @@ class _WalletViewState extends State<WalletView> {
                     Column(
                       children: [
                         const SizedBox(
-                          height: 100,
+                          height: 50,
                         ),
                         // const Image(image: AssetImage('assets/ethereum.png')),
                         // (context.percentHeight * 10).heightBox,

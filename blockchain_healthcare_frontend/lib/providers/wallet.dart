@@ -3,6 +3,8 @@ import 'dart:io';
 import 'dart:math';
 import 'package:blockchain_healthcare_frontend/databases/transactions_database.dart';
 import 'package:blockchain_healthcare_frontend/databases/wallet_database.dart';
+import 'package:blockchain_healthcare_frontend/helpers/keys.dart' as keys;
+import 'package:blockchain_healthcare_frontend/mongo_db/wallet_database.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -59,7 +61,7 @@ class WalletModel with ChangeNotifier {
   ContractFunction _getNewRecords;
   ContractFunction _updatePatientMedicalRecords;
 
-  final String _rpcUrl = 'http://10.0.2.2:7545';
+  final String _rpcUrl = keys.rpcUrl;
 
   WalletModel() {
     initiateSetup();
@@ -138,19 +140,21 @@ class WalletModel with ChangeNotifier {
       Wallet wallet = Wallet.createNew(credentials, password, rng);
       
       _walletAddress = myAddress.hex.toString();
-      _walletPassword = password;
       _walletCredentials = wallet.toJson().toString();
-      _expiryDate = DateTime.now().add(Duration(seconds: 172800));
+
 
       var dbResponse = await DBProviderWallet.db.newWallet(
           _walletAddress,
-          _walletPassword,
           _walletCredentials,
-          _expiryDate.toIso8601String());
+          );
       // _orders = loadedOrders;
 
       Wallet newWallet = Wallet.fromJson(_walletCredentials, password);
       print(newWallet.privateKey.privateKeyInt);
+
+      var dbNewResponse = await MongoDBProviderWallet().newWallet(_walletAddress,
+           _walletCredentials);
+
       notifyListeners();
     } on SocketException {
       throw exception.HttpException("No Internet connection 😑");
@@ -163,6 +167,39 @@ class WalletModel with ChangeNotifier {
     }
     notifyListeners();
   }
+
+  Future<void> signInWithWallet(String walletAddress,String password) async {
+    Credentials credentials;
+    EthereumAddress myAddress;
+
+
+    try {
+      var dbNewResponse = await MongoDBProviderWallet().getWalletByWalletAddress(_walletAddress);
+
+
+      var dbResponse = await DBProviderWallet.db.newWallet(
+          _walletAddress,
+          dbNewResponse[0]['walletEncryptedKey']
+          );
+
+
+      Wallet newWallet = Wallet.fromJson(dbNewResponse[0]['walletEncryptedKey'], password);
+
+
+
+      notifyListeners();
+    } on SocketException {
+      throw exception.HttpException("No Internet connection 😑");
+    } on HttpException {
+      throw exception.HttpException("Couldn't find the post 😱");
+    } on FormatException {
+      throw exception.HttpException("Bad response format 👎");
+    } catch (error) {
+      throw exception.HttpException(error);
+    }
+    notifyListeners();
+  }
+
 
 
   Future<bool> transferEther(Credentials credentials, String senderAddress,
@@ -191,6 +228,8 @@ class WalletModel with ChangeNotifier {
 
       var dbResponse = await DBProviderTransactions.db.newTransaction(transactionHash, tx.blockNumber.toString(),
           tx.value.getInEther.toString(), tx.from.hex, tx.to.hex,dateTime.toIso8601String());
+
+
 
       if(tx.hash.isNotEmpty) {
         return true;

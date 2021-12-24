@@ -3,16 +3,14 @@ import 'package:path/path.dart';
 
 class MongoDBProviderWallet {
   Db db;
+  String databaseUrl = "mongodb+srv://group22:310TXL42RKB0WW7v@mongodb.syifj.mongodb.net/healthcare?retryWrites=true&w=majority";
+
 
   MongoDBProviderWallet() {
     initiateSetup();
   }
 
-  Future<void> initiateSetup() async {
-    db = await Db.create(
-        "mongodb+srv://reuben:reuben@mongodb.syifj.mongodb.net/healthcare?retryWrites=true&w=majority");
-
-  }
+  Future<void> initiateSetup() async {}
 
   // Future<Database> initDB() async {
   //   print("Created initDB DatabaseWallet");
@@ -36,23 +34,23 @@ class MongoDBProviderWallet {
   //   }
   // }
 
-  newWallet(String walletAddress, String walletPassword,
-      String walletPrivateKey, String expiryDate) async {
+  newWallet(String walletAddress, String walletCredentials) async {
+    db = await Db.create(databaseUrl);
+    List data = [];
     print("New WalletTable Session");
-    await db.open();
+
     try {
+      await db.open();
       Map<String, dynamic> map1 = {
         'walletAddress': walletAddress,
-        'walletPassword': walletPassword,
-        'walletPrivateKey': walletPrivateKey,
-        'expiryDate': expiryDate,
-
+        'walletEncryptedKey': walletCredentials,
+        'transactions': BsonArray(data)
       };
-     var res = await db.collection("wallet").insert(map1);
-     await db.close();
-     print(res);
 
-     return res;
+      var res = await db.collection("wallet").insertOne(map1);
+      await db.close();
+
+      return res;
     } catch (error) {
       print(error);
     }
@@ -70,9 +68,18 @@ class MongoDBProviderWallet {
   }
 
   getWalletByWalletAddress(String walletAddress) async {
-    var coll = db.collection(walletAddress);
+    db = await Db.create(databaseUrl);
+
+    try {
+      await db.open();
+      var coll = await db.collection("wallet").find({'walletAddress':walletAddress}).toList();
+      await db.close();
 
 
+      return coll;
+    } catch (error) {
+      print(error);
+    }
     // if (res.length == 0) {
     //   return null;
     // } else {
