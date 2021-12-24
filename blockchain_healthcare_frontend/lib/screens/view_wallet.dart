@@ -337,7 +337,7 @@ class _WalletViewState extends State<WalletView> {
                             ),
                             ElevatedButton(
                               onPressed: () async {
-                                const snackBar = const SnackBar(
+                                const snackBar = SnackBar(
                                     content: Text('Balance Refreshed'));
                                 await getAccountBalance(dropDownCurrentValue);
                                 ScaffoldMessenger.of(context)

@@ -175,15 +175,15 @@ class WalletModel with ChangeNotifier {
 
     try {
       var dbNewResponse = await MongoDBProviderWallet().getWalletByWalletAddress(_walletAddress);
-
-
+      print(dbNewResponse);
+      Wallet newWallet = Wallet.fromJson(dbNewResponse[0]['walletEncryptedKey'], password);
+      print(newWallet.privateKey.address);
       var dbResponse = await DBProviderWallet.db.newWallet(
           _walletAddress,
           dbNewResponse[0]['walletEncryptedKey']
           );
 
 
-      Wallet newWallet = Wallet.fromJson(dbNewResponse[0]['walletEncryptedKey'], password);
 
 
 

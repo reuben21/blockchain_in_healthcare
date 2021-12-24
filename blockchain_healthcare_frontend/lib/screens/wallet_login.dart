@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:blockchain_healthcare_frontend/providers/wallet.dart';
 import 'package:blockchain_healthcare_frontend/screens/view_wallet.dart';
-import 'package:blockchain_healthcare_frontend/screens/wallet_login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -11,14 +10,15 @@ import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:blockchain_healthcare_frontend/helpers/http_exception.dart' as exception;
 
-class CreateWallet extends StatefulWidget {
-  CreateWallet({Key key}) : super(key: key);
+class WalletLogin extends StatefulWidget {
+  static const routeName = '/wallet-login';
+  WalletLogin({Key key}) : super(key: key);
 
   @override
-  State<CreateWallet> createState() => _CreateWalletState();
+  State<WalletLogin> createState() => _WalletLoginState();
 }
 
-class _CreateWalletState extends State<CreateWallet> {
+class _WalletLoginState extends State<WalletLogin> {
 
   @override
   void initState() {
@@ -27,13 +27,13 @@ class _CreateWalletState extends State<CreateWallet> {
     super.initState();
   }
 
-  void _submit(String password) async {
+  void _submit(String password,String address) async {
     try {
       // TODO: WALLET CREATION
       await Provider.of<WalletModel>(context, listen: false)
-          .createWalletInternally(password);
+          .signInWithWallet(address,password);
 
-      _showErrorDialog("Wallet Has Been Created");
+      // _showErrorDialog("Wallet Has Been Created");
       Navigator.of(context).pushNamed(WalletView.routeName);
     }  on exception.HttpException catch (error)  {
       _showErrorDialog(error.toString());
@@ -88,11 +88,11 @@ class _CreateWalletState extends State<CreateWallet> {
                           ),
                         ),
                       ]),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 50),
-                    child:
-                        Center(child: Image.asset("assets/images/undraw_wallet.png")),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(top: 50),
+                  //   child:
+                  //       Center(child: Image.asset("assets/images/undraw_wallet.png")),
+                  // ),
                   Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.only(left: 25),
@@ -109,6 +109,38 @@ class _CreateWalletState extends State<CreateWallet> {
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         child: Column(
                           children: [
+                            Padding(
+                                padding: const EdgeInsets.all(25),
+                                child: FormBuilderTextField(
+                                  obscureText: false,
+                                  maxLines: 1,
+                                  name: 'address',
+                                  decoration: const InputDecoration(
+                                    labelText:'Address',
+                                    prefixIcon:
+                                    Icon(Icons.account_balance_wallet_outlined),
+                                    border: OutlineInputBorder(),
+                                    labelStyle: TextStyle(
+                                      color: Color(0xFF6200EE),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide:
+                                      BorderSide(color: Color(0xFF6200EE)),
+                                    ),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      borderSide:
+                                      BorderSide(color: Color(0xFF6200EE)),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                      BorderSide(color: Color(0xFF6200EE)),
+                                    ),
+                                  ),
+
+                                  // valueTransformer: (text) => num.tryParse(text),
+                                  validator: FormBuilderValidators.compose(
+                                      [FormBuilderValidators.required(context)]),
+                                )),
                             Padding(
                                 padding: const EdgeInsets.all(25),
                                 child: FormBuilderTextField(
@@ -159,25 +191,13 @@ class _CreateWalletState extends State<CreateWallet> {
                             if (_formKey.currentState.validate()) {
                               String password = _formKey
                                   .currentState.value["password"];
+                              String address = _formKey
+                                  .currentState.value["address"];
 
-                              _submit(password);
+                              _submit(password,address);
 
                             }
 
-                          },
-                          icon: const Icon(Icons.add_circle_outline_outlined),
-                          label: const Text('Create Wallet'),
-                        ),
-                        FloatingActionButton.extended(
-                          backgroundColor: Theme.of(context).colorScheme.primary,
-                          foregroundColor: Theme.of(context).colorScheme.secondary,
-                          onPressed: () async {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => WalletLogin(),
-                              ),
-                            );
                           },
                           icon: const Icon(Icons.add_circle_outline_outlined),
                           label: const Text('Sign In'),
