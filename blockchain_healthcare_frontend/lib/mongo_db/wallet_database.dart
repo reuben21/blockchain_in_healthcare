@@ -68,6 +68,7 @@ class MongoDBProviderWallet {
   }
 
   getWalletByWalletAddress(String walletAddress) async {
+
     db = await Db.create(databaseUrl);
 
     try {

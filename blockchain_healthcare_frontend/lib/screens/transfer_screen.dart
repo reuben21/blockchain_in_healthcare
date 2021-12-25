@@ -234,7 +234,7 @@ class _TransferScreenState extends State<TransferScreen> {
                                       name: 'password',
 
                                       decoration: const InputDecoration(
-                                        labelText: 'password',
+                                        labelText: 'Password',
                                         prefixIcon: Icon(Icons.paid_outlined),
                                         border: OutlineInputBorder(),
                                         labelStyle: TextStyle(
