@@ -2,8 +2,8 @@ import 'package:mongo_dart/mongo_dart.dart';
 import 'package:path/path.dart';
 
 class MongoDBProviderWallet {
-  Db db;
-  String databaseUrl = "mongodb+srv://group22:310TXL42RKB0WW7v@mongodb.syifj.mongodb.net/healthcare?retryWrites=true&w=majority";
+  late Db db;
+  late String databaseUrl = "mongodb+srv://group22:310TXL42RKB0WW7v@mongodb.syifj.mongodb.net/healthcare?retryWrites=true&w=majority";
 
 
   MongoDBProviderWallet() {
@@ -50,7 +50,7 @@ class MongoDBProviderWallet {
       var res = await db.collection("wallet").insertOne(map1);
       await db.close();
 
-      return res;
+      return res.document;
     } catch (error) {
       print(error);
     }
@@ -69,7 +69,7 @@ class MongoDBProviderWallet {
 
   getWalletByWalletAddress(String walletAddress) async {
 
-    db = await Db.create(databaseUrl);
+
 
     try {
       await db.open();
@@ -88,16 +88,16 @@ class MongoDBProviderWallet {
     //   return resMap.isNotEmpty ? resMap : null;
     // }
   }
-
-  Future<List<Map<String, Object>>> get getWallet async {
-    // final db = await database;
-    // var res = await db.query("WalletTable");
-    //
-    // if (res.length == 0) {
-    //   return null;
-    // } else {
-    //   var resMap = res[0];
-    //   return resMap.isNotEmpty ? res : null;
-    // }
-  }
+  //
+  // Future<List<Map<String, Object>>> get getWallet async {
+  //   // final db = await database;
+  //   // var res = await db.query("WalletTable");
+  //   //
+  //   // if (res.length == 0) {
+  //   //   return null;
+  //   // } else {
+  //   //   var resMap = res[0];
+  //   //   return resMap.isNotEmpty ? res : null;
+  //   // }
+  // }
 }

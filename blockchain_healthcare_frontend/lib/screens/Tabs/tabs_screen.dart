@@ -16,14 +16,20 @@ class TabsScreen extends StatefulWidget {
 
 class _TabsScreenState extends State<TabsScreen> {
 
-  List<Map<String, Object>> _pages;
+  late List<Map<String, Object>> _pages;
+  late List<Map<String, Widget>> _screens;
 
   @override
   void initState() {
     _pages = [
-      {'page':MedicalRecordScreen() , 'title': 'Record'},
-      {'page':PrescriptionScreen() , 'title': 'Medicine'},
-      {'page':WalletScreen(), 'title': 'Wallet'}
+      { 'title': 'Record'},
+      { 'title': 'Medicine'},
+      { 'title': 'Wallet'}
+    ];
+    _screens = [
+      {'page':MedicalRecordScreen()  },
+      {'page':PrescriptionScreen() },
+      {'page':WalletScreen() }
     ];
     super.initState();
   }
@@ -47,9 +53,9 @@ class _TabsScreenState extends State<TabsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_pages[_selectPageIndex]['title']),
+        title: Text(_pages[_selectPageIndex]['title'].toString()),
       ),
-      body: _pages[_selectPageIndex]['page'],
+      body: _screens[_selectPageIndex]['page'],
       bottomNavigationBar: BottomNavyBar(
         // backgroundColor: Theme.of(context).bottomAppBarColor,
         // unselectedItemColor: Colors.white,

@@ -5,6 +5,7 @@ import 'package:blockchain_healthcare_frontend/screens/view_wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 
 import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -12,7 +13,7 @@ import 'package:blockchain_healthcare_frontend/helpers/http_exception.dart' as e
 
 class WalletLogin extends StatefulWidget {
   static const routeName = '/wallet-login';
-  WalletLogin({Key key}) : super(key: key);
+  // WalletLogin({Key key}) : super(key: key);
 
   @override
   State<WalletLogin> createState() => _WalletLoginState();
@@ -187,12 +188,12 @@ class _WalletLoginState extends State<WalletLogin> {
                           foregroundColor: Theme.of(context).colorScheme.secondary,
                           onPressed: () async {
 
-                            _formKey.currentState.save();
-                            if (_formKey.currentState.validate()) {
+                            _formKey.currentState?.save();
+                            if (_formKey.currentState?.validate() != null) {
                               String password = _formKey
-                                  .currentState.value["password"];
+                                  .currentState?.value["password"];
                               String address = _formKey
-                                  .currentState.value["address"];
+                                  .currentState?.value["address"];
 
                               _submit(password,address);
 

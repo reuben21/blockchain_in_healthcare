@@ -4,6 +4,7 @@ import 'package:blockchain_healthcare_frontend/databases/wallet_database.dart';
 import 'package:blockchain_healthcare_frontend/providers/wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:web3dart/credentials.dart';
@@ -13,7 +14,7 @@ class TransferScreen extends StatefulWidget {
 
   final String address;
 
-  TransferScreen({Key key, @required this.address}) : super(key: key);
+  const TransferScreen({required this.address});
 
   @override
   _TransferScreenState createState() {
@@ -25,11 +26,11 @@ class _TransferScreenState extends State<TransferScreen> {
   final _formKey = GlobalKey<FormBuilderState>();
 
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  Barcode result;
-  QRViewController controller;
+  late Barcode result;
+  late QRViewController controller;
 
-  String dropDownCurrentValue;
-  String scannedAddress;
+  late String dropDownCurrentValue;
+  late String scannedAddress;
 
   @override
   void initState() {
@@ -262,21 +263,21 @@ class _TransferScreenState extends State<TransferScreen> {
                                   onPressed: () async {
                                     Credentials credentialsNew;
                                     EthereumAddress myAddress;
-                                    _formKey.currentState.save();
-                                    if (_formKey.currentState.validate()) {
+                                    _formKey.currentState?.save();
+                                    if (_formKey.currentState?.validate() != null) {
                                       String amount = _formKey
-                                          .currentState.value["amount"];
+                                          .currentState?.value["amount"];
                                       String receiverAddress = _formKey
-                                          .currentState.value["address"];
+                                          .currentState?.value["address"];
                                       String password = _formKey
-                                          .currentState.value["password"];
-                                      var dbResponse =
-                                      await DBProviderWallet.db.getWalletByWalletAddress(widget.address);
-                                      print(dbResponse);
+                                          .currentState?.value["password"];
+                                      // var dbResponse =
+                                      // await DBProviderWallet.db.getWalletByWalletAddress(widget.address);
+                                      // print(dbResponse);
 
                                       if (true) {
 
-                                        Wallet newWallet = Wallet.fromJson(dbResponse['walletCredentials'], password);
+                                        Wallet newWallet = Wallet.fromJson(" ", password);
                                         credentialsNew = newWallet.privateKey;
                                         myAddress = await credentialsNew.extractAddress();
                                         print(myAddress);

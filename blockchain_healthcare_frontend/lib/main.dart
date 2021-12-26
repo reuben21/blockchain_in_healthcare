@@ -1,5 +1,5 @@
 // import 'dart:async';
-import 'package:blockchain_healthcare_frontend/providers/auth.dart';
+import 'package:blockchain_healthcare_frontend/databases/moor_database.dart';
 import 'package:blockchain_healthcare_frontend/providers/ipfs.dart';
 import 'package:blockchain_healthcare_frontend/providers/patient.dart';
 import 'package:blockchain_healthcare_frontend/providers/wallet.dart';
@@ -16,6 +16,7 @@ import 'package:blockchain_healthcare_frontend/screens/wallet_login.dart';
 import 'package:blockchain_healthcare_frontend/test_screens/ipfs_test.dart';
 import 'package:blockchain_healthcare_frontend/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:form_builder_validators/localization/l10n.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -30,8 +31,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (ctx) => Auth(),
+        Provider<MyDatabase>(
+          create: (_) => MyDatabase(),
         ),
         ChangeNotifierProvider(
           create: (ctx) => PatientsModel(),
@@ -43,8 +44,18 @@ class MyApp extends StatelessWidget {
           create: (ctx) => IPFSModel(),
         ),
       ],
-      child: Consumer<Auth>(
+      child: Consumer<WalletModel>(
         builder: (ctx, auth, _) => MaterialApp(
+          supportedLocales: const [
+            Locale('en'),
+            Locale('it'),
+            Locale('fr'),
+            Locale('es'),
+          ],
+          localizationsDelegates: const [
+            FormBuilderLocalizations.delegate,
+
+          ],
           debugShowCheckedModeBanner: false,
           title: 'Blockchain in Flutter',
           theme: ThemeData(
@@ -104,10 +115,11 @@ class MyApp extends StatelessWidget {
             WalletScreen.routeName: (ctx) => WalletScreen(),
             WalletView.routeName: (ctx) => WalletView(),
             WalletLogin.routeName: (ctx) => WalletLogin(),
-            TransferScreen.routeName: (ctx) => TransferScreen(),
+            TransferScreen.routeName: (ctx) => TransferScreen(address: '',),
           },
         ),
       ),
     );
   }
 }
+

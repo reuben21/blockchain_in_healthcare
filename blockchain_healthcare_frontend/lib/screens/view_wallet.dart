@@ -1,12 +1,11 @@
 import 'dart:convert';
 import 'dart:io' show Platform;
+import 'package:blockchain_healthcare_frontend/databases/moor_database.dart';
 import 'package:blockchain_healthcare_frontend/databases/transactions_database.dart';
 import 'package:blockchain_healthcare_frontend/databases/wallet_database.dart';
 import 'package:blockchain_healthcare_frontend/providers/wallet.dart';
 import 'package:blockchain_healthcare_frontend/screens/transfer_screen.dart';
-import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -30,39 +29,34 @@ class WalletView extends StatefulWidget {
 }
 
 class _WalletViewState extends State<WalletView> {
-  final String _rpcUrl = 'http://10.0.2.2:7545';
-  Web3Client _client;
+  final String screenName = "view_wallet.dart";
 
-  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  Barcode result;
-  QRViewController controller;
+
+
   CarouselController buttonCarouselController = CarouselController();
 
-  Credentials credentials;
-  EthereumAddress myAddress;
-  String balanceOfAccount;
+  late Credentials credentials;
+  late EthereumAddress myAddress;
+  late String balanceOfAccount;
 
   List<String> options = <String>['Select Account'];
   String dropdownValue = 'Select Account';
-  String dropDownCurrentValue;
-  String scannedAddress;
+  late String dropDownCurrentValue;
+  late String scannedAddress;
 
   @override
   void initState() {
-    _client = Web3Client(_rpcUrl, Client());
+    balanceOfAccount = "null";
+
+    setState(() {
+      options = <String>['Select Account'];
+    });
+    getWalletFromDatabase();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     super.initState();
   }
 
-  // @override
-  // void reassemble() {
-  //   super.reassemble();
-  //   if (Platform.isAndroid) {
-  //     controller.pauseCamera();
-  //   } else if (Platform.isIOS) {
-  //     controller.resumeCamera();
-  //   }
-  // }
+
 
   @override
   Future<void> didChangeDependencies() async {
@@ -75,12 +69,14 @@ class _WalletViewState extends State<WalletView> {
   }
 
   Future<void> getWalletFromDatabase() async {
-    var dbResponse = await DBProviderWallet.db.getWallet;
+    var dbResponse = await Provider.of<MyDatabase>(context, listen: false).getAllWallets();
+    // print(dbResponse.toString());
     dbResponse.forEach((element) {
-      if(options.contains(element['walletAddress'])) {
+      // print(screenName+" "+element.walletAddress.toString());
+      if(options.contains(element.walletAddress)) {
 
       } else {
-        options.add(element['walletAddress']);
+        options.add(element.walletAddress);
         setState(() {
           options;
         });
@@ -91,12 +87,8 @@ class _WalletViewState extends State<WalletView> {
 
   Future<void> getAccountBalance(String walletAddress) async {
     var dbResponse =
-        await DBProviderWallet.db.getWalletByWalletAddress(walletAddress);
-    // final wallet = Wallet.fromJson(dbResponse['walletDecryptedKey'].toString(), dbResponse['walletPassword']);
-    // print(wallet.privateKey);
-    // credentials = await wallet.privateKey;
-    // myAddress = await credentials.extractAddress();
-    // print(myAddress.hex);
+        await Provider.of<MyDatabase>(context, listen: false).getWalletByWalletAddress(WalletTableData(walletAddress: walletAddress));
+
     var balance = await Provider.of<WalletModel>(context, listen: false)
         .getAccountBalance(EthereumAddress.fromHex(walletAddress));
     setState(() {
@@ -120,32 +112,6 @@ class _WalletViewState extends State<WalletView> {
             ));
   }
 
-  // void _submit(String password) async {
-  //   try {
-  //     // TODO: WALLET CREATION
-  //     await Provider.of<WalletModel>(context, listen: false)
-  //         .createWallet(password);
-  //
-  //     _showErrorDialog("Wallet Has Been Created");
-  //     Navigator.of(context).pushNamed(WalletView.routeName);
-  //   } on exception.HttpException catch (error) {
-  //     _showErrorDialog(error.toString());
-  //   }
-  // }
-
-  // _buildExpandableContent(String vehicle) {
-  //   List<Widget> columnContent = [];
-  //
-  //   for (String content in vehicle.contents)
-  //     columnContent.add(
-  //       new ListTile(
-  //         title: new Text(content, style: new TextStyle(fontSize: 18.0),),
-  //         leading: new Icon(vehicle.icon),
-  //       ),
-  //     );
-  //
-  //   return columnContent;
-  // }
 
 
   @override
@@ -158,6 +124,9 @@ class _WalletViewState extends State<WalletView> {
 
   @override
   Widget build(BuildContext context) {
+    getWalletFromDatabase();
+    print(screenName+" "+options.toString());
+    print(screenName+" "+balanceOfAccount.toString());
     return Scaffold(
         appBar: AppBar(
             backgroundColor: Theme.of(context).colorScheme.primary,
@@ -175,8 +144,8 @@ class _WalletViewState extends State<WalletView> {
 
                     ),
                    onTap:() async {
-                     var dbResponse =
-                         await DBProviderWallet.db.deleteWalletSession();
+                     // var dbResponse =
+                     //     await DBProviderWallet.db.deleteWalletSession();
                      Navigator.of(context).pop();
 
                    } ,
@@ -240,8 +209,8 @@ class _WalletViewState extends State<WalletView> {
                                     height: 10,
                                   ),
                                   Text(
-                                    balanceOfAccount == null
-                                        ? "0"
+                                    balanceOfAccount == "null"
+                                        ? "0 ETH"
                                         : "$balanceOfAccount ETH",
                                     style: Theme.of(context).textTheme.headline2,
                                   ),
@@ -298,9 +267,9 @@ class _WalletViewState extends State<WalletView> {
                                             value.toString().lastChars(5)),
                                   );
                                 }).toList(),
-                                onChanged: (String newValue) {
+                                onChanged: (String? newValue) {
                                   buttonCarouselController.animateToPage(
-                                      options.indexOf(newValue),
+                                      options.indexOf(newValue!),
                                       duration: Duration(milliseconds: 300),
                                       curve: Curves.linear);
                                   setState(() {
@@ -468,102 +437,105 @@ class _WalletViewState extends State<WalletView> {
                   //
                   //   ),
                   // ),
-                  SingleChildScrollView(
-                    child: FutureBuilder(
-                      future: DBProviderTransactions.db.getTransaction,
-                      builder:
-                          (BuildContext context, snapshot) {
-                        if (snapshot.hasData) {
-                          if (snapshot.data != null) {
-                            return SizedBox(
-                              
-                              child: SingleChildScrollView(
-                                child: ListView.builder(
-                                    shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    itemCount: snapshot.data.length,
-                                    itemBuilder: (BuildContext context, int position) {
 
-                                      return  Card(
-                                        color: Theme.of(context).colorScheme.secondary,
-                                        elevation: 0.0,
-                                        child: ExpansionTile(
-                                          backgroundColor:  Theme.of(context).colorScheme.secondary,
-                                          leading: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Icon(Icons.download_done,color:  Theme.of(context).colorScheme.primary,),
-                                          ),
-                                          title: const Text(
-                                            'Successful',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          children: <Widget>[
-                                            Padding(
-                                              padding: const EdgeInsets.all(15.0),
-                                              child: Container(
-                                                child: Column(
-                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(bottom: 5),
-                                                      child: Text(
-                                                        'To: ${snapshot.data[position]['toAddress']}',
-                                                        style: TextStyle(color: Theme.of(context).colorScheme.primary ),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(bottom: 5),
-                                                      child: Text(
-                                                        'from: ${snapshot.data[position]['fromAddress']}',
-                                                        style: TextStyle(color: Theme.of(context).colorScheme.primary ),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(bottom: 5),
-                                                      child: Text(
-                                                        'Block Number: ${snapshot.data[position]['blockNumber']}',
-                                                        style: TextStyle(color: Theme.of(context).colorScheme.primary ),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(bottom: 5),
-                                                      child: Text(
-                                                        'Transaction Hash: ${snapshot.data[position]['transactionHash']}',
-                                                        style: TextStyle(color: Theme.of(context).colorScheme.primary ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
 
-                                          ],
-                                          subtitle: Text(
-                                            'To: ${snapshot.data[position]['toAddress']}',
-                                            maxLines: 1,
-                                            overflow: TextOverflow.fade,
-                                            softWrap: false,
-                                          ),
-                                          trailing: Text('${snapshot.data[position]['value']} ETH',style: TextStyle(
-                                            fontWeight: FontWeight.bold,color: Theme.of(context).colorScheme.primary
-                                          ),),
-                                        ),
-                                    );}),
-                              ),
-                            );
-                          }
-                        }
-                          return Center(
-                            child: Text('Noch keine Aufgaben erstellt'),
-                          );
 
-                      },
-
-                    ),
-                  ),
+                  // SingleChildScrollView(
+                  //   child: FutureBuilder(
+                  //     future: DBProviderTransactions.db.getTransaction,
+                  //     builder:
+                  //         (BuildContext context, AsyncSnapshot<List> snapshot) {
+                  //       if (snapshot.hasData) {
+                  //         if (snapshot.data != null) {
+                  //           return SizedBox(
+                  //
+                  //             child: SingleChildScrollView(
+                  //               child: ListView.builder(
+                  //                   shrinkWrap: true,
+                  //                   physics: NeverScrollableScrollPhysics(),
+                  //                   itemCount: snapshot.data!.length,
+                  //                   itemBuilder: (BuildContext context, int position) {
+                  //
+                  //                     return  Card(
+                  //                       color: Theme.of(context).colorScheme.secondary,
+                  //                       elevation: 0.0,
+                  //                       child: ExpansionTile(
+                  //                         backgroundColor:  Theme.of(context).colorScheme.secondary,
+                  //                         leading: Padding(
+                  //                           padding: const EdgeInsets.all(8.0),
+                  //                           child: Icon(Icons.download_done,color:  Theme.of(context).colorScheme.primary,),
+                  //                         ),
+                  //                         title: const Text(
+                  //                           'Successful',
+                  //                           style: TextStyle(
+                  //                             fontWeight: FontWeight.bold,
+                  //                           ),
+                  //                         ),
+                  //                         children: <Widget>[
+                  //                           Padding(
+                  //                             padding: const EdgeInsets.all(15.0),
+                  //                             child: Container(
+                  //                               child: Column(
+                  //                                 mainAxisAlignment: MainAxisAlignment.start,
+                  //                                 crossAxisAlignment: CrossAxisAlignment.start,
+                  //                                 children: [
+                  //                                   Padding(
+                  //                                     padding: const EdgeInsets.only(bottom: 5),
+                  //                                     child: Text(
+                  //                                       'To: ${snapshot.data![position]['toAddress']}',
+                  //                                       style: TextStyle(color: Theme.of(context).colorScheme.primary ),
+                  //                                     ),
+                  //                                   ),
+                  //                                   Padding(
+                  //                                     padding: const EdgeInsets.only(bottom: 5),
+                  //                                     child: Text(
+                  //                                       'from: ${snapshot.data![position]['fromAddress']}',
+                  //                                       style: TextStyle(color: Theme.of(context).colorScheme.primary ),
+                  //                                     ),
+                  //                                   ),
+                  //                                   Padding(
+                  //                                     padding: const EdgeInsets.only(bottom: 5),
+                  //                                     child: Text(
+                  //                                       'Block Number: ${snapshot.data![position]['blockNumber']}',
+                  //                                       style: TextStyle(color: Theme.of(context).colorScheme.primary ),
+                  //                                     ),
+                  //                                   ),
+                  //                                   Padding(
+                  //                                     padding: const EdgeInsets.only(bottom: 5),
+                  //                                     child: Text(
+                  //                                       'Transaction Hash: ${snapshot.data![position]['transactionHash']}',
+                  //                                       style: TextStyle(color: Theme.of(context).colorScheme.primary ),
+                  //                                     ),
+                  //                                   ),
+                  //                                 ],
+                  //                               ),
+                  //                             ),
+                  //                           ),
+                  //
+                  //                         ],
+                  //                         subtitle: Text(
+                  //                           'To: ${snapshot.data![position]['toAddress']}',
+                  //                           maxLines: 1,
+                  //                           overflow: TextOverflow.fade,
+                  //                           softWrap: false,
+                  //                         ),
+                  //                         trailing: Text('${snapshot.data![position]['value']} ETH',style: TextStyle(
+                  //                           fontWeight: FontWeight.bold,color: Theme.of(context).colorScheme.primary
+                  //                         ),),
+                  //                       ),
+                  //                   );}),
+                  //             ),
+                  //           );
+                  //         }
+                  //       }
+                  //         return Center(
+                  //           child: Text('Noch keine Aufgaben erstellt'),
+                  //         );
+                  //
+                  //     },
+                  //
+                  //   ),
+                  // ),
 
                 ],
               ),

@@ -4,6 +4,7 @@ import 'package:blockchain_healthcare_frontend/providers/patient.dart';
 import 'package:blockchain_healthcare_frontend/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:web3dart/credentials.dart';
@@ -11,7 +12,7 @@ import 'package:web3dart/credentials.dart';
 import '../theme.dart';
 
 class SignUpScreen extends StatefulWidget {
-  SignUpScreen({Key key}) : super(key: key);
+  // SignUpScreen({Key key}) : super(key: key);
 
   @override
   _SignUpScreenState createState() {
@@ -220,26 +221,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   style: TextStyle(color: kSecondaryColor),
                 ),
                 onPressed: () async {
-                  _formKey.currentState.save();
-                  if (_formKey.currentState.validate()) {
-                    print(_formKey.currentState.value["hospitalAddress"]);
+                  _formKey.currentState?.save();
+                  if (_formKey.currentState?.validate() != null) {
+                    print(_formKey.currentState?.value["hospitalAddress"]);
                     Credentials credentials1 = EthPrivateKey.fromHex(
-                        _formKey.currentState.value["hospitalAddress"]);
+                        _formKey.currentState?.value["hospitalAddress"]);
                     EthereumAddress _hospitalAddress = await credentials1
                         .extractAddress();
 
 
                     Credentials credentials = EthPrivateKey.fromHex(
-                        _formKey.currentState.value["privateAddress"]);
+                        _formKey.currentState?.value["privateAddress"]);
                     EthereumAddress publicKey = await credentials
                         .extractAddress();
 
                     Provider.of<PatientsModel>(context, listen: false)
                         .registerPatient(
-                        Patient(name: _formKey.currentState.value["name"],
+                        Patient(name: _formKey.currentState?.value["name"],
                             personalDetails: _formKey.currentState
-                                .value["emailId"],
-                            signatureHash: _formKey.currentState.value["PIN"],
+                                ?.value["emailId"],
+                            signatureHash: _formKey.currentState?.value["PIN"],
                             hospitalAddress: _hospitalAddress,
                             walletAddress: publicKey
                         ),credentials);
@@ -267,7 +268,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   style: TextStyle(color: kSecondaryColor),
                 ),
                 onPressed: () async {
-                  Navigator.push(context,MaterialPageRoute(builder: (context) => const LoginScreen()),);
+                  Navigator.push(context,MaterialPageRoute(builder: (context) => LoginScreen()),);
                 },
               ),
 

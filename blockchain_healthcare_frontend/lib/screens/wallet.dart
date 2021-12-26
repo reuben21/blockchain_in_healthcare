@@ -17,11 +17,11 @@ class WalletScreen extends StatefulWidget {
 }
 
 class _WalletScreenState extends State<WalletScreen> {
-  EtherAmount bal;
-  BigInt balance;
-  Client httpClient;
-  Web3Client ethClient;
-  String rpcUrl;
+  late EtherAmount bal;
+  late BigInt balance;
+  late Client httpClient;
+  late Web3Client ethClient;
+  late String rpcUrl;
 
   @override
   void initState() {
@@ -43,8 +43,8 @@ class _WalletScreenState extends State<WalletScreen> {
     await getCredentials();
   }
 
-  Credentials credentials;
-  EthereumAddress myAddress;
+  late Credentials credentials;
+  late EthereumAddress myAddress;
 
   String privateKey =
       '0e75aade5bd385616574bd6252b0d810f3f03f013dc43cbe15dc2e21e6ff4f14';
@@ -87,7 +87,7 @@ class _WalletScreenState extends State<WalletScreen> {
     return contract;
   }
 
-  ContractFunction balanceOf, coinName, coinSymbol;
+  late ContractFunction balanceOf, coinName, coinSymbol;
 
   Future<List<dynamic>> query(String functionName, List<dynamic> args) async {
     final contract = await getDeployedContract();

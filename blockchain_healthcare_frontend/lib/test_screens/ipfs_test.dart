@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class Ipfs_screen extends StatelessWidget {
-  Ipfs_screen({Key key}) : super(key: key);
+  // Ipfs_screen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

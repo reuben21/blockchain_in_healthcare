@@ -5,11 +5,12 @@ import 'package:blockchain_healthcare_frontend/widgets/forms/login_form.dart';
 import 'package:blockchain_healthcare_frontend/widgets/forms/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:provider/provider.dart';
 import 'package:web3dart/credentials.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key key}) : super(key: key);
+  // const LoginScreen({Key key}) : super(key: key);
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -20,10 +21,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final _formKey = GlobalKey<FormBuilderState>();
 
-
-  Future<void> login() {
-
-  }
 
 
   @override
@@ -156,22 +153,22 @@ class _LoginScreenState extends State<LoginScreen> {
                   style: TextStyle(color: kSecondaryColor),
                 ),
                 onPressed: () async {
-                  _formKey.currentState.save();
-                  if (_formKey.currentState.validate()) {
-                    print(_formKey.currentState.value["privateAddress"]);
+                  _formKey.currentState?.save();
+                  if (_formKey.currentState?.validate() != null) {
+                    print(_formKey.currentState?.value["privateAddress"]);
 
 
 
                     Credentials credentials = EthPrivateKey.fromHex(
-                        _formKey.currentState.value["privateAddress"]);
+                        _formKey.currentState?.value["privateAddress"]);
                     EthereumAddress publicKey = await credentials
                         .extractAddress();
 
-                    Provider.of<PatientsModel>(context, listen: false)
-                        .getSignatureHash(
-                        Patient(
-                            walletAddress: publicKey
-                        ));
+                    // Provider.of<PatientsModel>(context, listen: false)
+                    //     .getSignatureHash(
+                    //     Patient(
+                    //         walletAddress: publicKey
+                    //     ));
 
                   } else {
                     print("validation failed");

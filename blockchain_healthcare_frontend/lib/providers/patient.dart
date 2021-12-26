@@ -18,30 +18,30 @@ class Patient {
 
 
   Patient(
-      {@required this.name,
-        @required this.personalDetails,
-        @required this.signatureHash,
-        @required this.hospitalAddress,
-        @required this.walletAddress});
+      {required this.name,
+        required this.personalDetails,
+        required this.signatureHash,
+        required this.hospitalAddress,
+        required this.walletAddress});
 }
 
 
 class PatientsModel with ChangeNotifier {
-  EtherAmount bal;
-  BigInt balance;
-  bool isLoading = true;
-  Web3Client _client;
-  String _abiCode;
-  Credentials _credentials;
-  EthereumAddress _contractAddress;
-  EthereumAddress _ownAddress;
-  DeployedContract _contract;
-  ContractFunction _registerPatient;
-  ContractFunction _getPatientData;
-  ContractFunction _getUserAddress;
-  ContractFunction _getSignatureHash;
-  ContractFunction _getNewRecords;
-  ContractFunction _updatePatientMedicalRecords;
+  late EtherAmount bal;
+  late BigInt balance;
+  late bool isLoading = true;
+  late Web3Client _client;
+  // String _abiCode;
+  // Credentials _credentials;
+  // EthereumAddress _contractAddress;
+  // EthereumAddress _ownAddress;
+  // DeployedContract _contract;
+  late ContractFunction _registerPatient;
+  late ContractFunction _getPatientData;
+  // ContractFunction _getUserAddress;
+  late ContractFunction _getSignatureHash;
+  // ContractFunction _getNewRecords;
+  // ContractFunction _updatePatientMedicalRecords;
 
 
   final String _rpcUrl = keys.rpcUrl;

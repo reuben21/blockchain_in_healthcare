@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.15.0 <3.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -30,31 +30,35 @@ dependencies:
   flutter:
     sdk: flutter
 
-  web3dart: ^2.3.1 # ALL SYSTEMS
-  http: ^0.13.1 # ALL SYSTEMS
-  provider: ^5.0.0 # ALL SYSTEMS
+  web3dart: ^2.3.3 # ALL SYSTEMS
+  http: ^0.13.4 # ALL SYSTEMS
+  provider: ^6.0.1 # ALL SYSTEMS
   intl: ^0.17.0 # ALL SYSTEMS
   sqflite: ^2.0.0+3 # ONLY IOS ANDROID
   sqflite_common: ^2.0.0+2 # ALL SYSTEMS
   velocity_x: ^3.3.0 # ALL SYSTEMS
   google_fonts: ^2.1.0 # ALL SYSTEMS
-  flutter_form_builder: ^6.2.0  # ALL SYSTEMS
+  flutter_form_builder: ^7.0.0  # ALL SYSTEMS
+  form_builder_validators: ^7.2.0 # ALL SYSTEMS
   qr_flutter: ^4.0.0 # ALL SYSTEMS
   carousel_slider: ^4.0.0
   hawk_fab_menu: ^1.1.0 # ALL SYSTEMS
   qr_code_scanner: ^0.4.0 # ONLY IOS ANDROID
   mongo_dart: ^0.7.4  # ALL SYSTEMS AND NO WEB SUPPORT
+  drift: ^1.1.1
+  sqlite3_flutter_libs: ^0.5.2
+  path_provider: ^2.0.8
+  path: ^1.8.0
 
 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
-  bottom_navy_bar: ^5.0.0
+  cupertino_icons: ^1.0.4
+  bottom_navy_bar: ^6.0.0
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -62,6 +66,8 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
+  drift_dev: ^1.1.1
+  build_runner: ^2.1.7
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

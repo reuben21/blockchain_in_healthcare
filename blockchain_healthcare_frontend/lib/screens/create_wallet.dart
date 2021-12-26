@@ -6,13 +6,14 @@ import 'package:blockchain_healthcare_frontend/screens/wallet_login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 
 import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:blockchain_healthcare_frontend/helpers/http_exception.dart' as exception;
 
 class CreateWallet extends StatefulWidget {
-  CreateWallet({Key key}) : super(key: key);
+  // CreateWallet({required Key key}) : super(key: key);
 
   @override
   State<CreateWallet> createState() => _CreateWalletState();
@@ -155,10 +156,10 @@ class _CreateWalletState extends State<CreateWallet> {
                           foregroundColor: Theme.of(context).colorScheme.secondary,
                           onPressed: () async {
 
-                            _formKey.currentState.save();
-                            if (_formKey.currentState.validate()) {
+                            _formKey.currentState?.save();
+                            if (_formKey.currentState?.validate() != null) {
                               String password = _formKey
-                                  .currentState.value["password"];
+                                  .currentState?.value["password"];
 
                               _submit(password);
 

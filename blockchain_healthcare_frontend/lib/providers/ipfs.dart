@@ -37,7 +37,7 @@ class IPFSModel with ChangeNotifier {
     } on FormatException {
       throw exception.HttpException("Bad response format 👎");
     } catch (error) {
-      throw exception.HttpException(error);
+      throw exception.HttpException(error.toString());
     }
     notifyListeners();
   }
@@ -71,7 +71,7 @@ class IPFSModel with ChangeNotifier {
     } on FormatException {
       throw exception.HttpException("Bad response format 👎");
     } catch (error) {
-      throw exception.HttpException(error);
+      throw exception.HttpException(error.toString());
     }
     notifyListeners();
   }
