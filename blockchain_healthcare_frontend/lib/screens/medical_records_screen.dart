@@ -76,69 +76,8 @@ class _MedicalRecordScreenState extends State<MedicalRecordScreen> {
     return Scaffold(
       body: Container(
         child: ZStack([
-          VxBox()
-              .blue600
-              .size(context.screenWidth, context.percentHeight * 30)
-              .make(),
-          VStack([
-            (context.percentHeight * 10).heightBox,
-            "\$ Ethers 1".text.xl4.white.bold.center.makeCentered().py16(),
-            (context.percentHeight * 3).heightBox,
-            VxBox(
-                child: VStack([
-                  "Balance".text.black.xl2.semiBold.makeCentered(),
-                  10.heightBox,
-                  (" Ethers")
-                      .text
-                      .black
-                      .xl2
-                      .semiBold
-                      .makeCentered(),
-                ]))
-                .p16
-                .white
-                .size(context.screenWidth, context.percentHeight * 18)
-                .rounded
-                .shadowXl
-                .make()
-                .p16(),
-            30.heightBox,
-            HStack(
-              [
-                FloatingActionButton.extended(
-                  backgroundColor: Colors.blue,
-                  foregroundColor: Colors.black,
-                  onPressed: () {
-                    getMessage("123456","0xC30aC339bd3479eb62eD6fE71C1A0A59FA177F7B");
-                  },
-                  icon: const Icon(Icons.refresh),
-                  label: const Text('Refresh'),
-                ),
-                FloatingActionButton.extended(
-                  backgroundColor: Colors.blue,
-                  foregroundColor: Colors.black,
-                  onPressed: () {
-                    // Respond to button press
-                  },
-                  icon: const Icon(Icons.call_made_outlined),
-                  label: const Text('Send'),
-                ),
-                FloatingActionButton.extended(
-                  backgroundColor: Colors.blue,
-                  foregroundColor: Colors.black,
-                  onPressed: () {
-                    // Respond to button press
-                  },
-                  icon: const Icon(Icons.call_received_outlined),
-                  label: const Text('Recieve'),
-                ),
-              ],
-              alignment: MainAxisAlignment.spaceAround,
-              axisSize: MainAxisSize.max,
-            )
-          ])
-        ]),
+          ]
       ),
-    );
+    ));
   }
 }

@@ -1,11 +1,14 @@
 import 'package:blockchain_healthcare_frontend/screens/medical_records_screen.dart';
 import 'package:blockchain_healthcare_frontend/screens/prescription_screen.dart';
+import 'package:blockchain_healthcare_frontend/screens/view_wallet.dart';
 import 'package:blockchain_healthcare_frontend/screens/wallet.dart';
 import 'package:blockchain_healthcare_frontend/theme.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 
 class TabsScreen extends StatefulWidget {
+
+  static const routeName = '/tabs-screen';
 
 
   @override
@@ -29,7 +32,7 @@ class _TabsScreenState extends State<TabsScreen> {
     _screens = [
       {'page':MedicalRecordScreen()  },
       {'page':PrescriptionScreen() },
-      {'page':WalletScreen() }
+      {'page':WalletView() }
     ];
     super.initState();
   }
@@ -52,9 +55,9 @@ class _TabsScreenState extends State<TabsScreen> {
     // TODO: implement build
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(_pages[_selectPageIndex]['title'].toString()),
-      ),
+      // appBar: AppBar(
+      //   title: Text(_pages[_selectPageIndex]['title'].toString()),
+      // ),
       body: _screens[_selectPageIndex]['page'],
       bottomNavigationBar: BottomNavyBar(
         // backgroundColor: Theme.of(context).bottomAppBarColor,

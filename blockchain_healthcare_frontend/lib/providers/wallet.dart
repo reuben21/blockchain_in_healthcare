@@ -3,7 +3,6 @@ import 'dart:io';
 import 'dart:math';
 import 'package:blockchain_healthcare_frontend/databases/moor_database.dart';
 import 'package:blockchain_healthcare_frontend/databases/transactions_database.dart';
-import 'package:blockchain_healthcare_frontend/databases/wallet_database.dart';
 import 'package:blockchain_healthcare_frontend/helpers/keys.dart' as keys;
 import 'package:blockchain_healthcare_frontend/mongo_db/wallet_database.dart';
 import 'package:http/http.dart' as http;
@@ -197,7 +196,10 @@ class WalletModel with ChangeNotifier {
       Wallet newWallet = Wallet.fromJson(
           dbNewResponse[0]['walletEncryptedKey'], password);
 
-      var dbResponse = await MyDatabase().insertWallet(WalletTableData(
+      // Declaring Database is Important
+      MyDatabase database = MyDatabase();
+
+      var dbResponse = await database.insertWallet(WalletTableData(
           walletAddress: newWallet.privateKey.address.hex,
           walletEncryptedKey: dbNewResponse[0]['walletEncryptedKey'],
           dueDate: DateTime.now()          )

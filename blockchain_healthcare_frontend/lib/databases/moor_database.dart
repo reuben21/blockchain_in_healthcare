@@ -69,7 +69,7 @@ class MyDatabase extends _$MyDatabase {
   Future<List<WalletTableData>> getAllWallets() => select(walletTable).get();
   Future<List<WalletTableData>> getWalletByWalletAddress(WalletTableData wallet) => (select(walletTable)..where((w) => w.walletAddress.equals(wallet.walletAddress))).get();
   Future insertWallet(WalletTableData wallet) => into(walletTable).insert(wallet);
-
+  DeleteStatement<$WalletTableTable, WalletTableData> deleteWallet() => delete(walletTable);
   // Stream<List<TransactionTableData>> watchTransactions() => select(transactionTable).watch();
 
 

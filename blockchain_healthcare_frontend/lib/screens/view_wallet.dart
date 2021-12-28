@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io' show Platform;
 import 'package:blockchain_healthcare_frontend/databases/moor_database.dart';
 import 'package:blockchain_healthcare_frontend/databases/transactions_database.dart';
-import 'package:blockchain_healthcare_frontend/databases/wallet_database.dart';
 import 'package:blockchain_healthcare_frontend/providers/wallet.dart';
 import 'package:blockchain_healthcare_frontend/screens/transfer_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -144,8 +143,8 @@ class _WalletViewState extends State<WalletView> {
 
                     ),
                    onTap:() async {
-                     // var dbResponse =
-                     //     await DBProviderWallet.db.deleteWalletSession();
+                     var dbResponse =
+                         Provider.of<MyDatabase>(context, listen: false).deleteWallet();
                      Navigator.of(context).pop();
 
                    } ,
