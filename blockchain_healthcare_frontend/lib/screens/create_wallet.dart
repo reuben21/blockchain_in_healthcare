@@ -65,6 +65,7 @@ class _CreateWalletState extends State<CreateWallet> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+
       backgroundColor: Theme.of(context).backgroundColor,
       body: SingleChildScrollView(
         child: Column(
@@ -89,11 +90,14 @@ class _CreateWalletState extends State<CreateWallet> {
                           ),
                         ),
                       ]),
+
                   Padding(
                     padding: const EdgeInsets.only(top: 50),
                     child:
-                        Center(child: Image.asset("assets/images/undraw_wallet.png")),
-                  ),
+                        Center(child: Platform.isWindows ? Image.asset("assets/images/undraw_wallet.png",width: 500,height: 300)
+                            : Image.asset("assets/images/undraw_wallet.png",)
+                        ),
+                  ) ,
                   Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.only(left: 25),
@@ -147,45 +151,48 @@ class _CreateWalletState extends State<CreateWallet> {
                           ],
                         )),
                   ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: HStack(
-                      [
-                        FloatingActionButton.extended(
-                          backgroundColor: Theme.of(context).colorScheme.primary,
-                          foregroundColor: Theme.of(context).colorScheme.secondary,
-                          onPressed: () async {
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: HStack(
+                        [
+                          FloatingActionButton.extended(
+                            backgroundColor: Theme.of(context).colorScheme.primary,
+                            foregroundColor: Theme.of(context).colorScheme.secondary,
+                            onPressed: () async {
 
-                            _formKey.currentState?.save();
-                            if (_formKey.currentState?.validate() != null) {
-                              String password = _formKey
-                                  .currentState?.value["password"];
+                              _formKey.currentState?.save();
+                              if (_formKey.currentState?.validate() != null) {
+                                String password = _formKey
+                                    .currentState?.value["password"];
 
-                              _submit(password);
+                                _submit(password);
 
-                            }
+                              }
 
-                          },
-                          icon: const Icon(Icons.add_circle_outline_outlined),
-                          label: const Text('Create Wallet'),
-                        ),
-                        FloatingActionButton.extended(
-                          backgroundColor: Theme.of(context).colorScheme.primary,
-                          foregroundColor: Theme.of(context).colorScheme.secondary,
-                          onPressed: () async {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => WalletLogin(),
-                              ),
-                            );
-                          },
-                          icon: const Icon(Icons.add_circle_outline_outlined),
-                          label: const Text('Sign In'),
-                        ),
-                      ],
-                      alignment: MainAxisAlignment.spaceAround,
-                      axisSize: MainAxisSize.max,
+                            },
+                            icon: const Icon(Icons.add_circle_outline_outlined),
+                            label: const Text('Create Wallet'),
+                          ),
+                          FloatingActionButton.extended(
+                            backgroundColor: Theme.of(context).colorScheme.primary,
+                            foregroundColor: Theme.of(context).colorScheme.secondary,
+                            onPressed: () async {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => WalletLogin(),
+                                ),
+                              );
+                            },
+                            icon: const Icon(Icons.add_circle_outline_outlined),
+                            label: const Text('Sign In'),
+                          ),
+                        ],
+                        alignment: MainAxisAlignment.spaceAround,
+                        axisSize: MainAxisSize.max,
+                      ),
                     ),
                   ),
                 ],

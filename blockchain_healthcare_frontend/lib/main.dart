@@ -1,4 +1,6 @@
 // import 'dart:async';
+import 'dart:io';
+
 import 'package:blockchain_healthcare_frontend/databases/moor_database.dart';
 import 'package:blockchain_healthcare_frontend/providers/ipfs.dart';
 import 'package:blockchain_healthcare_frontend/providers/patient.dart';
@@ -15,6 +17,7 @@ import 'package:blockchain_healthcare_frontend/screens/wallet.dart';
 import 'package:blockchain_healthcare_frontend/screens/wallet_login.dart';
 import 'package:blockchain_healthcare_frontend/test_screens/ipfs_test.dart';
 import 'package:blockchain_healthcare_frontend/theme.dart';
+import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/material.dart';
 import 'package:form_builder_validators/localization/l10n.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -25,10 +28,29 @@ void main() {
   runApp(MyApp());
 }
 
+Future testWindowFunctions() async {
+  Size size = await DesktopWindow.getWindowSize();
+  print(size);
+  await DesktopWindow.setWindowSize(Size(1000,900));
+
+  await DesktopWindow.setMinWindowSize(Size(400,400));
+  await DesktopWindow.setMaxWindowSize(Size(800,800));
+
+  await DesktopWindow.resetMaxWindowSize();
+  await DesktopWindow.toggleFullScreen();
+  bool isFullScreen = await DesktopWindow.getFullScreen();
+  await DesktopWindow.setFullScreen(true);
+  await DesktopWindow.setFullScreen(false);
+}
+
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    if (Platform.isWindows) {
+      testWindowFunctions();
+    }
+
     return MultiProvider(
       providers: [
         Provider<MyDatabase>(
