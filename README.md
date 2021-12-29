@@ -11,6 +11,13 @@ b) Installation:
 1. Run `npm install -g truffle`
 2. Run `npm install -g ganache cli`.
 
+
+
+https://user-images.githubusercontent.com/49688611/147677483-5cd09c3b-d56a-47ba-a123-3e6b9bb2591c.mp4
+
+
+
+
 c) Run `truffle develop` :
 1. Run` develop`
 2. In the console run `deploy`
