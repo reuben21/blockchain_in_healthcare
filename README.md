@@ -1,11 +1,17 @@
 # Blockchain in Healthcare
 
+
 ## In the root directory of this repo
-a) Installation:
+a) Download:
+1. Node Version 16 and above
+2. Android Studio
+3. Visual Studio 2019 and select Desktop Development with C++
+
+b) Installation:
 1. Run `npm install -g truffle`
 2. Run `npm install -g ganache cli`.
 
-b) Run `truffle develop` :
+c) Run `truffle develop` :
 1. Run` develop`
 2. In the console run `deploy`
 
