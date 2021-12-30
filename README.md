@@ -1,7 +1,9 @@
 # Blockchain in Healthcare
 
+# Flutter Version 2.8.1 
+# Null Safety is on https://dart.dev/null-safety/migration-guide
 
-## In the root directory of this repo
+# In the root directory of this repo
 a) Download:
 1. Node Version 16 and above
 2. Android Studio
@@ -24,13 +26,23 @@ c) Run `truffle develop` : (Check Videos Directly)
 3. Setup for Desktop Application
 
 
-https://user-images.githubusercontent.com/49688611/147716122-05c7722b-44df-422c-8b8b-2be0896d5a6c.mp4
+
+https://user-images.githubusercontent.com/49688611/147718684-f1112a92-8c28-4613-b5b2-5cbe754ea7e7.mp4
+
+
 
 ### After this restart IDE Then follow next video
 
 
 
 https://user-images.githubusercontent.com/49688611/147716201-345649a8-64ea-44ba-8409-f9acfae807b0.mp4
+
+## Next is Setting up Meta Mask
+
+
+
+https://user-images.githubusercontent.com/49688611/147718320-74467e8d-a63d-47e3-8753-5f0963e45277.mp4
+
 
 
 
