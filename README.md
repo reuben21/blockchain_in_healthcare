@@ -18,9 +18,21 @@ https://user-images.githubusercontent.com/49688611/147677483-5cd09c3b-d56a-47ba-
 
 
 
-c) Run `truffle develop` :
+c) Run `truffle develop` : (Check Videos Directly)
 1. Run` develop`
 2. In the console run `deploy`
+3. Setup for Desktop Application
+
+
+https://user-images.githubusercontent.com/49688611/147716122-05c7722b-44df-422c-8b8b-2be0896d5a6c.mp4
+
+### After this restart IDE Then follow next video
+
+
+
+https://user-images.githubusercontent.com/49688611/147716201-345649a8-64ea-44ba-8409-f9acfae807b0.mp4
+
+
 
 ## In the backend folder
 
