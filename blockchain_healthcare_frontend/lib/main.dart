@@ -1,4 +1,5 @@
 // import 'dart:async';
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:blockchain_healthcare_frontend/databases/moor_database.dart';
@@ -22,10 +23,18 @@ import 'package:flutter/material.dart';
 import 'package:form_builder_validators/localization/l10n.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-
+import 'package:sqlite3/open.dart';
 // ignore_for_file: prefer_const_constructors
 void main() {
+
   runApp(MyApp());
+  open.overrideFor(OperatingSystem.windows, _openOnWindows);
+}
+
+DynamicLibrary _openOnWindows() {
+  final scriptDir = File(Platform.script.toFilePath()).parent;
+  final libraryNextToScript = File('${scriptDir.path}\\sqlite3.dll');
+  return DynamicLibrary.open(libraryNextToScript.path);
 }
 
 Future testWindowFunctions() async {
