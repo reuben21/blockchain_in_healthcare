@@ -1,7 +1,8 @@
 // import 'dart:async';
+
+
 import 'dart:ffi';
 import 'dart:io';
-
 import 'package:blockchain_healthcare_frontend/databases/moor_database.dart';
 import 'package:blockchain_healthcare_frontend/providers/ipfs.dart';
 import 'package:blockchain_healthcare_frontend/providers/patient.dart';
@@ -28,14 +29,18 @@ import 'package:sqlite3/open.dart';
 void main() {
 
   runApp(MyApp());
-  open.overrideFor(OperatingSystem.windows, _openOnWindows);
+  if (Platform.isWindows ) {
+    DynamicLibrary _openOnWindows() {
+      final scriptDir = File(Platform.script.toFilePath()).parent;
+      final libraryNextToScript = File('${scriptDir.path}\\sqlite3.dll');
+      return DynamicLibrary.open(libraryNextToScript.path);
+    }
+
+    open.overrideFor(OperatingSystem.windows, _openOnWindows);
+  }
+
 }
 
-DynamicLibrary _openOnWindows() {
-  final scriptDir = File(Platform.script.toFilePath()).parent;
-  final libraryNextToScript = File('${scriptDir.path}\\sqlite3.dll');
-  return DynamicLibrary.open(libraryNextToScript.path);
-}
 
 Future testWindowFunctions() async {
   Size size = await DesktopWindow.getWindowSize();

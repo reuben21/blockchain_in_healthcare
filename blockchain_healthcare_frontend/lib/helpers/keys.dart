@@ -9,7 +9,7 @@ String get rpcUrl {
     return  "http://10.0.2.2:7545";
   }
 
-  return "";
+  return "http://127.0.0.1:7545";
 }
 
 String databaseUrl = "mongodb+srv://group22:310TXL42RKB0WW7v@mongodb.syifj.mongodb.net/healthcare?retryWrites=true&w=majority";

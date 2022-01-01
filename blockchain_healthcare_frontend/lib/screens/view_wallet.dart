@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'dart:io' show Platform;
 import 'package:blockchain_healthcare_frontend/databases/moor_database.dart';
 import 'package:blockchain_healthcare_frontend/databases/transactions_database.dart';
 import 'package:blockchain_healthcare_frontend/providers/wallet.dart';
@@ -8,10 +6,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:hawk_fab_menu/hawk_fab_menu.dart';
-import 'package:http/http.dart';
 import 'package:provider/provider.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:web3dart/web3dart.dart';
@@ -29,8 +24,6 @@ class WalletView extends StatefulWidget {
 
 class _WalletViewState extends State<WalletView> {
   final String screenName = "view_wallet.dart";
-
-
 
   CarouselController buttonCarouselController = CarouselController();
 
@@ -55,8 +48,6 @@ class _WalletViewState extends State<WalletView> {
     super.initState();
   }
 
-
-
   @override
   Future<void> didChangeDependencies() async {
     // TODO: implement didChangeDependencies
@@ -68,25 +59,25 @@ class _WalletViewState extends State<WalletView> {
   }
 
   Future<void> getWalletFromDatabase() async {
-    var dbResponse = await Provider.of<MyDatabase>(context, listen: false).getAllWallets();
+    var dbResponse =
+        await Provider.of<MyDatabase>(context, listen: false).getAllWallets();
     // print(dbResponse.toString());
     dbResponse.forEach((element) {
       // print(screenName+" "+element.walletAddress.toString());
-      if(options.contains(element.walletAddress)) {
-
+      if (options.contains(element.walletAddress)) {
       } else {
         options.add(element.walletAddress);
         setState(() {
           options;
         });
       }
-
     });
   }
 
   Future<void> getAccountBalance(String walletAddress) async {
-    var dbResponse =
-        await Provider.of<MyDatabase>(context, listen: false).getWalletByWalletAddress(WalletTableData(walletAddress: walletAddress));
+    var dbResponse = await Provider.of<MyDatabase>(context, listen: false)
+        .getWalletByWalletAddress(
+            WalletTableData(walletAddress: walletAddress));
 
     var balance = await Provider.of<WalletModel>(context, listen: false)
         .getAccountBalance(EthereumAddress.fromHex(walletAddress));
@@ -111,11 +102,8 @@ class _WalletViewState extends State<WalletView> {
             ));
   }
 
-
-
   @override
   void dispose() {
-
     super.dispose();
   }
 
@@ -124,39 +112,37 @@ class _WalletViewState extends State<WalletView> {
   @override
   Widget build(BuildContext context) {
     getWalletFromDatabase();
-    print(screenName+" "+options.toString());
-    print(screenName+" "+balanceOfAccount.toString());
+    print(screenName + " " + options.toString());
+    print(screenName + " " + balanceOfAccount.toString());
     return Scaffold(
         appBar: AppBar(
             backgroundColor: Theme.of(context).colorScheme.primary,
             elevation: 0,
             automaticallyImplyLeading: false,
-            actions: <Widget>[Padding(
-              padding: const EdgeInsets.only(right: 20),
-              child: PopupMenuButton(
-                icon: Icon(Icons.more_vert),
-                itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-                  PopupMenuItem(
-                    child: const ListTile(
-                      leading: Icon(Icons.add),
-                      title: Text('Log Out'),
-
+            actions: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(right: 20),
+                child: PopupMenuButton(
+                  icon: Icon(Icons.more_vert),
+                  itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                    PopupMenuItem(
+                      child: const ListTile(
+                        leading: Icon(Icons.add),
+                        title: Text('Log Out'),
+                      ),
+                      onTap: () async {
+                        var dbResponse =
+                            Provider.of<MyDatabase>(context, listen: false)
+                                .deleteWallet();
+                        Navigator.of(context).pop();
+                      },
                     ),
-                   onTap:() async {
-                     var dbResponse =
-                         Provider.of<MyDatabase>(context, listen: false).deleteWallet();
-                     Navigator.of(context).pop();
-
-                   } ,
-                  ),
-
-                  const PopupMenuDivider(),
-
-                ],
+                    const PopupMenuDivider(),
+                  ],
+                ),
               ),
-            ),]),
+            ]),
         body: SingleChildScrollView(
-          
           child: Container(
             height: MediaQuery.of(context).size.height,
             color: Theme.of(context).colorScheme.primary,
@@ -196,8 +182,9 @@ class _WalletViewState extends State<WalletView> {
                                     height: 100,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color:
-                                          Theme.of(context).colorScheme.secondary,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
                                       image: const DecorationImage(
                                           image: AssetImage(
                                               'assets/icons/ethereum.png'),
@@ -211,7 +198,8 @@ class _WalletViewState extends State<WalletView> {
                                     balanceOfAccount == "null"
                                         ? "0 ETH"
                                         : "$balanceOfAccount ETH",
-                                    style: Theme.of(context).textTheme.headline2,
+                                    style:
+                                        Theme.of(context).textTheme.headline2,
                                   ),
                                   const SizedBox(
                                     height: 10,
@@ -228,7 +216,8 @@ class _WalletViewState extends State<WalletView> {
                               ),
                             ),
                             DropdownButton<String>(
-                                focusColor: Theme.of(context).colorScheme.secondary,
+                                focusColor:
+                                    Theme.of(context).colorScheme.secondary,
                                 dropdownColor:
                                     Theme.of(context).colorScheme.primary,
                                 value: dropdownValue,
@@ -244,9 +233,13 @@ class _WalletViewState extends State<WalletView> {
                                       );
                                     } else {
                                       return Text(
-                                        dropdownValue.toString().substring(0, 5) +
+                                        dropdownValue
+                                                .toString()
+                                                .substring(0, 5) +
                                             "..." +
-                                            dropdownValue.toString().lastChars(5),
+                                            dropdownValue
+                                                .toString()
+                                                .lastChars(5),
                                         style: TextStyle(
                                             color: Theme.of(context)
                                                 .colorScheme
@@ -255,15 +248,16 @@ class _WalletViewState extends State<WalletView> {
                                     }
                                   }).toList();
                                 },
-                                items: options
-                                    .map<DropdownMenuItem<String>>((String value) {
+                                items: options.map<DropdownMenuItem<String>>(
+                                    (String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
                                     child: value == "Select Account"
                                         ? const Text("Select Account")
-                                        : Text(value.toString().substring(0, 5) +
-                                            "..." +
-                                            value.toString().lastChars(5)),
+                                        : Text(
+                                            value.toString().substring(0, 5) +
+                                                "..." +
+                                                value.toString().lastChars(5)),
                                   );
                                 }).toList(),
                                 onChanged: (String? newValue) {
@@ -282,6 +276,25 @@ class _WalletViewState extends State<WalletView> {
                                 hint: const Text("Select Account")),
                           ],
                         ),
+                        Padding(
+                          padding: const EdgeInsets.all(25.0),
+                          child: ExpansionTile(
+                            iconColor: Theme.of(context).colorScheme.secondary,
+                            backgroundColor: Theme.of(context).primaryColor,
+                            collapsedBackgroundColor:
+                                Theme.of(context).backgroundColor,
+                            title: Text(
+                              "Selected Address",
+                              style: Theme.of(context).textTheme.bodyText2,
+                            ),
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SelectableText(dropDownCurrentValue),
+                              ),
+                            ],
+                          ),
+                        ),
                         const SizedBox(
                           height: 50,
                         ),
@@ -296,7 +309,9 @@ class _WalletViewState extends State<WalletView> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => TransferScreen(address: dropDownCurrentValue,),
+                                    builder: (context) => TransferScreen(
+                                      address: dropDownCurrentValue,
+                                    ),
                                   ),
                                 );
                               },
@@ -316,7 +331,8 @@ class _WalletViewState extends State<WalletView> {
                               style: ElevatedButton.styleFrom(
                                 shape: CircleBorder(),
                                 padding: EdgeInsets.all(14),
-                                primary: Theme.of(context).colorScheme.secondary,
+                                primary:
+                                    Theme.of(context).colorScheme.secondary,
                                 onPrimary: Colors.black,
                               ),
                             ),
@@ -333,7 +349,8 @@ class _WalletViewState extends State<WalletView> {
                                         Theme.of(context).colorScheme.secondary,
                                     title: Text(
                                       "Show the QR Code",
-                                      style: Theme.of(context).textTheme.bodyText1,
+                                      style:
+                                          Theme.of(context).textTheme.bodyText1,
                                     ),
                                     content: Container(
                                       width: 200,
@@ -437,8 +454,6 @@ class _WalletViewState extends State<WalletView> {
                   //   ),
                   // ),
 
-
-
                   // SingleChildScrollView(
                   //   child: FutureBuilder(
                   //     future: DBProviderTransactions.db.getTransaction,
@@ -535,13 +550,11 @@ class _WalletViewState extends State<WalletView> {
                   //
                   //   ),
                   // ),
-
                 ],
               ),
             ),
           ),
         ));
-
   }
 }
 
