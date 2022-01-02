@@ -102,6 +102,26 @@ contract MainContract is AccessControl {
         return true;
     }
 
+
+     function changeHospitalForPatient(
+
+        address _previousHospitalAddress,
+        address _newHospitalAddress,
+        address _walletAddress
+  
+    ) external returns (bool status) {
+        
+    
+        hospitalDatabase[_previousHospitalAddress].patientInHospital.decrement();
+
+        patientDatabase[_walletAddress].hospitalAddress = _newHospitalAddress;
+        
+        hospitalDatabase[_newHospitalAddress].patientInHospital.increment();
+
+
+        return true;
+    }
+
     function retrievePatientCount() external view returns (uint256 patientCount) {
         return patientCounter.current();
     }
@@ -114,12 +134,13 @@ contract MainContract is AccessControl {
         returns (
             string memory name,
             string memory personalDetails,
+            address hospitalAddress,
             address walletAddress
-        )
-    {
+        ) {
         return (
             patientDatabase[_walletAddress].name,
             patientDatabase[_walletAddress].personalDetails,
+             patientDatabase[_walletAddress].hospitalAddress,
             _walletAddress
         );
     }
@@ -229,13 +250,28 @@ contract MainContract is AccessControl {
         address _hospitalAddress,
         address _walletAddress
     ) external returns (bool status) {
-        _setupRole(DOCTOR, _walletAddress);
+
+           if (hasRole(DOCTOR, _walletAddress)) {
+                
+                _setupRole(DOCTOR, _walletAddress);
+        doctorDatabase[_walletAddress].name = name;
+        doctorDatabase[_walletAddress].walletAddress = _walletAddress;
+        doctorDatabase[_walletAddress].hospitalAddress = _hospitalAddress;
+        doctorDatabase[_walletAddress].personalDetails = _personalDetails;
+        
+           } else {
+            
+            _setupRole(DOCTOR, _walletAddress);
         doctorDatabase[_walletAddress].name = name;
         doctorDatabase[_walletAddress].walletAddress = _walletAddress;
         doctorDatabase[_walletAddress].hospitalAddress = _hospitalAddress;
         doctorDatabase[_walletAddress].personalDetails = _personalDetails;
         hospitalDatabase[_hospitalAddress].doctorInHospital.increment();
         doctorCounter.increment();
+          
+           }
+
+       
 
         emit LogStoreDoctor(
             doctorDatabase[_walletAddress].name,
