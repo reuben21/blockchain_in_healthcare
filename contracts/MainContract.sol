@@ -3,6 +3,7 @@ pragma solidity ^0.8.0;
 //SPDX-License-Identifier: MIT
 import "./access/AccessControlEnumerable.sol";
 import "./Roles.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
 
 struct patientRecord {
         string name;
@@ -36,6 +37,12 @@ struct hospitalRecord {
 
 
 contract MainContract is AccessControl {
+    using Counters for Counters.Counter;
+
+    Counters.Counter patientCounter;
+    Counters.Counter doctorCounter;
+    Counters.Counter hospitalCounter;
+    Counters.Counter pharmacyCounter;
     
     //: Constructor
     constructor() {
@@ -66,7 +73,7 @@ contract MainContract is AccessControl {
         patientDatabase[_walletAddress].personalDetails = _personalDetails;
         patientDatabase[_walletAddress].hospitalAddress = _hospitalAddress;
         patientDatabase[_walletAddress].walletAddress = _walletAddress;
-      
+        patientCounter.increment();
 
         emit LogStorePatient(
             patientDatabase[_walletAddress].name,
@@ -78,8 +85,13 @@ contract MainContract is AccessControl {
         return true;
     }
 
+    function retrievePatientCount() external view returns (uint256 patientCount) {
+        return patientCounter.current();
+    }
+
+  
  
-    function getPatientData(address _walletAddress)
+    function retrievePatientData(address _walletAddress)
         external
         view
         returns (
@@ -209,6 +221,7 @@ contract MainContract is AccessControl {
         doctorDatabase[_walletAddress].walletAddress = _walletAddress;
         doctorDatabase[_walletAddress].hospitalAddress = _hospitalAddress;
         doctorDatabase[_walletAddress].personalDetails = _personalDetails;
+        doctorCounter.increment();
 
         emit LogStoreDoctor(
             doctorDatabase[_walletAddress].name,
@@ -217,6 +230,10 @@ contract MainContract is AccessControl {
         );
 
         return true;
+    }
+
+    function retrieveDoctorCount() external view returns (uint256 doctorCount) {
+        return doctorCounter.current();
     }
 
     function retrieveDoctorData(
@@ -242,7 +259,7 @@ contract MainContract is AccessControl {
     //: Pharmacy DATABASE
     mapping(address => pharmacyRecord) pharmacyDatabase;
 
-    function registerPharmacy(
+    function storePharmacy(
         string memory name,
         string memory _personalDetails,
         address _walletAddress
@@ -251,7 +268,7 @@ contract MainContract is AccessControl {
         pharmacyDatabase[_walletAddress].name = name;
         pharmacyDatabase[_walletAddress].walletAddress = _walletAddress;
         pharmacyDatabase[_walletAddress].personalDetails = _personalDetails;
-
+        pharmacyCounter.increment();
         emit LogPharmacy(
             pharmacyDatabase[_walletAddress].name,
             pharmacyDatabase[_walletAddress].personalDetails,
@@ -261,10 +278,11 @@ contract MainContract is AccessControl {
         return true;
     }
 
-    function getPharmacyData(address _walletAddress)
-        public
-        view
-        returns (
+    function retrievePharmacyCount() external view returns (uint256 pharmacyCount) {
+        return pharmacyCounter.current();
+    }
+
+    function getPharmacyData(address _walletAddress)   public  view  returns (
             string memory name,
             string memory pharmacyDetails,
             address walletAddress
@@ -286,7 +304,7 @@ contract MainContract is AccessControl {
     //: HOSPITAL DATABASE
     mapping(address => hospitalRecord) hospitalDatabase;
 
-    function registerHospital(
+    function storeHospital(
         string memory _name,
         string memory _hospitalDetails,
         address walletAddress
@@ -295,8 +313,12 @@ contract MainContract is AccessControl {
         hospitalDatabase[walletAddress].name = _name;
         hospitalDatabase[walletAddress].walletAddress = walletAddress;
         hospitalDatabase[walletAddress].hospitalDetails = _hospitalDetails;
-
+        hospitalCounter.increment();
         return true;
+    }
+
+    function retrieveHospitalCount() external view returns (uint256 hospitalCount) {
+        return hospitalCounter.current();
     }
 
     function getHospitalData(address addressOfUser)

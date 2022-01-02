@@ -431,35 +431,6 @@
 						"type": "address"
 					}
 				],
-				"name": "getPatientData",
-				"outputs": [
-					{
-						"internalType": "string",
-						"name": "name",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "personalDetails",
-						"type": "string"
-					},
-					{
-						"internalType": "address",
-						"name": "walletAddress",
-						"type": "address"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "_walletAddress",
-						"type": "address"
-					}
-				],
 				"name": "getPharmacyData",
 				"outputs": [
 					{
@@ -545,64 +516,6 @@
 			{
 				"inputs": [
 					{
-						"internalType": "string",
-						"name": "_name",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "_hospitalDetails",
-						"type": "string"
-					},
-					{
-						"internalType": "address",
-						"name": "walletAddress",
-						"type": "address"
-					}
-				],
-				"name": "registerHospital",
-				"outputs": [
-					{
-						"internalType": "bool",
-						"name": "status",
-						"type": "bool"
-					}
-				],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "string",
-						"name": "name",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "_personalDetails",
-						"type": "string"
-					},
-					{
-						"internalType": "address",
-						"name": "_walletAddress",
-						"type": "address"
-					}
-				],
-				"name": "registerPharmacy",
-				"outputs": [
-					{
-						"internalType": "bool",
-						"name": "status",
-						"type": "bool"
-					}
-				],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
 						"internalType": "bytes32",
 						"name": "role",
 						"type": "bytes32"
@@ -616,6 +529,19 @@
 				"name": "renounceRole",
 				"outputs": [],
 				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "retrieveDoctorCount",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "doctorCount",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -642,6 +568,74 @@
 						"internalType": "address",
 						"name": "hospitalAddress",
 						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "retrieveHospitalCount",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "hospitalCount",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "retrievePatientCount",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "patientCount",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_walletAddress",
+						"type": "address"
+					}
+				],
+				"name": "retrievePatientData",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "personalDetails",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "walletAddress",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "retrievePharmacyCount",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "pharmacyCount",
+						"type": "uint256"
 					}
 				],
 				"stateMutability": "view",
@@ -708,6 +702,35 @@
 					},
 					{
 						"internalType": "string",
+						"name": "_hospitalDetails",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "walletAddress",
+						"type": "address"
+					}
+				],
+				"name": "storeHospital",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "status",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "_name",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
 						"name": "_personalDetails",
 						"type": "string"
 					},
@@ -723,6 +746,35 @@
 					}
 				],
 				"name": "storePatient",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "status",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "_personalDetails",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "_walletAddress",
+						"type": "address"
+					}
+				],
+				"name": "storePharmacy",
 				"outputs": [
 					{
 						"internalType": "bool",
@@ -857,7 +909,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"OneMainContract.sol": "MainContract"
+			"MainContract.sol": "MainContract"
 		},
 		"evmVersion": "london",
 		"libraries": {},
@@ -871,12 +923,20 @@
 		"remappings": []
 	},
 	"sources": {
-		"OneMainContract.sol": {
-			"keccak256": "0xed85e62c418e51f8174ac8ddbae3c58130d369a52d86c5f387cad2f61107f466",
+		"@openzeppelin/contracts/utils/Counters.sol": {
+			"keccak256": "0xf0018c2440fbe238dd3a8732fa8e17a0f9dce84d31451dc8a32f6d62b349c9f1",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://1f1f888ab3a2d1507f4249e8e7790f4e6bb23fde602ea8b5e835c9318022982b",
-				"dweb:/ipfs/QmPJuN4octFPBPk1Tjmf5aPztBS3xb4pr4iaZ5ShFCxi4A"
+				"bzz-raw://59e1c62884d55b70f3ae5432b44bb3166ad71ae3acd19c57ab6ddc3c87c325ee",
+				"dweb:/ipfs/QmezuXg5GK5oeA4F91EZhozBFekhq5TD966bHPH18cCqhu"
+			]
+		},
+		"MainContract.sol": {
+			"keccak256": "0xd7c088e6d4ef61db727ab94a188e962849ae5acecb1a4052b1ffe52f0d6e37c6",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://6559540ed012a4188f743745156a6b1b753e41074cf4c0f61cab093b16aabcfa",
+				"dweb:/ipfs/QmdBp3dcWAjDzw86AmjeEq7s1UhKWM5CeyWtZ8RbDnikfr"
 			]
 		},
 		"Roles.sol": {
