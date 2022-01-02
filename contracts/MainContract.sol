@@ -29,15 +29,19 @@ struct pharmacyRecord {
         address walletAddress;
     }
 
-struct hospitalRecord {
-        string name;
-        string hospitalDetails;
-        address walletAddress;
-    }
+
 
 
 contract MainContract is AccessControl {
     using Counters for Counters.Counter;
+
+    struct hospitalRecord {
+        string name;
+        string hospitalDetails;
+        address walletAddress;
+        Counters.Counter patientInHospital;
+        Counters.Counter doctorInHospital;
+    }
 
     Counters.Counter patientCounter;
     Counters.Counter doctorCounter;
@@ -55,8 +59,8 @@ contract MainContract is AccessControl {
     }
 
     event LogStorePatient( string name, address hospitalAddress,  string _personalDetails,  address owner);
-    event LogUpdatePatientDOB(string name, string _personalDetails);
-    event LogDeleteEmp(string name, uint256 empIdIndex);
+    event LogUpdatePatientPersonalDetails(string name, string _personalDetails);
+
 
     //: PATIENT DATABASE
     mapping(address => patientRecord) patientDatabase;
@@ -68,13 +72,26 @@ contract MainContract is AccessControl {
         address _walletAddress
   
     ) external returns (bool status) {
-        _setupRole(PATIENT, _walletAddress);
+        if (hasRole(PATIENT, _walletAddress)) {
+
         patientDatabase[_walletAddress].name = _name;
         patientDatabase[_walletAddress].personalDetails = _personalDetails;
         patientDatabase[_walletAddress].hospitalAddress = _hospitalAddress;
         patientDatabase[_walletAddress].walletAddress = _walletAddress;
+        
+
+        } else {
+            _setupRole(PATIENT, _walletAddress);
+   
+        patientDatabase[_walletAddress].name = _name;
+        patientDatabase[_walletAddress].personalDetails = _personalDetails;
+        patientDatabase[_walletAddress].hospitalAddress = _hospitalAddress;
+        patientDatabase[_walletAddress].walletAddress = _walletAddress;
+        hospitalDatabase[_hospitalAddress].patientInHospital.increment();
         patientCounter.increment();
 
+        }
+        
         emit LogStorePatient(
             patientDatabase[_walletAddress].name,
             patientDatabase[_walletAddress].hospitalAddress,
@@ -113,7 +130,7 @@ contract MainContract is AccessControl {
     ) public returns (bool success) {
         patientDatabase[_walletAddress].personalDetails = _personalDetails;
 
-        emit LogUpdatePatientDOB(
+        emit LogUpdatePatientPersonalDetails(
             patientDatabase[_walletAddress].name,
             patientDatabase[_walletAddress].personalDetails
         );
@@ -188,16 +205,12 @@ contract MainContract is AccessControl {
             patientDatabase[_patientAddress].previousPatientPrescriptionHashes;
     }
 
-    function getNewRecords(address _patientAddress) external view
-        returns (string memory status)
+    function getNewRecords(address _patientAddress) external view returns (string memory status)
     {
         return patientDatabase[_patientAddress].newMedicalRecordHash;
     }
 
-    function getMultipleRecords(address _patientAddress)
-        external
-        view
-        returns (string[] memory status)
+    function getMultipleRecords(address _patientAddress) external view returns (string[] memory status)
     {
         return patientDatabase[_patientAddress].previousPatientRecordHashes;
     }
@@ -221,6 +234,7 @@ contract MainContract is AccessControl {
         doctorDatabase[_walletAddress].walletAddress = _walletAddress;
         doctorDatabase[_walletAddress].hospitalAddress = _hospitalAddress;
         doctorDatabase[_walletAddress].personalDetails = _personalDetails;
+        hospitalDatabase[_hospitalAddress].doctorInHospital.increment();
         doctorCounter.increment();
 
         emit LogStoreDoctor(
@@ -236,12 +250,7 @@ contract MainContract is AccessControl {
         return doctorCounter.current();
     }
 
-    function retrieveDoctorData(
-        address _walletAddress
-    )
-        public
-        view
-        returns (
+    function retrieveDoctorData( address _walletAddress) public view returns (
             string memory name,
             string memory personalDetails,
             address hospitalAddress
@@ -297,7 +306,7 @@ contract MainContract is AccessControl {
 
 
 
-    event LogHospital(string name, address walletAddress, address owner);
+    event LogHospital(string name,string _hospitalDetails, address walletAddress);
     event LogUpdateHospital(string name, string dateOfBirth);
     event LogDeleteHospital(string name, uint256 empIdIndex);
 
@@ -307,18 +316,29 @@ contract MainContract is AccessControl {
     function storeHospital(
         string memory _name,
         string memory _hospitalDetails,
-        address walletAddress
+        address _walletAddress
     ) external returns (bool status) {
-        _setupRole(HOSPITAL_ADMIN, walletAddress);
-        hospitalDatabase[walletAddress].name = _name;
-        hospitalDatabase[walletAddress].walletAddress = walletAddress;
-        hospitalDatabase[walletAddress].hospitalDetails = _hospitalDetails;
+        _setupRole(HOSPITAL_ADMIN, _walletAddress);
+        hospitalDatabase[_walletAddress].name = _name;
+        hospitalDatabase[_walletAddress].walletAddress = _walletAddress;
+        hospitalDatabase[_walletAddress].hospitalDetails = _hospitalDetails;
         hospitalCounter.increment();
+
+        emit LogHospital(_name, _hospitalDetails, _walletAddress);
+
         return true;
     }
 
     function retrieveHospitalCount() external view returns (uint256 hospitalCount) {
         return hospitalCounter.current();
+    }
+
+    function retrieveHospitalSpecificCountOfDoctors(address _hospitalAddress) external view returns (uint256 doctorCountInHospital) {
+        return hospitalDatabase[_hospitalAddress].doctorInHospital.current();
+    }
+
+    function retrieveHospitalSpecificCountOfPatients(address _hospitalAddress) external view returns (uint256 patientCountInHospital) {
+        return hospitalDatabase[_hospitalAddress].patientInHospital.current();
     }
 
     function getHospitalData(address addressOfUser)

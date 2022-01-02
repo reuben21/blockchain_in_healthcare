@@ -45,25 +45,6 @@
 						"type": "uint256"
 					}
 				],
-				"name": "LogDeleteEmp",
-				"type": "event"
-			},
-			{
-				"anonymous": false,
-				"inputs": [
-					{
-						"indexed": false,
-						"internalType": "string",
-						"name": "name",
-						"type": "string"
-					},
-					{
-						"indexed": false,
-						"internalType": "uint256",
-						"name": "empIdIndex",
-						"type": "uint256"
-					}
-				],
 				"name": "LogDeleteHospital",
 				"type": "event"
 			},
@@ -78,14 +59,14 @@
 					},
 					{
 						"indexed": false,
-						"internalType": "address",
-						"name": "walletAddress",
-						"type": "address"
+						"internalType": "string",
+						"name": "_hospitalDetails",
+						"type": "string"
 					},
 					{
 						"indexed": false,
 						"internalType": "address",
-						"name": "owner",
+						"name": "walletAddress",
 						"type": "address"
 					}
 				],
@@ -227,7 +208,7 @@
 						"type": "string"
 					}
 				],
-				"name": "LogUpdatePatientDOB",
+				"name": "LogUpdatePatientPersonalDetails",
 				"type": "event"
 			},
 			{
@@ -587,6 +568,44 @@
 				"type": "function"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_hospitalAddress",
+						"type": "address"
+					}
+				],
+				"name": "retrieveHospitalSpecificCountOfDoctors",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "doctorCountInHospital",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_hospitalAddress",
+						"type": "address"
+					}
+				],
+				"name": "retrieveHospitalSpecificCountOfPatients",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "patientCountInHospital",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [],
 				"name": "retrievePatientCount",
 				"outputs": [
@@ -707,7 +726,7 @@
 					},
 					{
 						"internalType": "address",
-						"name": "walletAddress",
+						"name": "_walletAddress",
 						"type": "address"
 					}
 				],
@@ -932,11 +951,11 @@
 			]
 		},
 		"MainContract.sol": {
-			"keccak256": "0xd7c088e6d4ef61db727ab94a188e962849ae5acecb1a4052b1ffe52f0d6e37c6",
+			"keccak256": "0xaf3693953a4c87bc3a2374be7cd9d449dea5d8c090380cf411a2d5c1fc32b4fd",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://6559540ed012a4188f743745156a6b1b753e41074cf4c0f61cab093b16aabcfa",
-				"dweb:/ipfs/QmdBp3dcWAjDzw86AmjeEq7s1UhKWM5CeyWtZ8RbDnikfr"
+				"bzz-raw://2d3dcfa8a5d3f9a0085eca16ff125f04f1f3b2c44cba1dc3febfe4ac4f4ea72c",
+				"dweb:/ipfs/QmarFS37SSmDvpasg4cY5bB25quYC7yUGRFMQsBKcyhrca"
 			]
 		},
 		"Roles.sol": {
