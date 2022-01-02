@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:blockchain_healthcare_frontend/providers/wallet.dart';
+import 'package:blockchain_healthcare_frontend/screens/Tabs/tabs_screen.dart';
 import 'package:blockchain_healthcare_frontend/screens/view_wallet.dart';
 import 'package:blockchain_healthcare_frontend/screens/wallet_login.dart';
 import 'package:flutter/material.dart';
@@ -34,8 +35,8 @@ class _CreateWalletState extends State<CreateWallet> {
       await Provider.of<WalletModel>(context, listen: false)
           .createWalletInternally(password);
 
-      _showErrorDialog("Wallet Has Been Created");
-      Navigator.of(context).pushNamed(WalletView.routeName);
+      // _showErrorDialog("Wallet Has Been Created");
+      Navigator.of(context).pushNamed(TabsScreen.routeName);
     }  on exception.HttpException catch (error)  {
       _showErrorDialog(error.toString());
 

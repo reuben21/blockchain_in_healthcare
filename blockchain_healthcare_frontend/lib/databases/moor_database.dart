@@ -13,7 +13,7 @@ part 'moor_database.g.dart';
 // The name of the database table is "tasks"
 // By default, the name of the generated data class will be "Task" (without "s")
 class WalletTable extends Table {
-  // autoIncrement automatically sets this to be the primary key
+
   TextColumn get walletAddress => text()();
   // If the length constraint is not fulfilled, the Task will not
   // be inserted into the database and an exception will be thrown.
@@ -23,6 +23,9 @@ class WalletTable extends Table {
   DateTimeColumn get dueDate => dateTime().nullable()();
   // Booleans are not supported as well, Moor converts them to integers
   // Simple default values are specified as Constants
+
+  @override
+  Set<Column> get primaryKey => {walletAddress};
 }
 
 class TransactionTable extends Table {
@@ -69,7 +72,7 @@ class MyDatabase extends _$MyDatabase {
   Future<List<WalletTableData>> getAllWallets() => select(walletTable).get();
   Future<List<WalletTableData>> getWalletByWalletAddress(WalletTableData wallet) => (select(walletTable)..where((w) => w.walletAddress.equals(wallet.walletAddress))).get();
   Future insertWallet(WalletTableData wallet) => into(walletTable).insert(wallet);
-  DeleteStatement<$WalletTableTable, WalletTableData> deleteWallet() => delete(walletTable);
+  Future deleteWallet(WalletTableData wallet) =>  delete(walletTable).delete(wallet);
   // Stream<List<TransactionTableData>> watchTransactions() => select(transactionTable).watch();
 
 

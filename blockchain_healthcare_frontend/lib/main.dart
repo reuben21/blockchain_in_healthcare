@@ -99,6 +99,7 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSwatch().copyWith(
               primary: Color(0xff732eca),
               secondary: Color(0xFFf5f7ec),
+              primaryVariant: Color(0xa35e10b3),
             ),
             backgroundColor: Color(0xFFf5f7ec),
             bottomAppBarColor: Color(0xFFf5f7ec),
@@ -143,8 +144,8 @@ class MyApp extends StatelessWidget {
           // home: WalletScreen(),
           routes: {
             // '/': (ctx) => Ipfs_screen(),
-            // '/': (ctx) => CreateWallet(),
             '/': (ctx) => CreateWallet(),
+            // '/': (ctx) => WalletView(),
             // '/': (ctx) => Ipfs_screen(),
             PrescriptionScreen.routeName: (ctx) => PrescriptionScreen(),
             MedicalRecordScreen.routeName: (ctx) => MedicalRecordScreen(),

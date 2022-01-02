@@ -220,7 +220,7 @@ class $WalletTableTable extends WalletTable
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
+  Set<GeneratedColumn> get $primaryKey => {walletAddress};
   @override
   WalletTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
     return WalletTableData.fromData(data,

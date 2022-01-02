@@ -33,15 +33,17 @@ class _WalletViewState extends State<WalletView> {
 
   List<String> options = <String>['Select Account'];
   String dropdownValue = 'Select Account';
-  late String dropDownCurrentValue;
+  String dropDownCurrentValue = 'Select Account';
   late String scannedAddress;
 
   @override
   void initState() {
     balanceOfAccount = "null";
 
+
     setState(() {
       options = <String>['Select Account'];
+
     });
     getWalletFromDatabase();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
@@ -63,7 +65,7 @@ class _WalletViewState extends State<WalletView> {
         await Provider.of<MyDatabase>(context, listen: false).getAllWallets();
     // print(dbResponse.toString());
     dbResponse.forEach((element) {
-      // print(screenName+" "+element.walletAddress.toString());
+      print(screenName+" "+element.walletAddress.toString());
       if (options.contains(element.walletAddress)) {
       } else {
         options.add(element.walletAddress);
@@ -126,18 +128,42 @@ class _WalletViewState extends State<WalletView> {
                   icon: Icon(Icons.more_vert),
                   itemBuilder: (BuildContext context) => <PopupMenuEntry>[
                     PopupMenuItem(
-                      child: const ListTile(
-                        leading: Icon(Icons.add),
-                        title: Text('Log Out'),
+
+                      height: 10,
+                      child:  ListTile(
+                        leading: const Icon(Icons.delete_outlined),
+                        title: const Text('Delete Account',style: TextStyle(fontSize: 18),),
+                        iconColor: Theme.of(context).colorScheme.primary,
+                        textColor:Theme.of(context).colorScheme.primary ,
+
                       ),
                       onTap: () async {
                         var dbResponse =
-                            Provider.of<MyDatabase>(context, listen: false)
-                                .deleteWallet();
-                        Navigator.of(context).pop();
+                            await Provider.of<MyDatabase>(context, listen: false)
+                                .deleteWallet(WalletTableData(walletAddress: dropDownCurrentValue));
+                        getWalletFromDatabase();
+                        // Navigator.of(context).pop();
                       },
                     ),
-                    const PopupMenuDivider(),
+                    PopupMenuItem(
+
+                      height: 10,
+                      child:  ListTile(
+                        leading: const Icon(Icons.logout_outlined),
+                        title: const Text('Log Out',style: TextStyle(fontSize: 18),),
+                        iconColor: Theme.of(context).colorScheme.primary,
+                        textColor:Theme.of(context).colorScheme.primary ,
+
+                      ),
+                      onTap: () async {
+                        var dbResponse =
+                        await Provider.of<MyDatabase>(context, listen: false)
+                            .deleteWallet(WalletTableData(walletAddress: dropDownCurrentValue));
+                        getWalletFromDatabase();
+                        // Navigator.of(context).pop();
+                      },
+                    ),
+
                   ],
                 ),
               ),
@@ -277,24 +303,18 @@ class _WalletViewState extends State<WalletView> {
                           ],
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(25.0),
-                          child: ExpansionTile(
-                            iconColor: Theme.of(context).colorScheme.secondary,
-                            backgroundColor: Theme.of(context).primaryColor,
-                            collapsedBackgroundColor:
-                                Theme.of(context).backgroundColor,
-                            title: Text(
-                              "Selected Address",
-                              style: Theme.of(context).textTheme.bodyText2,
-                            ),
-                            children: <Widget>[
-                              Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child:  Card(
+                            clipBehavior: Clip.hardEdge,
+                              color: Theme.of(context).colorScheme.primaryVariant,
+                              child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: SelectableText(dropDownCurrentValue),
-                              ),
-                            ],
+                              )),
+
+
                           ),
-                        ),
+
                         const SizedBox(
                           height: 50,
                         ),
