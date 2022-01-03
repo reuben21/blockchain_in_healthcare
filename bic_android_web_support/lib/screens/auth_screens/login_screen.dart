@@ -1,4 +1,8 @@
 import 'dart:async';
+import 'package:bic_android_web_support/providers/wallet.dart';
+import 'package:bic_android_web_support/screens/Tabs/tabs_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import '../../providers/patient.dart';
 import '../../theme.dart';
 import '../../widgets/forms/login_form.dart';
@@ -10,6 +14,7 @@ import 'package:provider/provider.dart';
 import 'package:web3dart/credentials.dart';
 
 class LoginScreen extends StatefulWidget {
+  static const routeName = '/screen-login';
   // const LoginScreen({Key key}) : super(key: key);
 
   @override
@@ -17,10 +22,48 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
+  FirebaseAuth auth = FirebaseAuth.instance;
 
   final _formKey = GlobalKey<FormBuilderState>();
 
+  void _submit(String emailId, String password) async {
+    print(emailId+" "+password);
+    try {
+      auth.signInWithEmailAndPassword(email: emailId, password: password)
+          .then((value) async =>
+      {
+
+        if ( value.user?.uid != null) {
+
+          await Provider.of<WalletModel>(context, listen: false)
+              .signInWithWallet( value.user?.uid, password)
+
+          // _showErrorDialog("Wallet Has Been Created");
+
+        }
+      });
+      Navigator.of(context).pushNamed(TabsScreen.routeName);
+    } catch (error) {
+      _showErrorDialog(error.toString());
+    }
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+        context: context,
+        builder: (ctx) =>
+            AlertDialog(
+              title: const Text('An Error Occurred'),
+              content: Text(message),
+              actions: <Widget>[
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(ctx).pop();
+                    },
+                    child: const Text('Okay'))
+              ],
+            ));
+  }
 
 
   @override
@@ -53,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Padding(
                           padding: const EdgeInsets.all(15),
                           child: FormBuilderTextField(
-                            obscureText: true,
+
                             maxLines: 1,
                             name: 'emailId',
                             decoration: const InputDecoration(
@@ -134,9 +177,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 onPressed: () async {
                   _formKey.currentState?.save();
                   if (_formKey.currentState?.validate() != null) {
-                    print(_formKey.currentState?.value["privateAddress"]);
 
 
+                    _submit(_formKey.currentState?.value["emailId"],_formKey.currentState?.value["password"]);
 
 
                   } else {

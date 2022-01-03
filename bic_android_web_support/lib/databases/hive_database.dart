@@ -13,5 +13,13 @@ class WalletHive extends HiveObject {
   late String walletEncryptedKey;
 
   @HiveField(2)
+  late String userName;
+
+  @HiveField(3)
+  late String userEmail;
+
+
+  @HiveField(4)
   late DateTime createdDate;
 }
+

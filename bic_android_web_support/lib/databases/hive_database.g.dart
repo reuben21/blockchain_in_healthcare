@@ -19,18 +19,24 @@ class WalletHiveAdapter extends TypeAdapter<WalletHive> {
     return WalletHive()
       ..walletAddress = fields[0] as String
       ..walletEncryptedKey = fields[1] as String
-      ..createdDate = fields[2] as DateTime;
+      ..userName = fields[2] as String
+      ..userEmail = fields[3] as String
+      ..createdDate = fields[4] as DateTime;
   }
 
   @override
   void write(BinaryWriter writer, WalletHive obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.walletAddress)
       ..writeByte(1)
       ..write(obj.walletEncryptedKey)
       ..writeByte(2)
+      ..write(obj.userName)
+      ..writeByte(3)
+      ..write(obj.userEmail)
+      ..writeByte(4)
       ..write(obj.createdDate);
   }
 

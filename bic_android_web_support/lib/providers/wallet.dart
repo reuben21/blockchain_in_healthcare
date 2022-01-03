@@ -3,27 +3,24 @@ import 'dart:io';
 import 'dart:math';
 import 'package:bic_android_web_support/databases/boxes.dart';
 import 'package:bic_android_web_support/databases/hive_database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart' as firestore;
+
 
 import '../helpers/keys.dart' as keys;
-// import '../mongo_db/wallet_database.dart';
+
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
-import '../helpers/http_exception.dart'
-as exception;
+import '../helpers/http_exception.dart' as exception;
 
 import 'package:provider/provider.dart';
 import 'package:web3dart/web3dart.dart';
 
-class UniqueWalletModel {
-  const UniqueWalletModel(this.walletAddress, this.walletString);
-
-  final String walletAddress;
-  final String walletString;
-}
-
 class WalletModel with ChangeNotifier {
+  firestore.CollectionReference userFirestore =
+      firestore.FirebaseFirestore.instance.collection('users');
+
   late String _walletAddress;
   late String _walletPassword;
   late String _walletCredentials;
@@ -80,7 +77,7 @@ class WalletModel with ChangeNotifier {
     EthereumAddress contractAddress;
 
     String abiString =
-    await rootBundle.loadString('assets/abis/HospitalToken.json');
+        await rootBundle.loadString('assets/abis/HospitalToken.json');
     var abiJson = jsonDecode(abiString);
     abi = jsonEncode(abiJson['abi']);
 
@@ -100,8 +97,10 @@ class WalletModel with ChangeNotifier {
     return _client.getBalance(address);
   }
 
-  Future<List<dynamic>> readContract(ContractFunction functionName,
-      List<dynamic> functionArgs,) async {
+  Future<List<dynamic>> readContract(
+    ContractFunction functionName,
+    List<dynamic> functionArgs,
+  ) async {
     final contract = await getDeployedContract();
     var queryResult = await _client.call(
       contract: contract,
@@ -125,17 +124,16 @@ class WalletModel with ChangeNotifier {
     );
   }
 
-  Future<void> createWalletInternally(String password) async {
+  Future<void> createWalletInternally(
+      String fullName, String emailId, String? userId, String password) async {
     Credentials credentials;
     EthereumAddress myAddress;
-
 
     try {
       var rng = Random.secure();
 
-      BigInt EthPrivateKeyInteger = EthPrivateKey
-          .createRandom(rng)
-          .privateKeyInt;
+      BigInt EthPrivateKeyInteger =
+          EthPrivateKey.createRandom(rng).privateKeyInt;
 
       credentials = EthPrivateKey.fromInt(EthPrivateKeyInteger);
       myAddress = await credentials.extractAddress();
@@ -146,33 +144,26 @@ class WalletModel with ChangeNotifier {
       _walletAddress = myAddress.hex.toString();
       _walletCredentials = wallet.toJson().toString();
 
-
       Wallet newWallet = Wallet.fromJson(_walletCredentials, password);
       print(newWallet.privateKey.privateKeyInt);
 
-      // var dbNewResponse = await MongoDBProviderWallet().newWallet(
-      //     _walletAddress,
-      //     _walletCredentials);
+      userFirestore.doc(userId).set({
+        'userName': fullName,
+        'userEmail': emailId,
+        'walletAddress': newWallet.privateKey.address.hex,
+        'walletEncryptedKey': _walletCredentials
+      }).then((value) => {});
 
       final walletHive = WalletHive()
         ..walletAddress = newWallet.privateKey.address.hex
         ..walletEncryptedKey = _walletCredentials
+        ..userEmail = emailId
+        ..userName = fullName
         ..createdDate = DateTime.now();
 
       final box = Boxes.getWallets();
       box.add(walletHive);
 
-      //
-      // // Declaring Database is Important
-      // MyDatabase database = MyDatabase();
-      //
-      // var dbResponse = await database.insertWallet(WalletTableData(
-      //     walletAddress: newWallet.privateKey.address.hex,
-      //     walletEncryptedKey: "dbNewResponse['walletEncryptedKey']",
-      //     dueDate: DateTime.now())
-      // );
-
-
       notifyListeners();
     } on SocketException {
       throw exception.HttpException("No Internet connection 😑");
@@ -186,34 +177,34 @@ class WalletModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> signInWithWallet(String walletAddress, String password) async {
+  Future<void> signInWithWallet(String? uid, String password) async {
     Credentials credentials;
     EthereumAddress myAddress;
 
-    // Db db;
-    //
-    // db = await Db.create(keys.databaseUrl);
+    print(uid.toString()+" "+password);
+
+
 
     try {
-      // print(walletAddress + " " + password);
-      // await db.open();
-      // var dbNewResponse = await db.collection("wallet").find(
-      //     {'walletAddress': walletAddress}).toList();
-      // await db.close();
-      // // var dbNewResponse = await MongoDBProviderWallet().getWalletByWalletAddress(_walletAddress);
-      // print("Wallet Address" + " " +
-      //     dbNewResponse[0]['walletEncryptedKey'].toString());
-      // Wallet newWallet = Wallet.fromJson(
-      //     dbNewResponse[0]['walletEncryptedKey'], password);
 
-      // // Declaring Database is Important
-      // MyDatabase database = MyDatabase();
-      //
-      // var dbResponse = await database.insertWallet(WalletTableData(
-      //     walletAddress: newWallet.privateKey.address.hex,
-      //     walletEncryptedKey: dbNewResponse[0]['walletEncryptedKey'],
-      //     dueDate: DateTime.now()          )
-      // );
+      String emailId;
+      String fullName;
+      userFirestore.doc(uid).get().then((firestore.DocumentSnapshot documentSnapshot) {
+        if (documentSnapshot.exists) {
+          print('Document exists on the database');
+
+          final walletHive = WalletHive()
+            ..walletAddress = documentSnapshot.get('walletAddress')
+            ..walletEncryptedKey = documentSnapshot.get('walletEncryptedKey')
+            ..userEmail =  documentSnapshot.get('fullName')
+            ..userName = ''
+            ..createdDate = DateTime.now();
+
+          final box = Boxes.getWallets();
+          box.add(walletHive);
+        }
+
+      });
 
 
 
@@ -229,7 +220,6 @@ class WalletModel with ChangeNotifier {
     }
     notifyListeners();
   }
-
 
   Future<bool> transferEther(Credentials credentials, String senderAddress,
       String receiverAddress, String amount) async {
@@ -244,12 +234,11 @@ class WalletModel with ChangeNotifier {
               to: EthereumAddress.fromHex(receiverAddress),
               value: EtherAmount.fromUnitAndValue(EtherUnit.ether, amount)));
 
-
       TransactionInformation tx =
-      await _client.getTransactionByHash(transactionHash);
+          await _client.getTransactionByHash(transactionHash);
 
       TransactionReceipt? txReceipt =
-      await _client.getTransactionReceipt(transactionHash);
+          await _client.getTransactionReceipt(transactionHash);
 
       DateTime dateTime;
       dateTime = DateTime.now();
@@ -257,7 +246,6 @@ class WalletModel with ChangeNotifier {
       // var dbResponse = await DBProviderTransactions.db.newTransaction(transactionHash, tx.blockNumber.toString(),
       //     tx.value.getInEther.toString(), tx.from.hex, tx.to.hex,dateTime.toIso8601String());
       //
-
 
       if (tx.hash.isNotEmpty) {
         return true;

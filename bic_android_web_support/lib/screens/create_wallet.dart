@@ -13,7 +13,12 @@ import 'package:velocity_x/velocity_x.dart';
 import '../helpers/http_exception.dart' as exception;
 
 class CreateWallet extends StatefulWidget {
-  // CreateWallet({required Key key}) : super(key: key);
+  static const routeName = '/wallet-creation';
+
+  final String userId;
+  final String fullName;
+
+  const CreateWallet({required this.userId,required this.fullName});
 
   @override
   State<CreateWallet> createState() => _CreateWalletState();
@@ -21,21 +26,23 @@ class CreateWallet extends StatefulWidget {
 
 class _CreateWalletState extends State<CreateWallet> {
 
+
   @override
   void initState() {
+
 
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     super.initState();
   }
 
-  void _submit(String password) async {
+  void _submit(String fullName,String userId,String password) async {
     try {
       // TODO: WALLET CREATION
-      await Provider.of<WalletModel>(context, listen: false)
-          .createWalletInternally(password);
-
-      // _showErrorDialog("Wallet Has Been Created");
-      Navigator.of(context).pushNamed(TabsScreen.routeName);
+      // await Provider.of<WalletModel>(context, listen: false)
+      //     .createWalletInternally(fullName,userId,password);
+      //
+      // // _showErrorDialog("Wallet Has Been Created");
+      // Navigator.of(context).pushNamed(TabsScreen.routeName);
     }  on exception.HttpException catch (error)  {
       _showErrorDialog(error.toString());
 
@@ -83,7 +90,7 @@ class _CreateWalletState extends State<CreateWallet> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 30),
                             child: Text(
-                              "Let's Start By Creating Your Wallet",
+                              "Hi ${widget.fullName}, Let's Start By Setting Up Your Wallet",
                               style: Theme.of(context).textTheme.headline1,
                               textAlign: TextAlign.left,
                             ),
@@ -163,10 +170,12 @@ class _CreateWalletState extends State<CreateWallet> {
 
                               _formKey.currentState?.save();
                               if (_formKey.currentState?.validate() != null) {
+                                String userId = widget.userId;
+                                String fullName = widget.fullName;
                                 String password = _formKey
                                     .currentState?.value["password"];
 
-                                _submit(password);
+                                _submit(fullName,userId,password);
 
                               }
 

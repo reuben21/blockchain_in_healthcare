@@ -11,7 +11,7 @@ module.exports = {
       websockets: true, // Enable EventEmitter interface for web3 (default: false)
     },
   },
-  contracts_build_directory: "./blockchain_healthcare_frontend/assets/abis/",
+  contracts_build_directory: "./bic_android_web_support/assets/abis/",
   compilers: {
     solc: {
       version: "0.8.0", // A version or constraint - Ex. "^0.5.0"

@@ -3,34 +3,31 @@ pragma solidity ^0.8.0;
 //SPDX-License-Identifier: MIT
 import "./access/AccessControlEnumerable.sol";
 import "./Roles.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
+import "./openzeppelin/contracts/utils/Counters.sol";
 
 struct patientRecord {
-        string name;
-        string personalDetails;
-        address hospitalAddress;
-        address walletAddress;
-        string[] previousPatientRecordHashes;
-        string newMedicalRecordHash;
-        string[] previousPatientPrescriptionHashes;
-        string newPatientPrescriptionHashes;
-    }
+    string name;
+    string personalDetails;
+    address hospitalAddress;
+    address walletAddress;
+    string[] previousPatientRecordHashes;
+    string newMedicalRecordHash;
+    string[] previousPatientPrescriptionHashes;
+    string newPatientPrescriptionHashes;
+}
 
 struct doctorRecord {
-        string name;
-        string personalDetails;
-        address hospitalAddress;
-        address walletAddress;
-    }
+    string name;
+    string personalDetails;
+    address hospitalAddress;
+    address walletAddress;
+}
 
 struct pharmacyRecord {
-        string name;
-        string personalDetails;
-        address walletAddress;
-    }
-
-
-
+    string name;
+    string personalDetails;
+    address walletAddress;
+}
 
 contract MainContract is AccessControl {
     using Counters for Counters.Counter;
@@ -47,7 +44,7 @@ contract MainContract is AccessControl {
     Counters.Counter doctorCounter;
     Counters.Counter hospitalCounter;
     Counters.Counter pharmacyCounter;
-    
+
     //: Constructor
     constructor() {
         _setRoleAdmin(HOSPITAL_ADMIN, HOSPITAL_ADMIN);
@@ -58,9 +55,13 @@ contract MainContract is AccessControl {
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
     }
 
-    event LogStorePatient( string name, address hospitalAddress,  string _personalDetails,  address owner);
+    event LogStorePatient(
+        string name,
+        address hospitalAddress,
+        string _personalDetails,
+        address owner
+    );
     event LogUpdatePatientPersonalDetails(string name, string _personalDetails);
-
 
     //: PATIENT DATABASE
     mapping(address => patientRecord) patientDatabase;
@@ -70,28 +71,23 @@ contract MainContract is AccessControl {
         string memory _personalDetails,
         address _hospitalAddress,
         address _walletAddress
-  
     ) external returns (bool status) {
         if (hasRole(PATIENT, _walletAddress)) {
-
-        patientDatabase[_walletAddress].name = _name;
-        patientDatabase[_walletAddress].personalDetails = _personalDetails;
-        patientDatabase[_walletAddress].hospitalAddress = _hospitalAddress;
-        patientDatabase[_walletAddress].walletAddress = _walletAddress;
-        
-
+            patientDatabase[_walletAddress].name = _name;
+            patientDatabase[_walletAddress].personalDetails = _personalDetails;
+            patientDatabase[_walletAddress].hospitalAddress = _hospitalAddress;
+            patientDatabase[_walletAddress].walletAddress = _walletAddress;
         } else {
             _setupRole(PATIENT, _walletAddress);
-   
-        patientDatabase[_walletAddress].name = _name;
-        patientDatabase[_walletAddress].personalDetails = _personalDetails;
-        patientDatabase[_walletAddress].hospitalAddress = _hospitalAddress;
-        patientDatabase[_walletAddress].walletAddress = _walletAddress;
-        hospitalDatabase[_hospitalAddress].patientInHospital.increment();
-        patientCounter.increment();
 
+            patientDatabase[_walletAddress].name = _name;
+            patientDatabase[_walletAddress].personalDetails = _personalDetails;
+            patientDatabase[_walletAddress].hospitalAddress = _hospitalAddress;
+            patientDatabase[_walletAddress].walletAddress = _walletAddress;
+            hospitalDatabase[_hospitalAddress].patientInHospital.increment();
+            patientCounter.increment();
         }
-        
+
         emit LogStorePatient(
             patientDatabase[_walletAddress].name,
             patientDatabase[_walletAddress].hospitalAddress,
@@ -102,32 +98,28 @@ contract MainContract is AccessControl {
         return true;
     }
 
-
-     function changeHospitalForPatient(
-
+    function changeHospitalForPatient(
         address _previousHospitalAddress,
         address _newHospitalAddress,
         address _walletAddress
-  
     ) external returns (bool status) {
-        
-    
         hospitalDatabase[_previousHospitalAddress].patientInHospital.decrement();
 
         patientDatabase[_walletAddress].hospitalAddress = _newHospitalAddress;
-        
-        hospitalDatabase[_newHospitalAddress].patientInHospital.increment();
 
+        hospitalDatabase[_newHospitalAddress].patientInHospital.increment();
 
         return true;
     }
 
-    function retrievePatientCount() external view returns (uint256 patientCount) {
+    function retrievePatientCount()
+        external
+        view
+        returns (uint256 patientCount)
+    {
         return patientCounter.current();
     }
 
-  
- 
     function retrievePatientData(address _walletAddress)
         external
         view
@@ -136,11 +128,12 @@ contract MainContract is AccessControl {
             string memory personalDetails,
             address hospitalAddress,
             address walletAddress
-        ) {
+        )
+    {
         return (
             patientDatabase[_walletAddress].name,
             patientDatabase[_walletAddress].personalDetails,
-             patientDatabase[_walletAddress].hospitalAddress,
+            patientDatabase[_walletAddress].hospitalAddress,
             _walletAddress
         );
     }
@@ -226,16 +219,21 @@ contract MainContract is AccessControl {
             patientDatabase[_patientAddress].previousPatientPrescriptionHashes;
     }
 
-    function getNewRecords(address _patientAddress) external view returns (string memory status)
+    function getNewRecords(address _patientAddress)
+        external
+        view
+        returns (string memory status)
     {
         return patientDatabase[_patientAddress].newMedicalRecordHash;
     }
 
-    function getMultipleRecords(address _patientAddress) external view returns (string[] memory status)
+    function getMultipleRecords(address _patientAddress)
+        external
+        view
+        returns (string[] memory status)
     {
         return patientDatabase[_patientAddress].previousPatientRecordHashes;
     }
-
 
     event LogStoreDoctor(string name, string personalDetails, address owner);
     event LogUpdateDoctor(string name, string personalDetails);
@@ -250,28 +248,21 @@ contract MainContract is AccessControl {
         address _hospitalAddress,
         address _walletAddress
     ) external returns (bool status) {
-
-           if (hasRole(DOCTOR, _walletAddress)) {
-                
-                _setupRole(DOCTOR, _walletAddress);
-        doctorDatabase[_walletAddress].name = name;
-        doctorDatabase[_walletAddress].walletAddress = _walletAddress;
-        doctorDatabase[_walletAddress].hospitalAddress = _hospitalAddress;
-        doctorDatabase[_walletAddress].personalDetails = _personalDetails;
-        
-           } else {
-            
+        if (hasRole(DOCTOR, _walletAddress)) {
             _setupRole(DOCTOR, _walletAddress);
-        doctorDatabase[_walletAddress].name = name;
-        doctorDatabase[_walletAddress].walletAddress = _walletAddress;
-        doctorDatabase[_walletAddress].hospitalAddress = _hospitalAddress;
-        doctorDatabase[_walletAddress].personalDetails = _personalDetails;
-        hospitalDatabase[_hospitalAddress].doctorInHospital.increment();
-        doctorCounter.increment();
-          
-           }
-
-       
+            doctorDatabase[_walletAddress].name = name;
+            doctorDatabase[_walletAddress].walletAddress = _walletAddress;
+            doctorDatabase[_walletAddress].hospitalAddress = _hospitalAddress;
+            doctorDatabase[_walletAddress].personalDetails = _personalDetails;
+        } else {
+            _setupRole(DOCTOR, _walletAddress);
+            doctorDatabase[_walletAddress].name = name;
+            doctorDatabase[_walletAddress].walletAddress = _walletAddress;
+            doctorDatabase[_walletAddress].hospitalAddress = _hospitalAddress;
+            doctorDatabase[_walletAddress].personalDetails = _personalDetails;
+            hospitalDatabase[_hospitalAddress].doctorInHospital.increment();
+            doctorCounter.increment();
+        }
 
         emit LogStoreDoctor(
             doctorDatabase[_walletAddress].name,
@@ -286,7 +277,10 @@ contract MainContract is AccessControl {
         return doctorCounter.current();
     }
 
-    function retrieveDoctorData( address _walletAddress) public view returns (
+    function retrieveDoctorData(address _walletAddress)
+        public
+        view
+        returns (
             string memory name,
             string memory personalDetails,
             address hospitalAddress
@@ -323,11 +317,18 @@ contract MainContract is AccessControl {
         return true;
     }
 
-    function retrievePharmacyCount() external view returns (uint256 pharmacyCount) {
+    function retrievePharmacyCount()
+        external
+        view
+        returns (uint256 pharmacyCount)
+    {
         return pharmacyCounter.current();
     }
 
-    function getPharmacyData(address _walletAddress)   public  view  returns (
+    function getPharmacyData(address _walletAddress)
+        public
+        view
+        returns (
             string memory name,
             string memory pharmacyDetails,
             address walletAddress
@@ -340,9 +341,11 @@ contract MainContract is AccessControl {
         );
     }
 
-
-
-    event LogHospital(string name,string _hospitalDetails, address walletAddress);
+    event LogHospital(
+        string name,
+        string _hospitalDetails,
+        address walletAddress
+    );
     event LogUpdateHospital(string name, string dateOfBirth);
     event LogDeleteHospital(string name, uint256 empIdIndex);
 
@@ -365,15 +368,27 @@ contract MainContract is AccessControl {
         return true;
     }
 
-    function retrieveHospitalCount() external view returns (uint256 hospitalCount) {
+    function retrieveHospitalCount()
+        external
+        view
+        returns (uint256 hospitalCount)
+    {
         return hospitalCounter.current();
     }
 
-    function retrieveHospitalSpecificCountOfDoctors(address _hospitalAddress) external view returns (uint256 doctorCountInHospital) {
+    function retrieveHospitalSpecificCountOfDoctors(address _hospitalAddress)
+        external
+        view
+        returns (uint256 doctorCountInHospital)
+    {
         return hospitalDatabase[_hospitalAddress].doctorInHospital.current();
     }
 
-    function retrieveHospitalSpecificCountOfPatients(address _hospitalAddress) external view returns (uint256 patientCountInHospital) {
+    function retrieveHospitalSpecificCountOfPatients(address _hospitalAddress)
+        external
+        view
+        returns (uint256 patientCountInHospital)
+    {
         return hospitalDatabase[_hospitalAddress].patientInHospital.current();
     }
 
@@ -392,5 +407,4 @@ contract MainContract is AccessControl {
             hospitalDatabase[addressOfUser].walletAddress
         );
     }
-
 }

@@ -137,7 +137,9 @@ class MyApp extends StatelessWidget {
             WalletView.routeName: (ctx) => WalletView(),
             WalletLogin.routeName: (ctx) => WalletLogin(),
             TransferScreen.routeName: (ctx) => TransferScreen(address: '',),
-            TabsScreen.routeName: (ctx) => TabsScreen()
+            TabsScreen.routeName: (ctx) => TabsScreen(),
+            LoginScreen.routeName: (ctx)=> LoginScreen(),
+            SignUpScreen.routeName: (ctx)=> SignUpScreen()
           },
         ),
       ),
