@@ -1,23 +1,14 @@
-// import 'dart:async';
-
-
-
-import 'dart:io';
-
 import 'package:bic_android_web_support/databases/hive_database.dart';
 import 'package:bic_android_web_support/screens/auth_screens/login_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
 import '../providers/ipfs.dart';
 import '../providers/patient.dart';
 import '../providers/wallet.dart';
 import '../screens/Tabs/tabs_screen.dart';
-import '../screens/create_wallet.dart';
 import '../screens/medical_records_screen.dart';
 import '../screens/prescription_screen.dart';
 import 'screens/auth_screens/sign_up_screen.dart';
-import '../screens/splash_screen.dart';
 import '../screens/transfer_screen.dart';
 import '../screens/view_wallet.dart';
 import '../screens/wallet.dart';

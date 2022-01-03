@@ -4,20 +4,18 @@ import 'dart:math';
 import 'package:bic_android_web_support/databases/boxes.dart';
 import 'package:bic_android_web_support/databases/hive_database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart' as firestore;
-
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../helpers/keys.dart' as keys;
-
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import '../helpers/http_exception.dart' as exception;
-
-import 'package:provider/provider.dart';
 import 'package:web3dart/web3dart.dart';
 
 class WalletModel with ChangeNotifier {
+  FirebaseAuth auth = FirebaseAuth.instance;
   firestore.CollectionReference userFirestore =
       firestore.FirebaseFirestore.instance.collection('users');
 
@@ -221,6 +219,36 @@ class WalletModel with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<bool> estimateGas(Credentials credentials, String senderAddress,
+      String receiverAddress, String amount) async {
+    try {
+      EthereumAddress transactionTo;
+      EthereumAddress transactionFrom;
+
+     var gasEstimate = await _client.estimateGas(sender: EthereumAddress.fromHex(senderAddress),
+      to: EthereumAddress.fromHex(receiverAddress),value: EtherAmount.fromUnitAndValue(EtherUnit.ether, amount));
+
+     print(gasEstimate);
+
+
+      DateTime dateTime;
+      dateTime = DateTime.now();
+
+      notifyListeners();
+      return true;
+
+    } on SocketException {
+      throw exception.HttpException("No Internet connection 😑");
+    } on HttpException {
+      throw exception.HttpException("Couldn't find the post 😱");
+    } on FormatException {
+      throw exception.HttpException("Bad response format 👎");
+    } catch (error) {
+      throw exception.HttpException(error.toString());
+    }
+    notifyListeners();
+  }
+
   Future<bool> transferEther(Credentials credentials, String senderAddress,
       String receiverAddress, String amount) async {
     try {
@@ -240,12 +268,19 @@ class WalletModel with ChangeNotifier {
       TransactionReceipt? txReceipt =
           await _client.getTransactionReceipt(transactionHash);
 
+      userFirestore.doc(auth.currentUser?.uid.toString()).collection("transactions").doc().set({
+        "from":tx.from.hex,
+        "to":tx.to?.hex,
+        "value":tx.value.getInEther,
+        "status":txReceipt?.status.toString(),
+        "blockNumber":txReceipt?.blockNumber,
+        "contractAddress":txReceipt?.contractAddress,
+        "gasUsed":txReceipt?.gasUsed,
+        "transactionHash":transactionHash
+      });
       DateTime dateTime;
       dateTime = DateTime.now();
 
-      // var dbResponse = await DBProviderTransactions.db.newTransaction(transactionHash, tx.blockNumber.toString(),
-      //     tx.value.getInEther.toString(), tx.from.hex, tx.to.hex,dateTime.toIso8601String());
-      //
 
       if (tx.hash.isNotEmpty) {
         return true;

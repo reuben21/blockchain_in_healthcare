@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:bic_android_web_support/databases/boxes.dart';
+import 'package:bic_android_web_support/databases/hive_database.dart';
+
 import '../providers/wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -107,9 +110,9 @@ class _TransferScreenState extends State<TransferScreen> {
                           ),
                         ),
                       ),
-                      Text((result != null)
-                          ? "Ethereum Address: " + result.code.toString()
-                          : "Scan for Address"),
+                      // Text((result != null)
+                      //     ? "Ethereum Address: " + result.code.toString()
+                      //     : "Scan for Address"),
                       IconButton(
                         icon: const Icon(Icons.qr_code_scanner),
                         onPressed: () {
@@ -275,13 +278,15 @@ class _TransferScreenState extends State<TransferScreen> {
                                       // print(dbResponse);
 
                                       if (true) {
+                                        final box = Boxes.getWallets();
+                                        var dbResponse = box.values.toList().cast<WalletHive>();
 
-                                        Wallet newWallet = Wallet.fromJson(" ", password);
+                                        Wallet newWallet = Wallet.fromJson(dbResponse[0].walletEncryptedKey, password);
                                         credentialsNew = newWallet.privateKey;
                                         myAddress = await credentialsNew.extractAddress();
                                         print(myAddress);
                                        var txStatus = await Provider.of<WalletModel>(context, listen: false)
-                                            .transferEther(credentialsNew, myAddress.hex ,receiverAddress,amount);
+                                            .estimateGas(credentialsNew, myAddress.hex ,receiverAddress,amount);
                                         if (txStatus) {
                                           Navigator.pop(context);
                                         }
