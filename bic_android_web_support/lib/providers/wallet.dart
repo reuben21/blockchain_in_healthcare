@@ -225,11 +225,11 @@ class WalletModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> walletLogOut( String senderAddress,
-      String receiverAddress, String amount) async {
+  Future<bool> walletLogOut() async {
     try {
-
-
+      final box = Boxes.getWallets();
+      box.deleteFromDisk();
+      auth.signOut();
       return true;
 
     } on SocketException {

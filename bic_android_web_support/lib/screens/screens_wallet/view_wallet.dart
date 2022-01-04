@@ -128,24 +128,7 @@ class _WalletViewState extends State<WalletView> {
                 child: PopupMenuButton(
                   icon: Icon(Icons.more_vert),
                   itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-                    PopupMenuItem(
 
-                      height: 10,
-                      child:  ListTile(
-                        leading: const Icon(Icons.delete_outlined),
-                        title: const Text('Delete Account',style: TextStyle(fontSize: 18),),
-                        iconColor: Theme.of(context).colorScheme.primary,
-                        textColor:Theme.of(context).colorScheme.primary ,
-
-                      ),
-                      onTap: () async {
-                        // var dbResponse =
-                        //     await Provider.of<MyDatabase>(context, listen: false)
-                        //         .deleteWallet(WalletTableData(walletAddress: dropDownCurrentValue));
-                        // getWalletFromDatabase();
-                        // Navigator.of(context).pop();
-                      },
-                    ),
                     PopupMenuItem(
 
                       height: 10,
@@ -157,11 +140,14 @@ class _WalletViewState extends State<WalletView> {
 
                       ),
                       onTap: () async {
-                        // var dbResponse =
-                        // await Provider.of<MyDatabase>(context, listen: false)
-                        //     .deleteWallet(WalletTableData(walletAddress: dropDownCurrentValue));
+                        var walletLogoutStatus =
+                        await Provider.of<WalletModel>(context, listen: false)
+                            .walletLogOut();
                         // getWalletFromDatabase();
-                        // Navigator.of(context).pop();
+                        if(walletLogoutStatus) {
+                          Navigator.of(context).pushReplacementNamed("/");
+                        }
+
                       },
                     ),
 
