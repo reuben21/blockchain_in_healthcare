@@ -1,4 +1,5 @@
 import 'package:bic_android_web_support/databases/hive_database.dart';
+import 'package:bic_android_web_support/providers/credentials.dart';
 import 'package:bic_android_web_support/screens/screens_auth/login_screen.dart';
 import 'package:bic_android_web_support/screens/screens_auth/sign_up_screen.dart';
 import 'package:bic_android_web_support/screens/screens_wallet/confirmation_screen.dart';
@@ -45,7 +46,9 @@ class MyApp extends StatelessWidget {
 
     return MultiProvider(
       providers: [
-
+        ChangeNotifierProvider(
+          create: (ctx) => CredentialsModel(),
+        ),
         ChangeNotifierProvider(
           create: (ctx) => PatientsModel(),
         ),

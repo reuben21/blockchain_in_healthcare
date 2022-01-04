@@ -6,6 +6,7 @@ import '../../screens/prescription_screen.dart';
 
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class TabsScreen extends StatefulWidget {
 
@@ -33,7 +34,7 @@ class _TabsScreenState extends State<TabsScreen> {
     _screens = [
       {'page':MedicalRecordScreen()  },
       {'page':PrescriptionScreen() },
-      {'page':WalletView() }
+      {'page': WalletView() }
     ];
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     super.initState();
