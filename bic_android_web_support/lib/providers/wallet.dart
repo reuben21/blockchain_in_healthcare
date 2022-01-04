@@ -47,17 +47,7 @@ class WalletModel with ChangeNotifier {
   late bool isLoading = true;
   late Web3Client _client;
 
-  // String _abiCode;
-  // Credentials _credentials;
-  // EthereumAddress _contractAddress;
-  // EthereumAddress _ownAddress;
-  // DeployedContract _contract;
-  // ContractFunction _registerPatient;
-  // ContractFunction _getPatientData;
-  // ContractFunction _getUserAddress;
-  // ContractFunction _getSignatureHash;
-  // ContractFunction _getNewRecords;
-  // ContractFunction _updatePatientMedicalRecords;
+
 
   final String _rpcUrl = keys.rpcUrl;
 

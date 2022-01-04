@@ -29,11 +29,8 @@ class WalletView extends StatefulWidget {
 }
 
 class _WalletViewState extends State<WalletView> {
-  final String _rpcUrl = keys.rpcUrl;
-  late Web3Client _client;
   final String screenName = "view_wallet.dart";
   FirebaseAuth auth = FirebaseAuth.instance;
-
 
   CarouselController buttonCarouselController = CarouselController();
 
@@ -496,7 +493,7 @@ class _WalletViewState extends State<WalletView> {
                               child: SingleChildScrollView(
                                 child: ListView.builder(
                                     shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
+                                    physics: const NeverScrollableScrollPhysics(),
                                     itemCount: documents?.length,
                                     itemBuilder: (BuildContext context, int position) {
 
@@ -518,41 +515,39 @@ class _WalletViewState extends State<WalletView> {
                                           children: <Widget>[
                                             Padding(
                                               padding: const EdgeInsets.all(15.0),
-                                              child: Container(
-                                                child: Column(
-                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(bottom: 5),
-                                                      child: Text(
-                                                        'To: ${documents[position]['to'].toString()}',
-                                                        style: TextStyle(color: Theme.of(context).colorScheme.primary ),
-                                                      ),
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(bottom: 5),
+                                                    child: Text(
+                                                      'To: ${documents[position]['to'].toString()}',
+                                                      style: TextStyle(color: Theme.of(context).colorScheme.primary ),
                                                     ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(bottom: 5),
-                                                      child: Text(
-                                                        'from: ${documents[position]['from'].toString()}',
-                                                        style: TextStyle(color: Theme.of(context).colorScheme.primary ),
-                                                      ),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(bottom: 5),
+                                                    child: Text(
+                                                      'From: ${documents[position]['from'].toString()}',
+                                                      style: TextStyle(color: Theme.of(context).colorScheme.primary ),
                                                     ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(bottom: 5),
-                                                      child: Text(
-                                                        'Block Number: ${documents[position]['blockNumber'].toString()}',
-                                                        style: TextStyle(color: Theme.of(context).colorScheme.primary ),
-                                                      ),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(bottom: 5),
+                                                    child: Text(
+                                                      'Block Number: ${documents[position]['blockNumber'].toString()}',
+                                                      style: TextStyle(color: Theme.of(context).colorScheme.primary ),
                                                     ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(bottom: 5),
-                                                      child: Text(
-                                                        'Transaction Hash: ${documents[position]['transactionHash'].toString()}',
-                                                        style: TextStyle(color: Theme.of(context).colorScheme.primary ),
-                                                      ),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(bottom: 5),
+                                                    child: Text(
+                                                      'Transaction Hash: ${documents[position]['transactionHash'].toString()}',
+                                                      style: TextStyle(color: Theme.of(context).colorScheme.primary ),
                                                     ),
-                                                  ],
-                                                ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
 
