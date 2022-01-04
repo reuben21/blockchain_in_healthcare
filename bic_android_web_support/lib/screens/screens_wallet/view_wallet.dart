@@ -2,6 +2,8 @@
 import 'package:bic_android_web_support/databases/boxes.dart';
 import 'package:bic_android_web_support/databases/hive_database.dart';
 import 'package:bic_android_web_support/providers/wallet.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../providers/wallet.dart';
 import '../screens_wallet/transfer_screen.dart';
@@ -15,6 +17,7 @@ import 'package:velocity_x/velocity_x.dart';
 import 'package:web3dart/web3dart.dart';
 import '../../helpers/http_exception.dart'
     as exception;
+import '../../helpers/keys.dart' as keys;
 
 class WalletView extends StatefulWidget {
   static const routeName = '/view-wallet';
@@ -26,7 +29,11 @@ class WalletView extends StatefulWidget {
 }
 
 class _WalletViewState extends State<WalletView> {
+  final String _rpcUrl = keys.rpcUrl;
+  late Web3Client _client;
   final String screenName = "view_wallet.dart";
+  FirebaseAuth auth = FirebaseAuth.instance;
+
 
   CarouselController buttonCarouselController = CarouselController();
 
@@ -402,12 +409,19 @@ class _WalletViewState extends State<WalletView> {
                   ]),
                   10.heightBox,
                   // SingleChildScrollView(
-                  //   child: StreamBuilder(
-                  //     stream: _client.pendingTransactions(),
-                  //     builder:
-                  //         (BuildContext context, snapshot) {
+                  //   child: StreamBuilder<QuerySnapshot>(
+                  //     stream: FirebaseFirestore.instance
+                  //         .collection('users').doc(auth.currentUser?.uid).collection("transactions").snapshots(),
+                  //     builder:  (BuildContext context,  AsyncSnapshot<QuerySnapshot> snapshot) {
+                  //       if (snapshot.hasError) {
+                  //         return const Text('Something went wrong');
+                  //       }
+                  //       if (snapshot.connectionState == ConnectionState.waiting) {
+                  //         return const Text("Loading");
+                  //       }
                   //       if (snapshot.hasData) {
                   //         if (snapshot.data != null) {
+                  //           print(snapshot.data.docs.length);
                   //           return SizedBox(
                   //
                   //             child: SingleChildScrollView(
@@ -461,102 +475,111 @@ class _WalletViewState extends State<WalletView> {
                   //   ),
                   // ),
 
-                  // SingleChildScrollView(
-                  //   child: FutureBuilder(
-                  //     future: DBProviderTransactions.db.getTransaction,
-                  //     builder:
-                  //         (BuildContext context, AsyncSnapshot<List> snapshot) {
-                  //       if (snapshot.hasData) {
-                  //         if (snapshot.data != null) {
-                  //           return SizedBox(
-                  //
-                  //             child: SingleChildScrollView(
-                  //               child: ListView.builder(
-                  //                   shrinkWrap: true,
-                  //                   physics: NeverScrollableScrollPhysics(),
-                  //                   itemCount: snapshot.data!.length,
-                  //                   itemBuilder: (BuildContext context, int position) {
-                  //
-                  //                     return  Card(
-                  //                       color: Theme.of(context).colorScheme.secondary,
-                  //                       elevation: 0.0,
-                  //                       child: ExpansionTile(
-                  //                         backgroundColor:  Theme.of(context).colorScheme.secondary,
-                  //                         leading: Padding(
-                  //                           padding: const EdgeInsets.all(8.0),
-                  //                           child: Icon(Icons.download_done,color:  Theme.of(context).colorScheme.primary,),
-                  //                         ),
-                  //                         title: const Text(
-                  //                           'Successful',
-                  //                           style: TextStyle(
-                  //                             fontWeight: FontWeight.bold,
-                  //                           ),
-                  //                         ),
-                  //                         children: <Widget>[
-                  //                           Padding(
-                  //                             padding: const EdgeInsets.all(15.0),
-                  //                             child: Container(
-                  //                               child: Column(
-                  //                                 mainAxisAlignment: MainAxisAlignment.start,
-                  //                                 crossAxisAlignment: CrossAxisAlignment.start,
-                  //                                 children: [
-                  //                                   Padding(
-                  //                                     padding: const EdgeInsets.only(bottom: 5),
-                  //                                     child: Text(
-                  //                                       'To: ${snapshot.data![position]['toAddress']}',
-                  //                                       style: TextStyle(color: Theme.of(context).colorScheme.primary ),
-                  //                                     ),
-                  //                                   ),
-                  //                                   Padding(
-                  //                                     padding: const EdgeInsets.only(bottom: 5),
-                  //                                     child: Text(
-                  //                                       'from: ${snapshot.data![position]['fromAddress']}',
-                  //                                       style: TextStyle(color: Theme.of(context).colorScheme.primary ),
-                  //                                     ),
-                  //                                   ),
-                  //                                   Padding(
-                  //                                     padding: const EdgeInsets.only(bottom: 5),
-                  //                                     child: Text(
-                  //                                       'Block Number: ${snapshot.data![position]['blockNumber']}',
-                  //                                       style: TextStyle(color: Theme.of(context).colorScheme.primary ),
-                  //                                     ),
-                  //                                   ),
-                  //                                   Padding(
-                  //                                     padding: const EdgeInsets.only(bottom: 5),
-                  //                                     child: Text(
-                  //                                       'Transaction Hash: ${snapshot.data![position]['transactionHash']}',
-                  //                                       style: TextStyle(color: Theme.of(context).colorScheme.primary ),
-                  //                                     ),
-                  //                                   ),
-                  //                                 ],
-                  //                               ),
-                  //                             ),
-                  //                           ),
-                  //
-                  //                         ],
-                  //                         subtitle: Text(
-                  //                           'To: ${snapshot.data![position]['toAddress']}',
-                  //                           maxLines: 1,
-                  //                           overflow: TextOverflow.fade,
-                  //                           softWrap: false,
-                  //                         ),
-                  //                         trailing: Text('${snapshot.data![position]['value']} ETH',style: TextStyle(
-                  //                           fontWeight: FontWeight.bold,color: Theme.of(context).colorScheme.primary
-                  //                         ),),
-                  //                       ),
-                  //                   );}),
-                  //             ),
-                  //           );
-                  //         }
-                  //       }
-                  //         return Center(
-                  //           child: Text('Noch keine Aufgaben erstellt'),
-                  //         );
-                  //
-                  //     },
-                  //
-                  //   ),
-                  // ),
+                  SingleChildScrollView(
+                    child: StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance
+                                .collection('users').doc(auth.currentUser?.uid).collection("transactions").snapshots(),
+                      builder:
+                          (BuildContext context,  AsyncSnapshot<QuerySnapshot> snapshot)  {
+                  if (snapshot.hasError) {
+                          return const Text('Something went wrong');
+                        }
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const Text("Loading");
+                        }
+                        if (snapshot.hasData) {
+                          if (snapshot.data != null) {
+                            final documents = snapshot.data?.docs;
+                            print(documents?.length.toString());
+                            return SizedBox(
+
+                              child: SingleChildScrollView(
+                                child: ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemCount: documents?.length,
+                                    itemBuilder: (BuildContext context, int position) {
+
+                                      return  Card(
+                                        color: Theme.of(context).colorScheme.secondary,
+                                        elevation: 0.0,
+                                        child: ExpansionTile(
+                                          backgroundColor:  Theme.of(context).colorScheme.secondary,
+                                          leading: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Icon(Icons.download_done,color:  Theme.of(context).colorScheme.primary,),
+                                          ),
+                                          title:  Text(
+                                            documents![position]['status'].toString().toLowerCase() == "true" ? "Success" : "Fail" ,
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.all(15.0),
+                                              child: Container(
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(bottom: 5),
+                                                      child: Text(
+                                                        'To: ${documents[position]['to'].toString()}',
+                                                        style: TextStyle(color: Theme.of(context).colorScheme.primary ),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(bottom: 5),
+                                                      child: Text(
+                                                        'from: ${documents[position]['from'].toString()}',
+                                                        style: TextStyle(color: Theme.of(context).colorScheme.primary ),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(bottom: 5),
+                                                      child: Text(
+                                                        'Block Number: ${documents[position]['blockNumber'].toString()}',
+                                                        style: TextStyle(color: Theme.of(context).colorScheme.primary ),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(bottom: 5),
+                                                      child: Text(
+                                                        'Transaction Hash: ${documents[position]['transactionHash'].toString()}',
+                                                        style: TextStyle(color: Theme.of(context).colorScheme.primary ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+
+                                          ],
+                                          subtitle: Text(
+                                            'To: ${documents[position]['to']}',
+                                            maxLines: 1,
+                                            overflow: TextOverflow.fade,
+                                            softWrap: false,
+                                          ),
+                                          trailing: Text('${EtherAmount.fromUnitAndValue(EtherUnit.wei, documents[position]['value']).getInEther} ETH',style: TextStyle(
+                                            fontWeight: FontWeight.bold,color: Theme.of(context).colorScheme.primary
+                                          ),),
+                                        ),
+                                    );}),
+                              ),
+                            );
+                          }
+                        }
+                          return const Center(
+                            child: Text('No Transactions Found As Of Yet'),
+                          );
+
+                      },
+
+                    ),
+                  ),
                 ],
               ),
             ),

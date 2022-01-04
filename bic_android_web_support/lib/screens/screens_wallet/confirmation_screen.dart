@@ -257,6 +257,9 @@ class _ConfirmationScreenState extends State<ConfirmationScreen> {
                       ),
                     ],
                   ),
+                  const SizedBox(
+                    height: 15,
+                  ),
                   FloatingActionButton.extended(
                     backgroundColor: Theme.of(context).colorScheme.primary,
                     foregroundColor: Theme.of(context).colorScheme.secondary,

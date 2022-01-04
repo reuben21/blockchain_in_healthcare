@@ -502,6 +502,54 @@
 			{
 				"inputs": [
 					{
+						"internalType": "address",
+						"name": "_addressOfAdmin",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_addressOfDoctor",
+						"type": "address"
+					}
+				],
+				"name": "grantRoleVerifiedDoctor",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "success",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_addressOfAdmin",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_addressOfPatient",
+						"type": "address"
+					}
+				],
+				"name": "grantRoleVerifiedPatient",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "success",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "bytes32",
 						"name": "role",
 						"type": "bytes32"
@@ -976,20 +1024,12 @@
 		"remappings": []
 	},
 	"sources": {
-		"@openzeppelin/contracts/utils/Counters.sol": {
-			"keccak256": "0xf0018c2440fbe238dd3a8732fa8e17a0f9dce84d31451dc8a32f6d62b349c9f1",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://59e1c62884d55b70f3ae5432b44bb3166ad71ae3acd19c57ab6ddc3c87c325ee",
-				"dweb:/ipfs/QmezuXg5GK5oeA4F91EZhozBFekhq5TD966bHPH18cCqhu"
-			]
-		},
 		"MainContract.sol": {
-			"keccak256": "0xd20bfa6f2b6a1064bd80e62cf5e00b0bb352ce9c4f3b23913a1d3cd4d4038845",
+			"keccak256": "0x87cd8406ab9f1bf8acfb5a184166756d92aa96982ea7c24b614f1285d023337e",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://409fab9ba021ea458902448aded0d2302527146ccd8acae239f49b6be6580069",
-				"dweb:/ipfs/QmeZQtJgk14Yzm3RSnG7fLcAZ3yb5aPCnBGqZnYAQB1ANt"
+				"bzz-raw://aad6a9ba272f7daf9c8a7cfb7e6e202cb684e0f0c64dfaa538bb90923c064b84",
+				"dweb:/ipfs/QmakRTFmskshqw4EeqKLC1uq2igmXhHfFqirge1LFyAb6C"
 			]
 		},
 		"Roles.sol": {
@@ -1030,6 +1070,14 @@
 			"urls": [
 				"bzz-raw://54d94188708f9e8cf1e5d2535c70e1107ea7be1f1a6689b71b67919737b5ac58",
 				"dweb:/ipfs/Qme7Gnk6xYKTaEkRGGa8DYWp4wqgF66Ysj3GNrcFqAm5F1"
+			]
+		},
+		"openzeppelin/contracts/utils/Counters.sol": {
+			"keccak256": "0x559bd0c19c8909d19ee6f7660018c310c2c3f73501ab248978b63ab063a5aaad",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://78789eec369015ea63266e8ff7b7828fe8697d89e1ccc1d60573a3b6d1956858",
+				"dweb:/ipfs/QmPpdtDjCB2mshYtDkqiYXaN33G6jDwZLNqGVVzatVRGxP"
 			]
 		},
 		"utils/Context.sol": {

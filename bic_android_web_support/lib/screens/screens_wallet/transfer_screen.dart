@@ -269,7 +269,7 @@ class _TransferScreenState extends State<TransferScreen> {
                                     child: FormBuilderTextField(
                                       maxLines: 1,
                                       name: 'password',
-
+                                      obscureText: true,
                                       decoration: const InputDecoration(
                                         labelText: 'Password',
                                         prefixIcon: Icon(Icons.paid_outlined),

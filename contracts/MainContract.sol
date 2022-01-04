@@ -407,4 +407,29 @@ contract MainContract is AccessControl {
             hospitalDatabase[addressOfUser].walletAddress
         );
     }
+
+      // Grant Role VERIFIED_PATIENT To Patient
+    function grantRoleVerifiedPatient(
+        address _addressOfAdmin,
+        address _addressOfPatient
+    ) public returns (bool success) {
+        require(
+            hasRole(HOSPITAL_ADMIN, _addressOfAdmin) ||
+                hasRole(VERIFIED_DOCTOR, _addressOfAdmin)
+        );
+        require(hasRole(PATIENT, _addressOfPatient));
+        grantRole(VERIFIED_PATIENT, _addressOfPatient);
+        return true;
+    }
+
+    // Grant Role VERIFIED_DOCTOR to Doctor
+    function grantRoleVerifiedDoctor(
+        address _addressOfAdmin,
+        address _addressOfDoctor
+    ) public returns (bool success) {
+        require(hasRole(HOSPITAL_ADMIN, _addressOfAdmin));
+        require(hasRole(DOCTOR, _addressOfDoctor));
+        grantRole(VERIFIED_DOCTOR, _addressOfDoctor);
+        return true;
+    }
 }
