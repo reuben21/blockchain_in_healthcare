@@ -2,8 +2,9 @@ import 'dart:convert';
 
 import 'package:bic_android_web_support/databases/boxes.dart';
 import 'package:bic_android_web_support/databases/hive_database.dart';
+import 'package:bic_android_web_support/screens/screens_wallet/confirmation_screen.dart';
 
-import '../providers/wallet.dart';
+import '../../providers/wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -57,17 +58,18 @@ class _TransferScreenState extends State<TransferScreen> {
   void _showErrorDialog(String message) {
     showDialog(
         context: context,
-        builder: (ctx) => AlertDialog(
-          title: Text('An Error Occurred'),
-          content: Text(message),
-          actions: <Widget>[
-            TextButton(
-                onPressed: () {
-                  Navigator.of(ctx).pop();
-                },
-                child: Text('Okay'))
-          ],
-        ));
+        builder: (ctx) =>
+            AlertDialog(
+              title: Text('An Error Occurred'),
+              content: Text(message),
+              actions: <Widget>[
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(ctx).pop();
+                    },
+                    child: Text('Okay'))
+              ],
+            ));
   }
 
 
@@ -80,8 +82,14 @@ class _TransferScreenState extends State<TransferScreen> {
           padding: const EdgeInsets.only(top: 20),
           child: SingleChildScrollView(
             child: Container(
-              height: MediaQuery.of(context).size.height,
-              color:Theme.of(context).colorScheme.secondary,
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height,
+              color: Theme
+                  .of(context)
+                  .colorScheme
+                  .secondary,
 
               child: Padding(
                 padding: const EdgeInsets.all(25.0),
@@ -94,7 +102,10 @@ class _TransferScreenState extends State<TransferScreen> {
                           padding: const EdgeInsets.only(left: 30),
                           child: Text(
                             "Transfer Ether",
-                            style: Theme.of(context).textTheme.headline1,
+                            style: Theme
+                                .of(context)
+                                .textTheme
+                                .headline1,
                             textAlign: TextAlign.left,
                           ),
                         ),
@@ -102,10 +113,13 @@ class _TransferScreenState extends State<TransferScreen> {
                       Flexible(
                         fit: FlexFit.loose,
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 30,top: 30),
+                          padding: const EdgeInsets.only(left: 30, top: 30),
                           child: Text(
-                            "From: "+widget.address,
-                            style: Theme.of(context).textTheme.bodyText1,
+                            "From: " + widget.address,
+                            style: Theme
+                                .of(context)
+                                .textTheme
+                                .bodyText1,
                             textAlign: TextAlign.left,
                           ),
                         ),
@@ -119,88 +133,104 @@ class _TransferScreenState extends State<TransferScreen> {
                           // do something
                           showDialog(
                             context: context,
-                            builder: (ctx) => AlertDialog(
-                              backgroundColor: Theme.of(context).colorScheme.secondary,
-                              title: Text(
-                                "Show the QR Code",
-                                style: Theme.of(context).textTheme.bodyText1,
-                              ),
-                              content: Container(
-                                width: 300,
-                                height: 500,
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      width: 300,
-                                      height: 400,
-                                      child: QRView(
-                                        key: qrKey,
-                                        onQRViewCreated: _onQRViewCreated,
-                                      ),
+                            builder: (ctx) =>
+                                AlertDialog(
+                                  backgroundColor: Theme
+                                      .of(context)
+                                      .colorScheme
+                                      .secondary,
+                                  title: Text(
+                                    "Show the QR Code",
+                                    style: Theme
+                                        .of(context)
+                                        .textTheme
+                                        .bodyText1,
+                                  ),
+                                  content: Container(
+                                    width: 300,
+                                    height: 500,
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          width: 300,
+                                          height: 400,
+                                          child: QRView(
+                                            key: qrKey,
+                                            onQRViewCreated: _onQRViewCreated,
+                                          ),
+                                        ),
+                                        Text((result != null)
+                                            ? "Ethereum Address: " +
+                                            result.code.toString()
+                                            : "Scan for Address"),
+                                      ],
                                     ),
-                                    Text((result != null)
-                                        ? "Ethereum Address: " + result.code.toString()
-                                        : "Scan for Address"),
+                                  ),
+                                  actions: <Widget>[
+                                    ElevatedButton(
+                                      onPressed: () async {
+                                        setState(() {
+                                          scannedAddress =
+                                              result.code.toString();
+                                        });
+                                      },
+                                      child: Text("GET"),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () async {},
+                                      child: Text("okay"),
+                                    ),
                                   ],
                                 ),
-                              ),
-                              actions: <Widget>[
-                                ElevatedButton(
-                                  onPressed: () async {
-                                    setState(() {
-                                      scannedAddress = result.code.toString();
-                                    });
-                                  },
-                                  child: Text("GET"),
-                                ),
-                                ElevatedButton(
-                                  onPressed: () async {},
-                                  child: Text("okay"),
-                                ),
-                              ],
-                            ),
                           );
                         },
                       ),
                       Center(
                         child: FormBuilder(
                             key: _formKey,
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            autovalidateMode: AutovalidateMode
+                                .onUserInteraction,
                             child: Column(
                               children: [
                                 Padding(
-                                    padding: const EdgeInsets.only(top: 10, bottom: 10),
+                                    padding: const EdgeInsets.only(
+                                        top: 10, bottom: 10),
                                     child: FormBuilderTextField(
                                       maxLines: 1,
                                       name: 'address',
                                       decoration: const InputDecoration(
-                                          labelText: 'Receiver Address',
+                                        labelText: 'Receiver Address',
                                         prefixIcon:
-                                            Icon(Icons.account_balance_wallet_outlined),
+                                        Icon(Icons
+                                            .account_balance_wallet_outlined),
                                         border: OutlineInputBorder(),
                                         labelStyle: TextStyle(
                                           color: Color(0xFF6200EE),
                                         ),
                                         errorBorder: OutlineInputBorder(
                                           borderSide:
-                                              BorderSide(color: Color(0xFF6200EE)),
+                                          BorderSide(color: Color(0xFF6200EE)),
                                         ),
                                         focusedErrorBorder: OutlineInputBorder(
                                           borderSide:
-                                              BorderSide(color: Color(0xFF6200EE)),
+                                          BorderSide(color: Color(0xFF6200EE)),
                                         ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide:
-                                              BorderSide(color: Color(0xFF6200EE)),
+                                          BorderSide(color: Color(0xFF6200EE)),
                                         ),
                                       ),
 
                                       // valueTransformer: (text) => num.tryParse(text),
                                       validator: FormBuilderValidators.compose(
-                                          [FormBuilderValidators.required(context)]),
+                                          [
+                                            FormBuilderValidators.required(
+                                                context)
+                                          ]),
                                     )),
                                 Padding(
-                                    padding: const EdgeInsets.only(top: 10, bottom: 10),
+                                    padding: const EdgeInsets.only(
+                                        top: 10, bottom: 10),
                                     child: FormBuilderTextField(
                                       maxLines: 1,
                                       name: 'amount',
@@ -214,24 +244,28 @@ class _TransferScreenState extends State<TransferScreen> {
                                         ),
                                         errorBorder: OutlineInputBorder(
                                           borderSide:
-                                              BorderSide(color: Color(0xFF6200EE)),
+                                          BorderSide(color: Color(0xFF6200EE)),
                                         ),
                                         focusedErrorBorder: OutlineInputBorder(
                                           borderSide:
-                                              BorderSide(color: Color(0xFF6200EE)),
+                                          BorderSide(color: Color(0xFF6200EE)),
                                         ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide:
-                                              BorderSide(color: Color(0xFF6200EE)),
+                                          BorderSide(color: Color(0xFF6200EE)),
                                         ),
                                       ),
 
                                       // valueTransformer: (text) => num.tryParse(text),
                                       validator: FormBuilderValidators.compose(
-                                          [FormBuilderValidators.required(context)]),
+                                          [
+                                            FormBuilderValidators.required(
+                                                context)
+                                          ]),
                                     )),
                                 Padding(
-                                    padding: const EdgeInsets.only(top: 10, bottom: 10),
+                                    padding: const EdgeInsets.only(
+                                        top: 10, bottom: 10),
                                     child: FormBuilderTextField(
                                       maxLines: 1,
                                       name: 'password',
@@ -259,14 +293,20 @@ class _TransferScreenState extends State<TransferScreen> {
 
                                       // valueTransformer: (text) => num.tryParse(text),
                                       validator: FormBuilderValidators.compose(
-                                          [FormBuilderValidators.required(context)]),
+                                          [
+                                            FormBuilderValidators.required(
+                                                context)
+                                          ]),
                                     )),
-                                ElevatedButton(
+                                FloatingActionButton.extended(
+                                  backgroundColor: Theme.of(context).colorScheme.primary,
+                                  foregroundColor: Theme.of(context).colorScheme.secondary,
                                   onPressed: () async {
                                     Credentials credentialsNew;
                                     EthereumAddress myAddress;
                                     _formKey.currentState?.save();
-                                    if (_formKey.currentState?.validate() != null) {
+                                    if (_formKey.currentState?.validate() !=
+                                        null) {
                                       String amount = _formKey
                                           .currentState?.value["amount"];
                                       String receiverAddress = _formKey
@@ -278,24 +318,25 @@ class _TransferScreenState extends State<TransferScreen> {
                                       // print(dbResponse);
 
                                       if (true) {
-                                        final box = Boxes.getWallets();
-                                        var dbResponse = box.values.toList().cast<WalletHive>();
-
-                                        Wallet newWallet = Wallet.fromJson(dbResponse[0].walletEncryptedKey, password);
-                                        credentialsNew = newWallet.privateKey;
-                                        myAddress = await credentialsNew.extractAddress();
-                                        print(myAddress);
-                                       var txStatus = await Provider.of<WalletModel>(context, listen: false)
-                                            .estimateGas(credentialsNew, myAddress.hex ,receiverAddress,amount);
-                                        if (txStatus) {
-                                          Navigator.pop(context);
-                                        }
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ConfirmationScreen(
+                                                  receiverAddress: receiverAddress,
+                                                  amount: amount,
+                                                  password: password,
+                                                  senderAddress: widget
+                                                      .address,),
+                                          ),
+                                        );
                                       }
-
                                     }
                                   },
-                                  child: const Text("Transfer"),
+                                  icon: const Icon(Icons.add_circle_outline_outlined),
+                                  label: const Text('Transfer'),
                                 ),
+
                               ],
                             )),
                       ),

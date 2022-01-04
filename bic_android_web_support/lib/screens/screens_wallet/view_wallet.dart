@@ -1,9 +1,10 @@
 
 import 'package:bic_android_web_support/databases/boxes.dart';
 import 'package:bic_android_web_support/databases/hive_database.dart';
+import 'package:bic_android_web_support/providers/wallet.dart';
 
-import '../providers/wallet.dart';
-import '../screens/transfer_screen.dart';
+import '../../providers/wallet.dart';
+import '../screens_wallet/transfer_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,7 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:web3dart/web3dart.dart';
-import '../helpers/http_exception.dart'
+import '../../helpers/http_exception.dart'
     as exception;
 
 class WalletView extends StatefulWidget {

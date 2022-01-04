@@ -1,5 +1,8 @@
 import 'package:bic_android_web_support/databases/hive_database.dart';
-import 'package:bic_android_web_support/screens/auth_screens/login_screen.dart';
+import 'package:bic_android_web_support/screens/screens_auth/login_screen.dart';
+import 'package:bic_android_web_support/screens/screens_auth/sign_up_screen.dart';
+import 'package:bic_android_web_support/screens/screens_wallet/confirmation_screen.dart';
+import 'package:bic_android_web_support/screens/screens_wallet/view_wallet.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../providers/ipfs.dart';
@@ -8,11 +11,9 @@ import '../providers/wallet.dart';
 import '../screens/Tabs/tabs_screen.dart';
 import '../screens/medical_records_screen.dart';
 import '../screens/prescription_screen.dart';
-import 'screens/auth_screens/sign_up_screen.dart';
-import '../screens/transfer_screen.dart';
-import '../screens/view_wallet.dart';
-import '../screens/wallet.dart';
-import '../screens/wallet_login.dart';
+import 'screens/screens_wallet/transfer_screen.dart';
+import 'screens/screen_unusefull/wallet.dart';
+import 'screens/screen_unusefull/wallet_login.dart';
 import '../theme.dart';
 import 'package:flutter/material.dart';
 import 'package:form_builder_validators/localization/l10n.dart';
@@ -130,7 +131,8 @@ class MyApp extends StatelessWidget {
             TransferScreen.routeName: (ctx) => TransferScreen(address: '',),
             TabsScreen.routeName: (ctx) => TabsScreen(),
             LoginScreen.routeName: (ctx)=> LoginScreen(),
-            SignUpScreen.routeName: (ctx)=> SignUpScreen()
+            SignUpScreen.routeName: (ctx)=> SignUpScreen(),
+            ConfirmationScreen.routeName: (ctx) => ConfirmationScreen(receiverAddress: '',amount: '',password: '',senderAddress: '',)
           },
         ),
       ),

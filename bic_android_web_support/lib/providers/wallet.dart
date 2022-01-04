@@ -190,12 +190,18 @@ class WalletModel with ChangeNotifier {
       userFirestore.doc(uid).get().then((firestore.DocumentSnapshot documentSnapshot) {
         if (documentSnapshot.exists) {
           print('Document exists on the database');
+          print(documentSnapshot.get('walletAddress'));
+
+          String walletAddressFirestore = documentSnapshot.get('walletAddress');
+          String userEmailFirestore = documentSnapshot.get('userEmail');
+          String userNameFirestore = documentSnapshot.get('userName');
+          String walletEncryptedKeyFirestore = documentSnapshot.get('walletEncryptedKey');
 
           final walletHive = WalletHive()
-            ..walletAddress = documentSnapshot.get('walletAddress')
-            ..walletEncryptedKey = documentSnapshot.get('walletEncryptedKey')
-            ..userEmail =  documentSnapshot.get('fullName')
-            ..userName = ''
+            ..walletAddress = walletAddressFirestore
+            ..walletEncryptedKey = walletEncryptedKeyFirestore
+            ..userEmail =  userEmailFirestore
+            ..userName = userNameFirestore
             ..createdDate = DateTime.now();
 
           final box = Boxes.getWallets();
@@ -219,22 +225,11 @@ class WalletModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> estimateGas(Credentials credentials, String senderAddress,
+  Future<bool> walletLogOut( String senderAddress,
       String receiverAddress, String amount) async {
     try {
-      EthereumAddress transactionTo;
-      EthereumAddress transactionFrom;
-
-     var gasEstimate = await _client.estimateGas(sender: EthereumAddress.fromHex(senderAddress),
-      to: EthereumAddress.fromHex(receiverAddress),value: EtherAmount.fromUnitAndValue(EtherUnit.ether, amount));
-
-     print(gasEstimate);
 
 
-      DateTime dateTime;
-      dateTime = DateTime.now();
-
-      notifyListeners();
       return true;
 
     } on SocketException {
@@ -246,7 +241,55 @@ class WalletModel with ChangeNotifier {
     } catch (error) {
       throw exception.HttpException(error.toString());
     }
-    notifyListeners();
+
+  }
+
+  Future<Map<String,dynamic>> estimateGas( String senderAddress,
+      String receiverAddress, String amount) async {
+    try {
+
+
+     var gasEstimate = await _client.estimateGas(sender: EthereumAddress.fromHex(senderAddress),
+      to: EthereumAddress.fromHex(receiverAddress),value: EtherAmount.fromUnitAndValue(EtherUnit.ether, amount));
+
+     var gasPrice = await _client.getGasPrice();
+
+     var gasCostEstimation = gasEstimate * gasPrice.getInWei;
+
+     var gasAmountInWei = EtherAmount.fromUnitAndValue(EtherUnit.wei, gasCostEstimation.toString());
+
+     var actualAmountInWei = EtherAmount.fromUnitAndValue(EtherUnit.ether,amount);
+
+     var totalAmount = (gasAmountInWei.getInWei + actualAmountInWei.getInWei)/BigInt.from(1000000000000000000);
+
+      Map<String,dynamic> result = {
+       "gasPrice": gasPrice.getInWei,
+        "gasEstimate":gasEstimate,
+        "gasCostEstimation": gasCostEstimation,
+        "gasAmountInWei":gasAmountInWei.getInWei,
+        "actualAmountInWei":actualAmountInWei.getInWei,
+        "totalAmount":totalAmount.toString()
+      };
+
+      print(result);
+
+
+
+
+
+        notifyListeners();
+        return result;
+
+    } on SocketException {
+      throw exception.HttpException("No Internet connection 😑");
+    } on HttpException {
+      throw exception.HttpException("Couldn't find the post 😱");
+    } on FormatException {
+      throw exception.HttpException("Bad response format 👎");
+    } catch (error) {
+      throw exception.HttpException(error.toString());
+    }
+
   }
 
   Future<bool> transferEther(Credentials credentials, String senderAddress,
@@ -267,20 +310,20 @@ class WalletModel with ChangeNotifier {
 
       TransactionReceipt? txReceipt =
           await _client.getTransactionReceipt(transactionHash);
+      if(auth.currentUser?.uid.toString() != null) {
 
-      userFirestore.doc(auth.currentUser?.uid.toString()).collection("transactions").doc().set({
-        "from":tx.from.hex,
-        "to":tx.to?.hex,
-        "value":tx.value.getInEther,
-        "status":txReceipt?.status.toString(),
-        "blockNumber":txReceipt?.blockNumber,
-        "contractAddress":txReceipt?.contractAddress,
-        "gasUsed":txReceipt?.gasUsed,
-        "transactionHash":transactionHash
-      });
-      DateTime dateTime;
-      dateTime = DateTime.now();
-
+        userFirestore.doc(auth.currentUser?.uid.toString()).collection("transactions").doc().set({
+          "from":tx.from.hex.toString(),
+          "to":tx.to?.hex.toString(),
+          "value":tx.value.getInWei.toString(),
+          "status":txReceipt?.status.toString(),
+          "blockNumber":txReceipt?.blockNumber.blockNum.toString(),
+          "contractAddress":txReceipt?.contractAddress?.hex.toString(),
+          "gasUsed":txReceipt?.gasUsed.toString(),
+          "transactionHash":transactionHash,
+          "dateTime":DateTime.now().toIso8601String()
+        });
+      }
 
       if (tx.hash.isNotEmpty) {
         return true;

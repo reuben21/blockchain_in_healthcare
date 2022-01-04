@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:bic_android_web_support/providers/wallet.dart';
 import 'package:bic_android_web_support/screens/Tabs/tabs_screen.dart';
-import 'package:bic_android_web_support/screens/create_wallet.dart';
+import 'package:bic_android_web_support/screens/screen_unusefull/create_wallet.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';

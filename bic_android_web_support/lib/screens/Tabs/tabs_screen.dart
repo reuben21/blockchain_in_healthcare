@@ -1,6 +1,9 @@
+import 'package:bic_android_web_support/screens/screens_wallet/view_wallet.dart';
+import 'package:flutter/services.dart';
+
 import '../../screens/medical_records_screen.dart';
 import '../../screens/prescription_screen.dart';
-import '../../screens/view_wallet.dart';
+
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -32,6 +35,7 @@ class _TabsScreenState extends State<TabsScreen> {
       {'page':PrescriptionScreen() },
       {'page':WalletView() }
     ];
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     super.initState();
   }
 
