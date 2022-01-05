@@ -156,7 +156,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                       size: 15,
                                       color: Theme.of(context).primaryColor,
                                     ),
-                                    border: const OutlineInputBorder(),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(25.0),
+                                    ),
                                     labelStyle: const TextStyle(
                                       color: Color(0xFF6200EE),
                                     ),
