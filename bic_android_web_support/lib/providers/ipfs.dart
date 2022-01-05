@@ -3,19 +3,28 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:ipld/ipfs.dart';
 import '../helpers/http_exception.dart' as exception;
 
 class IPFSModel with ChangeNotifier {
 
+  var ipfs = Ipfs(host: "http://10.0.2.2:5001");
 
 
   Future<void> sendData() async {
+    Map<String, Object> objText = {
+      "firstName": "Reuben",
+      "lastName": "Coutinho","lastName2": "Coutinho","lastName3": "Coutinho","lastName4": "Coutinho",
+      "age": 30
+    };
 
+    print(objText.toString());
 
     try {
+     // var hash = await ipfs.add(http.MultipartFile.fromString(objText.toString(), objText.toString()));
 
+     // print(hash);
 
-      Map<String, Object> objText = {"name": "Reuben Coutinho", "lastame": "Reuben Coutinho", "age": 30};
 
       var request = http.MultipartRequest("POST",Uri.parse('http://10.0.2.2:5001/api/v0/add'));
       var encodedData = json.encode(objText);
@@ -42,27 +51,25 @@ class IPFSModel with ChangeNotifier {
   }
 
   Future<void> receiveData() async {
-
-
-
-
     try {
+      final url = Uri.parse(
+          "http://10.0.2.2:5001/api/v0/object/get?arg=QmWmSGtAKMk6y5SeHtfgTfgg8xphY7WmkNBwuvj2JEnLzr");
 
+      final response = await http.post(url);
+      // final List<OrderItem> loadedOrders = [];
 
-      final url = Uri.parse("http://10.0.2.2:5001/api/v0/object/get?arg=QmQBPk4NbUdXtQLQe7DhPBvdzkg5HB5js6PqQgWkJMMj1R");
-
-        final response = await http.post(url);
-        // final List<OrderItem> loadedOrders = [];
-
-        final extractedData = json.decode(response.body) as Map<String, dynamic>;
-        if (extractedData == null) {
-          return;
-        }
-        final data = extractedData["Data"].toString().substring(4, extractedData["Data"].toString().length-2);
-        print(data);
-        final decodedData = json.decode(data.toString())  as Map<String, dynamic>;
-        print(decodedData["name"]);
-
+      final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      print(extractedData);
+      if (extractedData == null) {
+        return;
+      }
+      final data = extractedData["Data"].toString().substring(
+          4, extractedData["Data"]
+          .toString()
+          .length - 2);
+      print(data);
+      final decodedData = json.decode(data.toString()) as Map<String, dynamic>;
+      print(decodedData["firstName"]);
     } on SocketException {
       throw exception.HttpException("No Internet connection 😑");
     } on HttpException {

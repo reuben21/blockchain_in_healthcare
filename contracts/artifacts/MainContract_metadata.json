@@ -317,6 +317,35 @@
 						"type": "address"
 					}
 				],
+				"name": "changeHospitalForDoctor",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "status",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_previousHospitalAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_newHospitalAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_walletAddress",
+						"type": "address"
+					}
+				],
 				"name": "changeHospitalForPatient",
 				"outputs": [
 					{
@@ -1025,11 +1054,11 @@
 	},
 	"sources": {
 		"MainContract.sol": {
-			"keccak256": "0x87cd8406ab9f1bf8acfb5a184166756d92aa96982ea7c24b614f1285d023337e",
+			"keccak256": "0x2019ec319efae62af6a1d77e043b8843590a562afb07b1535cfdd77a874c7df5",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://aad6a9ba272f7daf9c8a7cfb7e6e202cb684e0f0c64dfaa538bb90923c064b84",
-				"dweb:/ipfs/QmakRTFmskshqw4EeqKLC1uq2igmXhHfFqirge1LFyAb6C"
+				"bzz-raw://d042f15de443b45a946b52bb8d8909b9a008ab43df96052d9f815241fd691ea4",
+				"dweb:/ipfs/Qmf7FkLb43nVVSjzMWPigXUo4e8P8sY7sTyKRCRxYLdk7F"
 			]
 		},
 		"Roles.sol": {

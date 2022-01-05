@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:bic_android_web_support/providers/ipfs.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:velocity_x/src/extensions/context_ext.dart';
 import 'package:velocity_x/src/extensions/num_ext.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -75,9 +77,34 @@ class _MedicalRecordScreenState extends State<MedicalRecordScreen> {
     // TODO: implement build
     return Scaffold(
       body: Container(
-        child: ZStack([
-          ]
+        child: Column(
+          children: [
+            FloatingActionButton.extended(
+              backgroundColor:
+              Theme.of(context).colorScheme.secondary,
+              foregroundColor:
+              Theme.of(context).colorScheme.primary,
+              onPressed: () async {
+                var connection = await Provider.of<IPFSModel>(context,listen: false).sendData();
+              },
+              icon: const Icon(Icons.qr_code_scanner),
+              label: const Text('Send'),
+            ),
+            FloatingActionButton.extended(
+              backgroundColor:
+              Theme.of(context).colorScheme.secondary,
+              foregroundColor:
+              Theme.of(context).colorScheme.primary,
+              onPressed: () async {
+                var connection = await Provider.of<IPFSModel>(context,listen: false).receiveData();
+
+              },
+              icon: const Icon(Icons.qr_code_scanner),
+              label: const Text('Receive'),
+            ),
+          ],
+        )
       ),
-    ));
+    );
   }
 }

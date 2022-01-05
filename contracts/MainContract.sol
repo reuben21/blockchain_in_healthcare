@@ -5,32 +5,32 @@ import "./access/AccessControlEnumerable.sol";
 import "./Roles.sol";
 import "./openzeppelin/contracts/utils/Counters.sol";
 
-struct patientRecord {
-    string name;
-    string personalDetails;
-    address hospitalAddress;
-    address walletAddress;
-    string[] previousPatientRecordHashes;
-    string newMedicalRecordHash;
-    string[] previousPatientPrescriptionHashes;
-    string newPatientPrescriptionHashes;
-}
-
-struct doctorRecord {
-    string name;
-    string personalDetails;
-    address hospitalAddress;
-    address walletAddress;
-}
-
-struct pharmacyRecord {
-    string name;
-    string personalDetails;
-    address walletAddress;
-}
-
 contract MainContract is AccessControl {
     using Counters for Counters.Counter;
+
+    struct patientRecord {
+        string name;
+        string personalDetails;
+        address hospitalAddress;
+        address walletAddress;
+        string[] previousPatientRecordHashes;
+        string newMedicalRecordHash;
+        string[] previousPatientPrescriptionHashes;
+        string newPatientPrescriptionHashes;
+    }
+
+    struct doctorRecord {
+        string name;
+        string personalDetails;
+        address hospitalAddress;
+        address walletAddress;
+    }
+
+    struct pharmacyRecord {
+        string name;
+        string personalDetails;
+        address walletAddress;
+    }
 
     struct hospitalRecord {
         string name;
@@ -111,6 +111,8 @@ contract MainContract is AccessControl {
 
         return true;
     }
+
+   
 
     function retrievePatientCount()
         external
@@ -273,6 +275,20 @@ contract MainContract is AccessControl {
         return true;
     }
 
+     function changeHospitalForDoctor(
+        address _previousHospitalAddress,
+        address _newHospitalAddress,
+        address _walletAddress
+    ) external returns (bool status) {
+        hospitalDatabase[_previousHospitalAddress].doctorInHospital.decrement();
+
+        doctorDatabase[_walletAddress].hospitalAddress = _newHospitalAddress;
+
+        hospitalDatabase[_newHospitalAddress].doctorInHospital.increment();
+
+        return true;
+    }
+
     function retrieveDoctorCount() external view returns (uint256 doctorCount) {
         return doctorCounter.current();
     }
@@ -408,7 +424,7 @@ contract MainContract is AccessControl {
         );
     }
 
-      // Grant Role VERIFIED_PATIENT To Patient
+    // Grant Role VERIFIED_PATIENT To Patient
     function grantRoleVerifiedPatient(
         address _addressOfAdmin,
         address _addressOfPatient
