@@ -107,6 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               labelText: 'Email ID',
                               prefixIcon: Icon(
                                 FontAwesomeIcons.at,
+                                size: 15,
                                 color: Theme.of(context).primaryColor,
                               ),
                               border: OutlineInputBorder(
@@ -145,7 +146,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             decoration: InputDecoration(
                               labelText: 'Password',
                               prefixIcon: Icon(
-                                Icons.password,
+                                FontAwesomeIcons.key,
+                                size: 15,
                                 color: Theme.of(context).primaryColor,
                               ),
                               border: const OutlineInputBorder(),
@@ -203,12 +205,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   //   ),
                   // );
                 },
-                icon: Image.asset(
-                  "assets/icons/sign_in.png",
-                  color: Theme.of(context).backgroundColor,
-                  width: 32,
-                  height: 32,
-                ),
+                // icon: Image.asset(
+                //   "assets/icons/sign_in.png",
+                //   color: Theme.of(context).backgroundColor,
+                //   width: 32,
+                //   height: 32,
+                // ),
+                icon: Icon(FontAwesomeIcons.signInAlt),
                 label: const Text('Sign In'),
               ),
             ],
