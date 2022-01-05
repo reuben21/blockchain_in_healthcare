@@ -3,12 +3,11 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:ipld/ipfs.dart';
 import '../helpers/http_exception.dart' as exception;
 
 class IPFSModel with ChangeNotifier {
 
-  var ipfs = Ipfs(host: "http://10.0.2.2:5001");
+
 
 
   Future<void> sendData() async {
