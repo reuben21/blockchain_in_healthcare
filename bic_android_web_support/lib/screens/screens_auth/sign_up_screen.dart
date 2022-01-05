@@ -7,6 +7,7 @@ import 'package:bic_android_web_support/screens/screen_unusefull/create_wallet.d
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive/hive.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import '../../providers/patient.dart';
@@ -262,12 +263,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   );
                 },
-                icon: Image.asset(
-                  "assets/icons/sign_in.png",
-                  color: Theme.of(context).backgroundColor,
-                  width: 15,
-                  height: 15,
-                ),
+                icon: const Icon(FontAwesomeIcons.signInAlt ,size: 19,),
                 label: const Text('Log In'),
               ),
             ],
