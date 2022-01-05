@@ -9,9 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class TabsScreen extends StatefulWidget {
-
   static const routeName = '/tabs-screen';
-
 
   @override
   _TabsScreenState createState() {
@@ -20,21 +18,20 @@ class TabsScreen extends StatefulWidget {
 }
 
 class _TabsScreenState extends State<TabsScreen> {
-
   late List<Map<String, Object>> _pages;
   late List<Map<String, Widget>> _screens;
 
   @override
   void initState() {
     _pages = [
-      { 'title': 'Record'},
-      { 'title': 'Medicine'},
-      { 'title': 'Wallet'}
+      {'title': 'Record'},
+      {'title': 'Medicine'},
+      {'title': 'Wallet'}
     ];
     _screens = [
-      {'page':MedicalRecordScreen()  },
-      {'page':PrescriptionScreen() },
-      {'page': WalletView() }
+      {'page': MedicalRecordScreen()},
+      {'page': PrescriptionScreen()},
+      {'page': WalletView()}
     ];
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     super.initState();
@@ -70,10 +67,35 @@ class _TabsScreenState extends State<TabsScreen> {
         itemCornerRadius: 24,
         selectedIndex: _selectPageIndex,
         onItemSelected: _selectPage,
-        items: <BottomNavyBarItem> [
-          BottomNavyBarItem(activeColor:Theme.of(context).primaryColor,icon: Image.asset("assets/icons/medical_history.png",color: Theme.of(context).primaryColor,width: 32,height: 32,), title: Text('Record',style: TextStyle(color: Theme.of(context).primaryColor),)),
-          BottomNavyBarItem(activeColor:Theme.of(context).primaryColor,icon: Image.asset("assets/icons/medicine.png",color: Theme.of(context).primaryColor,width: 32,height: 32), title: Text('Medicine',style: TextStyle(color: Theme.of(context).primaryColor),)),
-          BottomNavyBarItem(activeColor:Theme.of(context).primaryColor,icon: Image.asset("assets/icons/wallet.png",color: Theme.of(context).primaryColor,width: 32,height: 32), title: Text('Wallet',style: TextStyle(color: Theme.of(context).primaryColor),))
+        items: <BottomNavyBarItem>[
+          BottomNavyBarItem(
+              activeColor: Theme.of(context).primaryColor,
+              icon: Image.asset(
+                "assets/icons/medical_history.png",
+                color: Theme.of(context).primaryColor,
+                width: 32,
+                height: 32,
+              ),
+              title: Text(
+                'Record',
+                style: TextStyle(color: Theme.of(context).primaryColor),
+              )),
+          BottomNavyBarItem(
+              activeColor: Theme.of(context).primaryColor,
+              icon: Image.asset("assets/icons/medicine.png",
+                  color: Theme.of(context).primaryColor, width: 32, height: 32),
+              title: Text(
+                'Medicine',
+                style: TextStyle(color: Theme.of(context).primaryColor),
+              )),
+          BottomNavyBarItem(
+              activeColor: Theme.of(context).primaryColor,
+              icon: Image.asset("assets/icons/wallet.png",
+                  color: Theme.of(context).primaryColor, width: 32, height: 32),
+              title: Text(
+                'Wallet',
+                style: TextStyle(color: Theme.of(context).primaryColor),
+              ))
         ],
       ),
     );

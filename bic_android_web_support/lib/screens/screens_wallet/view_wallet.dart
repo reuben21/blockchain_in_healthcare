@@ -322,7 +322,8 @@ class _WalletViewState extends State<WalletView> {
                                 );
                               },
                               icon:
-                                  const Icon(FontAwesomeIcons.externalLinkAlt),
+                              Image.asset("assets/icons/pay-100.png",
+                                  color: Theme.of(context).primaryColor, width: 32, height: 32),
                               label: const Text('Send'),
                             ),
                             // Container(
@@ -361,8 +362,8 @@ class _WalletViewState extends State<WalletView> {
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(snackBar);
                               },
-                              child: Icon(FontAwesomeIcons.syncAlt,
-                                  color: Theme.of(context).colorScheme.primary),
+                              child: Image.asset("assets/icons/refresh-100.png",
+                                  color: Theme.of(context).primaryColor, width: 25,fit: BoxFit.fill, height: 25),
                               style: ElevatedButton.styleFrom(
                                 shape: CircleBorder(),
                                 padding: EdgeInsets.all(14),
@@ -371,19 +372,7 @@ class _WalletViewState extends State<WalletView> {
                                 onPrimary: Colors.black,
                               ),
                             ),
-                            kIsWeb
-                                ? FloatingActionButton.extended(
-                                    backgroundColor:
-                                        Theme.of(context).colorScheme.secondary,
-                                    foregroundColor:
-                                        Theme.of(context).colorScheme.primary,
-                                    onPressed: () async {
-                                      // var connection = await Provider.of<CredentialsModel>(context,listen: false).connectToMetaMask();
-                                    },
-                                    icon: const Icon(FontAwesomeIcons.barcode),
-                                    label: const Text('Connect To Meta Mask'),
-                                  )
-                                : Container(),
+
                             FloatingActionButton.extended(
                               backgroundColor:
                                   Theme.of(context).colorScheme.secondary,
@@ -431,7 +420,8 @@ class _WalletViewState extends State<WalletView> {
                                   ),
                                 );
                               },
-                              icon: const Icon(FontAwesomeIcons.qrcode),
+                              icon: Image.asset("assets/icons/qr-code-100.png",
+                                  color: Theme.of(context).primaryColor, width: 32, height: 32),
                               label: const Text('Receive'),
                             ),
                           ],
@@ -549,12 +539,12 @@ class _WalletViewState extends State<WalletView> {
                                               .secondary,
                                           leading: Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child: Icon(
-                                              FontAwesomeIcons.solidCheckCircle,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                            ),
+                                            child: Image.asset(documents![position]['status']
+                                                .toString()
+                                                .toLowerCase() ==
+                                                "true"
+                                                ? "assets/icons/ok-100.png":"assets/icons/cancel-100.png",
+                                                color: Theme.of(context).primaryColor, width: 32, height: 32),
                                           ),
                                           title: Text(
                                             documents![position]['status']
