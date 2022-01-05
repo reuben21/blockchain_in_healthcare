@@ -112,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     labelText: 'Email ID',
                                     prefixIcon: Icon(
                                       FontAwesomeIcons.at,
-                                      size: 15,
+                                      size: 20,
                                       color: Theme.of(context).primaryColor,
                                     ),
                                     border: OutlineInputBorder(
@@ -153,7 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     labelText: 'Password',
                                     prefixIcon: Icon(
                                       FontAwesomeIcons.key,
-                                      size: 15,
+                                      size: 20,
                                       color: Theme.of(context).primaryColor,
                                     ),
                                     border: OutlineInputBorder(
