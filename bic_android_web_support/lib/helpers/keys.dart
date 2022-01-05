@@ -2,6 +2,7 @@
 
 import 'dart:io';
 import 'package:flutter/foundation.dart' show kIsWeb;
+
 String get rpcUrl {
   if(kIsWeb) {
     return "http://127.0.0.1:7545";

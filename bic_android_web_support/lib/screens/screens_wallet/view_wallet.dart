@@ -1,4 +1,5 @@
-
+// import 'package:bic_android_web_support/providers/credentials.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:bic_android_web_support/databases/boxes.dart';
 import 'package:bic_android_web_support/databases/hive_database.dart';
 import 'package:bic_android_web_support/providers/wallet.dart';
@@ -170,7 +171,7 @@ class _WalletViewState extends State<WalletView> {
                     Column(
                       children: [
                         const SizedBox(
-                          height: 50,
+                          height: kIsWeb ? 10: 50,
                         ),
                         // const Image(image: AssetImage('assets/ethereum.png')),
                         // (context.percentHeight * 10).heightBox,
@@ -189,6 +190,7 @@ class _WalletViewState extends State<WalletView> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             CarouselSlider.builder(
+                              
                               itemCount: options.length,
                               itemBuilder: (BuildContext context, int itemIndex,
                                       int pageViewIndex) =>
@@ -307,7 +309,7 @@ class _WalletViewState extends State<WalletView> {
                           ),
 
                         const SizedBox(
-                          height: 50,
+                          height: 10,
                         ),
                         HStack(
                           [
@@ -347,6 +349,17 @@ class _WalletViewState extends State<WalletView> {
                                 onPrimary: Colors.black,
                               ),
                             ),
+                            kIsWeb ? FloatingActionButton.extended(
+                              backgroundColor:
+                              Theme.of(context).colorScheme.secondary,
+                              foregroundColor:
+                              Theme.of(context).colorScheme.primary,
+                              onPressed: () async {
+                               // var connection = await Provider.of<CredentialsModel>(context,listen: false).connectToMetaMask();
+                              },
+                              icon: const Icon(Icons.qr_code_scanner),
+                              label: const Text('Connect To Meta Mask'),
+                            ): Container(),
                             FloatingActionButton.extended(
                               backgroundColor:
                                   Theme.of(context).colorScheme.secondary,
