@@ -5,6 +5,7 @@ import 'package:bic_android_web_support/screens/Tabs/tabs_screen.dart';
 import 'package:bic_android_web_support/screens/screens_auth/background.dart';
 import 'package:bic_android_web_support/screens/screens_auth/textfieldcontainer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive/hive.dart';
@@ -82,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Signup',
+                    'Login',
                     style: TextStyle(fontSize: 20, color: Colors.purple),
                   ),
                   SizedBox(height: size.height * 0.03),
@@ -91,82 +92,172 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: size.height * 0.35,
                   ),
                   SizedBox(height: size.height * 0.03),
-                  TextFieldContainer(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        icon: Icon(
-                          FontAwesomeIcons.users,
-                          color: Theme.of(context).primaryColor,
+                  FormBuilder(
+                    key: _formKey,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    child: Padding(
+                      padding: const EdgeInsets.all(25.0),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: <Widget>[
+                            const SizedBox(
+                              height: 40,
+                            ),
+                            Padding(
+                                padding: const EdgeInsets.all(15),
+                                child: FormBuilderTextField(
+                                  maxLines: 1,
+                                  name: 'emailId',
+                                  decoration: InputDecoration(
+                                    labelText: 'Email ID',
+                                    prefixIcon: Icon(
+                                      FontAwesomeIcons.at,
+                                      size: 15,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(25.0),
+                                    ),
+                                    labelStyle: TextStyle(
+                                      color: Color(0xFF6200EE),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Color(0xFF6200EE)),
+                                      borderRadius: BorderRadius.circular(25.0),
+                                    ),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Color(0xFF6200EE)),
+                                      borderRadius: BorderRadius.circular(25.0),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Color(0xFF6200EE)),
+                                      borderRadius: BorderRadius.circular(25.0),
+                                    ),
+                                  ),
+
+                                  // valueTransformer: (text) => num.tryParse(text),
+                                  validator: FormBuilderValidators.compose([
+                                    FormBuilderValidators.required(context)
+                                  ]),
+                                )),
+                            Padding(
+                                padding: const EdgeInsets.all(15),
+                                child: FormBuilderTextField(
+                                  obscureText: true,
+                                  maxLines: 1,
+                                  name: 'password',
+                                  decoration: InputDecoration(
+                                    labelText: 'Password',
+                                    prefixIcon: Icon(
+                                      FontAwesomeIcons.key,
+                                      size: 15,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                    border: const OutlineInputBorder(),
+                                    labelStyle: const TextStyle(
+                                      color: Color(0xFF6200EE),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Color(0xFF6200EE)),
+                                      borderRadius: BorderRadius.circular(25.0),
+                                    ),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Color(0xFF6200EE)),
+                                      borderRadius: BorderRadius.circular(25.0),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Color(0xFF6200EE)),
+                                      borderRadius: BorderRadius.circular(25.0),
+                                    ),
+                                  ),
+
+                                  // valueTransformer: (text) => num.tryParse(text),
+                                  validator: FormBuilderValidators.compose([
+                                    FormBuilderValidators.required(context)
+                                  ]),
+                                )),
+                            Container(
+                              width: size.width * 0.8,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(29),
+                                child: FlatButton(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 20, horizontal: 40),
+                                  color: Theme.of(context).colorScheme.primary,
+                                  onPressed: () async {
+                                    _formKey.currentState?.save();
+                                    if (_formKey.currentState?.validate() !=
+                                        null) {
+                                      _submit(
+                                          _formKey
+                                              .currentState?.value["emailId"],
+                                          _formKey
+                                              .currentState?.value["password"]);
+                                    } else {
+                                      print("validation failed");
+                                    }
+                                    // Navigator.push(
+                                    //   context,
+                                    //   MaterialPageRoute(
+                                    //     builder: (context) => WalletLogin(),
+                                    //   ),
+                                    // );
+                                  },
+                                  child: Text("login",
+                                      style: TextStyle(color: Colors.white)),
+                                ),
+                              ),
+                            )
+                          ],
                         ),
-                        border: InputBorder.none,
-                        hintText: "Your email",
                       ),
                     ),
                   ),
-                  TextFieldContainer(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        icon: Icon(
-                          FontAwesomeIcons.key,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                        border: InputBorder.none,
-                        hintText: "password",
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: size.width * 0.8,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(29),
-                      child: FlatButton(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 20, horizontal: 40),
-                        color: Theme.of(context).colorScheme.primary,
-                        onPressed: () {},
-                        child: Text("login"),
-                      ),
-                    ),
-                  )
                 ],
               ),
             ),
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            //Center Row contents horizontally,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            //Center Row contents vertically,
-            children: <Widget>[
-              FloatingActionButton.extended(
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                foregroundColor: Theme.of(context).colorScheme.secondary,
-                onPressed: () async {
-                  _formKey.currentState?.save();
-                  if (_formKey.currentState?.validate() != null) {
-                    _submit(_formKey.currentState?.value["emailId"],
-                        _formKey.currentState?.value["password"]);
-                  } else {
-                    print("validation failed");
-                  }
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => WalletLogin(),
-                  //   ),
-                  // );
-                },
-                // icon: Image.asset(
-                //   "assets/icons/sign_in.png",
-                //   color: Theme.of(context).backgroundColor,
-                //   width: 32,
-                //   height: 32,
-                // ),
-                icon: Icon(FontAwesomeIcons.signInAlt),
-                label: const Text('Sign In'),
-              ),
-            ],
-          )
+          // Column(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   //Center Row contents horizontally,
+          //   crossAxisAlignment: CrossAxisAlignment.center,
+          //   //Center Row contents vertically,
+          //   children: <Widget>[
+          //     FloatingActionButton.extended(
+          //       backgroundColor: Theme.of(context).colorScheme.primary,
+          //       foregroundColor: Theme.of(context).colorScheme.secondary,
+          //       onPressed: () async {
+          //         _formKey.currentState?.save();
+          //         if (_formKey.currentState?.validate() != null) {
+          //           _submit(_formKey.currentState?.value["emailId"],
+          //               _formKey.currentState?.value["password"]);
+          //         } else {
+          //           print("validation failed");
+          //         }
+          //         // Navigator.push(
+          //         //   context,
+          //         //   MaterialPageRoute(
+          //         //     builder: (context) => WalletLogin(),
+          //         //   ),
+          //         // );
+          //       },
+          //       // icon: Image.asset(
+          //       //   "assets/icons/sign_in.png",
+          //       //   color: Theme.of(context).backgroundColor,
+          //       //   width: 32,
+          //       //   height: 32,
+          //       // ),
+          //       icon: Icon(FontAwesomeIcons.signInAlt),
+          //       label: const Text('Sign In'),
+          //     ),
+          //   ],
+          // )
         ],
       ),
     ));
