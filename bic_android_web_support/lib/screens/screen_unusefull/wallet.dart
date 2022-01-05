@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:web3dart/web3dart.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class WalletScreen extends StatefulWidget {
   static const routeName = '/wallet';
@@ -66,9 +67,6 @@ class _WalletScreenState extends State<WalletScreen> {
     setState(() {
       balance = bal.getInEther;
     });
-
-
-
   }
 
   Future<DeployedContract> getDeployedContract() async {
@@ -127,87 +125,85 @@ class _WalletScreenState extends State<WalletScreen> {
       body: Container(
         color: Theme.of(context).colorScheme.primary,
         child: Column(
-
           children: [
             ZStack([
-
               Column(
                 children: [
-
-
-                    const SizedBox(
-                      height: 80,
-                    ),
-                    // const Image(image: AssetImage('assets/ethereum.png')),
-                    // (context.percentHeight * 10).heightBox,
-                    // "\$ Ethers 1".text.xl4.white.bold.center.makeCentered().py16(),
-                    // Image(
-                    //     image: new AssetImage("assets/icons/ethereum.png"),
-                    //     height: 100,
-                    //     width: MediaQuery.of(context).size.width,
-                    //     fit: BoxFit.cover,
-                    //     // scale: 0.8
-                    //
-                    //     // fit: BoxFit.fitHeight,
-                    //     ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 100,
-                          height: 100,
-
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Theme.of(context).colorScheme.secondary,
-                            image: const DecorationImage(
-                                image: AssetImage('assets/icons/ethereum.png'),
-                                fit: BoxFit.contain
-                            ),
-                          ),
-                        ),
-
-                        Text("0 ETH", style: Theme.of(context).textTheme.headline2,)
-                      ],
-                    ),
                   const SizedBox(
                     height: 80,
                   ),
-                    HStack(
-                      [
-                        FloatingActionButton.extended(
-                          backgroundColor: Theme.of(context).colorScheme.secondary,
-                          foregroundColor: Theme.of(context).colorScheme.primary,
-                          onPressed: () {
-                            refreshBalance();
-                          },
-                          icon: const Icon(Icons.refresh),
-                          label: const Text('Refresh'),
+                  // const Image(image: AssetImage('assets/ethereum.png')),
+                  // (context.percentHeight * 10).heightBox,
+                  // "\$ Ethers 1".text.xl4.white.bold.center.makeCentered().py16(),
+                  // Image(
+                  //     image: new AssetImage("assets/icons/ethereum.png"),
+                  //     height: 100,
+                  //     width: MediaQuery.of(context).size.width,
+                  //     fit: BoxFit.cover,
+                  //     // scale: 0.8
+                  //
+                  //     // fit: BoxFit.fitHeight,
+                  //     ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Theme.of(context).colorScheme.secondary,
+                          image: const DecorationImage(
+                              image: AssetImage('assets/icons/ethereum.png'),
+                              fit: BoxFit.contain),
                         ),
-                        FloatingActionButton.extended(
-                          backgroundColor: Theme.of(context).colorScheme.secondary,
-                          foregroundColor: Theme.of(context).colorScheme.primary,
-                          onPressed: () {
-                            // Respond to button press
-                          },
-                          icon: const Icon(Icons.call_made_outlined),
-                          label: const Text('Send'),
-                        ),
-                        FloatingActionButton.extended(
-                          backgroundColor: Theme.of(context).colorScheme.secondary,
-                          foregroundColor: Theme.of(context).colorScheme.primary,
-                          onPressed: () {
-                            // Respond to button press
-                          },
-                          icon: const Icon(Icons.call_received_outlined),
-                          label: const Text('Recieve'),
-                        ),
-                      ],
-                      alignment: MainAxisAlignment.spaceAround,
-                      axisSize: MainAxisSize.max,
-                    )
-
+                      ),
+                      Text(
+                        "0 ETH",
+                        style: Theme.of(context).textTheme.headline2,
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 80,
+                  ),
+                  HStack(
+                    [
+                      FloatingActionButton.extended(
+                        backgroundColor:
+                            Theme.of(context).colorScheme.secondary,
+                        foregroundColor: Theme.of(context).colorScheme.primary,
+                        onPressed: () {
+                          refreshBalance();
+                        },
+                        icon: const Icon(Icons.refresh),
+                        label: const Text('Refresh'),
+                      ),
+                      FloatingActionButton.extended(
+                        backgroundColor:
+                            Theme.of(context).colorScheme.secondary,
+                        foregroundColor: Theme.of(context).colorScheme.primary,
+                        onPressed: () {
+                          // Respond to button press
+                        },
+                        icon: const Icon(Icons.call_made_outlined),
+                        label: const Text('Send'),
+                      ),
+                      FloatingActionButton.extended(
+                        backgroundColor:
+                            Theme.of(context).colorScheme.secondary,
+                        foregroundColor: Theme.of(context).colorScheme.primary,
+                        onPressed: () {
+                          // Respond to button press
+                        },
+                        icon: const Icon(Icons.call_received_outlined),
+                        label: const Text('Recieve'),
+                      ),
+                    ],
+                    alignment: MainAxisAlignment.spaceAround,
+                    axisSize: MainAxisSize.max,
+                  )
                 ],
               ),
             ]),

@@ -5,6 +5,7 @@ import 'package:bic_android_web_support/databases/hive_database.dart';
 import 'package:bic_android_web_support/providers/wallet.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../providers/wallet.dart';
 import '../screens_wallet/transfer_screen.dart';
@@ -16,8 +17,7 @@ import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:web3dart/web3dart.dart';
-import '../../helpers/http_exception.dart'
-    as exception;
+import '../../helpers/http_exception.dart' as exception;
 import '../../helpers/keys.dart' as keys;
 
 class WalletView extends StatefulWidget {
@@ -48,10 +48,8 @@ class _WalletViewState extends State<WalletView> {
   void initState() {
     balanceOfAccount = "null";
 
-
     setState(() {
       options = <String>['Select Account'];
-
     });
     getWalletFromDatabase();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
@@ -73,7 +71,7 @@ class _WalletViewState extends State<WalletView> {
     var dbResponse = box.values.toList().cast<WalletHive>();
     // print(dbResponse.toString());
     dbResponse.forEach((element) {
-      print(screenName+" "+element.walletAddress.toString());
+      print(screenName + " " + element.walletAddress.toString());
       if (options.contains(element.walletAddress)) {
       } else {
         options.add(element.walletAddress);
@@ -85,8 +83,6 @@ class _WalletViewState extends State<WalletView> {
   }
 
   Future<void> getAccountBalance(String walletAddress) async {
-
-
     var balance = await Provider.of<WalletModel>(context, listen: false)
         .getAccountBalance(EthereumAddress.fromHex(walletAddress));
     setState(() {
@@ -133,29 +129,28 @@ class _WalletViewState extends State<WalletView> {
                 child: PopupMenuButton(
                   icon: Icon(Icons.more_vert),
                   itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-
                     PopupMenuItem(
-
                       height: 10,
-                      child:  ListTile(
+                      child: ListTile(
                         leading: const Icon(Icons.logout_outlined),
-                        title: const Text('Log Out',style: TextStyle(fontSize: 18),),
+                        title: const Text(
+                          'Log Out',
+                          style: TextStyle(fontSize: 18),
+                        ),
                         iconColor: Theme.of(context).colorScheme.primary,
-                        textColor:Theme.of(context).colorScheme.primary ,
-
+                        textColor: Theme.of(context).colorScheme.primary,
                       ),
                       onTap: () async {
-                        var walletLogoutStatus =
-                        await Provider.of<WalletModel>(context, listen: false)
+                        var walletLogoutStatus = await Provider.of<WalletModel>(
+                                context,
+                                listen: false)
                             .walletLogOut();
                         // getWalletFromDatabase();
-                        if(walletLogoutStatus) {
+                        if (walletLogoutStatus) {
                           Navigator.of(context).pushReplacementNamed("/");
                         }
-
                       },
                     ),
-
                   ],
                 ),
               ),
@@ -171,7 +166,7 @@ class _WalletViewState extends State<WalletView> {
                     Column(
                       children: [
                         const SizedBox(
-                          height: kIsWeb ? 10: 50,
+                          height: kIsWeb ? 10 : 50,
                         ),
                         // const Image(image: AssetImage('assets/ethereum.png')),
                         // (context.percentHeight * 10).heightBox,
@@ -190,7 +185,6 @@ class _WalletViewState extends State<WalletView> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             CarouselSlider.builder(
-                              
                               itemCount: options.length,
                               itemBuilder: (BuildContext context, int itemIndex,
                                       int pageViewIndex) =>
@@ -297,16 +291,15 @@ class _WalletViewState extends State<WalletView> {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(15.0),
-                          child:  Card(
-                            clipBehavior: Clip.hardEdge,
-                              color: Theme.of(context).colorScheme.primaryVariant,
+                          child: Card(
+                              clipBehavior: Clip.hardEdge,
+                              color:
+                                  Theme.of(context).colorScheme.primaryVariant,
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: SelectableText(dropDownCurrentValue),
                               )),
-
-
-                          ),
+                        ),
 
                         const SizedBox(
                           height: 10,
@@ -328,9 +321,38 @@ class _WalletViewState extends State<WalletView> {
                                   ),
                                 );
                               },
-                              icon: const Icon(Icons.call_made_outlined),
+                              icon:
+                                  const Icon(FontAwesomeIcons.externalLinkAlt),
                               label: const Text('Send'),
                             ),
+                            // Container(
+                            //   margin: EdgeInsets.symmetric(vertical: 5),
+                            //   width: 90,
+                            //   child: ClipRRect(
+                            //       borderRadius: BorderRadius.circular(29),
+                            //       child: ElevatedButton(
+                            //         child: Text(
+                            //           'text',
+                            //           style: TextStyle(
+                            //               color: Theme.of(context)
+                            //                   .colorScheme
+                            //                   .primary),
+                            //         ),
+                            //         onPressed: () {},
+                            //         style: ElevatedButton.styleFrom(
+                            //             primary: Theme.of(context)
+                            //                 .colorScheme
+                            //                 .primary,
+                            //             padding: EdgeInsets.symmetric(
+                            //                 horizontal: 10, vertical: 10),
+                            //             textStyle: TextStyle(
+                            //                 color: Theme.of(context)
+                            //                     .colorScheme
+                            //                     .primary,
+                            //                 fontSize: 14,
+                            //                 fontWeight: FontWeight.w500)),
+                            //       )),
+                            // ),
                             ElevatedButton(
                               onPressed: () async {
                                 const snackBar = SnackBar(
@@ -339,7 +361,7 @@ class _WalletViewState extends State<WalletView> {
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(snackBar);
                               },
-                              child: Icon(Icons.refresh,
+                              child: Icon(FontAwesomeIcons.syncAlt,
                                   color: Theme.of(context).colorScheme.primary),
                               style: ElevatedButton.styleFrom(
                                 shape: CircleBorder(),
@@ -349,17 +371,19 @@ class _WalletViewState extends State<WalletView> {
                                 onPrimary: Colors.black,
                               ),
                             ),
-                            kIsWeb ? FloatingActionButton.extended(
-                              backgroundColor:
-                              Theme.of(context).colorScheme.secondary,
-                              foregroundColor:
-                              Theme.of(context).colorScheme.primary,
-                              onPressed: () async {
-                               // var connection = await Provider.of<CredentialsModel>(context,listen: false).connectToMetaMask();
-                              },
-                              icon: const Icon(Icons.qr_code_scanner),
-                              label: const Text('Connect To Meta Mask'),
-                            ): Container(),
+                            kIsWeb
+                                ? FloatingActionButton.extended(
+                                    backgroundColor:
+                                        Theme.of(context).colorScheme.secondary,
+                                    foregroundColor:
+                                        Theme.of(context).colorScheme.primary,
+                                    onPressed: () async {
+                                      // var connection = await Provider.of<CredentialsModel>(context,listen: false).connectToMetaMask();
+                                    },
+                                    icon: const Icon(FontAwesomeIcons.barcode),
+                                    label: const Text('Connect To Meta Mask'),
+                                  )
+                                : Container(),
                             FloatingActionButton.extended(
                               backgroundColor:
                                   Theme.of(context).colorScheme.secondary,
@@ -407,7 +431,7 @@ class _WalletViewState extends State<WalletView> {
                                   ),
                                 );
                               },
-                              icon: const Icon(Icons.qr_code_scanner),
+                              icon: const Icon(FontAwesomeIcons.qrcode),
                               label: const Text('Receive'),
                             ),
                           ],
@@ -488,13 +512,17 @@ class _WalletViewState extends State<WalletView> {
                   SingleChildScrollView(
                     child: StreamBuilder<QuerySnapshot>(
                       stream: FirebaseFirestore.instance
-                                .collection('users').doc(auth.currentUser?.uid).collection("transactions").snapshots(),
-                      builder:
-                          (BuildContext context,  AsyncSnapshot<QuerySnapshot> snapshot)  {
-                  if (snapshot.hasError) {
+                          .collection('users')
+                          .doc(auth.currentUser?.uid)
+                          .collection("transactions")
+                          .snapshots(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<QuerySnapshot> snapshot) {
+                        if (snapshot.hasError) {
                           return const Text('Something went wrong');
                         }
-                        if (snapshot.connectionState == ConnectionState.waiting) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
                           return const Text("Loading");
                         }
                         if (snapshot.hasData) {
@@ -502,68 +530,108 @@ class _WalletViewState extends State<WalletView> {
                             final documents = snapshot.data?.docs;
                             print(documents?.length.toString());
                             return SizedBox(
-
                               child: SingleChildScrollView(
                                 child: ListView.builder(
                                     shrinkWrap: true,
-                                    physics: const NeverScrollableScrollPhysics(),
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
                                     itemCount: documents?.length,
-                                    itemBuilder: (BuildContext context, int position) {
-
-                                      return  Card(
-                                        color: Theme.of(context).colorScheme.secondary,
+                                    itemBuilder:
+                                        (BuildContext context, int position) {
+                                      return Card(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary,
                                         elevation: 0.0,
                                         child: ExpansionTile(
-                                          backgroundColor:  Theme.of(context).colorScheme.secondary,
+                                          backgroundColor: Theme.of(context)
+                                              .colorScheme
+                                              .secondary,
                                           leading: Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child: Icon(Icons.download_done,color:  Theme.of(context).colorScheme.primary,),
+                                            child: Icon(
+                                              FontAwesomeIcons.solidCheckCircle,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                            ),
                                           ),
-                                          title:  Text(
-                                            documents![position]['status'].toString().toLowerCase() == "true" ? "Success" : "Fail" ,
+                                          title: Text(
+                                            documents![position]['status']
+                                                        .toString()
+                                                        .toLowerCase() ==
+                                                    "true"
+                                                ? "Success"
+                                                : "Fail",
                                             style: const TextStyle(
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
                                           children: <Widget>[
                                             Padding(
-                                              padding: const EdgeInsets.all(15.0),
+                                              padding:
+                                                  const EdgeInsets.all(15.0),
                                               child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   Padding(
-                                                    padding: const EdgeInsets.only(bottom: 5),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            bottom: 5),
                                                     child: Text(
                                                       'To: ${documents[position]['to'].toString()}',
-                                                      style: TextStyle(color: Theme.of(context).colorScheme.primary ),
+                                                      style: TextStyle(
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .colorScheme
+                                                                  .primary),
                                                     ),
                                                   ),
                                                   Padding(
-                                                    padding: const EdgeInsets.only(bottom: 5),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            bottom: 5),
                                                     child: Text(
                                                       'From: ${documents[position]['from'].toString()}',
-                                                      style: TextStyle(color: Theme.of(context).colorScheme.primary ),
+                                                      style: TextStyle(
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .colorScheme
+                                                                  .primary),
                                                     ),
                                                   ),
                                                   Padding(
-                                                    padding: const EdgeInsets.only(bottom: 5),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            bottom: 5),
                                                     child: Text(
                                                       'Block Number: ${documents[position]['blockNumber'].toString()}',
-                                                      style: TextStyle(color: Theme.of(context).colorScheme.primary ),
+                                                      style: TextStyle(
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .colorScheme
+                                                                  .primary),
                                                     ),
                                                   ),
                                                   Padding(
-                                                    padding: const EdgeInsets.only(bottom: 5),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            bottom: 5),
                                                     child: Text(
                                                       'Transaction Hash: ${documents[position]['transactionHash'].toString()}',
-                                                      style: TextStyle(color: Theme.of(context).colorScheme.primary ),
+                                                      style: TextStyle(
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .colorScheme
+                                                                  .primary),
                                                     ),
                                                   ),
                                                 ],
                                               ),
                                             ),
-
                                           ],
                                           subtitle: Text(
                                             'To: ${documents[position]['to']}',
@@ -571,21 +639,25 @@ class _WalletViewState extends State<WalletView> {
                                             overflow: TextOverflow.fade,
                                             softWrap: false,
                                           ),
-                                          trailing: Text('${EtherAmount.fromUnitAndValue(EtherUnit.wei, documents[position]['value']).getInEther} ETH',style: TextStyle(
-                                            fontWeight: FontWeight.bold,color: Theme.of(context).colorScheme.primary
-                                          ),),
+                                          trailing: Text(
+                                            '${EtherAmount.fromUnitAndValue(EtherUnit.wei, documents[position]['value']).getInEther} ETH',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary),
+                                          ),
                                         ),
-                                    );}),
+                                      );
+                                    }),
                               ),
                             );
                           }
                         }
-                          return const Center(
-                            child: Text('No Transactions Found As Of Yet'),
-                          );
-
+                        return const Center(
+                          child: Text('No Transactions Found As Of Yet'),
+                        );
                       },
-
                     ),
                   ),
                 ],

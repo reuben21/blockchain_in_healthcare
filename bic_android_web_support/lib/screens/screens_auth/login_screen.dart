@@ -3,6 +3,7 @@ import 'package:bic_android_web_support/databases/hive_database.dart';
 import 'package:bic_android_web_support/providers/wallet.dart';
 import 'package:bic_android_web_support/screens/Tabs/tabs_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive/hive.dart';
 
 import '../../providers/patient.dart';
@@ -29,22 +30,20 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormBuilderState>();
 
   void _submit(String emailId, String password) async {
-    print(emailId+" "+password);
+    print(emailId + " " + password);
     try {
       await Hive.openBox<WalletHive>('WalletHive');
-      auth.signInWithEmailAndPassword(email: emailId, password: password)
-          .then((value) async =>
-      {
+      auth
+          .signInWithEmailAndPassword(email: emailId, password: password)
+          .then((value) async => {
+                if (value.user?.uid != null)
+                  {
+                    await Provider.of<WalletModel>(context, listen: false)
+                        .signInWithWallet(value.user?.uid, password)
 
-        if ( value.user?.uid != null) {
-
-          await Provider.of<WalletModel>(context, listen: false)
-              .signInWithWallet( value.user?.uid, password)
-
-          // _showErrorDialog("Wallet Has Been Created");
-
-        }
-      });
+                    // _showErrorDialog("Wallet Has Been Created");
+                  }
+              });
       Navigator.of(context).pushNamed(TabsScreen.routeName);
     } catch (error) {
       _showErrorDialog(error.toString());
@@ -54,8 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void _showErrorDialog(String message) {
     showDialog(
         context: context,
-        builder: (ctx) =>
-            AlertDialog(
+        builder: (ctx) => AlertDialog(
               title: const Text('An Error Occurred'),
               content: Text(message),
               actions: <Widget>[
@@ -68,10 +66,10 @@ class _LoginScreenState extends State<LoginScreen> {
             ));
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: SingleChildScrollView(
+    return Scaffold(
+        body: SingleChildScrollView(
       child: Column(
         children: <Widget>[
           SingleChildScrollView(
@@ -83,7 +81,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: <Widget>[
-                      const SizedBox(height: 40,),
+                      const SizedBox(
+                        height: 40,
+                      ),
                       Center(child: Image.asset("assets/images/sign_in.png")),
                       const SizedBox(
                         height: 80,
@@ -95,32 +95,41 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(
                         height: 5,
                       ),
-                      const SizedBox(height: 35,),
+                      const SizedBox(
+                        height: 35,
+                      ),
                       Padding(
                           padding: const EdgeInsets.all(15),
                           child: FormBuilderTextField(
-
                             maxLines: 1,
                             name: 'emailId',
-                            decoration: const InputDecoration(
-                              labelText:'Email ID',
-                              prefixIcon:
-                              Icon(Icons.alternate_email_outlined),
-                              border: OutlineInputBorder(),
+                            decoration: InputDecoration(
+                              labelText: 'Email ID',
+                              prefixIcon: Icon(
+                                FontAwesomeIcons.at,
+                                size: 15,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(25.0),
+                              ),
                               labelStyle: TextStyle(
                                 color: Color(0xFF6200EE),
                               ),
                               errorBorder: OutlineInputBorder(
                                 borderSide:
-                                BorderSide(color: Color(0xFF6200EE)),
+                                    BorderSide(color: Color(0xFF6200EE)),
+                                borderRadius: BorderRadius.circular(25.0),
                               ),
                               focusedErrorBorder: OutlineInputBorder(
                                 borderSide:
-                                BorderSide(color: Color(0xFF6200EE)),
+                                    BorderSide(color: Color(0xFF6200EE)),
+                                borderRadius: BorderRadius.circular(25.0),
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide:
-                                BorderSide(color: Color(0xFF6200EE)),
+                                    BorderSide(color: Color(0xFF6200EE)),
+                                borderRadius: BorderRadius.circular(25.0),
                               ),
                             ),
 
@@ -128,7 +137,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             validator: FormBuilderValidators.compose(
                                 [FormBuilderValidators.required(context)]),
                           )),
-
                       Padding(
                           padding: const EdgeInsets.all(15),
                           child: FormBuilderTextField(
@@ -136,24 +144,30 @@ class _LoginScreenState extends State<LoginScreen> {
                             maxLines: 1,
                             name: 'password',
                             decoration: InputDecoration(
-                              labelText:'Password',
-                              prefixIcon:
-                              Icon(Icons.password,color: Theme.of(context).primaryColor,),
+                              labelText: 'Password',
+                              prefixIcon: Icon(
+                                FontAwesomeIcons.key,
+                                size: 15,
+                                color: Theme.of(context).primaryColor,
+                              ),
                               border: const OutlineInputBorder(),
                               labelStyle: const TextStyle(
                                 color: Color(0xFF6200EE),
                               ),
-                              errorBorder: const OutlineInputBorder(
+                              errorBorder: OutlineInputBorder(
                                 borderSide:
-                                BorderSide(color: Color(0xFF6200EE)),
+                                    BorderSide(color: Color(0xFF6200EE)),
+                                borderRadius: BorderRadius.circular(25.0),
                               ),
-                              focusedErrorBorder: const OutlineInputBorder(
+                              focusedErrorBorder: OutlineInputBorder(
                                 borderSide:
-                                BorderSide(color: Color(0xFF6200EE)),
+                                    BorderSide(color: Color(0xFF6200EE)),
+                                borderRadius: BorderRadius.circular(25.0),
                               ),
-                              enabledBorder: const OutlineInputBorder(
+                              enabledBorder: OutlineInputBorder(
                                 borderSide:
-                                BorderSide(color: Color(0xFF6200EE)),
+                                    BorderSide(color: Color(0xFF6200EE)),
+                                borderRadius: BorderRadius.circular(25.0),
                               ),
                             ),
 
@@ -161,7 +175,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             validator: FormBuilderValidators.compose(
                                 [FormBuilderValidators.required(context)]),
                           )),
-
                     ],
                   ),
                 ),
@@ -180,11 +193,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 onPressed: () async {
                   _formKey.currentState?.save();
                   if (_formKey.currentState?.validate() != null) {
-
-
-                    _submit(_formKey.currentState?.value["emailId"],_formKey.currentState?.value["password"]);
-
-
+                    _submit(_formKey.currentState?.value["emailId"],
+                        _formKey.currentState?.value["password"]);
                   } else {
                     print("validation failed");
                   }
@@ -195,14 +205,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   //   ),
                   // );
                 },
-                icon: Image.asset("assets/icons/sign_in.png",color: Theme.of(context).backgroundColor,width: 32,height: 32,),
+                // icon: Image.asset(
+                //   "assets/icons/sign_in.png",
+                //   color: Theme.of(context).backgroundColor,
+                //   width: 32,
+                //   height: 32,
+                // ),
+                icon: Icon(FontAwesomeIcons.signInAlt),
                 label: const Text('Sign In'),
               ),
-
-
-
-
-
             ],
           )
         ],
