@@ -103,6 +103,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
+                  TextFieldContainer(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        icon: Icon(
+                          FontAwesomeIcons.key,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        border: InputBorder.none,
+                        hintText: "password",
+                      ),
+                    ),
+                  ),
                   Container(
                     width: size.width * 0.8,
                     child: ClipRRect(
