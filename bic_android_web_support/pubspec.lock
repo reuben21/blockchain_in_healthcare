@@ -483,6 +483,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.3"
+  ipld:
+    dependency: "direct main"
+    description:
+      name: ipld
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.1+1"
   js:
     dependency: transitive
     description:
