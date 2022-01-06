@@ -88,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   SizedBox(height: size.height * 0.03),
                   SvgPicture.asset(
-                    "assets/icons/signup.svg",
+                    "assets/icons/login.svg",
                     height: size.height * 0.35,
                   ),
                   SizedBox(height: size.height * 0.03),
@@ -110,8 +110,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                   name: 'emailId',
                                   decoration: InputDecoration(
                                     labelText: 'Email ID',
-                                    prefixIcon:  Image.asset("assets/icons/at-sign-100.png",
-                                        color: Theme.of(context).colorScheme.primary,scale: 4, width: 15, height: 15),
+                                    prefixIcon: Image.asset(
+                                        "assets/icons/at-sign-100.png",
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                        scale: 4,
+                                        width: 15,
+                                        height: 15),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(25.0),
                                     ),
@@ -148,8 +154,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                   name: 'password',
                                   decoration: InputDecoration(
                                     labelText: 'Password',
-                                    prefixIcon:  Image.asset("assets/icons/key-100.png",
-                                        color: Theme.of(context).colorScheme.primary,scale: 4, width: 15, height: 15),
+                                    prefixIcon: Image.asset(
+                                        "assets/icons/key-100.png",
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                        scale: 4,
+                                        width: 15,
+                                        height: 15),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(25.0),
                                     ),
@@ -187,8 +199,14 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(25),
                                 child: ElevatedButton.icon(
-                                  icon: Image.asset("assets/icons/login-right-100.png",
-                                      color: Theme.of(context).colorScheme.secondary,scale: 1, width: 25, height: 25),
+                                  icon: Image.asset(
+                                      "assets/icons/login-right-100.png",
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
+                                      scale: 1,
+                                      width: 25,
+                                      height: 25),
                                   // padding: EdgeInsets.symmetric(
                                   //     vertical: 20, horizontal: 40),
                                   // color: Theme.of(context).colorScheme.primary,
@@ -213,9 +231,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   },
                                   label: const Text("Login",
                                       style: TextStyle(color: Colors.white)),
-
                                 ),
-
                               ),
                             )
                           ],
