@@ -86,217 +86,162 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ));
   }
 
+  Widget formBuilderTextFieldWidget(String fieldName, String labelText, Icon icon, bool obscure,List<FormFieldValidator> validators) {
+    return FormBuilderTextField(
+      obscureText: obscure,
+      maxLines: 1,
+      name: fieldName,
+      decoration: InputDecoration(
+        labelText: labelText,
+        prefixIcon: icon,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25.0),
+        ),
+        labelStyle: const TextStyle(
+          color: Color(0xFF6200EE),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderSide:
+          BorderSide(color: Color(0xFF6200EE)),
+          borderRadius: BorderRadius.circular(25.0),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide:
+          BorderSide(color: Color(0xFF6200EE)),
+          borderRadius: BorderRadius.circular(25.0),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide:
+          BorderSide(color: Color(0xFF6200EE)),
+          borderRadius: BorderRadius.circular(25.0),
+        ),
+      ),
+
+      // valueTransformer: (text) => num.tryParse(text),
+      validator: FormBuilderValidators.compose(
+          validators),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
         body: SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          FormBuilder(
-            key: _formKey,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            child: Padding(
-              padding: const EdgeInsets.all(25.0),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    const SizedBox(
-                      height: 35,
-                    ),
-                    Center(
-                        child: kIsWeb
-                            ? Image.asset(
-                                "assets/images/sign_up.png",
-                                width: 500,
-                                height: 500,
-                              )
-                            : Image.asset("assets/images/sign_up.png")),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      'Sign Up',
-                      style: Theme.of(context).textTheme.headline1,
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: FormBuilderTextField(
-                          maxLines: 1,
-                          name: 'name',
-                          decoration: InputDecoration(
-                            labelText: 'Full Name',
-                            prefixIcon: Icon(
-                              Icons.person_outlined,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(25.0),
-                            ),
-                            labelStyle: const TextStyle(
-                              color: Color(0xFF6200EE),
-                            ),
-                            errorBorder: OutlineInputBorder(
-                              borderSide:
-                              BorderSide(color: Color(0xFF6200EE)),
-                              borderRadius: BorderRadius.circular(25.0),
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderSide:
-                              BorderSide(color: Color(0xFF6200EE)),
-                              borderRadius: BorderRadius.circular(25.0),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide:
-                              BorderSide(color: Color(0xFF6200EE)),
-                              borderRadius: BorderRadius.circular(25.0),
-                            ),
-                          ),
-
-                          // valueTransformer: (text) => num.tryParse(text),
-                          validator: FormBuilderValidators.compose(
-                              [FormBuilderValidators.required(context)]),
-                        )),
-                    Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: FormBuilderTextField(
-                          maxLines: 1,
-                          name: 'emailId',
-                          decoration: InputDecoration(
-                            labelText: 'Email ID',
-                            prefixIcon: Icon(Icons.alternate_email_outlined),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(25.0),
-                            ),
-                            labelStyle: const TextStyle(
-                              color: Color(0xFF6200EE),
-                            ),
-                            errorBorder: OutlineInputBorder(
-                              borderSide:
-                              BorderSide(color: Color(0xFF6200EE)),
-                              borderRadius: BorderRadius.circular(25.0),
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderSide:
-                              BorderSide(color: Color(0xFF6200EE)),
-                              borderRadius: BorderRadius.circular(25.0),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide:
-                              BorderSide(color: Color(0xFF6200EE)),
-                              borderRadius: BorderRadius.circular(25.0),
-                            ),
-                          ),
-
-                          // valueTransformer: (text) => num.tryParse(text),
-                          validator: FormBuilderValidators.compose(
-                              [FormBuilderValidators.required(context)]),
-                        )),
-                    Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: FormBuilderTextField(
-                          obscureText: true,
-                          maxLines: 1,
-                          name: 'password',
-                          decoration: InputDecoration(
-                            labelText: 'Password',
-                            prefixIcon: Icon(
-                              Icons.password,
-                              color: Theme.of(context).primaryColor,
-                            ),
-
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(25.0),
-                            ),
-                            labelStyle: const TextStyle(
-                              color: Color(0xFF6200EE),
-                            ),
-                            errorBorder: OutlineInputBorder(
-                              borderSide:
-                              BorderSide(color: Color(0xFF6200EE)),
-                              borderRadius: BorderRadius.circular(25.0),
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderSide:
-                              BorderSide(color: Color(0xFF6200EE)),
-                              borderRadius: BorderRadius.circular(25.0),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide:
-                              BorderSide(color: Color(0xFF6200EE)),
-                              borderRadius: BorderRadius.circular(25.0),
-                            ),
-                          ),
-
-                          // valueTransformer: (text) => num.tryParse(text),
-                          validator: FormBuilderValidators.compose(
-                              [FormBuilderValidators.required(context)]),
-                        )),
-                  ],
+      child: Container(
+        height: MediaQuery.of(context).size.height+100,
+        child: Column(
+          children: <Widget>[
+            FormBuilder(
+              key: _formKey,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              child: Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      const SizedBox(
+                        height: 35,
+                      ),
+                      Center(
+                          child: kIsWeb
+                              ? Image.asset(
+                                  "assets/images/sign_up.png",
+                                  width: 500,
+                                  height: 500,
+                                )
+                              : Image.asset("assets/images/sign_up.png")),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        'Sign Up',
+                        style: Theme.of(context).textTheme.headline1,
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Padding(
+                          padding: const EdgeInsets.all(15),
+                          child:formBuilderTextFieldWidget('name','Full Name',Icon(
+                            Icons.person_outlined,
+                            color: Theme.of(context).primaryColor,
+                          ),false,[FormBuilderValidators.required(context),])),
+                      Padding(
+                          padding: const EdgeInsets.all(15),
+                          child: formBuilderTextFieldWidget('emailId','Email ID',Icon(
+                            Icons.alternate_email_outlined,
+                            color: Theme.of(context).primaryColor,
+                          ),false,[FormBuilderValidators.required(context),])),
+                      Padding(
+                          padding: const EdgeInsets.all(15),
+                          child: formBuilderTextFieldWidget('password','Password',Icon(
+                            Icons.password,
+                            color: Theme.of(context).primaryColor,
+                          ),true,[FormBuilderValidators.required(context),])),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            //Center Row contents horizontally,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            //Center Row contents vertically,
-            children: <Widget>[
-              FloatingActionButton.extended(
-                heroTag: "signUpButtonOnSignUpScreen",
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                foregroundColor: Theme.of(context).colorScheme.secondary,
-                onPressed: () async {
-                  _formKey.currentState?.save();
-                  if (_formKey.currentState?.validate() != null) {
-                    _submit(
-                        _formKey.currentState?.value["name"],
-                        _formKey.currentState?.value["emailId"],
-                        _formKey.currentState?.value["password"]);
-                  } else {
-                    print("validation failed");
-                  }
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => WalletLogin(),
-                  //   ),
-                  // );
-                },
-                icon:  Image.asset("assets/icons/registration-100.png",
-                    color: Theme.of(context).colorScheme.secondary, width: 25,fit: BoxFit.fill, height: 25),
-                label: const Text('Register'),
-              ),
-              const SizedBox(
-                width: 50,
-              ),
-              FloatingActionButton.extended(
-                heroTag: "logInButtonOnSignUpScreen",
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                foregroundColor: Theme.of(context).colorScheme.secondary,
-                onPressed: () async {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => LoginScreen(),
-                    ),
-                  );
-                },
-                icon: Image.asset("assets/icons/sign_in.png",
-                    color: Theme.of(context).colorScheme.secondary, width: 25,fit: BoxFit.fill, height: 25),
-                label: const Text('Log In'),
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              //Center Row contents horizontally,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              //Center Row contents vertically,
+              children: <Widget>[
+                FloatingActionButton.extended(
+                  heroTag: "signUpButtonOnSignUpScreen",
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  foregroundColor: Theme.of(context).colorScheme.secondary,
+                  onPressed: () async {
+                    _formKey.currentState?.save();
+                    if (_formKey.currentState?.validate() != null) {
+                      _submit(
+                          _formKey.currentState?.value["name"],
+                          _formKey.currentState?.value["emailId"],
+                          _formKey.currentState?.value["password"]);
+                    } else {
+                      print("validation failed");
+                    }
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => WalletLogin(),
+                    //   ),
+                    // );
+                  },
+                  icon:  Image.asset("assets/icons/registration-100.png",
+                      color: Theme.of(context).colorScheme.secondary, width: 25,fit: BoxFit.fill, height: 25),
+                  label: const Text('Register'),
+                ),
+                const SizedBox(
+                  width: 50,
+                ),
+                FloatingActionButton.extended(
+                  heroTag: "logInButtonOnSignUpScreen",
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  foregroundColor: Theme.of(context).colorScheme.secondary,
+                  onPressed: () async {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LoginScreen(),
+                      ),
+                    );
+                  },
+                  icon: Image.asset("assets/icons/sign_in.png",
+                      color: Theme.of(context).colorScheme.secondary, width: 25,fit: BoxFit.fill, height: 25),
+                  label: const Text('Log In'),
+                ),
 
-            ],
-          ),
-          const SizedBox(
-            width: 50,
-          ),
-        ],
+              ],
+            ),
+            const SizedBox(
+              width: 50,
+            ),
+          ],
+        ),
       ),
     ));
   }
