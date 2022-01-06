@@ -17,7 +17,9 @@ contract MainContract is AccessControl {
         string newMedicalRecordHash;
         string[] previousPatientPrescriptionHashes;
         string newPatientPrescriptionHashes;
+       
     }
+
 
     struct doctorRecord {
         string name;
@@ -65,6 +67,7 @@ contract MainContract is AccessControl {
 
     //: PATIENT DATABASE
     mapping(address => patientRecord) patientDatabase;
+
 
     function storePatient(
         string memory _name,
