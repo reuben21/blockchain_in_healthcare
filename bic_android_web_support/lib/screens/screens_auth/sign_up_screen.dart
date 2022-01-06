@@ -4,9 +4,11 @@ import 'package:bic_android_web_support/databases/hive_database.dart';
 import 'package:bic_android_web_support/providers/wallet.dart';
 import 'package:bic_android_web_support/screens/Tabs/tabs_screen.dart';
 import 'package:bic_android_web_support/screens/screen_unusefull/create_wallet.dart';
+import 'package:bic_android_web_support/screens/screens_auth/background.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive/hive.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -86,7 +88,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ));
   }
 
-  Widget formBuilderTextFieldWidget(String fieldName, String labelText, Icon icon, bool obscure,List<FormFieldValidator> validators) {
+  Widget formBuilderTextFieldWidget(String fieldName, String labelText,
+      Icon icon, bool obscure, List<FormFieldValidator> validators) {
     return FormBuilderTextField(
       obscureText: obscure,
       maxLines: 1,
@@ -101,147 +104,192 @@ class _SignUpScreenState extends State<SignUpScreen> {
           color: Color(0xFF6200EE),
         ),
         errorBorder: OutlineInputBorder(
-          borderSide:
-          BorderSide(color: Color(0xFF6200EE)),
+          borderSide: BorderSide(color: Color(0xFF6200EE)),
           borderRadius: BorderRadius.circular(25.0),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderSide:
-          BorderSide(color: Color(0xFF6200EE)),
+          borderSide: BorderSide(color: Color(0xFF6200EE)),
           borderRadius: BorderRadius.circular(25.0),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide:
-          BorderSide(color: Color(0xFF6200EE)),
+          borderSide: BorderSide(color: Color(0xFF6200EE)),
           borderRadius: BorderRadius.circular(25.0),
         ),
       ),
 
       // valueTransformer: (text) => num.tryParse(text),
-      validator: FormBuilderValidators.compose(
-          validators),
+      validator: FormBuilderValidators.compose(validators),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     // TODO: implement build
     return Scaffold(
         body: SingleChildScrollView(
-      child: Container(
-        height: MediaQuery.of(context).size.height+100,
-        child: Column(
-          children: <Widget>[
-            FormBuilder(
-              key: _formKey,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              child: Padding(
-                padding: const EdgeInsets.all(25.0),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: <Widget>[
-                      const SizedBox(
-                        height: 35,
+      child: Column(
+        children: [
+          SingleChildScrollView(
+            child: Background(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Text(
+                    //   'Signup',
+                    //   style: TextStyle(fontSize: 20, color: Colors.purple),
+                    // ),
+                    SizedBox(height: size.height * 0.03),
+                    SvgPicture.asset(
+                      "assets/icons/signup.svg",
+                      height: size.height * 0.35,
+                    ),
+                    SizedBox(height: size.height * 0.03),
+                    FormBuilder(
+                      key: _formKey,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      child: Padding(
+                        padding: const EdgeInsets.all(25.0),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: <Widget>[
+                              const SizedBox(
+                                height: 35,
+                              ),
+                              // Center(
+                              //     child: kIsWeb
+                              //         ? Image.asset(
+                              //             "assets/icons/signup.svg",
+                              //             width: 500,
+                              //             height: 500,
+                              //           )
+                              //         : Image.asset("assets/images/sign_up.png")),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                'Sign Up',
+                                style: Theme.of(context).textTheme.headline1,
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Padding(
+                                  padding: const EdgeInsets.all(15),
+                                  child: formBuilderTextFieldWidget(
+                                      'name',
+                                      'Full Name',
+                                      Icon(
+                                        Icons.person_outlined,
+                                        color: Theme.of(context).primaryColor,
+                                      ),
+                                      false,
+                                      [
+                                        FormBuilderValidators.required(context),
+                                      ])),
+                              Padding(
+                                  padding: const EdgeInsets.all(15),
+                                  child: formBuilderTextFieldWidget(
+                                      'emailId',
+                                      'Email ID',
+                                      Icon(
+                                        Icons.alternate_email_outlined,
+                                        color: Theme.of(context).primaryColor,
+                                      ),
+                                      false,
+                                      [
+                                        FormBuilderValidators.required(context),
+                                      ])),
+                              Padding(
+                                  padding: const EdgeInsets.all(15),
+                                  child: formBuilderTextFieldWidget(
+                                      'password',
+                                      'Password',
+                                      Icon(
+                                        Icons.password,
+                                        color: Theme.of(context).primaryColor,
+                                      ),
+                                      true,
+                                      [
+                                        FormBuilderValidators.required(context),
+                                      ])),
+                            ],
+                          ),
+                        ),
                       ),
-                      Center(
-                          child: kIsWeb
-                              ? Image.asset(
-                                  "assets/images/sign_up.png",
-                                  width: 500,
-                                  height: 500,
-                                )
-                              : Image.asset("assets/images/sign_up.png")),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        'Sign Up',
-                        style: Theme.of(context).textTheme.headline1,
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Padding(
-                          padding: const EdgeInsets.all(15),
-                          child:formBuilderTextFieldWidget('name','Full Name',Icon(
-                            Icons.person_outlined,
-                            color: Theme.of(context).primaryColor,
-                          ),false,[FormBuilderValidators.required(context),])),
-                      Padding(
-                          padding: const EdgeInsets.all(15),
-                          child: formBuilderTextFieldWidget('emailId','Email ID',Icon(
-                            Icons.alternate_email_outlined,
-                            color: Theme.of(context).primaryColor,
-                          ),false,[FormBuilderValidators.required(context),])),
-                      Padding(
-                          padding: const EdgeInsets.all(15),
-                          child: formBuilderTextFieldWidget('password','Password',Icon(
-                            Icons.password,
-                            color: Theme.of(context).primaryColor,
-                          ),true,[FormBuilderValidators.required(context),])),
-                    ],
-                  ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      //Center Row contents horizontally,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      //Center Row contents vertically,
+                      children: <Widget>[
+                        FloatingActionButton.extended(
+                          heroTag: "signUpButtonOnSignUpScreen",
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primary,
+                          foregroundColor:
+                              Theme.of(context).colorScheme.secondary,
+                          onPressed: () async {
+                            _formKey.currentState?.save();
+                            if (_formKey.currentState?.validate() != null) {
+                              _submit(
+                                  _formKey.currentState?.value["name"],
+                                  _formKey.currentState?.value["emailId"],
+                                  _formKey.currentState?.value["password"]);
+                            } else {
+                              print("validation failed");
+                            }
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => WalletLogin(),
+                            //   ),
+                            // );
+                          },
+                          icon: Image.asset("assets/icons/registration-100.png",
+                              color: Theme.of(context).colorScheme.secondary,
+                              width: 25,
+                              fit: BoxFit.fill,
+                              height: 25),
+                          label: const Text('Register'),
+                        ),
+                        const SizedBox(
+                          width: 50,
+                        ),
+                        FloatingActionButton.extended(
+                          heroTag: "logInButtonOnSignUpScreen",
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primary,
+                          foregroundColor:
+                              Theme.of(context).colorScheme.secondary,
+                          onPressed: () async {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => LoginScreen(),
+                              ),
+                            );
+                          },
+                          icon: Image.asset("assets/icons/sign_in.png",
+                              color: Theme.of(context).colorScheme.secondary,
+                              width: 25,
+                              fit: BoxFit.fill,
+                              height: 25),
+                          label: const Text('Log In'),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                  ],
                 ),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              //Center Row contents horizontally,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              //Center Row contents vertically,
-              children: <Widget>[
-                FloatingActionButton.extended(
-                  heroTag: "signUpButtonOnSignUpScreen",
-                  backgroundColor: Theme.of(context).colorScheme.primary,
-                  foregroundColor: Theme.of(context).colorScheme.secondary,
-                  onPressed: () async {
-                    _formKey.currentState?.save();
-                    if (_formKey.currentState?.validate() != null) {
-                      _submit(
-                          _formKey.currentState?.value["name"],
-                          _formKey.currentState?.value["emailId"],
-                          _formKey.currentState?.value["password"]);
-                    } else {
-                      print("validation failed");
-                    }
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => WalletLogin(),
-                    //   ),
-                    // );
-                  },
-                  icon:  Image.asset("assets/icons/registration-100.png",
-                      color: Theme.of(context).colorScheme.secondary, width: 25,fit: BoxFit.fill, height: 25),
-                  label: const Text('Register'),
-                ),
-                const SizedBox(
-                  width: 50,
-                ),
-                FloatingActionButton.extended(
-                  heroTag: "logInButtonOnSignUpScreen",
-                  backgroundColor: Theme.of(context).colorScheme.primary,
-                  foregroundColor: Theme.of(context).colorScheme.secondary,
-                  onPressed: () async {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => LoginScreen(),
-                      ),
-                    );
-                  },
-                  icon: Image.asset("assets/icons/sign_in.png",
-                      color: Theme.of(context).colorScheme.secondary, width: 25,fit: BoxFit.fill, height: 25),
-                  label: const Text('Log In'),
-                ),
-
-              ],
-            ),
-            const SizedBox(
-              width: 50,
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     ));
   }
