@@ -89,7 +89,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   Widget formBuilderTextFieldWidget(String fieldName, String labelText,
-      Icon icon, bool obscure, List<FormFieldValidator> validators) {
+      Image icon, bool obscure, List<FormFieldValidator> validators) {
     return FormBuilderTextField(
       obscureText: obscure,
       maxLines: 1,
@@ -180,10 +180,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   child: formBuilderTextFieldWidget(
                                       'name',
                                       'Full Name',
-                                      Icon(
-                                        Icons.person_outlined,
-                                        color: Theme.of(context).primaryColor,
-                                      ),
+                                      Image.asset(
+                                          "assets/icons/at-sign-100.png",
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                          scale: 4,
+                                          width: 15,
+                                          height: 15),
                                       false,
                                       [
                                         FormBuilderValidators.required(context),
@@ -193,10 +197,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   child: formBuilderTextFieldWidget(
                                       'emailId',
                                       'Email ID',
-                                      Icon(
-                                        Icons.alternate_email_outlined,
-                                        color: Theme.of(context).primaryColor,
-                                      ),
+                                      Image.asset(
+                                          "assets/icons/at-sign-100.png",
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                          scale: 4,
+                                          width: 15,
+                                          height: 15),
                                       false,
                                       [
                                         FormBuilderValidators.required(context),
@@ -206,10 +214,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   child: formBuilderTextFieldWidget(
                                       'password',
                                       'Password',
-                                      Icon(
-                                        Icons.password,
-                                        color: Theme.of(context).primaryColor,
-                                      ),
+                                      Image.asset("assets/icons/key-100.png",
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                          scale: 4,
+                                          width: 15,
+                                          height: 15),
                                       true,
                                       [
                                         FormBuilderValidators.required(context),
