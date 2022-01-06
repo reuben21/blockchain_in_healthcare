@@ -116,7 +116,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       height: 10,
                     ),
                     Text(
-                      'Sign Up With Us',
+                      'Sign Up',
                       style: Theme.of(context).textTheme.headline1,
                     ),
                     const SizedBox(
@@ -133,18 +133,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               Icons.person_outlined,
                               color: Theme.of(context).primaryColor,
                             ),
-                            border: const OutlineInputBorder(),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                            ),
                             labelStyle: const TextStyle(
                               color: Color(0xFF6200EE),
                             ),
-                            errorBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFF6200EE)),
+                            errorBorder: OutlineInputBorder(
+                              borderSide:
+                              BorderSide(color: Color(0xFF6200EE)),
+                              borderRadius: BorderRadius.circular(25.0),
                             ),
-                            focusedErrorBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFF6200EE)),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderSide:
+                              BorderSide(color: Color(0xFF6200EE)),
+                              borderRadius: BorderRadius.circular(25.0),
                             ),
-                            enabledBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFF6200EE)),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide:
+                              BorderSide(color: Color(0xFF6200EE)),
+                              borderRadius: BorderRadius.circular(25.0),
                             ),
                           ),
 
@@ -157,21 +165,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         child: FormBuilderTextField(
                           maxLines: 1,
                           name: 'emailId',
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             labelText: 'Email ID',
                             prefixIcon: Icon(Icons.alternate_email_outlined),
-                            border: OutlineInputBorder(),
-                            labelStyle: TextStyle(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                            ),
+                            labelStyle: const TextStyle(
                               color: Color(0xFF6200EE),
                             ),
                             errorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFF6200EE)),
+                              borderSide:
+                              BorderSide(color: Color(0xFF6200EE)),
+                              borderRadius: BorderRadius.circular(25.0),
                             ),
                             focusedErrorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFF6200EE)),
+                              borderSide:
+                              BorderSide(color: Color(0xFF6200EE)),
+                              borderRadius: BorderRadius.circular(25.0),
                             ),
                             enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFF6200EE)),
+                              borderSide:
+                              BorderSide(color: Color(0xFF6200EE)),
+                              borderRadius: BorderRadius.circular(25.0),
                             ),
                           ),
 
@@ -191,18 +207,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               Icons.password,
                               color: Theme.of(context).primaryColor,
                             ),
-                            border: const OutlineInputBorder(),
+
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                            ),
                             labelStyle: const TextStyle(
                               color: Color(0xFF6200EE),
                             ),
-                            errorBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFF6200EE)),
+                            errorBorder: OutlineInputBorder(
+                              borderSide:
+                              BorderSide(color: Color(0xFF6200EE)),
+                              borderRadius: BorderRadius.circular(25.0),
                             ),
-                            focusedErrorBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFF6200EE)),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderSide:
+                              BorderSide(color: Color(0xFF6200EE)),
+                              borderRadius: BorderRadius.circular(25.0),
                             ),
-                            enabledBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFF6200EE)),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide:
+                              BorderSide(color: Color(0xFF6200EE)),
+                              borderRadius: BorderRadius.circular(25.0),
                             ),
                           ),
 
@@ -265,7 +290,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     color: Theme.of(context).colorScheme.secondary, width: 25,fit: BoxFit.fill, height: 25),
                 label: const Text('Log In'),
               ),
+
             ],
+          ),
+          const SizedBox(
+            width: 50,
           ),
         ],
       ),
