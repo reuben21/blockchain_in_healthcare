@@ -110,11 +110,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   name: 'emailId',
                                   decoration: InputDecoration(
                                     labelText: 'Email ID',
-                                    prefixIcon: Icon(
-                                      FontAwesomeIcons.at,
-                                      size: 20,
-                                      color: Theme.of(context).primaryColor,
-                                    ),
+                                    prefixIcon:  Image.asset("assets/icons/at-sign-100.png",
+                                        color: Theme.of(context).colorScheme.primary,scale: 4, width: 15, height: 15),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(25.0),
                                     ),
@@ -151,11 +148,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   name: 'password',
                                   decoration: InputDecoration(
                                     labelText: 'Password',
-                                    prefixIcon: Icon(
-                                      FontAwesomeIcons.key,
-                                      size: 20,
-                                      color: Theme.of(context).primaryColor,
-                                    ),
+                                    prefixIcon:  Image.asset("assets/icons/key-100.png",
+                                        color: Theme.of(context).colorScheme.primary,scale: 4, width: 15, height: 15),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(25.0),
                                     ),
@@ -184,14 +178,20 @@ class _LoginScreenState extends State<LoginScreen> {
                                     FormBuilderValidators.required(context)
                                   ]),
                                 )),
+                            const SizedBox(
+                              height: 20,
+                            ),
                             Container(
+                              height: 50,
                               width: size.width * 0.8,
                               child: ClipRRect(
-                                borderRadius: BorderRadius.circular(29),
-                                child: FlatButton(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 20, horizontal: 40),
-                                  color: Theme.of(context).colorScheme.primary,
+                                borderRadius: BorderRadius.circular(25),
+                                child: ElevatedButton.icon(
+                                  icon: Image.asset("assets/icons/login-right-100.png",
+                                      color: Theme.of(context).colorScheme.secondary,scale: 1, width: 25, height: 25),
+                                  // padding: EdgeInsets.symmetric(
+                                  //     vertical: 20, horizontal: 40),
+                                  // color: Theme.of(context).colorScheme.primary,
                                   onPressed: () async {
                                     _formKey.currentState?.save();
                                     if (_formKey.currentState?.validate() !=
@@ -211,9 +211,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                     //   ),
                                     // );
                                   },
-                                  child: Text("login",
+                                  label: const Text("Login",
                                       style: TextStyle(color: Colors.white)),
+
                                 ),
+
                               ),
                             )
                           ],

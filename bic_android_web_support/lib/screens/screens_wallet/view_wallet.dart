@@ -547,7 +547,7 @@ class _WalletViewState extends State<WalletView> {
                                                 color: Theme.of(context).primaryColor, width: 32, height: 32),
                                           ),
                                           title: Text(
-                                            documents![position]['status']
+                                            documents[position]['status']
                                                         .toString()
                                                         .toLowerCase() ==
                                                     "true"

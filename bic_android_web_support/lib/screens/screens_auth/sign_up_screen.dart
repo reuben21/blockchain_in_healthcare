@@ -222,6 +222,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             //Center Row contents vertically,
             children: <Widget>[
               FloatingActionButton.extended(
+                heroTag: "signUpButtonOnSignUpScreen",
                 backgroundColor: Theme.of(context).colorScheme.primary,
                 foregroundColor: Theme.of(context).colorScheme.secondary,
                 onPressed: () async {
@@ -241,18 +242,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   //   ),
                   // );
                 },
-                icon: Image.asset(
-                  "assets/icons/sign_in.png",
-                  color: Theme.of(context).backgroundColor,
-                  width: 32,
-                  height: 32,
-                ),
+                icon:  Image.asset("assets/icons/registration-100.png",
+                    color: Theme.of(context).colorScheme.secondary, width: 25,fit: BoxFit.fill, height: 25),
                 label: const Text('Register'),
               ),
               const SizedBox(
                 width: 50,
               ),
               FloatingActionButton.extended(
+                heroTag: "logInButtonOnSignUpScreen",
                 backgroundColor: Theme.of(context).colorScheme.primary,
                 foregroundColor: Theme.of(context).colorScheme.secondary,
                 onPressed: () async {
@@ -263,7 +261,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   );
                 },
-                icon: const Icon(FontAwesomeIcons.signInAlt ,size: 19,),
+                icon: Image.asset("assets/icons/sign_in.png",
+                    color: Theme.of(context).colorScheme.secondary, width: 25,fit: BoxFit.fill, height: 25),
                 label: const Text('Log In'),
               ),
             ],
