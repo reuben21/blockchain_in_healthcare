@@ -985,6 +985,30 @@
 			{
 				"inputs": [
 					{
+						"internalType": "string",
+						"name": "_personalDetails",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "_walletAddress",
+						"type": "address"
+					}
+				],
+				"name": "updatePatientPersonalDetailHash",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "status",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "address",
 						"name": "_walletAddress",
 						"type": "address"
@@ -1054,11 +1078,11 @@
 	},
 	"sources": {
 		"MainContract.sol": {
-			"keccak256": "0x5df2c480a27c0eb3d1b5b63632909b0abc7d5a656fc6ee9d73c895edfeaacf0a",
+			"keccak256": "0x7f36afbd647b105bec78028f65fc4f9ff1aee33c96daa7780cd71d3420684bcc",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://d472a66ac604aebe55672f5b00a15093f844cb2d4eab901c91cd91c6f220a14f",
-				"dweb:/ipfs/QmRXcdmVUaV7ss6sAj4A7C3Xxb2UQdWvDc5BVzVxzaUbzp"
+				"bzz-raw://b190c5b10b61cd5542ed68b09a0da20003bd1f63ba8a2ba43e3624c0c8cba74a",
+				"dweb:/ipfs/QmYn8FF3DUVYHZVSFzcVoCjzwW5YznugmEwqcW3WMwFKwG"
 			]
 		},
 		"Roles.sol": {

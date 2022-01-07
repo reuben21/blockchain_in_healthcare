@@ -65,16 +65,16 @@ class WalletModel with ChangeNotifier {
     EthereumAddress contractAddress;
 
     String abiString =
-        await rootBundle.loadString('assets/abis/HospitalToken.json');
+        await rootBundle.loadString('assets/abis/MainContract.json');
     var abiJson = jsonDecode(abiString);
     abi = jsonEncode(abiJson['abi']);
 
     contractAddress =
         EthereumAddress.fromHex(abiJson['networks']['5777']['address']);
     final contract = DeployedContract(
-        ContractAbi.fromJson(abi, "HospitalToken"), contractAddress);
+        ContractAbi.fromJson(abi, "MainContract"), contractAddress);
     print("HospitalToken Contract Address:- " + contract.address.toString());
-    // _registerPatient = contract.function('registerPatient');
+    // _registerPatient = contract.function('registerPatient').encodeCall(params);
     // _getSignatureHash = contract.function('getSignatureHash');
     // _getPatientData = contract.function('getPatientData');
 
@@ -99,17 +99,76 @@ class WalletModel with ChangeNotifier {
     return queryResult;
   }
 
-  Future<void> writeContract(ContractFunction functionName,
+  Future<void> writeContract(String functionName,
       List<dynamic> functionArgs, Credentials credentials) async {
     final contract = await getDeployedContract();
-    await _client.sendTransaction(
+    String transactionHash = await _client.sendTransaction(
       credentials,
       Transaction.callContract(
         contract: contract,
-        function: functionName,
+        function: contract.function(functionName),
         parameters: functionArgs,
       ),
     );
+  }
+
+  // writeContract('storePharmacy', ['Pharmacy A','pharmacy ipfs hash',credentials.toString()], credentials);
+
+
+  Future<bool> transferEther(Credentials credentials, String senderAddress,
+      String receiverAddress, String amount) async {
+    
+
+
+    try {
+      EthereumAddress transactionTo;
+      EthereumAddress transactionFrom;
+
+      String transactionHash = await _client.sendTransaction(
+          credentials,
+          Transaction(
+              from: EthereumAddress.fromHex(senderAddress),
+              to: EthereumAddress.fromHex(receiverAddress),
+              value: EtherAmount.fromUnitAndValue(EtherUnit.ether, amount)));
+
+      TransactionInformation tx =
+      await _client.getTransactionByHash(transactionHash);
+
+      TransactionReceipt? txReceipt =
+      await _client.getTransactionReceipt(transactionHash);
+
+      if(auth.currentUser?.uid.toString() != null) {
+
+        userFirestore.doc(auth.currentUser?.uid.toString()).collection("transactions").doc().set({
+          "from":tx.from.hex.toString(),
+          "to":tx.to?.hex.toString(),
+          "value":tx.value.getInWei.toString(),
+          "status":txReceipt?.status.toString(),
+          "blockNumber":txReceipt?.blockNumber.blockNum.toString(),
+          "contractAddress":txReceipt?.contractAddress?.hex.toString(),
+          "gasUsed":txReceipt?.gasUsed.toString(),
+          "transactionHash":transactionHash,
+          "date":"${DateTime.now().year.toString()}-${DateTime.now().month.toString()}-${DateTime.now().day.toString()}",
+          "dateTime":DateTime.now().toIso8601String()
+        });
+      }
+
+      if (tx.hash.isNotEmpty) {
+        return true;
+      } else {
+        return false;
+      }
+      notifyListeners();
+    } on SocketException {
+      throw exception.HttpException("No Internet connection 😑");
+    } on HttpException {
+      throw exception.HttpException("Couldn't find the post 😱");
+    } on FormatException {
+      throw exception.HttpException("Bad response format 👎");
+    } catch (error) {
+      throw exception.HttpException(error.toString());
+    }
+    notifyListeners();
   }
 
   Future<void> createWalletInternally(
@@ -282,54 +341,5 @@ class WalletModel with ChangeNotifier {
 
   }
 
-  Future<bool> transferEther(Credentials credentials, String senderAddress,
-      String receiverAddress, String amount) async {
-    try {
-      EthereumAddress transactionTo;
-      EthereumAddress transactionFrom;
 
-      String transactionHash = await _client.sendTransaction(
-          credentials,
-          Transaction(
-              from: EthereumAddress.fromHex(senderAddress),
-              to: EthereumAddress.fromHex(receiverAddress),
-              value: EtherAmount.fromUnitAndValue(EtherUnit.ether, amount)));
-
-      TransactionInformation tx =
-          await _client.getTransactionByHash(transactionHash);
-
-      TransactionReceipt? txReceipt =
-          await _client.getTransactionReceipt(transactionHash);
-      if(auth.currentUser?.uid.toString() != null) {
-
-        userFirestore.doc(auth.currentUser?.uid.toString()).collection("transactions").doc().set({
-          "from":tx.from.hex.toString(),
-          "to":tx.to?.hex.toString(),
-          "value":tx.value.getInWei.toString(),
-          "status":txReceipt?.status.toString(),
-          "blockNumber":txReceipt?.blockNumber.blockNum.toString(),
-          "contractAddress":txReceipt?.contractAddress?.hex.toString(),
-          "gasUsed":txReceipt?.gasUsed.toString(),
-          "transactionHash":transactionHash,
-          "dateTime":DateTime.now().toIso8601String()
-        });
-      }
-
-      if (tx.hash.isNotEmpty) {
-        return true;
-      } else {
-        return false;
-      }
-      notifyListeners();
-    } on SocketException {
-      throw exception.HttpException("No Internet connection 😑");
-    } on HttpException {
-      throw exception.HttpException("Couldn't find the post 😱");
-    } on FormatException {
-      throw exception.HttpException("Bad response format 👎");
-    } catch (error) {
-      throw exception.HttpException(error.toString());
-    }
-    notifyListeners();
-  }
 }

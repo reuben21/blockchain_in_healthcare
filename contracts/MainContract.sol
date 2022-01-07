@@ -15,17 +15,11 @@ contract MainContract is AccessControl {
         address walletAddress;
         string[] previousPatientRecordHashes;
         string newMedicalRecordHash;
-        string[] previousPatientPrescriptionHashes;
-        string newPatientPrescriptionHashes;
-        prescriptionRecord[] prescriptions;
-       
-    }
 
-    struct prescriptionRecord {
-        uint256 id;
-        uint256 date;
-        string[] name;
-        uint8[] quantity;
+        string[] previousPatientPrescriptionHashes;
+
+        // RHEA:- MAKE FUNCTIONS BELOW FOR THIS FIELD IMPORTANT
+        string newPatientPrescriptionHashes;
         
     }
 
@@ -94,7 +88,6 @@ contract MainContract is AccessControl {
             patientDatabase[_walletAddress].walletAddress = _walletAddress;
         } else {
             _setupRole(PATIENT, _walletAddress);
-
             patientDatabase[_walletAddress].name = _name;
             patientDatabase[_walletAddress].personalDetails = _personalDetails;
             patientDatabase[_walletAddress].hospitalAddress = _hospitalAddress;
@@ -109,9 +102,25 @@ contract MainContract is AccessControl {
             patientDatabase[_walletAddress].personalDetails,
             _walletAddress
         );
+        return true;
+    }
+
+
+    // RHEA:- MAKE FUNCTIONS BELOW FOR ALL ENTITIES
+    function updatePatientPersonalDetailHash(
+        string memory _personalDetails,
+        address _walletAddress
+    ) external returns (bool status) {
+        if (hasRole(VERIFIED_PATIENT, _walletAddress)) {
+
+            patientDatabase[_walletAddress].personalDetails = _personalDetails;
+        
+        }
 
         return true;
     }
+
+
 
     function changeHospitalForPatient(
         address _previousHospitalAddress,
@@ -290,7 +299,8 @@ contract MainContract is AccessControl {
         return true;
     }
 
-     function changeHospitalForDoctor(
+
+    function changeHospitalForDoctor(
         address _previousHospitalAddress,
         address _newHospitalAddress,
         address _walletAddress
@@ -398,6 +408,8 @@ contract MainContract is AccessControl {
 
         return true;
     }
+
+
 
     function retrieveHospitalCount()
         external

@@ -76,34 +76,68 @@ class _MedicalRecordScreenState extends State<MedicalRecordScreen> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      body: Container(
-        child: Column(
-          children: [
-            FloatingActionButton.extended(
-              backgroundColor:
-              Theme.of(context).colorScheme.secondary,
-              foregroundColor:
-              Theme.of(context).colorScheme.primary,
-              onPressed: () async {
-                var connection = await Provider.of<IPFSModel>(context,listen: false).sendData();
-              },
-              icon: const Icon(Icons.qr_code_scanner),
-              label: const Text('Send'),
-            ),
-            FloatingActionButton.extended(
-              backgroundColor:
-              Theme.of(context).colorScheme.secondary,
-              foregroundColor:
-              Theme.of(context).colorScheme.primary,
-              onPressed: () async {
-                var connection = await Provider.of<IPFSModel>(context,listen: false).receiveData();
+      appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          elevation: 0,
+          automaticallyImplyLeading: false,
+      ),
+      body: SingleChildScrollView(
+        child: Container(
 
-              },
-              icon: const Icon(Icons.qr_code_scanner),
-              label: const Text('Receive'),
-            ),
-          ],
-        )
+          child: Column(
+            children: [
+
+              Container(
+                height: 100,
+                child: Card(
+                  color: Theme.of(context).colorScheme.primary,
+                  clipBehavior: Clip.antiAlias,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      ListTile(
+
+                        trailing: Image.asset("assets/icons/forward-100.png",
+                            color: Theme.of(context).primaryColor,
+                            width: 25,
+
+                            height: 25),
+                        title: Text('See Recent Transactions',style:Theme.of(context).textTheme.bodyText1),
+                        onTap: (){
+
+                        },
+                      ),
+
+                    ],
+                  ),
+                ),
+              ),
+              FloatingActionButton.extended(
+                backgroundColor:
+                Theme.of(context).colorScheme.secondary,
+                foregroundColor:
+                Theme.of(context).colorScheme.primary,
+                onPressed: () async {
+                  var connection = await Provider.of<IPFSModel>(context,listen: false).sendData();
+                },
+                icon: const Icon(Icons.qr_code_scanner),
+                label: const Text('Send'),
+              ),
+              FloatingActionButton.extended(
+                backgroundColor:
+                Theme.of(context).colorScheme.secondary,
+                foregroundColor:
+                Theme.of(context).colorScheme.primary,
+                onPressed: () async {
+                  var connection = await Provider.of<IPFSModel>(context,listen: false).receiveData();
+
+                },
+                icon: const Icon(Icons.qr_code_scanner),
+                label: const Text('Receive'),
+              ),
+            ],
+          )
+        ),
       ),
     );
   }
