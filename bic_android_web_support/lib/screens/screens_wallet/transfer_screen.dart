@@ -113,7 +113,288 @@ class _TransferScreenState extends State<TransferScreen> {
       body: Background(
         child: Padding(
           padding: const EdgeInsets.only(top: 20),
-          child: SingleChildScrollView(),
+          child: SingleChildScrollView(
+            child: Container(
+              height: MediaQuery.of(context).size.height,
+              // color: Theme.of(context).colorScheme.secondary,
+              child: Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: Center(
+                  child: Column(
+                    // crossAxisAlignment: CrossAxisAlignment.center,
+                    // mainAxisAlignment: MainAxisAlignment.center,
+
+                    children: [
+                      Flexible(
+                        fit: FlexFit.loose,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 30),
+                          child: Text(
+                            "Transfer Ether",
+                            style: Theme.of(context).textTheme.headline1,
+                            textAlign: TextAlign.left,
+                          ),
+                        ),
+                      ),
+
+                      Flexible(
+                        fit: FlexFit.loose,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 30, top: 30),
+                          child: Text(
+                            "From: ",
+                            style: Theme.of(context).textTheme.bodyText1,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      // widget.address
+                      Container(
+                        height: 40,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                Theme.of(context).colorScheme.primary,
+                                Colors.purpleAccent.withOpacity(0.9),
+                                // Colors.lightBlueAccent,
+                              ]),
+                          borderRadius: BorderRadius.circular(9),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Text(
+                            widget.address,
+                          ),
+                        ),
+                      ),
+                      // Text((result != null)
+                      //     ? "Ethereum Address: " + result.code.toString()
+                      //     : "Scan for Address"),
+                      IconButton(
+                        icon: const Icon(Icons.qr_code_scanner),
+                        onPressed: () {
+                          // do something
+                          showDialog(
+                            context: context,
+                            builder: (ctx) => AlertDialog(
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.secondary,
+                              title: Text(
+                                "Show the QR Code",
+                                style: Theme.of(context).textTheme.bodyText1,
+                              ),
+                              content: Container(
+                                width: 300,
+                                height: 500,
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      width: 300,
+                                      height: 400,
+                                      child: QRView(
+                                        key: qrKey,
+                                        onQRViewCreated: _onQRViewCreated,
+                                      ),
+                                    ),
+                                    Text((result != null)
+                                        ? "Ethereum Address: " +
+                                            result.code.toString()
+                                        : "Scan for Address"),
+                                  ],
+                                ),
+                              ),
+                              actions: <Widget>[
+                                ElevatedButton(
+                                  onPressed: () async {
+                                    setState(() {
+                                      scannedAddress = result.code.toString();
+                                    });
+                                  },
+                                  child: Text("GET"),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () async {},
+                                  child: Text("okay"),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                      Center(
+                        child: FormBuilder(
+                            key: _formKey,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(5),
+                                  child: formBuilderTextFieldWidget(
+                                      "address",
+                                      "Receiver address",
+                                      Image.asset(
+                                          "assets/icons/at-sign-100.png",
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                          scale: 4,
+                                          width: 15,
+                                          height: 15),
+                                      false,
+                                      [
+                                        FormBuilderValidators.required(context),
+                                      ]),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(5),
+                                  child: formBuilderTextFieldWidget(
+                                      "amount",
+                                      "Amount ",
+                                      Image.asset("assets/icons/pay-100.png",
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                          scale: 4,
+                                          width: 15,
+                                          height: 15),
+                                      false,
+                                      [
+                                        FormBuilderValidators.required(context),
+                                      ]),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(5),
+                                  child: formBuilderTextFieldWidget(
+                                      "password",
+                                      "Password",
+                                      Image.asset("assets/icons/key-100.png",
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                          scale: 4,
+                                          width: 15,
+                                          height: 15),
+                                      true,
+                                      [
+                                        FormBuilderValidators.required(context),
+                                      ]),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                Container(
+                                  height: 50,
+                                  width: size.width * 0.8,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(25),
+                                    child: ElevatedButton.icon(
+                                      icon: Image.asset(
+                                          "assets/icons/login-right-100.png",
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .secondary,
+                                          scale: 1,
+                                          width: 25,
+                                          height: 25),
+                                      // padding: EdgeInsets.symmetric(
+                                      //     vertical: 20, horizontal: 40),
+                                      // color: Theme.of(context).colorScheme.primary,
+                                      onPressed: () async {
+                                        Credentials credentialsNew;
+                                        EthereumAddress myAddress;
+                                        _formKey.currentState?.save();
+                                        if (_formKey.currentState?.validate() !=
+                                            null) {
+                                          String amount = _formKey
+                                              .currentState?.value["amount"];
+                                          String receiverAddress = _formKey
+                                              .currentState?.value["address"];
+                                          String password = _formKey
+                                              .currentState?.value["password"];
+                                          // var dbResponse =
+                                          // await DBProviderWallet.db.getWalletByWalletAddress(widget.address);
+                                          // print(dbResponse);
+
+                                          if (true) {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ConfirmationScreen(
+                                                  receiverAddress:
+                                                      receiverAddress,
+                                                  amount: amount,
+                                                  password: password,
+                                                  senderAddress: widget.address,
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                        }
+                                      },
+                                      label: const Text("Transfer",
+                                          style:
+                                              TextStyle(color: Colors.white)),
+                                    ),
+                                  ),
+                                ),
+                                // FloatingActionButton.extended(
+                                //   backgroundColor:
+                                //       Theme.of(context).colorScheme.primary,
+                                //   foregroundColor:
+                                //       Theme.of(context).colorScheme.secondary,
+                                //   onPressed: () async {
+                                //     Credentials credentialsNew;
+                                //     EthereumAddress myAddress;
+                                //     _formKey.currentState?.save();
+                                //     if (_formKey.currentState?.validate() !=
+                                //         null) {
+                                //       String amount = _formKey
+                                //           .currentState?.value["amount"];
+                                //       String receiverAddress = _formKey
+                                //           .currentState?.value["address"];
+                                //       String password = _formKey
+                                //           .currentState?.value["password"];
+                                //       // var dbResponse =
+                                //       // await DBProviderWallet.db.getWalletByWalletAddress(widget.address);
+                                //       // print(dbResponse);
+                                //
+                                //       if (true) {
+                                //         Navigator.push(
+                                //           context,
+                                //           MaterialPageRoute(
+                                //             builder: (context) =>
+                                //                 ConfirmationScreen(
+                                //                   receiverAddress: receiverAddress,
+                                //                   amount: amount,
+                                //                   password: password,
+                                //                   senderAddress: widget.address,
+                                //                 ),
+                                //           ),
+                                //         );
+                                //       }
+                                //     }
+                                //   },
+                                //   icon: const Icon(
+                                //       Icons.add_circle_outline_outlined),
+                                //   label: const Text('Transfer'),
+                                // ),
+                              ],
+                            )),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
         ),
       ),
     );
