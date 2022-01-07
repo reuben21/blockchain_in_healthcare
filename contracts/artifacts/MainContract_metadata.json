@@ -1054,11 +1054,11 @@
 	},
 	"sources": {
 		"MainContract.sol": {
-			"keccak256": "0x362ed17fcb0c2987884c9b13819be8e3d3bf0893a4e0eebe2fc6d4d8ad5f89bc",
+			"keccak256": "0x5df2c480a27c0eb3d1b5b63632909b0abc7d5a656fc6ee9d73c895edfeaacf0a",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://709103462bea732bda3264ca3f22cd1e2bbc9356e1e4e11552509720ae11ca2b",
-				"dweb:/ipfs/QmV9ETUhSDcyLg9jTeX2bGk9RKECYWCQqoU3TDuWhiTWHx"
+				"bzz-raw://d472a66ac604aebe55672f5b00a15093f844cb2d4eab901c91cd91c6f220a14f",
+				"dweb:/ipfs/QmRXcdmVUaV7ss6sAj4A7C3Xxb2UQdWvDc5BVzVxzaUbzp"
 			]
 		},
 		"Roles.sol": {

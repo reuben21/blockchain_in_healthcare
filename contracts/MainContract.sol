@@ -17,15 +17,27 @@ contract MainContract is AccessControl {
         string newMedicalRecordHash;
         string[] previousPatientPrescriptionHashes;
         string newPatientPrescriptionHashes;
+        prescriptionRecord[] prescriptions;
        
+    }
+
+    struct prescriptionRecord {
+        uint256 id;
+        uint256 date;
+        string[] name;
+        uint8[] quantity;
+        
     }
 
 
     struct doctorRecord {
+        
+        address walletAddress;
         string name;
         string personalDetails;
+        string docSpecialization;
         address hospitalAddress;
-        address walletAddress;
+        
     }
 
     struct pharmacyRecord {

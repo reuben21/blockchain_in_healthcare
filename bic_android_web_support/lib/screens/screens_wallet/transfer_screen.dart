@@ -295,6 +295,7 @@ class _TransferScreenState extends State<TransferScreen> {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(25),
                                     child: ElevatedButton.icon(
+
                                       icon: Image.asset(
                                           "assets/icons/login-right-100.png",
                                           color: Theme.of(context)
