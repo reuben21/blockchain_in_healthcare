@@ -34,6 +34,7 @@ class Assets {
   static const String iconsChat = 'assets/icons/chat.svg';
   static const String iconsEmail-sign = 'assets/icons/email-sign.png';
   static const String iconsEthereum = 'assets/icons/ethereum.png';
+  static const String iconsForward-100 = 'assets/icons/forward-100.png';
   static const String iconsIcons8-email-sign-48 = 'assets/icons/icons8-email-sign-48.png';
   static const String iconsKey-100 = 'assets/icons/key-100.png';
   static const String iconsLogin = 'assets/icons/login.svg';

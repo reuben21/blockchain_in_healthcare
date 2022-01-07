@@ -261,6 +261,7 @@ class _ConfirmationScreenState extends State<ConfirmationScreen> {
                     height: 15,
                   ),
                   FloatingActionButton.extended(
+                    heroTag: "confirmPay",
                     backgroundColor: Theme.of(context).colorScheme.primary,
                     foregroundColor: Theme.of(context).colorScheme.secondary,
                     onPressed:  () async {

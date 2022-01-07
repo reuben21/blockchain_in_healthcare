@@ -1,4 +1,5 @@
 // import 'package:bic_android_web_support/providers/credentials.dart';
+import 'package:bic_android_web_support/screens/screens_wallet/transaction_list.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:bic_android_web_support/databases/boxes.dart';
 import 'package:bic_android_web_support/databases/hive_database.dart';
@@ -86,7 +87,7 @@ class _WalletViewState extends State<WalletView> {
     var balance = await Provider.of<WalletModel>(context, listen: false)
         .getAccountBalance(EthereumAddress.fromHex(walletAddress));
     setState(() {
-      balanceOfAccount = balance.getInEther.toString();
+      balanceOfAccount = ((balance.getInWei)/BigInt.from(1000000000000000000)).toString();
     });
   }
 
@@ -211,8 +212,7 @@ class _WalletViewState extends State<WalletView> {
                                     balanceOfAccount == "null"
                                         ? "0 ETH"
                                         : "$balanceOfAccount ETH",
-                                    style:
-                                        Theme.of(context).textTheme.headline2,
+                                    style:TextStyle(fontSize: 25),
                                   ),
                                   const SizedBox(
                                     height: 10,
@@ -307,6 +307,7 @@ class _WalletViewState extends State<WalletView> {
                         HStack(
                           [
                             FloatingActionButton.extended(
+                              heroTag: "sendButton",
                               backgroundColor:
                                   Theme.of(context).colorScheme.secondary,
                               foregroundColor:
@@ -378,6 +379,7 @@ class _WalletViewState extends State<WalletView> {
                             ),
 
                             FloatingActionButton.extended(
+                              heroTag: "qrCodeButton",
                               backgroundColor:
                                   Theme.of(context).colorScheme.secondary,
                               foregroundColor:
@@ -418,7 +420,7 @@ class _WalletViewState extends State<WalletView> {
                                         onPressed: () {
                                           Navigator.of(ctx).pop();
                                         },
-                                        child: Text("okay"),
+                                        child: const Text("okay"),
                                       ),
                                     ],
                                   ),
@@ -438,6 +440,32 @@ class _WalletViewState extends State<WalletView> {
                     ),
                   ]),
                   10.heightBox,
+          Card(
+
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                 ListTile(
+
+                  trailing: Image.asset("assets/icons/forward-100.png",
+                      color: Theme.of(context).primaryColor,
+                      width: 25,
+
+                      height: 25),
+                  title: Text('See Recent Transactions',style:Theme.of(context).textTheme.bodyText1),
+                  onTap: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TransactionList(),
+                      ),
+                    );
+                  },
+                ),
+
+              ],
+            ),
+          ),
                   // SingleChildScrollView(
                   //   child: StreamBuilder<QuerySnapshot>(
                   //     stream: FirebaseFirestore.instance

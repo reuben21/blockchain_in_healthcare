@@ -20,7 +20,7 @@ import '../../helpers/http_exception.dart' as exception;
 import '../../helpers/keys.dart' as keys;
 
 class TransactionList extends StatefulWidget {
-  const TransactionList({Key? key}) : super(key: key);
+  static const routeName = '/transaction-list-screen';
 
   @override
   _TransactionListState createState() => _TransactionListState();
@@ -43,12 +43,23 @@ class _TransactionListState extends State<TransactionList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.secondary,
+          elevation: 0,
+          automaticallyImplyLeading: false,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.primary),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          actions: <Widget>[
+
+          ]),
       body: SingleChildScrollView(
         child: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
               .collection('users')
               .doc(auth.currentUser?.uid)
-              .collection("transactions")
+              .collection("transactions").orderBy("dateTime",descending: true).limit(10)
               .snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {

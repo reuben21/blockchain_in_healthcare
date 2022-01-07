@@ -3,6 +3,7 @@ import 'package:bic_android_web_support/providers/credentials.dart';
 import 'package:bic_android_web_support/screens/screens_auth/login_screen.dart';
 import 'package:bic_android_web_support/screens/screens_auth/sign_up_screen.dart';
 import 'package:bic_android_web_support/screens/screens_wallet/confirmation_screen.dart';
+import 'package:bic_android_web_support/screens/screens_wallet/transaction_list.dart';
 import 'package:bic_android_web_support/screens/screens_wallet/view_wallet.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -85,7 +86,7 @@ class MyApp extends StatelessWidget {
             textTheme: ThemeData.light().textTheme.copyWith(
               bodyText1: TextStyle(
                   color: Color(0xff732eca),
-                  fontSize: 18,
+                  fontSize: 16,
                   fontFamily: 'Handlee'),
               bodyText2: TextStyle(
                 color: Color(0xFFf5f7ec),
@@ -135,6 +136,7 @@ class MyApp extends StatelessWidget {
             TabsScreen.routeName: (ctx) => TabsScreen(),
             LoginScreen.routeName: (ctx)=> LoginScreen(),
             SignUpScreen.routeName: (ctx)=> SignUpScreen(),
+            TransactionList.routeName: (ctx) => TransactionList(),
             ConfirmationScreen.routeName: (ctx) => ConfirmationScreen(receiverAddress: '',amount: '',password: '',senderAddress: '',)
           },
         ),
