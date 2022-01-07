@@ -240,119 +240,148 @@ class _ConfirmationScreenState extends State<ConfirmationScreen> {
                   const SizedBox(
                     height: 15,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  Column(
                     children: [
-                      Flexible(
-                        fit: FlexFit.loose,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            "Ether Amount: ",
-                            style: Theme.of(context).textTheme.bodyText1,
-                            textAlign: TextAlign.left,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(
+                            fit: FlexFit.loose,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "Ether Amount: ",
+                                style: Theme.of(context).textTheme.bodyText1,
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
                           ),
-                        ),
+                          Flexible(
+                            fit: FlexFit.loose,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                widget.amount,
+                                style: Theme.of(context).textTheme.bodyText1,
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      Flexible(
-                        fit: FlexFit.loose,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            widget.amount,
-                            style: Theme.of(context).textTheme.bodyText1,
-                            textAlign: TextAlign.left,
+                      // Expanded(child: Divider()),
+                      Row(children: <Widget>[
+                        Expanded(child: Divider()),
+                      ]),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(
+                            fit: FlexFit.loose,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "Gas Estimate: ",
+                                style: Theme.of(context).textTheme.bodyText1,
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
                           ),
+                          Flexible(
+                            fit: FlexFit.loose,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                gasEstimate.toString() + " units",
+                                style: Theme.of(context).textTheme.bodyText1,
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(children: <Widget>[
+                        Expanded(child: Divider()),
+                      ]),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(
+                            fit: FlexFit.loose,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "Gas Price: ",
+                                style: Theme.of(context).textTheme.bodyText1,
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                          ),
+                          Flexible(
+                            fit: FlexFit.loose,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                gasPrice.toString() + " Wei",
+                                style: Theme.of(context).textTheme.bodyText1,
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(children: <Widget>[
+                        Expanded(
+                          child: Divider(
+                              // thickness: 2,
+                              // color: Colors.grey,
+                              ),
                         ),
+                      ]),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(
+                            fit: FlexFit.loose,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "(Approx.) Total Ether Amount: ",
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w700),
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                          ),
+                          Flexible(
+                            fit: FlexFit.loose,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                totalAmount.toString() + " ETH",
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500),
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(children: <Widget>[
+                        Expanded(child: Divider()),
+                      ]),
+                      const SizedBox(
+                        height: 15,
                       ),
                     ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        fit: FlexFit.loose,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            "Gas Estimate: ",
-                            style: Theme.of(context).textTheme.bodyText1,
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
-                      ),
-                      Flexible(
-                        fit: FlexFit.loose,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            gasEstimate.toString() + " units",
-                            style: Theme.of(context).textTheme.bodyText1,
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        fit: FlexFit.loose,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            "Gas Price: ",
-                            style: Theme.of(context).textTheme.bodyText1,
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
-                      ),
-                      Flexible(
-                        fit: FlexFit.loose,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            gasPrice.toString() + " Wei",
-                            style: Theme.of(context).textTheme.bodyText1,
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        fit: FlexFit.loose,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            "(Approx.) Total Ether Amount: ",
-                            style: Theme.of(context).textTheme.bodyText1,
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
-                      ),
-                      Flexible(
-                        fit: FlexFit.loose,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            totalAmount.toString() + " ETH",
-                            style: Theme.of(context).textTheme.bodyText1,
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 15,
                   ),
                   FloatingActionButton.extended(
                     heroTag: "confirmPay",
