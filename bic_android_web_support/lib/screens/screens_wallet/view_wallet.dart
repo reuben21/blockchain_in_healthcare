@@ -321,9 +321,10 @@ class _WalletViewState extends State<WalletView> {
                                   ),
                                 );
                               },
-                              icon:
-                              Image.asset("assets/icons/pay-100.png",
-                                  color: Theme.of(context).primaryColor, width: 32, height: 32),
+                              icon: Image.asset("assets/icons/pay-100.png",
+                                  color: Theme.of(context).primaryColor,
+                                  width: 32,
+                                  height: 32),
                               label: const Text('Send'),
                             ),
                             // Container(
@@ -363,7 +364,10 @@ class _WalletViewState extends State<WalletView> {
                                     .showSnackBar(snackBar);
                               },
                               child: Image.asset("assets/icons/refresh-100.png",
-                                  color: Theme.of(context).primaryColor, width: 25,fit: BoxFit.fill, height: 25),
+                                  color: Theme.of(context).primaryColor,
+                                  width: 25,
+                                  fit: BoxFit.fill,
+                                  height: 25),
                               style: ElevatedButton.styleFrom(
                                 shape: CircleBorder(),
                                 padding: EdgeInsets.all(14),
@@ -421,7 +425,9 @@ class _WalletViewState extends State<WalletView> {
                                 );
                               },
                               icon: Image.asset("assets/icons/qr-code-100.png",
-                                  color: Theme.of(context).primaryColor, width: 32, height: 32),
+                                  color: Theme.of(context).primaryColor,
+                                  width: 32,
+                                  height: 32),
                               label: const Text('Receive'),
                             ),
                           ],
@@ -498,158 +504,6 @@ class _WalletViewState extends State<WalletView> {
                   //
                   //   ),
                   // ),
-
-                  SingleChildScrollView(
-                    child: StreamBuilder<QuerySnapshot>(
-                      stream: FirebaseFirestore.instance
-                          .collection('users')
-                          .doc(auth.currentUser?.uid)
-                          .collection("transactions")
-                          .snapshots(),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<QuerySnapshot> snapshot) {
-                        if (snapshot.hasError) {
-                          return const Text('Something went wrong');
-                        }
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Text("Loading");
-                        }
-                        if (snapshot.hasData) {
-                          if (snapshot.data != null) {
-                            final documents = snapshot.data?.docs;
-                            print(documents?.length.toString());
-                            return SizedBox(
-                              child: SingleChildScrollView(
-                                child: ListView.builder(
-                                    shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemCount: documents?.length,
-                                    itemBuilder:
-                                        (BuildContext context, int position) {
-                                      return Card(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .secondary,
-                                        elevation: 0.0,
-                                        child: ExpansionTile(
-                                          backgroundColor: Theme.of(context)
-                                              .colorScheme
-                                              .secondary,
-                                          leading: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Image.asset(documents![position]['status']
-                                                .toString()
-                                                .toLowerCase() ==
-                                                "true"
-                                                ? "assets/icons/ok-100.png":"assets/icons/cancel-100.png",
-                                                color: Theme.of(context).primaryColor, width: 32, height: 32),
-                                          ),
-                                          title: Text(
-                                            documents[position]['status']
-                                                        .toString()
-                                                        .toLowerCase() ==
-                                                    "true"
-                                                ? "Success"
-                                                : "Fail",
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          children: <Widget>[
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(15.0),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            bottom: 5),
-                                                    child: Text(
-                                                      'To: ${documents[position]['to'].toString()}',
-                                                      style: TextStyle(
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .colorScheme
-                                                                  .primary),
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            bottom: 5),
-                                                    child: Text(
-                                                      'From: ${documents[position]['from'].toString()}',
-                                                      style: TextStyle(
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .colorScheme
-                                                                  .primary),
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            bottom: 5),
-                                                    child: Text(
-                                                      'Block Number: ${documents[position]['blockNumber'].toString()}',
-                                                      style: TextStyle(
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .colorScheme
-                                                                  .primary),
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            bottom: 5),
-                                                    child: Text(
-                                                      'Transaction Hash: ${documents[position]['transactionHash'].toString()}',
-                                                      style: TextStyle(
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .colorScheme
-                                                                  .primary),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                          subtitle: Text(
-                                            'To: ${documents[position]['to']}',
-                                            maxLines: 1,
-                                            overflow: TextOverflow.fade,
-                                            softWrap: false,
-                                          ),
-                                          trailing: Text(
-                                            '${EtherAmount.fromUnitAndValue(EtherUnit.wei, documents[position]['value']).getInEther} ETH',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .primary),
-                                          ),
-                                        ),
-                                      );
-                                    }),
-                              ),
-                            );
-                          }
-                        }
-                        return const Center(
-                          child: Text('No Transactions Found As Of Yet'),
-                        );
-                      },
-                    ),
-                  ),
                 ],
               ),
             ),
