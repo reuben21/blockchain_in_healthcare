@@ -263,39 +263,39 @@
     "absolutePath": "project:/contracts/access/AccessControlEnumerable.sol",
     "exportedSymbols": {
       "AccessControl": [
-        1480
+        1469
       ],
       "AccessControlEnumerable": [
-        1659
+        1648
       ],
       "Context": [
-        3755
+        3748
       ],
       "ERC165": [
-        3982
+        3975
       ],
       "EnumerableSet": [
-        4593
+        4586
       ],
       "IAccessControl": [
-        1732
+        1721
       ],
       "IAccessControlEnumerable": [
-        1757
+        1746
       ],
       "IERC165": [
-        3994
+        3987
       ],
       "Strings": [
-        3958
+        3951
       ]
     },
-    "id": 1660,
+    "id": 1649,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1482,
+        "id": 1471,
         "literals": [
           "solidity",
           "^",
@@ -308,10 +308,10 @@
       {
         "absolutePath": "project:/contracts/access/IAccessControlEnumerable.sol",
         "file": "./IAccessControlEnumerable.sol",
-        "id": 1483,
+        "id": 1472,
         "nodeType": "ImportDirective",
-        "scope": 1660,
-        "sourceUnit": 1758,
+        "scope": 1649,
+        "sourceUnit": 1747,
         "src": "62:40:5",
         "symbolAliases": [],
         "unitAlias": ""
@@ -319,10 +319,10 @@
       {
         "absolutePath": "project:/contracts/access/AccessControl.sol",
         "file": "./AccessControl.sol",
-        "id": 1484,
+        "id": 1473,
         "nodeType": "ImportDirective",
-        "scope": 1660,
-        "sourceUnit": 1481,
+        "scope": 1649,
+        "sourceUnit": 1470,
         "src": "104:29:5",
         "symbolAliases": [],
         "unitAlias": ""
@@ -330,10 +330,10 @@
       {
         "absolutePath": "project:/contracts/utils/structs/EnumerableSet.sol",
         "file": "../utils/structs/EnumerableSet.sol",
-        "id": 1485,
+        "id": 1474,
         "nodeType": "ImportDirective",
-        "scope": 1660,
-        "sourceUnit": 4594,
+        "scope": 1649,
+        "sourceUnit": 4587,
         "src": "135:44:5",
         "symbolAliases": [],
         "unitAlias": ""
@@ -343,105 +343,105 @@
         "baseContracts": [
           {
             "baseName": {
-              "id": 1487,
+              "id": 1476,
               "name": "IAccessControlEnumerable",
               "nodeType": "IdentifierPath",
-              "referencedDeclaration": 1757,
+              "referencedDeclaration": 1746,
               "src": "326:24:5"
             },
-            "id": 1488,
+            "id": 1477,
             "nodeType": "InheritanceSpecifier",
             "src": "326:24:5"
           },
           {
             "baseName": {
-              "id": 1489,
+              "id": 1478,
               "name": "AccessControl",
               "nodeType": "IdentifierPath",
-              "referencedDeclaration": 1480,
+              "referencedDeclaration": 1469,
               "src": "352:13:5"
             },
-            "id": 1490,
+            "id": 1479,
             "nodeType": "InheritanceSpecifier",
             "src": "352:13:5"
           }
         ],
         "contractDependencies": [
-          1480,
-          1732,
-          1757,
-          3755,
-          3982,
-          3994
+          1469,
+          1721,
+          1746,
+          3748,
+          3975,
+          3987
         ],
         "contractKind": "contract",
         "documentation": {
-          "id": 1486,
+          "id": 1475,
           "nodeType": "StructuredDocumentation",
           "src": "183:96:5",
           "text": " @dev Extension of {AccessControl} that allows enumerating the members of each role."
         },
         "fullyImplemented": true,
-        "id": 1659,
+        "id": 1648,
         "linearizedBaseContracts": [
-          1659,
-          1480,
-          3982,
-          3994,
-          1757,
-          1732,
-          3755
+          1648,
+          1469,
+          3975,
+          3987,
+          1746,
+          1721,
+          3748
         ],
         "name": "AccessControlEnumerable",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
-            "id": 1494,
+            "id": 1483,
             "libraryName": {
-              "id": 1491,
+              "id": 1480,
               "name": "EnumerableSet",
               "nodeType": "IdentifierPath",
-              "referencedDeclaration": 4593,
+              "referencedDeclaration": 4586,
               "src": "379:13:5"
             },
             "nodeType": "UsingForDirective",
             "src": "373:49:5",
             "typeName": {
-              "id": 1493,
+              "id": 1482,
               "nodeType": "UserDefinedTypeName",
               "pathNode": {
-                "id": 1492,
+                "id": 1481,
                 "name": "EnumerableSet.AddressSet",
                 "nodeType": "IdentifierPath",
-                "referencedDeclaration": 4306,
+                "referencedDeclaration": 4299,
                 "src": "397:24:5"
               },
-              "referencedDeclaration": 4306,
+              "referencedDeclaration": 4299,
               "src": "397:24:5",
               "typeDescriptions": {
-                "typeIdentifier": "t_struct$_AddressSet_$4306_storage_ptr",
+                "typeIdentifier": "t_struct$_AddressSet_$4299_storage_ptr",
                 "typeString": "struct EnumerableSet.AddressSet"
               }
             }
           },
           {
             "constant": false,
-            "id": 1499,
+            "id": 1488,
             "mutability": "mutable",
             "name": "_roleMembers",
             "nodeType": "VariableDeclaration",
-            "scope": 1659,
+            "scope": 1648,
             "src": "430:65:5",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_AddressSet_$4306_storage_$",
+              "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_AddressSet_$4299_storage_$",
               "typeString": "mapping(bytes32 => struct EnumerableSet.AddressSet)"
             },
             "typeName": {
-              "id": 1498,
+              "id": 1487,
               "keyType": {
-                "id": 1495,
+                "id": 1484,
                 "name": "bytes32",
                 "nodeType": "ElementaryTypeName",
                 "src": "438:7:5",
@@ -453,23 +453,23 @@
               "nodeType": "Mapping",
               "src": "430:44:5",
               "typeDescriptions": {
-                "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_AddressSet_$4306_storage_$",
+                "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_AddressSet_$4299_storage_$",
                 "typeString": "mapping(bytes32 => struct EnumerableSet.AddressSet)"
               },
               "valueType": {
-                "id": 1497,
+                "id": 1486,
                 "nodeType": "UserDefinedTypeName",
                 "pathNode": {
-                  "id": 1496,
+                  "id": 1485,
                   "name": "EnumerableSet.AddressSet",
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 4306,
+                  "referencedDeclaration": 4299,
                   "src": "449:24:5"
                 },
-                "referencedDeclaration": 4306,
+                "referencedDeclaration": 4299,
                 "src": "449:24:5",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_struct$_AddressSet_$4306_storage_ptr",
+                  "typeIdentifier": "t_struct$_AddressSet_$4299_storage_ptr",
                   "typeString": "struct EnumerableSet.AddressSet"
                 }
               }
@@ -478,10 +478,10 @@
           },
           {
             "baseFunctions": [
-              1236
+              1225
             ],
             "body": {
-              "id": 1520,
+              "id": 1509,
               "nodeType": "Block",
               "src": "659:123:5",
               "statements": [
@@ -491,7 +491,7 @@
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
                     },
-                    "id": 1518,
+                    "id": 1507,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -501,17 +501,17 @@
                         "typeIdentifier": "t_bytes4",
                         "typeString": "bytes4"
                       },
-                      "id": 1513,
+                      "id": 1502,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
                       "leftExpression": {
-                        "id": 1508,
+                        "id": 1497,
                         "name": "interfaceId",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1502,
+                        "referencedDeclaration": 1491,
                         "src": "677:11:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bytes4",
@@ -524,14 +524,14 @@
                         "expression": {
                           "arguments": [
                             {
-                              "id": 1510,
+                              "id": 1499,
                               "name": "IAccessControlEnumerable",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 1757,
+                              "referencedDeclaration": 1746,
                               "src": "697:24:5",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_type$_t_contract$_IAccessControlEnumerable_$1757_$",
+                                "typeIdentifier": "t_type$_t_contract$_IAccessControlEnumerable_$1746_$",
                                 "typeString": "type(contract IAccessControlEnumerable)"
                               }
                             }
@@ -539,11 +539,11 @@
                           "expression": {
                             "argumentTypes": [
                               {
-                                "typeIdentifier": "t_type$_t_contract$_IAccessControlEnumerable_$1757_$",
+                                "typeIdentifier": "t_type$_t_contract$_IAccessControlEnumerable_$1746_$",
                                 "typeString": "type(contract IAccessControlEnumerable)"
                               }
                             ],
-                            "id": 1509,
+                            "id": 1498,
                             "name": "type",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
@@ -554,7 +554,7 @@
                               "typeString": "function () pure"
                             }
                           },
-                          "id": 1511,
+                          "id": 1500,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
@@ -565,11 +565,11 @@
                           "src": "692:30:5",
                           "tryCall": false,
                           "typeDescriptions": {
-                            "typeIdentifier": "t_magic_meta_type_t_contract$_IAccessControlEnumerable_$1757",
+                            "typeIdentifier": "t_magic_meta_type_t_contract$_IAccessControlEnumerable_$1746",
                             "typeString": "type(contract IAccessControlEnumerable)"
                           }
                         },
-                        "id": 1512,
+                        "id": 1501,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -593,11 +593,11 @@
                     "rightExpression": {
                       "arguments": [
                         {
-                          "id": 1516,
+                          "id": 1505,
                           "name": "interfaceId",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1502,
+                          "referencedDeclaration": 1491,
                           "src": "762:11:5",
                           "typeDescriptions": {
                             "typeIdentifier": "t_bytes4",
@@ -613,32 +613,32 @@
                           }
                         ],
                         "expression": {
-                          "id": 1514,
+                          "id": 1503,
                           "name": "super",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
                           "referencedDeclaration": 4294967271,
                           "src": "738:5:5",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_type$_t_super$_AccessControlEnumerable_$1659_$",
+                            "typeIdentifier": "t_type$_t_super$_AccessControlEnumerable_$1648_$",
                             "typeString": "type(contract super AccessControlEnumerable)"
                           }
                         },
-                        "id": 1515,
+                        "id": 1504,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
                         "memberName": "supportsInterface",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 1236,
+                        "referencedDeclaration": 1225,
                         "src": "738:23:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_internal_view$_t_bytes4_$returns$_t_bool_$",
                           "typeString": "function (bytes4) view returns (bool)"
                         }
                       },
-                      "id": 1517,
+                      "id": 1506,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -659,43 +659,43 @@
                       "typeString": "bool"
                     }
                   },
-                  "functionReturnParameters": 1507,
-                  "id": 1519,
+                  "functionReturnParameters": 1496,
+                  "id": 1508,
                   "nodeType": "Return",
                   "src": "670:104:5"
                 }
               ]
             },
             "documentation": {
-              "id": 1500,
+              "id": 1489,
               "nodeType": "StructuredDocumentation",
               "src": "504:58:5",
               "text": " @dev See {IERC165-supportsInterface}."
             },
             "functionSelector": "01ffc9a7",
-            "id": 1521,
+            "id": 1510,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "supportsInterface",
             "nodeType": "FunctionDefinition",
             "overrides": {
-              "id": 1504,
+              "id": 1493,
               "nodeType": "OverrideSpecifier",
               "overrides": [],
               "src": "635:8:5"
             },
             "parameters": {
-              "id": 1503,
+              "id": 1492,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1502,
+                  "id": 1491,
                   "mutability": "mutable",
                   "name": "interfaceId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1521,
+                  "scope": 1510,
                   "src": "595:18:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -704,7 +704,7 @@
                     "typeString": "bytes4"
                   },
                   "typeName": {
-                    "id": 1501,
+                    "id": 1490,
                     "name": "bytes4",
                     "nodeType": "ElementaryTypeName",
                     "src": "595:6:5",
@@ -719,16 +719,16 @@
               "src": "594:20:5"
             },
             "returnParameters": {
-              "id": 1507,
+              "id": 1496,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1506,
+                  "id": 1495,
                   "mutability": "mutable",
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1521,
+                  "scope": 1510,
                   "src": "653:4:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -737,7 +737,7 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 1505,
+                    "id": 1494,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "653:4:5",
@@ -751,7 +751,7 @@
               ],
               "src": "652:6:5"
             },
-            "scope": 1659,
+            "scope": 1648,
             "src": "568:214:5",
             "stateMutability": "view",
             "virtual": true,
@@ -759,10 +759,10 @@
           },
           {
             "baseFunctions": [
-              1748
+              1737
             ],
             "body": {
-              "id": 1539,
+              "id": 1528,
               "nodeType": "Block",
               "src": "1472:54:5",
               "statements": [
@@ -770,11 +770,11 @@
                   "expression": {
                     "arguments": [
                       {
-                        "id": 1536,
+                        "id": 1525,
                         "name": "index",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1526,
+                        "referencedDeclaration": 1515,
                         "src": "1512:5:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -791,24 +791,24 @@
                       ],
                       "expression": {
                         "baseExpression": {
-                          "id": 1532,
+                          "id": 1521,
                           "name": "_roleMembers",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1499,
+                          "referencedDeclaration": 1488,
                           "src": "1490:12:5",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_AddressSet_$4306_storage_$",
+                            "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_AddressSet_$4299_storage_$",
                             "typeString": "mapping(bytes32 => struct EnumerableSet.AddressSet storage ref)"
                           }
                         },
-                        "id": 1534,
+                        "id": 1523,
                         "indexExpression": {
-                          "id": 1533,
+                          "id": 1522,
                           "name": "role",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1524,
+                          "referencedDeclaration": 1513,
                           "src": "1503:4:5",
                           "typeDescriptions": {
                             "typeIdentifier": "t_bytes32",
@@ -822,25 +822,25 @@
                         "nodeType": "IndexAccess",
                         "src": "1490:18:5",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_AddressSet_$4306_storage",
+                          "typeIdentifier": "t_struct$_AddressSet_$4299_storage",
                           "typeString": "struct EnumerableSet.AddressSet storage ref"
                         }
                       },
-                      "id": 1535,
+                      "id": 1524,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "at",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 4429,
+                      "referencedDeclaration": 4422,
                       "src": "1490:21:5",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_internal_view$_t_struct$_AddressSet_$4306_storage_ptr_$_t_uint256_$returns$_t_address_$bound_to$_t_struct$_AddressSet_$4306_storage_ptr_$",
+                        "typeIdentifier": "t_function_internal_view$_t_struct$_AddressSet_$4299_storage_ptr_$_t_uint256_$returns$_t_address_$bound_to$_t_struct$_AddressSet_$4299_storage_ptr_$",
                         "typeString": "function (struct EnumerableSet.AddressSet storage pointer,uint256) view returns (address)"
                       }
                     },
-                    "id": 1537,
+                    "id": 1526,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -855,43 +855,43 @@
                       "typeString": "address"
                     }
                   },
-                  "functionReturnParameters": 1531,
-                  "id": 1538,
+                  "functionReturnParameters": 1520,
+                  "id": 1527,
                   "nodeType": "Return",
                   "src": "1483:35:5"
                 }
               ]
             },
             "documentation": {
-              "id": 1522,
+              "id": 1511,
               "nodeType": "StructuredDocumentation",
               "src": "790:585:5",
               "text": " @dev Returns one of the accounts that have `role`. `index` must be a\n value between 0 and {getRoleMemberCount}, non-inclusive.\n Role bearers are not sorted in any particular way, and their ordering may\n change at any point.\n WARNING: When using {getRoleMember} and {getRoleMemberCount}, make sure\n you perform all queries on the same block. See the following\n https://forum.openzeppelin.com/t/iterating-over-elements-on-enumerableset-in-openzeppelin-contracts/2296[forum post]\n for more information."
             },
             "functionSelector": "9010d07c",
-            "id": 1540,
+            "id": 1529,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "getRoleMember",
             "nodeType": "FunctionDefinition",
             "overrides": {
-              "id": 1528,
+              "id": 1517,
               "nodeType": "OverrideSpecifier",
               "overrides": [],
               "src": "1445:8:5"
             },
             "parameters": {
-              "id": 1527,
+              "id": 1516,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1524,
+                  "id": 1513,
                   "mutability": "mutable",
                   "name": "role",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1540,
+                  "scope": 1529,
                   "src": "1404:12:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -900,7 +900,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 1523,
+                    "id": 1512,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "1404:7:5",
@@ -913,11 +913,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 1526,
+                  "id": 1515,
                   "mutability": "mutable",
                   "name": "index",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1540,
+                  "scope": 1529,
                   "src": "1418:13:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -926,7 +926,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1525,
+                    "id": 1514,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "1418:7:5",
@@ -941,16 +941,16 @@
               "src": "1403:29:5"
             },
             "returnParameters": {
-              "id": 1531,
+              "id": 1520,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1530,
+                  "id": 1519,
                   "mutability": "mutable",
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1540,
+                  "scope": 1529,
                   "src": "1463:7:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -959,7 +959,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1529,
+                    "id": 1518,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "1463:7:5",
@@ -974,7 +974,7 @@
               ],
               "src": "1462:9:5"
             },
-            "scope": 1659,
+            "scope": 1648,
             "src": "1381:145:5",
             "stateMutability": "view",
             "virtual": false,
@@ -982,10 +982,10 @@
           },
           {
             "baseFunctions": [
-              1756
+              1745
             ],
             "body": {
-              "id": 1555,
+              "id": 1544,
               "nodeType": "Block",
               "src": "1781:53:5",
               "statements": [
@@ -996,24 +996,24 @@
                       "argumentTypes": [],
                       "expression": {
                         "baseExpression": {
-                          "id": 1549,
+                          "id": 1538,
                           "name": "_roleMembers",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1499,
+                          "referencedDeclaration": 1488,
                           "src": "1799:12:5",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_AddressSet_$4306_storage_$",
+                            "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_AddressSet_$4299_storage_$",
                             "typeString": "mapping(bytes32 => struct EnumerableSet.AddressSet storage ref)"
                           }
                         },
-                        "id": 1551,
+                        "id": 1540,
                         "indexExpression": {
-                          "id": 1550,
+                          "id": 1539,
                           "name": "role",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1543,
+                          "referencedDeclaration": 1532,
                           "src": "1812:4:5",
                           "typeDescriptions": {
                             "typeIdentifier": "t_bytes32",
@@ -1027,25 +1027,25 @@
                         "nodeType": "IndexAccess",
                         "src": "1799:18:5",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_AddressSet_$4306_storage",
+                          "typeIdentifier": "t_struct$_AddressSet_$4299_storage",
                           "typeString": "struct EnumerableSet.AddressSet storage ref"
                         }
                       },
-                      "id": 1552,
+                      "id": 1541,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "length",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 4402,
+                      "referencedDeclaration": 4395,
                       "src": "1799:25:5",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_internal_view$_t_struct$_AddressSet_$4306_storage_ptr_$returns$_t_uint256_$bound_to$_t_struct$_AddressSet_$4306_storage_ptr_$",
+                        "typeIdentifier": "t_function_internal_view$_t_struct$_AddressSet_$4299_storage_ptr_$returns$_t_uint256_$bound_to$_t_struct$_AddressSet_$4299_storage_ptr_$",
                         "typeString": "function (struct EnumerableSet.AddressSet storage pointer) view returns (uint256)"
                       }
                     },
-                    "id": 1553,
+                    "id": 1542,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1060,43 +1060,43 @@
                       "typeString": "uint256"
                     }
                   },
-                  "functionReturnParameters": 1548,
-                  "id": 1554,
+                  "functionReturnParameters": 1537,
+                  "id": 1543,
                   "nodeType": "Return",
                   "src": "1792:34:5"
                 }
               ]
             },
             "documentation": {
-              "id": 1541,
+              "id": 1530,
               "nodeType": "StructuredDocumentation",
               "src": "1534:160:5",
               "text": " @dev Returns the number of accounts that have `role`. Can be used\n together with {getRoleMember} to enumerate all bearers of a role."
             },
             "functionSelector": "ca15c873",
-            "id": 1556,
+            "id": 1545,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "getRoleMemberCount",
             "nodeType": "FunctionDefinition",
             "overrides": {
-              "id": 1545,
+              "id": 1534,
               "nodeType": "OverrideSpecifier",
               "overrides": [],
               "src": "1754:8:5"
             },
             "parameters": {
-              "id": 1544,
+              "id": 1533,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1543,
+                  "id": 1532,
                   "mutability": "mutable",
                   "name": "role",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1556,
+                  "scope": 1545,
                   "src": "1728:12:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1105,7 +1105,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 1542,
+                    "id": 1531,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "1728:7:5",
@@ -1120,16 +1120,16 @@
               "src": "1727:14:5"
             },
             "returnParameters": {
-              "id": 1548,
+              "id": 1537,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1547,
+                  "id": 1536,
                   "mutability": "mutable",
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1556,
+                  "scope": 1545,
                   "src": "1772:7:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1138,7 +1138,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1546,
+                    "id": 1535,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "1772:7:5",
@@ -1152,7 +1152,7 @@
               ],
               "src": "1771:9:5"
             },
-            "scope": 1659,
+            "scope": 1648,
             "src": "1700:134:5",
             "stateMutability": "view",
             "virtual": false,
@@ -1160,11 +1160,11 @@
           },
           {
             "baseFunctions": [
-              1333,
-              1715
+              1322,
+              1704
             ],
             "body": {
-              "id": 1581,
+              "id": 1570,
               "nodeType": "Block",
               "src": "2031:91:5",
               "statements": [
@@ -1172,11 +1172,11 @@
                   "expression": {
                     "arguments": [
                       {
-                        "id": 1570,
+                        "id": 1559,
                         "name": "role",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1559,
+                        "referencedDeclaration": 1548,
                         "src": "2058:4:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bytes32",
@@ -1184,11 +1184,11 @@
                         }
                       },
                       {
-                        "id": 1571,
+                        "id": 1560,
                         "name": "account",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1561,
+                        "referencedDeclaration": 1550,
                         "src": "2064:7:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -1208,32 +1208,32 @@
                         }
                       ],
                       "expression": {
-                        "id": 1567,
+                        "id": 1556,
                         "name": "super",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 4294967271,
                         "src": "2042:5:5",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_super$_AccessControlEnumerable_$1659_$",
+                          "typeIdentifier": "t_type$_t_super$_AccessControlEnumerable_$1648_$",
                           "typeString": "type(contract super AccessControlEnumerable)"
                         }
                       },
-                      "id": 1569,
+                      "id": 1558,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "grantRole",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 1333,
+                      "referencedDeclaration": 1322,
                       "src": "2042:15:5",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$_t_address_$returns$__$",
                         "typeString": "function (bytes32,address)"
                       }
                     },
-                    "id": 1572,
+                    "id": 1561,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1248,7 +1248,7 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 1573,
+                  "id": 1562,
                   "nodeType": "ExpressionStatement",
                   "src": "2042:30:5"
                 },
@@ -1256,11 +1256,11 @@
                   "expression": {
                     "arguments": [
                       {
-                        "id": 1578,
+                        "id": 1567,
                         "name": "account",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1561,
+                        "referencedDeclaration": 1550,
                         "src": "2106:7:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -1277,24 +1277,24 @@
                       ],
                       "expression": {
                         "baseExpression": {
-                          "id": 1574,
+                          "id": 1563,
                           "name": "_roleMembers",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1499,
+                          "referencedDeclaration": 1488,
                           "src": "2083:12:5",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_AddressSet_$4306_storage_$",
+                            "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_AddressSet_$4299_storage_$",
                             "typeString": "mapping(bytes32 => struct EnumerableSet.AddressSet storage ref)"
                           }
                         },
-                        "id": 1576,
+                        "id": 1565,
                         "indexExpression": {
-                          "id": 1575,
+                          "id": 1564,
                           "name": "role",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1559,
+                          "referencedDeclaration": 1548,
                           "src": "2096:4:5",
                           "typeDescriptions": {
                             "typeIdentifier": "t_bytes32",
@@ -1308,25 +1308,25 @@
                         "nodeType": "IndexAccess",
                         "src": "2083:18:5",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_AddressSet_$4306_storage",
+                          "typeIdentifier": "t_struct$_AddressSet_$4299_storage",
                           "typeString": "struct EnumerableSet.AddressSet storage ref"
                         }
                       },
-                      "id": 1577,
+                      "id": 1566,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "add",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 4333,
+                      "referencedDeclaration": 4326,
                       "src": "2083:22:5",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_internal_nonpayable$_t_struct$_AddressSet_$4306_storage_ptr_$_t_address_$returns$_t_bool_$bound_to$_t_struct$_AddressSet_$4306_storage_ptr_$",
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_struct$_AddressSet_$4299_storage_ptr_$_t_address_$returns$_t_bool_$bound_to$_t_struct$_AddressSet_$4299_storage_ptr_$",
                         "typeString": "function (struct EnumerableSet.AddressSet storage pointer,address) returns (bool)"
                       }
                     },
-                    "id": 1579,
+                    "id": 1568,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1341,57 +1341,57 @@
                       "typeString": "bool"
                     }
                   },
-                  "id": 1580,
+                  "id": 1569,
                   "nodeType": "ExpressionStatement",
                   "src": "2083:31:5"
                 }
               ]
             },
             "documentation": {
-              "id": 1557,
+              "id": 1546,
               "nodeType": "StructuredDocumentation",
               "src": "1842:78:5",
               "text": " @dev Overload {grantRole} to track enumerable memberships"
             },
             "functionSelector": "2f2ff15d",
-            "id": 1582,
+            "id": 1571,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "grantRole",
             "nodeType": "FunctionDefinition",
             "overrides": {
-              "id": 1565,
+              "id": 1554,
               "nodeType": "OverrideSpecifier",
               "overrides": [
                 {
-                  "id": 1563,
+                  "id": 1552,
                   "name": "AccessControl",
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 1480,
+                  "referencedDeclaration": 1469,
                   "src": "2000:13:5"
                 },
                 {
-                  "id": 1564,
+                  "id": 1553,
                   "name": "IAccessControl",
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 1732,
+                  "referencedDeclaration": 1721,
                   "src": "2015:14:5"
                 }
               ],
               "src": "1991:39:5"
             },
             "parameters": {
-              "id": 1562,
+              "id": 1551,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1559,
+                  "id": 1548,
                   "mutability": "mutable",
                   "name": "role",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1582,
+                  "scope": 1571,
                   "src": "1945:12:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1400,7 +1400,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 1558,
+                    "id": 1547,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "1945:7:5",
@@ -1413,11 +1413,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 1561,
+                  "id": 1550,
                   "mutability": "mutable",
                   "name": "account",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1582,
+                  "scope": 1571,
                   "src": "1959:15:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1426,7 +1426,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1560,
+                    "id": 1549,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "1959:7:5",
@@ -1442,12 +1442,12 @@
               "src": "1944:31:5"
             },
             "returnParameters": {
-              "id": 1566,
+              "id": 1555,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "2031:0:5"
             },
-            "scope": 1659,
+            "scope": 1648,
             "src": "1926:196:5",
             "stateMutability": "nonpayable",
             "virtual": true,
@@ -1455,11 +1455,11 @@
           },
           {
             "baseFunctions": [
-              1353,
-              1723
+              1342,
+              1712
             ],
             "body": {
-              "id": 1607,
+              "id": 1596,
               "nodeType": "Block",
               "src": "2321:95:5",
               "statements": [
@@ -1467,11 +1467,11 @@
                   "expression": {
                     "arguments": [
                       {
-                        "id": 1596,
+                        "id": 1585,
                         "name": "role",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1585,
+                        "referencedDeclaration": 1574,
                         "src": "2349:4:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bytes32",
@@ -1479,11 +1479,11 @@
                         }
                       },
                       {
-                        "id": 1597,
+                        "id": 1586,
                         "name": "account",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1587,
+                        "referencedDeclaration": 1576,
                         "src": "2355:7:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -1503,32 +1503,32 @@
                         }
                       ],
                       "expression": {
-                        "id": 1593,
+                        "id": 1582,
                         "name": "super",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 4294967271,
                         "src": "2332:5:5",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_super$_AccessControlEnumerable_$1659_$",
+                          "typeIdentifier": "t_type$_t_super$_AccessControlEnumerable_$1648_$",
                           "typeString": "type(contract super AccessControlEnumerable)"
                         }
                       },
-                      "id": 1595,
+                      "id": 1584,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "revokeRole",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 1353,
+                      "referencedDeclaration": 1342,
                       "src": "2332:16:5",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$_t_address_$returns$__$",
                         "typeString": "function (bytes32,address)"
                       }
                     },
-                    "id": 1598,
+                    "id": 1587,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1543,7 +1543,7 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 1599,
+                  "id": 1588,
                   "nodeType": "ExpressionStatement",
                   "src": "2332:31:5"
                 },
@@ -1551,11 +1551,11 @@
                   "expression": {
                     "arguments": [
                       {
-                        "id": 1604,
+                        "id": 1593,
                         "name": "account",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1587,
+                        "referencedDeclaration": 1576,
                         "src": "2400:7:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -1572,24 +1572,24 @@
                       ],
                       "expression": {
                         "baseExpression": {
-                          "id": 1600,
+                          "id": 1589,
                           "name": "_roleMembers",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1499,
+                          "referencedDeclaration": 1488,
                           "src": "2374:12:5",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_AddressSet_$4306_storage_$",
+                            "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_AddressSet_$4299_storage_$",
                             "typeString": "mapping(bytes32 => struct EnumerableSet.AddressSet storage ref)"
                           }
                         },
-                        "id": 1602,
+                        "id": 1591,
                         "indexExpression": {
-                          "id": 1601,
+                          "id": 1590,
                           "name": "role",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1585,
+                          "referencedDeclaration": 1574,
                           "src": "2387:4:5",
                           "typeDescriptions": {
                             "typeIdentifier": "t_bytes32",
@@ -1603,25 +1603,25 @@
                         "nodeType": "IndexAccess",
                         "src": "2374:18:5",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_AddressSet_$4306_storage",
+                          "typeIdentifier": "t_struct$_AddressSet_$4299_storage",
                           "typeString": "struct EnumerableSet.AddressSet storage ref"
                         }
                       },
-                      "id": 1603,
+                      "id": 1592,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "remove",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 4360,
+                      "referencedDeclaration": 4353,
                       "src": "2374:25:5",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_internal_nonpayable$_t_struct$_AddressSet_$4306_storage_ptr_$_t_address_$returns$_t_bool_$bound_to$_t_struct$_AddressSet_$4306_storage_ptr_$",
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_struct$_AddressSet_$4299_storage_ptr_$_t_address_$returns$_t_bool_$bound_to$_t_struct$_AddressSet_$4299_storage_ptr_$",
                         "typeString": "function (struct EnumerableSet.AddressSet storage pointer,address) returns (bool)"
                       }
                     },
-                    "id": 1605,
+                    "id": 1594,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1636,57 +1636,57 @@
                       "typeString": "bool"
                     }
                   },
-                  "id": 1606,
+                  "id": 1595,
                   "nodeType": "ExpressionStatement",
                   "src": "2374:34:5"
                 }
               ]
             },
             "documentation": {
-              "id": 1583,
+              "id": 1572,
               "nodeType": "StructuredDocumentation",
               "src": "2130:79:5",
               "text": " @dev Overload {revokeRole} to track enumerable memberships"
             },
             "functionSelector": "d547741f",
-            "id": 1608,
+            "id": 1597,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "revokeRole",
             "nodeType": "FunctionDefinition",
             "overrides": {
-              "id": 1591,
+              "id": 1580,
               "nodeType": "OverrideSpecifier",
               "overrides": [
                 {
-                  "id": 1589,
+                  "id": 1578,
                   "name": "AccessControl",
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 1480,
+                  "referencedDeclaration": 1469,
                   "src": "2290:13:5"
                 },
                 {
-                  "id": 1590,
+                  "id": 1579,
                   "name": "IAccessControl",
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 1732,
+                  "referencedDeclaration": 1721,
                   "src": "2305:14:5"
                 }
               ],
               "src": "2281:39:5"
             },
             "parameters": {
-              "id": 1588,
+              "id": 1577,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1585,
+                  "id": 1574,
                   "mutability": "mutable",
                   "name": "role",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1608,
+                  "scope": 1597,
                   "src": "2235:12:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1695,7 +1695,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 1584,
+                    "id": 1573,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "2235:7:5",
@@ -1708,11 +1708,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 1587,
+                  "id": 1576,
                   "mutability": "mutable",
                   "name": "account",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1608,
+                  "scope": 1597,
                   "src": "2249:15:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1721,7 +1721,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1586,
+                    "id": 1575,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "2249:7:5",
@@ -1737,12 +1737,12 @@
               "src": "2234:31:5"
             },
             "returnParameters": {
-              "id": 1592,
+              "id": 1581,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "2321:0:5"
             },
-            "scope": 1659,
+            "scope": 1648,
             "src": "2215:201:5",
             "stateMutability": "nonpayable",
             "virtual": true,
@@ -1750,11 +1750,11 @@
           },
           {
             "baseFunctions": [
-              1376,
-              1731
+              1365,
+              1720
             ],
             "body": {
-              "id": 1633,
+              "id": 1622,
               "nodeType": "Block",
               "src": "2619:97:5",
               "statements": [
@@ -1762,11 +1762,11 @@
                   "expression": {
                     "arguments": [
                       {
-                        "id": 1622,
+                        "id": 1611,
                         "name": "role",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1611,
+                        "referencedDeclaration": 1600,
                         "src": "2649:4:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bytes32",
@@ -1774,11 +1774,11 @@
                         }
                       },
                       {
-                        "id": 1623,
+                        "id": 1612,
                         "name": "account",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1613,
+                        "referencedDeclaration": 1602,
                         "src": "2655:7:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -1798,32 +1798,32 @@
                         }
                       ],
                       "expression": {
-                        "id": 1619,
+                        "id": 1608,
                         "name": "super",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 4294967271,
                         "src": "2630:5:5",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_super$_AccessControlEnumerable_$1659_$",
+                          "typeIdentifier": "t_type$_t_super$_AccessControlEnumerable_$1648_$",
                           "typeString": "type(contract super AccessControlEnumerable)"
                         }
                       },
-                      "id": 1621,
+                      "id": 1610,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "renounceRole",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 1376,
+                      "referencedDeclaration": 1365,
                       "src": "2630:18:5",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$_t_address_$returns$__$",
                         "typeString": "function (bytes32,address)"
                       }
                     },
-                    "id": 1624,
+                    "id": 1613,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1838,7 +1838,7 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 1625,
+                  "id": 1614,
                   "nodeType": "ExpressionStatement",
                   "src": "2630:33:5"
                 },
@@ -1846,11 +1846,11 @@
                   "expression": {
                     "arguments": [
                       {
-                        "id": 1630,
+                        "id": 1619,
                         "name": "account",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1613,
+                        "referencedDeclaration": 1602,
                         "src": "2700:7:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -1867,24 +1867,24 @@
                       ],
                       "expression": {
                         "baseExpression": {
-                          "id": 1626,
+                          "id": 1615,
                           "name": "_roleMembers",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1499,
+                          "referencedDeclaration": 1488,
                           "src": "2674:12:5",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_AddressSet_$4306_storage_$",
+                            "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_AddressSet_$4299_storage_$",
                             "typeString": "mapping(bytes32 => struct EnumerableSet.AddressSet storage ref)"
                           }
                         },
-                        "id": 1628,
+                        "id": 1617,
                         "indexExpression": {
-                          "id": 1627,
+                          "id": 1616,
                           "name": "role",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1611,
+                          "referencedDeclaration": 1600,
                           "src": "2687:4:5",
                           "typeDescriptions": {
                             "typeIdentifier": "t_bytes32",
@@ -1898,25 +1898,25 @@
                         "nodeType": "IndexAccess",
                         "src": "2674:18:5",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_AddressSet_$4306_storage",
+                          "typeIdentifier": "t_struct$_AddressSet_$4299_storage",
                           "typeString": "struct EnumerableSet.AddressSet storage ref"
                         }
                       },
-                      "id": 1629,
+                      "id": 1618,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "remove",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 4360,
+                      "referencedDeclaration": 4353,
                       "src": "2674:25:5",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_internal_nonpayable$_t_struct$_AddressSet_$4306_storage_ptr_$_t_address_$returns$_t_bool_$bound_to$_t_struct$_AddressSet_$4306_storage_ptr_$",
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_struct$_AddressSet_$4299_storage_ptr_$_t_address_$returns$_t_bool_$bound_to$_t_struct$_AddressSet_$4299_storage_ptr_$",
                         "typeString": "function (struct EnumerableSet.AddressSet storage pointer,address) returns (bool)"
                       }
                     },
-                    "id": 1631,
+                    "id": 1620,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1931,57 +1931,57 @@
                       "typeString": "bool"
                     }
                   },
-                  "id": 1632,
+                  "id": 1621,
                   "nodeType": "ExpressionStatement",
                   "src": "2674:34:5"
                 }
               ]
             },
             "documentation": {
-              "id": 1609,
+              "id": 1598,
               "nodeType": "StructuredDocumentation",
               "src": "2424:81:5",
               "text": " @dev Overload {renounceRole} to track enumerable memberships"
             },
             "functionSelector": "36568abe",
-            "id": 1634,
+            "id": 1623,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "renounceRole",
             "nodeType": "FunctionDefinition",
             "overrides": {
-              "id": 1617,
+              "id": 1606,
               "nodeType": "OverrideSpecifier",
               "overrides": [
                 {
-                  "id": 1615,
+                  "id": 1604,
                   "name": "AccessControl",
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 1480,
+                  "referencedDeclaration": 1469,
                   "src": "2588:13:5"
                 },
                 {
-                  "id": 1616,
+                  "id": 1605,
                   "name": "IAccessControl",
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 1732,
+                  "referencedDeclaration": 1721,
                   "src": "2603:14:5"
                 }
               ],
               "src": "2579:39:5"
             },
             "parameters": {
-              "id": 1614,
+              "id": 1603,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1611,
+                  "id": 1600,
                   "mutability": "mutable",
                   "name": "role",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1634,
+                  "scope": 1623,
                   "src": "2533:12:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1990,7 +1990,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 1610,
+                    "id": 1599,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "2533:7:5",
@@ -2003,11 +2003,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 1613,
+                  "id": 1602,
                   "mutability": "mutable",
                   "name": "account",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1634,
+                  "scope": 1623,
                   "src": "2547:15:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -2016,7 +2016,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1612,
+                    "id": 1601,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "2547:7:5",
@@ -2032,12 +2032,12 @@
               "src": "2532:31:5"
             },
             "returnParameters": {
-              "id": 1618,
+              "id": 1607,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "2619:0:5"
             },
-            "scope": 1659,
+            "scope": 1648,
             "src": "2511:205:5",
             "stateMutability": "nonpayable",
             "virtual": true,
@@ -2045,10 +2045,10 @@
           },
           {
             "baseFunctions": [
-              1390
+              1379
             ],
             "body": {
-              "id": 1657,
+              "id": 1646,
               "nodeType": "Block",
               "src": "2886:92:5",
               "statements": [
@@ -2056,11 +2056,11 @@
                   "expression": {
                     "arguments": [
                       {
-                        "id": 1646,
+                        "id": 1635,
                         "name": "role",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1637,
+                        "referencedDeclaration": 1626,
                         "src": "2914:4:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bytes32",
@@ -2068,11 +2068,11 @@
                         }
                       },
                       {
-                        "id": 1647,
+                        "id": 1636,
                         "name": "account",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1639,
+                        "referencedDeclaration": 1628,
                         "src": "2920:7:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -2092,32 +2092,32 @@
                         }
                       ],
                       "expression": {
-                        "id": 1643,
+                        "id": 1632,
                         "name": "super",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 4294967271,
                         "src": "2897:5:5",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_super$_AccessControlEnumerable_$1659_$",
+                          "typeIdentifier": "t_type$_t_super$_AccessControlEnumerable_$1648_$",
                           "typeString": "type(contract super AccessControlEnumerable)"
                         }
                       },
-                      "id": 1645,
+                      "id": 1634,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "_setupRole",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 1390,
+                      "referencedDeclaration": 1379,
                       "src": "2897:16:5",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$_t_address_$returns$__$",
                         "typeString": "function (bytes32,address)"
                       }
                     },
-                    "id": 1648,
+                    "id": 1637,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2132,7 +2132,7 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 1649,
+                  "id": 1638,
                   "nodeType": "ExpressionStatement",
                   "src": "2897:31:5"
                 },
@@ -2140,11 +2140,11 @@
                   "expression": {
                     "arguments": [
                       {
-                        "id": 1654,
+                        "id": 1643,
                         "name": "account",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1639,
+                        "referencedDeclaration": 1628,
                         "src": "2962:7:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -2161,24 +2161,24 @@
                       ],
                       "expression": {
                         "baseExpression": {
-                          "id": 1650,
+                          "id": 1639,
                           "name": "_roleMembers",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1499,
+                          "referencedDeclaration": 1488,
                           "src": "2939:12:5",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_AddressSet_$4306_storage_$",
+                            "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_AddressSet_$4299_storage_$",
                             "typeString": "mapping(bytes32 => struct EnumerableSet.AddressSet storage ref)"
                           }
                         },
-                        "id": 1652,
+                        "id": 1641,
                         "indexExpression": {
-                          "id": 1651,
+                          "id": 1640,
                           "name": "role",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1637,
+                          "referencedDeclaration": 1626,
                           "src": "2952:4:5",
                           "typeDescriptions": {
                             "typeIdentifier": "t_bytes32",
@@ -2192,25 +2192,25 @@
                         "nodeType": "IndexAccess",
                         "src": "2939:18:5",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_AddressSet_$4306_storage",
+                          "typeIdentifier": "t_struct$_AddressSet_$4299_storage",
                           "typeString": "struct EnumerableSet.AddressSet storage ref"
                         }
                       },
-                      "id": 1653,
+                      "id": 1642,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "add",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 4333,
+                      "referencedDeclaration": 4326,
                       "src": "2939:22:5",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_internal_nonpayable$_t_struct$_AddressSet_$4306_storage_ptr_$_t_address_$returns$_t_bool_$bound_to$_t_struct$_AddressSet_$4306_storage_ptr_$",
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_struct$_AddressSet_$4299_storage_ptr_$_t_address_$returns$_t_bool_$bound_to$_t_struct$_AddressSet_$4299_storage_ptr_$",
                         "typeString": "function (struct EnumerableSet.AddressSet storage pointer,address) returns (bool)"
                       }
                     },
-                    "id": 1655,
+                    "id": 1644,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2225,41 +2225,41 @@
                       "typeString": "bool"
                     }
                   },
-                  "id": 1656,
+                  "id": 1645,
                   "nodeType": "ExpressionStatement",
                   "src": "2939:31:5"
                 }
               ]
             },
             "documentation": {
-              "id": 1635,
+              "id": 1624,
               "nodeType": "StructuredDocumentation",
               "src": "2724:79:5",
               "text": " @dev Overload {_setupRole} to track enumerable memberships"
             },
-            "id": 1658,
+            "id": 1647,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "_setupRole",
             "nodeType": "FunctionDefinition",
             "overrides": {
-              "id": 1641,
+              "id": 1630,
               "nodeType": "OverrideSpecifier",
               "overrides": [],
               "src": "2877:8:5"
             },
             "parameters": {
-              "id": 1640,
+              "id": 1629,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1637,
+                  "id": 1626,
                   "mutability": "mutable",
                   "name": "role",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1658,
+                  "scope": 1647,
                   "src": "2829:12:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -2268,7 +2268,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 1636,
+                    "id": 1625,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "2829:7:5",
@@ -2281,11 +2281,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 1639,
+                  "id": 1628,
                   "mutability": "mutable",
                   "name": "account",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1658,
+                  "scope": 1647,
                   "src": "2843:15:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -2294,7 +2294,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1638,
+                    "id": 1627,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "2843:7:5",
@@ -2310,19 +2310,19 @@
               "src": "2828:31:5"
             },
             "returnParameters": {
-              "id": 1642,
+              "id": 1631,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "2886:0:5"
             },
-            "scope": 1659,
+            "scope": 1648,
             "src": "2809:169:5",
             "stateMutability": "nonpayable",
             "virtual": true,
             "visibility": "internal"
           }
         ],
-        "scope": 1660,
+        "scope": 1649,
         "src": "281:2700:5"
       }
     ],
@@ -2332,39 +2332,39 @@
     "absolutePath": "project:/contracts/access/AccessControlEnumerable.sol",
     "exportedSymbols": {
       "AccessControl": [
-        1480
+        1469
       ],
       "AccessControlEnumerable": [
-        1659
+        1648
       ],
       "Context": [
-        3755
+        3748
       ],
       "ERC165": [
-        3982
+        3975
       ],
       "EnumerableSet": [
-        4593
+        4586
       ],
       "IAccessControl": [
-        1732
+        1721
       ],
       "IAccessControlEnumerable": [
-        1757
+        1746
       ],
       "IERC165": [
-        3994
+        3987
       ],
       "Strings": [
-        3958
+        3951
       ]
     },
-    "id": 1660,
+    "id": 1649,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1482,
+        "id": 1471,
         "literals": [
           "solidity",
           "^",
@@ -2377,10 +2377,10 @@
       {
         "absolutePath": "project:/contracts/access/IAccessControlEnumerable.sol",
         "file": "./IAccessControlEnumerable.sol",
-        "id": 1483,
+        "id": 1472,
         "nodeType": "ImportDirective",
-        "scope": 1660,
-        "sourceUnit": 1758,
+        "scope": 1649,
+        "sourceUnit": 1747,
         "src": "62:40:5",
         "symbolAliases": [],
         "unitAlias": ""
@@ -2388,10 +2388,10 @@
       {
         "absolutePath": "project:/contracts/access/AccessControl.sol",
         "file": "./AccessControl.sol",
-        "id": 1484,
+        "id": 1473,
         "nodeType": "ImportDirective",
-        "scope": 1660,
-        "sourceUnit": 1481,
+        "scope": 1649,
+        "sourceUnit": 1470,
         "src": "104:29:5",
         "symbolAliases": [],
         "unitAlias": ""
@@ -2399,10 +2399,10 @@
       {
         "absolutePath": "project:/contracts/utils/structs/EnumerableSet.sol",
         "file": "../utils/structs/EnumerableSet.sol",
-        "id": 1485,
+        "id": 1474,
         "nodeType": "ImportDirective",
-        "scope": 1660,
-        "sourceUnit": 4594,
+        "scope": 1649,
+        "sourceUnit": 4587,
         "src": "135:44:5",
         "symbolAliases": [],
         "unitAlias": ""
@@ -2412,105 +2412,105 @@
         "baseContracts": [
           {
             "baseName": {
-              "id": 1487,
+              "id": 1476,
               "name": "IAccessControlEnumerable",
               "nodeType": "IdentifierPath",
-              "referencedDeclaration": 1757,
+              "referencedDeclaration": 1746,
               "src": "326:24:5"
             },
-            "id": 1488,
+            "id": 1477,
             "nodeType": "InheritanceSpecifier",
             "src": "326:24:5"
           },
           {
             "baseName": {
-              "id": 1489,
+              "id": 1478,
               "name": "AccessControl",
               "nodeType": "IdentifierPath",
-              "referencedDeclaration": 1480,
+              "referencedDeclaration": 1469,
               "src": "352:13:5"
             },
-            "id": 1490,
+            "id": 1479,
             "nodeType": "InheritanceSpecifier",
             "src": "352:13:5"
           }
         ],
         "contractDependencies": [
-          1480,
-          1732,
-          1757,
-          3755,
-          3982,
-          3994
+          1469,
+          1721,
+          1746,
+          3748,
+          3975,
+          3987
         ],
         "contractKind": "contract",
         "documentation": {
-          "id": 1486,
+          "id": 1475,
           "nodeType": "StructuredDocumentation",
           "src": "183:96:5",
           "text": " @dev Extension of {AccessControl} that allows enumerating the members of each role."
         },
         "fullyImplemented": true,
-        "id": 1659,
+        "id": 1648,
         "linearizedBaseContracts": [
-          1659,
-          1480,
-          3982,
-          3994,
-          1757,
-          1732,
-          3755
+          1648,
+          1469,
+          3975,
+          3987,
+          1746,
+          1721,
+          3748
         ],
         "name": "AccessControlEnumerable",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
-            "id": 1494,
+            "id": 1483,
             "libraryName": {
-              "id": 1491,
+              "id": 1480,
               "name": "EnumerableSet",
               "nodeType": "IdentifierPath",
-              "referencedDeclaration": 4593,
+              "referencedDeclaration": 4586,
               "src": "379:13:5"
             },
             "nodeType": "UsingForDirective",
             "src": "373:49:5",
             "typeName": {
-              "id": 1493,
+              "id": 1482,
               "nodeType": "UserDefinedTypeName",
               "pathNode": {
-                "id": 1492,
+                "id": 1481,
                 "name": "EnumerableSet.AddressSet",
                 "nodeType": "IdentifierPath",
-                "referencedDeclaration": 4306,
+                "referencedDeclaration": 4299,
                 "src": "397:24:5"
               },
-              "referencedDeclaration": 4306,
+              "referencedDeclaration": 4299,
               "src": "397:24:5",
               "typeDescriptions": {
-                "typeIdentifier": "t_struct$_AddressSet_$4306_storage_ptr",
+                "typeIdentifier": "t_struct$_AddressSet_$4299_storage_ptr",
                 "typeString": "struct EnumerableSet.AddressSet"
               }
             }
           },
           {
             "constant": false,
-            "id": 1499,
+            "id": 1488,
             "mutability": "mutable",
             "name": "_roleMembers",
             "nodeType": "VariableDeclaration",
-            "scope": 1659,
+            "scope": 1648,
             "src": "430:65:5",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_AddressSet_$4306_storage_$",
+              "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_AddressSet_$4299_storage_$",
               "typeString": "mapping(bytes32 => struct EnumerableSet.AddressSet)"
             },
             "typeName": {
-              "id": 1498,
+              "id": 1487,
               "keyType": {
-                "id": 1495,
+                "id": 1484,
                 "name": "bytes32",
                 "nodeType": "ElementaryTypeName",
                 "src": "438:7:5",
@@ -2522,23 +2522,23 @@
               "nodeType": "Mapping",
               "src": "430:44:5",
               "typeDescriptions": {
-                "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_AddressSet_$4306_storage_$",
+                "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_AddressSet_$4299_storage_$",
                 "typeString": "mapping(bytes32 => struct EnumerableSet.AddressSet)"
               },
               "valueType": {
-                "id": 1497,
+                "id": 1486,
                 "nodeType": "UserDefinedTypeName",
                 "pathNode": {
-                  "id": 1496,
+                  "id": 1485,
                   "name": "EnumerableSet.AddressSet",
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 4306,
+                  "referencedDeclaration": 4299,
                   "src": "449:24:5"
                 },
-                "referencedDeclaration": 4306,
+                "referencedDeclaration": 4299,
                 "src": "449:24:5",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_struct$_AddressSet_$4306_storage_ptr",
+                  "typeIdentifier": "t_struct$_AddressSet_$4299_storage_ptr",
                   "typeString": "struct EnumerableSet.AddressSet"
                 }
               }
@@ -2547,10 +2547,10 @@
           },
           {
             "baseFunctions": [
-              1236
+              1225
             ],
             "body": {
-              "id": 1520,
+              "id": 1509,
               "nodeType": "Block",
               "src": "659:123:5",
               "statements": [
@@ -2560,7 +2560,7 @@
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
                     },
-                    "id": 1518,
+                    "id": 1507,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2570,17 +2570,17 @@
                         "typeIdentifier": "t_bytes4",
                         "typeString": "bytes4"
                       },
-                      "id": 1513,
+                      "id": 1502,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
                       "leftExpression": {
-                        "id": 1508,
+                        "id": 1497,
                         "name": "interfaceId",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1502,
+                        "referencedDeclaration": 1491,
                         "src": "677:11:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bytes4",
@@ -2593,14 +2593,14 @@
                         "expression": {
                           "arguments": [
                             {
-                              "id": 1510,
+                              "id": 1499,
                               "name": "IAccessControlEnumerable",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 1757,
+                              "referencedDeclaration": 1746,
                               "src": "697:24:5",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_type$_t_contract$_IAccessControlEnumerable_$1757_$",
+                                "typeIdentifier": "t_type$_t_contract$_IAccessControlEnumerable_$1746_$",
                                 "typeString": "type(contract IAccessControlEnumerable)"
                               }
                             }
@@ -2608,11 +2608,11 @@
                           "expression": {
                             "argumentTypes": [
                               {
-                                "typeIdentifier": "t_type$_t_contract$_IAccessControlEnumerable_$1757_$",
+                                "typeIdentifier": "t_type$_t_contract$_IAccessControlEnumerable_$1746_$",
                                 "typeString": "type(contract IAccessControlEnumerable)"
                               }
                             ],
-                            "id": 1509,
+                            "id": 1498,
                             "name": "type",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
@@ -2623,7 +2623,7 @@
                               "typeString": "function () pure"
                             }
                           },
-                          "id": 1511,
+                          "id": 1500,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
@@ -2634,11 +2634,11 @@
                           "src": "692:30:5",
                           "tryCall": false,
                           "typeDescriptions": {
-                            "typeIdentifier": "t_magic_meta_type_t_contract$_IAccessControlEnumerable_$1757",
+                            "typeIdentifier": "t_magic_meta_type_t_contract$_IAccessControlEnumerable_$1746",
                             "typeString": "type(contract IAccessControlEnumerable)"
                           }
                         },
-                        "id": 1512,
+                        "id": 1501,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -2662,11 +2662,11 @@
                     "rightExpression": {
                       "arguments": [
                         {
-                          "id": 1516,
+                          "id": 1505,
                           "name": "interfaceId",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1502,
+                          "referencedDeclaration": 1491,
                           "src": "762:11:5",
                           "typeDescriptions": {
                             "typeIdentifier": "t_bytes4",
@@ -2682,32 +2682,32 @@
                           }
                         ],
                         "expression": {
-                          "id": 1514,
+                          "id": 1503,
                           "name": "super",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
                           "referencedDeclaration": 4294967271,
                           "src": "738:5:5",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_type$_t_super$_AccessControlEnumerable_$1659_$",
+                            "typeIdentifier": "t_type$_t_super$_AccessControlEnumerable_$1648_$",
                             "typeString": "type(contract super AccessControlEnumerable)"
                           }
                         },
-                        "id": 1515,
+                        "id": 1504,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
                         "memberName": "supportsInterface",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 1236,
+                        "referencedDeclaration": 1225,
                         "src": "738:23:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_internal_view$_t_bytes4_$returns$_t_bool_$",
                           "typeString": "function (bytes4) view returns (bool)"
                         }
                       },
-                      "id": 1517,
+                      "id": 1506,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -2728,43 +2728,43 @@
                       "typeString": "bool"
                     }
                   },
-                  "functionReturnParameters": 1507,
-                  "id": 1519,
+                  "functionReturnParameters": 1496,
+                  "id": 1508,
                   "nodeType": "Return",
                   "src": "670:104:5"
                 }
               ]
             },
             "documentation": {
-              "id": 1500,
+              "id": 1489,
               "nodeType": "StructuredDocumentation",
               "src": "504:58:5",
               "text": " @dev See {IERC165-supportsInterface}."
             },
             "functionSelector": "01ffc9a7",
-            "id": 1521,
+            "id": 1510,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "supportsInterface",
             "nodeType": "FunctionDefinition",
             "overrides": {
-              "id": 1504,
+              "id": 1493,
               "nodeType": "OverrideSpecifier",
               "overrides": [],
               "src": "635:8:5"
             },
             "parameters": {
-              "id": 1503,
+              "id": 1492,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1502,
+                  "id": 1491,
                   "mutability": "mutable",
                   "name": "interfaceId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1521,
+                  "scope": 1510,
                   "src": "595:18:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -2773,7 +2773,7 @@
                     "typeString": "bytes4"
                   },
                   "typeName": {
-                    "id": 1501,
+                    "id": 1490,
                     "name": "bytes4",
                     "nodeType": "ElementaryTypeName",
                     "src": "595:6:5",
@@ -2788,16 +2788,16 @@
               "src": "594:20:5"
             },
             "returnParameters": {
-              "id": 1507,
+              "id": 1496,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1506,
+                  "id": 1495,
                   "mutability": "mutable",
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1521,
+                  "scope": 1510,
                   "src": "653:4:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -2806,7 +2806,7 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 1505,
+                    "id": 1494,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "653:4:5",
@@ -2820,7 +2820,7 @@
               ],
               "src": "652:6:5"
             },
-            "scope": 1659,
+            "scope": 1648,
             "src": "568:214:5",
             "stateMutability": "view",
             "virtual": true,
@@ -2828,10 +2828,10 @@
           },
           {
             "baseFunctions": [
-              1748
+              1737
             ],
             "body": {
-              "id": 1539,
+              "id": 1528,
               "nodeType": "Block",
               "src": "1472:54:5",
               "statements": [
@@ -2839,11 +2839,11 @@
                   "expression": {
                     "arguments": [
                       {
-                        "id": 1536,
+                        "id": 1525,
                         "name": "index",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1526,
+                        "referencedDeclaration": 1515,
                         "src": "1512:5:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -2860,24 +2860,24 @@
                       ],
                       "expression": {
                         "baseExpression": {
-                          "id": 1532,
+                          "id": 1521,
                           "name": "_roleMembers",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1499,
+                          "referencedDeclaration": 1488,
                           "src": "1490:12:5",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_AddressSet_$4306_storage_$",
+                            "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_AddressSet_$4299_storage_$",
                             "typeString": "mapping(bytes32 => struct EnumerableSet.AddressSet storage ref)"
                           }
                         },
-                        "id": 1534,
+                        "id": 1523,
                         "indexExpression": {
-                          "id": 1533,
+                          "id": 1522,
                           "name": "role",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1524,
+                          "referencedDeclaration": 1513,
                           "src": "1503:4:5",
                           "typeDescriptions": {
                             "typeIdentifier": "t_bytes32",
@@ -2891,25 +2891,25 @@
                         "nodeType": "IndexAccess",
                         "src": "1490:18:5",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_AddressSet_$4306_storage",
+                          "typeIdentifier": "t_struct$_AddressSet_$4299_storage",
                           "typeString": "struct EnumerableSet.AddressSet storage ref"
                         }
                       },
-                      "id": 1535,
+                      "id": 1524,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "at",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 4429,
+                      "referencedDeclaration": 4422,
                       "src": "1490:21:5",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_internal_view$_t_struct$_AddressSet_$4306_storage_ptr_$_t_uint256_$returns$_t_address_$bound_to$_t_struct$_AddressSet_$4306_storage_ptr_$",
+                        "typeIdentifier": "t_function_internal_view$_t_struct$_AddressSet_$4299_storage_ptr_$_t_uint256_$returns$_t_address_$bound_to$_t_struct$_AddressSet_$4299_storage_ptr_$",
                         "typeString": "function (struct EnumerableSet.AddressSet storage pointer,uint256) view returns (address)"
                       }
                     },
-                    "id": 1537,
+                    "id": 1526,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2924,43 +2924,43 @@
                       "typeString": "address"
                     }
                   },
-                  "functionReturnParameters": 1531,
-                  "id": 1538,
+                  "functionReturnParameters": 1520,
+                  "id": 1527,
                   "nodeType": "Return",
                   "src": "1483:35:5"
                 }
               ]
             },
             "documentation": {
-              "id": 1522,
+              "id": 1511,
               "nodeType": "StructuredDocumentation",
               "src": "790:585:5",
               "text": " @dev Returns one of the accounts that have `role`. `index` must be a\n value between 0 and {getRoleMemberCount}, non-inclusive.\n Role bearers are not sorted in any particular way, and their ordering may\n change at any point.\n WARNING: When using {getRoleMember} and {getRoleMemberCount}, make sure\n you perform all queries on the same block. See the following\n https://forum.openzeppelin.com/t/iterating-over-elements-on-enumerableset-in-openzeppelin-contracts/2296[forum post]\n for more information."
             },
             "functionSelector": "9010d07c",
-            "id": 1540,
+            "id": 1529,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "getRoleMember",
             "nodeType": "FunctionDefinition",
             "overrides": {
-              "id": 1528,
+              "id": 1517,
               "nodeType": "OverrideSpecifier",
               "overrides": [],
               "src": "1445:8:5"
             },
             "parameters": {
-              "id": 1527,
+              "id": 1516,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1524,
+                  "id": 1513,
                   "mutability": "mutable",
                   "name": "role",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1540,
+                  "scope": 1529,
                   "src": "1404:12:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -2969,7 +2969,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 1523,
+                    "id": 1512,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "1404:7:5",
@@ -2982,11 +2982,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 1526,
+                  "id": 1515,
                   "mutability": "mutable",
                   "name": "index",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1540,
+                  "scope": 1529,
                   "src": "1418:13:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -2995,7 +2995,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1525,
+                    "id": 1514,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "1418:7:5",
@@ -3010,16 +3010,16 @@
               "src": "1403:29:5"
             },
             "returnParameters": {
-              "id": 1531,
+              "id": 1520,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1530,
+                  "id": 1519,
                   "mutability": "mutable",
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1540,
+                  "scope": 1529,
                   "src": "1463:7:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -3028,7 +3028,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1529,
+                    "id": 1518,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "1463:7:5",
@@ -3043,7 +3043,7 @@
               ],
               "src": "1462:9:5"
             },
-            "scope": 1659,
+            "scope": 1648,
             "src": "1381:145:5",
             "stateMutability": "view",
             "virtual": false,
@@ -3051,10 +3051,10 @@
           },
           {
             "baseFunctions": [
-              1756
+              1745
             ],
             "body": {
-              "id": 1555,
+              "id": 1544,
               "nodeType": "Block",
               "src": "1781:53:5",
               "statements": [
@@ -3065,24 +3065,24 @@
                       "argumentTypes": [],
                       "expression": {
                         "baseExpression": {
-                          "id": 1549,
+                          "id": 1538,
                           "name": "_roleMembers",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1499,
+                          "referencedDeclaration": 1488,
                           "src": "1799:12:5",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_AddressSet_$4306_storage_$",
+                            "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_AddressSet_$4299_storage_$",
                             "typeString": "mapping(bytes32 => struct EnumerableSet.AddressSet storage ref)"
                           }
                         },
-                        "id": 1551,
+                        "id": 1540,
                         "indexExpression": {
-                          "id": 1550,
+                          "id": 1539,
                           "name": "role",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1543,
+                          "referencedDeclaration": 1532,
                           "src": "1812:4:5",
                           "typeDescriptions": {
                             "typeIdentifier": "t_bytes32",
@@ -3096,25 +3096,25 @@
                         "nodeType": "IndexAccess",
                         "src": "1799:18:5",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_AddressSet_$4306_storage",
+                          "typeIdentifier": "t_struct$_AddressSet_$4299_storage",
                           "typeString": "struct EnumerableSet.AddressSet storage ref"
                         }
                       },
-                      "id": 1552,
+                      "id": 1541,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "length",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 4402,
+                      "referencedDeclaration": 4395,
                       "src": "1799:25:5",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_internal_view$_t_struct$_AddressSet_$4306_storage_ptr_$returns$_t_uint256_$bound_to$_t_struct$_AddressSet_$4306_storage_ptr_$",
+                        "typeIdentifier": "t_function_internal_view$_t_struct$_AddressSet_$4299_storage_ptr_$returns$_t_uint256_$bound_to$_t_struct$_AddressSet_$4299_storage_ptr_$",
                         "typeString": "function (struct EnumerableSet.AddressSet storage pointer) view returns (uint256)"
                       }
                     },
-                    "id": 1553,
+                    "id": 1542,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -3129,43 +3129,43 @@
                       "typeString": "uint256"
                     }
                   },
-                  "functionReturnParameters": 1548,
-                  "id": 1554,
+                  "functionReturnParameters": 1537,
+                  "id": 1543,
                   "nodeType": "Return",
                   "src": "1792:34:5"
                 }
               ]
             },
             "documentation": {
-              "id": 1541,
+              "id": 1530,
               "nodeType": "StructuredDocumentation",
               "src": "1534:160:5",
               "text": " @dev Returns the number of accounts that have `role`. Can be used\n together with {getRoleMember} to enumerate all bearers of a role."
             },
             "functionSelector": "ca15c873",
-            "id": 1556,
+            "id": 1545,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "getRoleMemberCount",
             "nodeType": "FunctionDefinition",
             "overrides": {
-              "id": 1545,
+              "id": 1534,
               "nodeType": "OverrideSpecifier",
               "overrides": [],
               "src": "1754:8:5"
             },
             "parameters": {
-              "id": 1544,
+              "id": 1533,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1543,
+                  "id": 1532,
                   "mutability": "mutable",
                   "name": "role",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1556,
+                  "scope": 1545,
                   "src": "1728:12:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -3174,7 +3174,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 1542,
+                    "id": 1531,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "1728:7:5",
@@ -3189,16 +3189,16 @@
               "src": "1727:14:5"
             },
             "returnParameters": {
-              "id": 1548,
+              "id": 1537,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1547,
+                  "id": 1536,
                   "mutability": "mutable",
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1556,
+                  "scope": 1545,
                   "src": "1772:7:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -3207,7 +3207,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1546,
+                    "id": 1535,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "1772:7:5",
@@ -3221,7 +3221,7 @@
               ],
               "src": "1771:9:5"
             },
-            "scope": 1659,
+            "scope": 1648,
             "src": "1700:134:5",
             "stateMutability": "view",
             "virtual": false,
@@ -3229,11 +3229,11 @@
           },
           {
             "baseFunctions": [
-              1333,
-              1715
+              1322,
+              1704
             ],
             "body": {
-              "id": 1581,
+              "id": 1570,
               "nodeType": "Block",
               "src": "2031:91:5",
               "statements": [
@@ -3241,11 +3241,11 @@
                   "expression": {
                     "arguments": [
                       {
-                        "id": 1570,
+                        "id": 1559,
                         "name": "role",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1559,
+                        "referencedDeclaration": 1548,
                         "src": "2058:4:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bytes32",
@@ -3253,11 +3253,11 @@
                         }
                       },
                       {
-                        "id": 1571,
+                        "id": 1560,
                         "name": "account",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1561,
+                        "referencedDeclaration": 1550,
                         "src": "2064:7:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -3277,32 +3277,32 @@
                         }
                       ],
                       "expression": {
-                        "id": 1567,
+                        "id": 1556,
                         "name": "super",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 4294967271,
                         "src": "2042:5:5",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_super$_AccessControlEnumerable_$1659_$",
+                          "typeIdentifier": "t_type$_t_super$_AccessControlEnumerable_$1648_$",
                           "typeString": "type(contract super AccessControlEnumerable)"
                         }
                       },
-                      "id": 1569,
+                      "id": 1558,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "grantRole",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 1333,
+                      "referencedDeclaration": 1322,
                       "src": "2042:15:5",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$_t_address_$returns$__$",
                         "typeString": "function (bytes32,address)"
                       }
                     },
-                    "id": 1572,
+                    "id": 1561,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -3317,7 +3317,7 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 1573,
+                  "id": 1562,
                   "nodeType": "ExpressionStatement",
                   "src": "2042:30:5"
                 },
@@ -3325,11 +3325,11 @@
                   "expression": {
                     "arguments": [
                       {
-                        "id": 1578,
+                        "id": 1567,
                         "name": "account",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1561,
+                        "referencedDeclaration": 1550,
                         "src": "2106:7:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -3346,24 +3346,24 @@
                       ],
                       "expression": {
                         "baseExpression": {
-                          "id": 1574,
+                          "id": 1563,
                           "name": "_roleMembers",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1499,
+                          "referencedDeclaration": 1488,
                           "src": "2083:12:5",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_AddressSet_$4306_storage_$",
+                            "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_AddressSet_$4299_storage_$",
                             "typeString": "mapping(bytes32 => struct EnumerableSet.AddressSet storage ref)"
                           }
                         },
-                        "id": 1576,
+                        "id": 1565,
                         "indexExpression": {
-                          "id": 1575,
+                          "id": 1564,
                           "name": "role",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1559,
+                          "referencedDeclaration": 1548,
                           "src": "2096:4:5",
                           "typeDescriptions": {
                             "typeIdentifier": "t_bytes32",
@@ -3377,25 +3377,25 @@
                         "nodeType": "IndexAccess",
                         "src": "2083:18:5",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_AddressSet_$4306_storage",
+                          "typeIdentifier": "t_struct$_AddressSet_$4299_storage",
                           "typeString": "struct EnumerableSet.AddressSet storage ref"
                         }
                       },
-                      "id": 1577,
+                      "id": 1566,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "add",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 4333,
+                      "referencedDeclaration": 4326,
                       "src": "2083:22:5",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_internal_nonpayable$_t_struct$_AddressSet_$4306_storage_ptr_$_t_address_$returns$_t_bool_$bound_to$_t_struct$_AddressSet_$4306_storage_ptr_$",
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_struct$_AddressSet_$4299_storage_ptr_$_t_address_$returns$_t_bool_$bound_to$_t_struct$_AddressSet_$4299_storage_ptr_$",
                         "typeString": "function (struct EnumerableSet.AddressSet storage pointer,address) returns (bool)"
                       }
                     },
-                    "id": 1579,
+                    "id": 1568,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -3410,57 +3410,57 @@
                       "typeString": "bool"
                     }
                   },
-                  "id": 1580,
+                  "id": 1569,
                   "nodeType": "ExpressionStatement",
                   "src": "2083:31:5"
                 }
               ]
             },
             "documentation": {
-              "id": 1557,
+              "id": 1546,
               "nodeType": "StructuredDocumentation",
               "src": "1842:78:5",
               "text": " @dev Overload {grantRole} to track enumerable memberships"
             },
             "functionSelector": "2f2ff15d",
-            "id": 1582,
+            "id": 1571,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "grantRole",
             "nodeType": "FunctionDefinition",
             "overrides": {
-              "id": 1565,
+              "id": 1554,
               "nodeType": "OverrideSpecifier",
               "overrides": [
                 {
-                  "id": 1563,
+                  "id": 1552,
                   "name": "AccessControl",
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 1480,
+                  "referencedDeclaration": 1469,
                   "src": "2000:13:5"
                 },
                 {
-                  "id": 1564,
+                  "id": 1553,
                   "name": "IAccessControl",
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 1732,
+                  "referencedDeclaration": 1721,
                   "src": "2015:14:5"
                 }
               ],
               "src": "1991:39:5"
             },
             "parameters": {
-              "id": 1562,
+              "id": 1551,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1559,
+                  "id": 1548,
                   "mutability": "mutable",
                   "name": "role",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1582,
+                  "scope": 1571,
                   "src": "1945:12:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -3469,7 +3469,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 1558,
+                    "id": 1547,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "1945:7:5",
@@ -3482,11 +3482,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 1561,
+                  "id": 1550,
                   "mutability": "mutable",
                   "name": "account",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1582,
+                  "scope": 1571,
                   "src": "1959:15:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -3495,7 +3495,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1560,
+                    "id": 1549,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "1959:7:5",
@@ -3511,12 +3511,12 @@
               "src": "1944:31:5"
             },
             "returnParameters": {
-              "id": 1566,
+              "id": 1555,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "2031:0:5"
             },
-            "scope": 1659,
+            "scope": 1648,
             "src": "1926:196:5",
             "stateMutability": "nonpayable",
             "virtual": true,
@@ -3524,11 +3524,11 @@
           },
           {
             "baseFunctions": [
-              1353,
-              1723
+              1342,
+              1712
             ],
             "body": {
-              "id": 1607,
+              "id": 1596,
               "nodeType": "Block",
               "src": "2321:95:5",
               "statements": [
@@ -3536,11 +3536,11 @@
                   "expression": {
                     "arguments": [
                       {
-                        "id": 1596,
+                        "id": 1585,
                         "name": "role",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1585,
+                        "referencedDeclaration": 1574,
                         "src": "2349:4:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bytes32",
@@ -3548,11 +3548,11 @@
                         }
                       },
                       {
-                        "id": 1597,
+                        "id": 1586,
                         "name": "account",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1587,
+                        "referencedDeclaration": 1576,
                         "src": "2355:7:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -3572,32 +3572,32 @@
                         }
                       ],
                       "expression": {
-                        "id": 1593,
+                        "id": 1582,
                         "name": "super",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 4294967271,
                         "src": "2332:5:5",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_super$_AccessControlEnumerable_$1659_$",
+                          "typeIdentifier": "t_type$_t_super$_AccessControlEnumerable_$1648_$",
                           "typeString": "type(contract super AccessControlEnumerable)"
                         }
                       },
-                      "id": 1595,
+                      "id": 1584,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "revokeRole",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 1353,
+                      "referencedDeclaration": 1342,
                       "src": "2332:16:5",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$_t_address_$returns$__$",
                         "typeString": "function (bytes32,address)"
                       }
                     },
-                    "id": 1598,
+                    "id": 1587,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -3612,7 +3612,7 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 1599,
+                  "id": 1588,
                   "nodeType": "ExpressionStatement",
                   "src": "2332:31:5"
                 },
@@ -3620,11 +3620,11 @@
                   "expression": {
                     "arguments": [
                       {
-                        "id": 1604,
+                        "id": 1593,
                         "name": "account",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1587,
+                        "referencedDeclaration": 1576,
                         "src": "2400:7:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -3641,24 +3641,24 @@
                       ],
                       "expression": {
                         "baseExpression": {
-                          "id": 1600,
+                          "id": 1589,
                           "name": "_roleMembers",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1499,
+                          "referencedDeclaration": 1488,
                           "src": "2374:12:5",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_AddressSet_$4306_storage_$",
+                            "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_AddressSet_$4299_storage_$",
                             "typeString": "mapping(bytes32 => struct EnumerableSet.AddressSet storage ref)"
                           }
                         },
-                        "id": 1602,
+                        "id": 1591,
                         "indexExpression": {
-                          "id": 1601,
+                          "id": 1590,
                           "name": "role",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1585,
+                          "referencedDeclaration": 1574,
                           "src": "2387:4:5",
                           "typeDescriptions": {
                             "typeIdentifier": "t_bytes32",
@@ -3672,25 +3672,25 @@
                         "nodeType": "IndexAccess",
                         "src": "2374:18:5",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_AddressSet_$4306_storage",
+                          "typeIdentifier": "t_struct$_AddressSet_$4299_storage",
                           "typeString": "struct EnumerableSet.AddressSet storage ref"
                         }
                       },
-                      "id": 1603,
+                      "id": 1592,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "remove",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 4360,
+                      "referencedDeclaration": 4353,
                       "src": "2374:25:5",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_internal_nonpayable$_t_struct$_AddressSet_$4306_storage_ptr_$_t_address_$returns$_t_bool_$bound_to$_t_struct$_AddressSet_$4306_storage_ptr_$",
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_struct$_AddressSet_$4299_storage_ptr_$_t_address_$returns$_t_bool_$bound_to$_t_struct$_AddressSet_$4299_storage_ptr_$",
                         "typeString": "function (struct EnumerableSet.AddressSet storage pointer,address) returns (bool)"
                       }
                     },
-                    "id": 1605,
+                    "id": 1594,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -3705,57 +3705,57 @@
                       "typeString": "bool"
                     }
                   },
-                  "id": 1606,
+                  "id": 1595,
                   "nodeType": "ExpressionStatement",
                   "src": "2374:34:5"
                 }
               ]
             },
             "documentation": {
-              "id": 1583,
+              "id": 1572,
               "nodeType": "StructuredDocumentation",
               "src": "2130:79:5",
               "text": " @dev Overload {revokeRole} to track enumerable memberships"
             },
             "functionSelector": "d547741f",
-            "id": 1608,
+            "id": 1597,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "revokeRole",
             "nodeType": "FunctionDefinition",
             "overrides": {
-              "id": 1591,
+              "id": 1580,
               "nodeType": "OverrideSpecifier",
               "overrides": [
                 {
-                  "id": 1589,
+                  "id": 1578,
                   "name": "AccessControl",
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 1480,
+                  "referencedDeclaration": 1469,
                   "src": "2290:13:5"
                 },
                 {
-                  "id": 1590,
+                  "id": 1579,
                   "name": "IAccessControl",
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 1732,
+                  "referencedDeclaration": 1721,
                   "src": "2305:14:5"
                 }
               ],
               "src": "2281:39:5"
             },
             "parameters": {
-              "id": 1588,
+              "id": 1577,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1585,
+                  "id": 1574,
                   "mutability": "mutable",
                   "name": "role",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1608,
+                  "scope": 1597,
                   "src": "2235:12:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -3764,7 +3764,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 1584,
+                    "id": 1573,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "2235:7:5",
@@ -3777,11 +3777,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 1587,
+                  "id": 1576,
                   "mutability": "mutable",
                   "name": "account",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1608,
+                  "scope": 1597,
                   "src": "2249:15:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -3790,7 +3790,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1586,
+                    "id": 1575,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "2249:7:5",
@@ -3806,12 +3806,12 @@
               "src": "2234:31:5"
             },
             "returnParameters": {
-              "id": 1592,
+              "id": 1581,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "2321:0:5"
             },
-            "scope": 1659,
+            "scope": 1648,
             "src": "2215:201:5",
             "stateMutability": "nonpayable",
             "virtual": true,
@@ -3819,11 +3819,11 @@
           },
           {
             "baseFunctions": [
-              1376,
-              1731
+              1365,
+              1720
             ],
             "body": {
-              "id": 1633,
+              "id": 1622,
               "nodeType": "Block",
               "src": "2619:97:5",
               "statements": [
@@ -3831,11 +3831,11 @@
                   "expression": {
                     "arguments": [
                       {
-                        "id": 1622,
+                        "id": 1611,
                         "name": "role",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1611,
+                        "referencedDeclaration": 1600,
                         "src": "2649:4:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bytes32",
@@ -3843,11 +3843,11 @@
                         }
                       },
                       {
-                        "id": 1623,
+                        "id": 1612,
                         "name": "account",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1613,
+                        "referencedDeclaration": 1602,
                         "src": "2655:7:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -3867,32 +3867,32 @@
                         }
                       ],
                       "expression": {
-                        "id": 1619,
+                        "id": 1608,
                         "name": "super",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 4294967271,
                         "src": "2630:5:5",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_super$_AccessControlEnumerable_$1659_$",
+                          "typeIdentifier": "t_type$_t_super$_AccessControlEnumerable_$1648_$",
                           "typeString": "type(contract super AccessControlEnumerable)"
                         }
                       },
-                      "id": 1621,
+                      "id": 1610,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "renounceRole",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 1376,
+                      "referencedDeclaration": 1365,
                       "src": "2630:18:5",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$_t_address_$returns$__$",
                         "typeString": "function (bytes32,address)"
                       }
                     },
-                    "id": 1624,
+                    "id": 1613,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -3907,7 +3907,7 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 1625,
+                  "id": 1614,
                   "nodeType": "ExpressionStatement",
                   "src": "2630:33:5"
                 },
@@ -3915,11 +3915,11 @@
                   "expression": {
                     "arguments": [
                       {
-                        "id": 1630,
+                        "id": 1619,
                         "name": "account",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1613,
+                        "referencedDeclaration": 1602,
                         "src": "2700:7:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -3936,24 +3936,24 @@
                       ],
                       "expression": {
                         "baseExpression": {
-                          "id": 1626,
+                          "id": 1615,
                           "name": "_roleMembers",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1499,
+                          "referencedDeclaration": 1488,
                           "src": "2674:12:5",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_AddressSet_$4306_storage_$",
+                            "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_AddressSet_$4299_storage_$",
                             "typeString": "mapping(bytes32 => struct EnumerableSet.AddressSet storage ref)"
                           }
                         },
-                        "id": 1628,
+                        "id": 1617,
                         "indexExpression": {
-                          "id": 1627,
+                          "id": 1616,
                           "name": "role",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1611,
+                          "referencedDeclaration": 1600,
                           "src": "2687:4:5",
                           "typeDescriptions": {
                             "typeIdentifier": "t_bytes32",
@@ -3967,25 +3967,25 @@
                         "nodeType": "IndexAccess",
                         "src": "2674:18:5",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_AddressSet_$4306_storage",
+                          "typeIdentifier": "t_struct$_AddressSet_$4299_storage",
                           "typeString": "struct EnumerableSet.AddressSet storage ref"
                         }
                       },
-                      "id": 1629,
+                      "id": 1618,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "remove",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 4360,
+                      "referencedDeclaration": 4353,
                       "src": "2674:25:5",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_internal_nonpayable$_t_struct$_AddressSet_$4306_storage_ptr_$_t_address_$returns$_t_bool_$bound_to$_t_struct$_AddressSet_$4306_storage_ptr_$",
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_struct$_AddressSet_$4299_storage_ptr_$_t_address_$returns$_t_bool_$bound_to$_t_struct$_AddressSet_$4299_storage_ptr_$",
                         "typeString": "function (struct EnumerableSet.AddressSet storage pointer,address) returns (bool)"
                       }
                     },
-                    "id": 1631,
+                    "id": 1620,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -4000,57 +4000,57 @@
                       "typeString": "bool"
                     }
                   },
-                  "id": 1632,
+                  "id": 1621,
                   "nodeType": "ExpressionStatement",
                   "src": "2674:34:5"
                 }
               ]
             },
             "documentation": {
-              "id": 1609,
+              "id": 1598,
               "nodeType": "StructuredDocumentation",
               "src": "2424:81:5",
               "text": " @dev Overload {renounceRole} to track enumerable memberships"
             },
             "functionSelector": "36568abe",
-            "id": 1634,
+            "id": 1623,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "renounceRole",
             "nodeType": "FunctionDefinition",
             "overrides": {
-              "id": 1617,
+              "id": 1606,
               "nodeType": "OverrideSpecifier",
               "overrides": [
                 {
-                  "id": 1615,
+                  "id": 1604,
                   "name": "AccessControl",
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 1480,
+                  "referencedDeclaration": 1469,
                   "src": "2588:13:5"
                 },
                 {
-                  "id": 1616,
+                  "id": 1605,
                   "name": "IAccessControl",
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 1732,
+                  "referencedDeclaration": 1721,
                   "src": "2603:14:5"
                 }
               ],
               "src": "2579:39:5"
             },
             "parameters": {
-              "id": 1614,
+              "id": 1603,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1611,
+                  "id": 1600,
                   "mutability": "mutable",
                   "name": "role",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1634,
+                  "scope": 1623,
                   "src": "2533:12:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -4059,7 +4059,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 1610,
+                    "id": 1599,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "2533:7:5",
@@ -4072,11 +4072,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 1613,
+                  "id": 1602,
                   "mutability": "mutable",
                   "name": "account",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1634,
+                  "scope": 1623,
                   "src": "2547:15:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -4085,7 +4085,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1612,
+                    "id": 1601,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "2547:7:5",
@@ -4101,12 +4101,12 @@
               "src": "2532:31:5"
             },
             "returnParameters": {
-              "id": 1618,
+              "id": 1607,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "2619:0:5"
             },
-            "scope": 1659,
+            "scope": 1648,
             "src": "2511:205:5",
             "stateMutability": "nonpayable",
             "virtual": true,
@@ -4114,10 +4114,10 @@
           },
           {
             "baseFunctions": [
-              1390
+              1379
             ],
             "body": {
-              "id": 1657,
+              "id": 1646,
               "nodeType": "Block",
               "src": "2886:92:5",
               "statements": [
@@ -4125,11 +4125,11 @@
                   "expression": {
                     "arguments": [
                       {
-                        "id": 1646,
+                        "id": 1635,
                         "name": "role",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1637,
+                        "referencedDeclaration": 1626,
                         "src": "2914:4:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bytes32",
@@ -4137,11 +4137,11 @@
                         }
                       },
                       {
-                        "id": 1647,
+                        "id": 1636,
                         "name": "account",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1639,
+                        "referencedDeclaration": 1628,
                         "src": "2920:7:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -4161,32 +4161,32 @@
                         }
                       ],
                       "expression": {
-                        "id": 1643,
+                        "id": 1632,
                         "name": "super",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 4294967271,
                         "src": "2897:5:5",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_super$_AccessControlEnumerable_$1659_$",
+                          "typeIdentifier": "t_type$_t_super$_AccessControlEnumerable_$1648_$",
                           "typeString": "type(contract super AccessControlEnumerable)"
                         }
                       },
-                      "id": 1645,
+                      "id": 1634,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "_setupRole",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 1390,
+                      "referencedDeclaration": 1379,
                       "src": "2897:16:5",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$_t_address_$returns$__$",
                         "typeString": "function (bytes32,address)"
                       }
                     },
-                    "id": 1648,
+                    "id": 1637,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -4201,7 +4201,7 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 1649,
+                  "id": 1638,
                   "nodeType": "ExpressionStatement",
                   "src": "2897:31:5"
                 },
@@ -4209,11 +4209,11 @@
                   "expression": {
                     "arguments": [
                       {
-                        "id": 1654,
+                        "id": 1643,
                         "name": "account",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1639,
+                        "referencedDeclaration": 1628,
                         "src": "2962:7:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -4230,24 +4230,24 @@
                       ],
                       "expression": {
                         "baseExpression": {
-                          "id": 1650,
+                          "id": 1639,
                           "name": "_roleMembers",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1499,
+                          "referencedDeclaration": 1488,
                           "src": "2939:12:5",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_AddressSet_$4306_storage_$",
+                            "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_AddressSet_$4299_storage_$",
                             "typeString": "mapping(bytes32 => struct EnumerableSet.AddressSet storage ref)"
                           }
                         },
-                        "id": 1652,
+                        "id": 1641,
                         "indexExpression": {
-                          "id": 1651,
+                          "id": 1640,
                           "name": "role",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1637,
+                          "referencedDeclaration": 1626,
                           "src": "2952:4:5",
                           "typeDescriptions": {
                             "typeIdentifier": "t_bytes32",
@@ -4261,25 +4261,25 @@
                         "nodeType": "IndexAccess",
                         "src": "2939:18:5",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_AddressSet_$4306_storage",
+                          "typeIdentifier": "t_struct$_AddressSet_$4299_storage",
                           "typeString": "struct EnumerableSet.AddressSet storage ref"
                         }
                       },
-                      "id": 1653,
+                      "id": 1642,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "add",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 4333,
+                      "referencedDeclaration": 4326,
                       "src": "2939:22:5",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_internal_nonpayable$_t_struct$_AddressSet_$4306_storage_ptr_$_t_address_$returns$_t_bool_$bound_to$_t_struct$_AddressSet_$4306_storage_ptr_$",
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_struct$_AddressSet_$4299_storage_ptr_$_t_address_$returns$_t_bool_$bound_to$_t_struct$_AddressSet_$4299_storage_ptr_$",
                         "typeString": "function (struct EnumerableSet.AddressSet storage pointer,address) returns (bool)"
                       }
                     },
-                    "id": 1655,
+                    "id": 1644,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -4294,41 +4294,41 @@
                       "typeString": "bool"
                     }
                   },
-                  "id": 1656,
+                  "id": 1645,
                   "nodeType": "ExpressionStatement",
                   "src": "2939:31:5"
                 }
               ]
             },
             "documentation": {
-              "id": 1635,
+              "id": 1624,
               "nodeType": "StructuredDocumentation",
               "src": "2724:79:5",
               "text": " @dev Overload {_setupRole} to track enumerable memberships"
             },
-            "id": 1658,
+            "id": 1647,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "_setupRole",
             "nodeType": "FunctionDefinition",
             "overrides": {
-              "id": 1641,
+              "id": 1630,
               "nodeType": "OverrideSpecifier",
               "overrides": [],
               "src": "2877:8:5"
             },
             "parameters": {
-              "id": 1640,
+              "id": 1629,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1637,
+                  "id": 1626,
                   "mutability": "mutable",
                   "name": "role",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1658,
+                  "scope": 1647,
                   "src": "2829:12:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -4337,7 +4337,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 1636,
+                    "id": 1625,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "2829:7:5",
@@ -4350,11 +4350,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 1639,
+                  "id": 1628,
                   "mutability": "mutable",
                   "name": "account",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1658,
+                  "scope": 1647,
                   "src": "2843:15:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -4363,7 +4363,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1638,
+                    "id": 1627,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "2843:7:5",
@@ -4379,19 +4379,19 @@
               "src": "2828:31:5"
             },
             "returnParameters": {
-              "id": 1642,
+              "id": 1631,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "2886:0:5"
             },
-            "scope": 1659,
+            "scope": 1648,
             "src": "2809:169:5",
             "stateMutability": "nonpayable",
             "virtual": true,
             "visibility": "internal"
           }
         ],
-        "scope": 1660,
+        "scope": 1649,
         "src": "281:2700:5"
       }
     ],
@@ -4403,7 +4403,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.3",
-  "updatedAt": "2022-01-07T10:42:38.428Z",
+  "updatedAt": "2022-01-07T12:15:01.507Z",
   "devdoc": {
     "details": "Extension of {AccessControl} that allows enumerating the members of each role.",
     "kind": "dev",

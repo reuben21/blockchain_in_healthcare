@@ -33,15 +33,12 @@ class ConfirmationScreen extends StatefulWidget {
 }
 
 class _ConfirmationScreenState extends State<ConfirmationScreen> {
-
-   BigInt? gasEstimate;
-   BigInt? gasPrice;
-   String? totalAmount;
-
+  BigInt? gasEstimate;
+  BigInt? gasPrice;
+  String? totalAmount;
 
   @override
   void initState() {
-
     getGasEstimate();
     super.initState();
   }
@@ -52,25 +49,22 @@ class _ConfirmationScreenState extends State<ConfirmationScreen> {
 
     super.didChangeDependencies();
   }
+
   Future<void> getGasEstimate() async {
-    var txStatus = await Provider.of<WalletModel>(context,
-        listen: false)
-        .estimateGas( widget.senderAddress,
-        widget.receiverAddress, widget.amount);
+    var txStatus = await Provider.of<WalletModel>(context, listen: false)
+        .estimateGas(
+            widget.senderAddress, widget.receiverAddress, widget.amount);
     setState(() {
       gasEstimate = txStatus['gasEstimate'];
       gasPrice = txStatus['gasPrice'];
       totalAmount = txStatus['totalAmount'];
     });
-
-
   }
 
   @override
   void dispose() {
     super.dispose();
   }
-
 
   void _showErrorDialog(String message) {
     showDialog(
@@ -97,7 +91,8 @@ class _ConfirmationScreenState extends State<ConfirmationScreen> {
       child: SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height,
-          color: Theme.of(context).colorScheme.secondary,
+          width: MediaQuery.of(context).size.width,
+          // color: Theme.of(context).colorScheme.secondary,
           child: Padding(
             padding: const EdgeInsets.all(25.0),
             child: Center(
@@ -117,31 +112,131 @@ class _ConfirmationScreenState extends State<ConfirmationScreen> {
                   const SizedBox(
                     height: 15,
                   ),
-                  Flexible(
-                    fit: FlexFit.loose,
+                  Container(
+                    height: 90,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Theme.of(context).colorScheme.primary,
+                            Colors.purpleAccent.withOpacity(0.9),
+                            // Colors.lightBlueAccent,
+                          ]),
+                      borderRadius: BorderRadius.circular(9),
+                    ),
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "From: " + widget.senderAddress,
-                        style: Theme.of(context).textTheme.bodyText1,
-                        textAlign: TextAlign.left,
+                      padding: EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Row(
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'From',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                    ),
+                                    overflow: TextOverflow.fade,
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Container(
+                                    height: 40,
+                                    // heightheight: 60,
+                                    width: 120,
+                                    child: Text(
+                                      widget.senderAddress,
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          Container(
+                            // width: 30,
+                            height: 60,
+                            child: Row(
+                              children: [
+                                VerticalDivider(
+                                  color: Colors.white,
+                                  thickness: 2,
+                                ),
+                              ],
+                            ),
+                          ),
+                          // Row()
+                          Row(
+                            children: [
+                              Column(
+                                children: [
+                                  const Text(
+                                    'To:',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Container(
+                                    height: 40,
+                                    // heightheight: 60,
+                                    width: 120,
+                                    child: Text(
+                                      widget.receiverAddress,
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  // Text(
+                                  //   widget.senderAddress,
+                                  //   overflow: TextOverflow.ellipsis,
+                                  // ),
+                                ],
+                              ),
+                            ],
+                          )
+                        ],
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Flexible(
-                    fit: FlexFit.loose,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "To: " + widget.receiverAddress,
-                        style: Theme.of(context).textTheme.bodyText1,
-                        textAlign: TextAlign.left,
-                      ),
-                    ),
-                  ),
+                  // Flexible(
+                  //   fit: FlexFit.loose,
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.all(8.0),
+                  //     child: Text(
+                  //       "From: " + widget.senderAddress,
+                  //       style: Theme.of(context).textTheme.bodyText1,
+                  //       textAlign: TextAlign.left,
+                  //     ),
+                  //   ),
+                  // ),
+                  // const SizedBox(
+                  //   height: 15,
+                  // ),
+                  // Flexible(
+                  //   fit: FlexFit.loose,
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.all(8.0),
+                  //     child: Text(
+                  //       "To: " + widget.receiverAddress,
+                  //       style: Theme.of(context).textTheme.bodyText1,
+                  //       textAlign: TextAlign.left,
+                  //     ),
+                  //   ),
+                  // ),
                   const SizedBox(
                     height: 15,
                   ),
@@ -172,7 +267,6 @@ class _ConfirmationScreenState extends State<ConfirmationScreen> {
                       ),
                     ],
                   ),
-
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -192,7 +286,7 @@ class _ConfirmationScreenState extends State<ConfirmationScreen> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            gasEstimate.toString()+" units",
+                            gasEstimate.toString() + " units",
                             style: Theme.of(context).textTheme.bodyText1,
                             textAlign: TextAlign.left,
                           ),
@@ -219,7 +313,7 @@ class _ConfirmationScreenState extends State<ConfirmationScreen> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            gasPrice.toString()+" Wei",
+                            gasPrice.toString() + " Wei",
                             style: Theme.of(context).textTheme.bodyText1,
                             textAlign: TextAlign.left,
                           ),
@@ -249,7 +343,7 @@ class _ConfirmationScreenState extends State<ConfirmationScreen> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            totalAmount.toString()+" ETH",
+                            totalAmount.toString() + " ETH",
                             style: Theme.of(context).textTheme.bodyText1,
                             textAlign: TextAlign.left,
                           ),
@@ -263,47 +357,43 @@ class _ConfirmationScreenState extends State<ConfirmationScreen> {
                   FloatingActionButton.extended(
                     backgroundColor: Theme.of(context).colorScheme.primary,
                     foregroundColor: Theme.of(context).colorScheme.secondary,
-                    onPressed:  () async {
+                    onPressed: () async {
                       Credentials credentialsNew;
                       EthereumAddress myAddress;
 
-                        String amount = widget.amount;
-                        String receiverAddress = widget.receiverAddress;
-                        String password = widget.password;
-                        // var dbResponse =
-                        // await DBProviderWallet.db.getWalletByWalletAddress(widget.address);
-                        // print(dbResponse);
+                      String amount = widget.amount;
+                      String receiverAddress = widget.receiverAddress;
+                      String password = widget.password;
+                      // var dbResponse =
+                      // await DBProviderWallet.db.getWalletByWalletAddress(widget.address);
+                      // print(dbResponse);
 
-                        if (true) {
-                          final box = Boxes.getWallets();
-                          var dbResponse =
-                          box.values.toList().cast<WalletHive>();
+                      if (true) {
+                        final box = Boxes.getWallets();
+                        var dbResponse = box.values.toList().cast<WalletHive>();
 
-                          Wallet newWallet = Wallet.fromJson(
-                              dbResponse[0].walletEncryptedKey, password);
-                          credentialsNew = newWallet.privateKey;
-                          myAddress = await credentialsNew.extractAddress();
-                          print(myAddress);
-                          var txStatus = await Provider.of<WalletModel>(context,
-                              listen: false)
-                              .transferEther(credentialsNew, myAddress.hex,
-                              receiverAddress, amount);
-                          if (txStatus) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    TabsScreen(),
-                              ),
-                            );
-                          }
+                        Wallet newWallet = Wallet.fromJson(
+                            dbResponse[0].walletEncryptedKey, password);
+                        credentialsNew = newWallet.privateKey;
+                        myAddress = await credentialsNew.extractAddress();
+                        print(myAddress);
+                        var txStatus = await Provider.of<WalletModel>(context,
+                                listen: false)
+                            .transferEther(credentialsNew, myAddress.hex,
+                                receiverAddress, amount);
+                        if (txStatus) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TabsScreen(),
+                            ),
+                          );
                         }
                       }
-                    ,
+                    },
                     icon: const Icon(Icons.add_circle_outline_outlined),
                     label: const Text('Confirm Pay'),
                   )
-
                 ],
               ),
             ),
