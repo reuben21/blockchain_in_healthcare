@@ -1,0 +1,26 @@
+{
+  "name": "bic_node_ipfs",
+  "version": "1.0.0",
+  "main": "app.js",
+  "description": "Make API-Endpoints for IPFS and IPNS",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js",
+    "start-server": "node app.js"
+  },
+  "author": "Reuben Coutinho",
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^2.0.14"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "csurf": "^1.11.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.16.2",
+    "express-session": "^1.17.2",
+    "ipfs-http-client": "^55.0.0",
+    "jquery": "^3.3.1",
+    "jsonwebtoken": "^8.5.1"
+  }
+}

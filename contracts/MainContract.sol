@@ -17,19 +17,9 @@ contract MainContract is AccessControl {
         string newMedicalRecordHash;
         string[] previousPatientPrescriptionHashes;
         string newPatientPrescriptionHashes;
+       
     }
 
-    struct prescription {
-        uint256 id;
-        uint256 date;
-        string[] name;
-        uint8[] quantity;
-    }
-
-    // struct medicine {
-    //     uint256 id;
-
-    // }
 
     struct doctorRecord {
         string name;
@@ -78,6 +68,7 @@ contract MainContract is AccessControl {
     //: PATIENT DATABASE
     mapping(address => patientRecord) patientDatabase;
 
+
     function storePatient(
         string memory _name,
         string memory _personalDetails,
@@ -123,6 +114,8 @@ contract MainContract is AccessControl {
 
         return true;
     }
+
+   
 
     function retrievePatientCount()
         external
@@ -285,7 +278,7 @@ contract MainContract is AccessControl {
         return true;
     }
 
-    function changeHospitalForDoctor(
+     function changeHospitalForDoctor(
         address _previousHospitalAddress,
         address _newHospitalAddress,
         address _walletAddress
