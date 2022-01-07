@@ -1,12 +1,12 @@
 const IPFS = require('ipfs-http-client');
 
-const ipfs = IPFS.create();
+const ipfs = IPFS.create('http://127.0.0.1:5001');
 
 
 exports.ipfsAdd = async (req, res, next) => { 
  const doc = JSON.stringify({
     foo: "bar",
-    tic: "tac"
+    tic: ["reuben","data"]
   });
   
    const cid  = await ipfs.add(doc);
@@ -17,3 +17,10 @@ exports.ipfsAdd = async (req, res, next) => {
    });
 
 }
+
+
+
+  
+
+  
+
