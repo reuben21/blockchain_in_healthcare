@@ -262,135 +262,147 @@ class _WalletViewState extends State<WalletView> {
                                     children: [
                                       HStack(
                                         [
-                                          ElevatedButton.icon(
-                                            icon: Image.asset(
-                                                "assets/icons/pay-100.png",
-                                                color: Theme.of(context)
-                                                    .colorScheme.secondary,
-                                                width: 32,
-                                                height: 32),
-                                            style: ElevatedButton.styleFrom(
-                                              elevation: 0.0,
-                                              primary:
-                                              Colors.red.withOpacity(0),
-                                              shape:
-                                              RoundedRectangleBorder(
-                                                  borderRadius:
-                                                  BorderRadius.all(
-                                                    Radius.circular(20),
+                                          SizedBox(
+                                            width: 125,
+                                            height: 45,
+                                            child: ElevatedButton.icon(
+                                              icon: Image.asset(
+                                                  "assets/icons/pay-100.png",
+                                                  color: Theme.of(context)
+                                                      .colorScheme.secondary,
+                                                  width: 32,
+                                                  height: 32),
+                                              style: ElevatedButton.styleFrom(
+                                                elevation: 0.0,
+                                                primary:
+                                                Colors.red.withOpacity(0),
+                                                shape:
+                                                RoundedRectangleBorder(
+                                                    borderRadius:
+                                                    const BorderRadius.all(
+                                                      Radius.circular(5),
+                                                    ),
+                                                    side: BorderSide(
+                                                        color: Theme.of(context).colorScheme.secondary)),
+                                              ),
+                                              onPressed: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        TransferScreen(
+                                                          address: walletAdd,
+                                                        ),
                                                   ),
-                                                  side: BorderSide(
-                                                      color: Theme.of(context).colorScheme.secondary)),
+                                                );
+                                              },
+                                              label: const Text('Transfer'),
                                             ),
-                                            onPressed: () {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      TransferScreen(
-                                                        address: walletAdd,
-                                                      ),
-                                                ),
-                                              );
-                                            },
-                                            label: const Text('Send'),
                                           ),
 
-                                          ElevatedButton(
+                                          SizedBox(
+                                            width: 70,
+                                            height: 40,
+                                            child: ElevatedButton(
 
-                                            onPressed: () async {
-                                              const snackBar = SnackBar(
-                                                  content: Text(
-                                                      'Balance Refreshed'));
-                                              await getAccountBalance(
-                                                  walletAdd);
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(snackBar);
-                                            },
-                                            
-                                            child: Image.asset(
-                                                "assets/icons/refresh-100.png",
-                                                color:Theme.of(context).colorScheme.secondary,
-                                                width: 25,
-                                                fit: BoxFit.fill,
-                                                height: 25),
-                                            style:  ElevatedButton.styleFrom(
-                                              elevation: 0.0,
-                                              primary:
-                                              Colors.red.withOpacity(0),
-                                              shape:CircleBorder(side: BorderSide(
-                                                  color: Theme.of(context).colorScheme.secondary))
+                                              onPressed: () async {
+                                                const snackBar = SnackBar(
+                                                    content: Text(
+                                                        'Balance Refreshed'));
+                                                await getAccountBalance(
+                                                    walletAdd);
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(snackBar);
+                                              },
 
+                                              child: Image.asset(
+                                                  "assets/icons/refresh-100.png",
+                                                  color:Theme.of(context).colorScheme.secondary,
+                                                  width: 80,
+                                                  fit: BoxFit.scaleDown,
+                                                  height: 80),
+                                              style:  ElevatedButton.styleFrom(
+                                                elevation: 0.0,
+                                                primary:
+                                                Colors.red.withOpacity(0),
+                                                shape:CircleBorder(side: BorderSide(
+                                                    color: Theme.of(context).colorScheme.secondary))
+
+                                              ),
                                             ),
                                           ),
-                                          ElevatedButton.icon(
-                                            icon: Image.asset(
-                                                "assets/icons/qr-code-100.png",
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .secondary,
-                                                width: 32,
-                                                height: 32),
-                                            style: ElevatedButton.styleFrom(
-                                              elevation: 0.0,
-                                              primary:
-                                                  Colors.red.withOpacity(0),
-                                              shape:
-                                                   RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                        Radius.circular(20),
+                                          SizedBox(
+                                            width: 125,
+                                            height: 45,
+                                            child: ElevatedButton.icon(
+                                              icon: Image.asset(
+                                                  "assets/icons/qr-code-100.png",
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .secondary,
+                                                  width: 32,
+                                                  height: 32),
+                                              style: ElevatedButton.styleFrom(
+                                                elevation: 0.0,
+                                                primary:
+                                                    Colors.red.withOpacity(0),
+                                                shape:
+                                                     RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            const BorderRadius.all(
+                                                          Radius.circular(5),
+                                                        ),
+                                                        side: BorderSide(
+                                                            color: Theme.of(context).colorScheme.secondary)),
+                                              ),
+                                              onPressed: () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (ctx) => AlertDialog(
+                                                    backgroundColor:
+                                                        Theme.of(context)
+                                                            .colorScheme
+                                                            .secondary,
+                                                    title: Text(
+                                                      "Show the QR Code",
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyText1,
+                                                    ),
+                                                    content: Container(
+                                                      width: 200,
+                                                      height: 240,
+                                                      child: Center(
+                                                        child: Column(
+                                                          children: [
+                                                            QrImage(
+                                                              data: walletAdd ==
+                                                                      "Select Account"
+                                                                  ? ""
+                                                                  : "ethereum:" +
+                                                                      walletAdd,
+                                                              version:
+                                                                  QrVersions.auto,
+                                                              size: 200.0,
+                                                            ),
+                                                            Text(walletAdd)
+                                                          ],
+                                                        ),
                                                       ),
-                                                      side: BorderSide(
-                                                          color: Theme.of(context).colorScheme.secondary)),
+                                                    ),
+                                                    actions: <Widget>[
+                                                      ElevatedButton(
+                                                        onPressed: () {
+                                                          Navigator.of(ctx).pop();
+                                                        },
+                                                        child: const Text("okay"),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                );
+                                              },
+                                              label: const Text('QR Code'),
                                             ),
-                                            onPressed: () {
-                                              showDialog(
-                                                context: context,
-                                                builder: (ctx) => AlertDialog(
-                                                  backgroundColor:
-                                                      Theme.of(context)
-                                                          .colorScheme
-                                                          .secondary,
-                                                  title: Text(
-                                                    "Show the QR Code",
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyText1,
-                                                  ),
-                                                  content: Container(
-                                                    width: 200,
-                                                    height: 240,
-                                                    child: Center(
-                                                      child: Column(
-                                                        children: [
-                                                          QrImage(
-                                                            data: walletAdd ==
-                                                                    "Select Account"
-                                                                ? ""
-                                                                : "ethereum:" +
-                                                                    walletAdd,
-                                                            version:
-                                                                QrVersions.auto,
-                                                            size: 200.0,
-                                                          ),
-                                                          Text(walletAdd)
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  actions: <Widget>[
-                                                    ElevatedButton(
-                                                      onPressed: () {
-                                                        Navigator.of(ctx).pop();
-                                                      },
-                                                      child: const Text("okay"),
-                                                    ),
-                                                  ],
-                                                ),
-                                              );
-                                            },
-                                            label: Text('Receiver'),
                                           )
                                         ],
                                         alignment:
