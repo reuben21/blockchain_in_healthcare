@@ -1,6 +1,7 @@
 // import 'package:bic_android_web_support/providers/credentials.dart';
 import 'package:bic_android_web_support/providers/crypto_api.dart';
 import 'package:bic_android_web_support/screens/screens_wallet/transaction_list.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:bic_android_web_support/databases/boxes.dart';
 import 'package:bic_android_web_support/databases/hive_database.dart';
@@ -209,7 +210,8 @@ class _WalletViewState extends State<WalletView> {
                               // mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.all(28.0),
+                                  padding: const EdgeInsets.fromLTRB(
+                                      40.0, 28.0, 70.0, 28.0),
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -233,18 +235,26 @@ class _WalletViewState extends State<WalletView> {
                                         ),
                                       ),
                                       Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
                                         children: [
                                           Text(
                                             balanceOfAccount == "null"
                                                 ? "0 ETH"
                                                 : "$balanceOfAccount ETH",
-                                            style: TextStyle(fontSize: 25),
+                                            style: TextStyle(
+                                                color: Colors.black54,
+                                                fontSize: 25,
+                                                fontWeight: FontWeight.bold),
                                           ),
                                           Text(
                                             balanceOfAccountInRs == "null"
                                                 ? "0 Rs"
                                                 : "$balanceOfAccountInRs Rs",
-                                            style: TextStyle(fontSize: 18),
+                                            style: TextStyle(
+                                                color: Colors.black54,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold),
                                           ),
                                         ],
                                       ),
