@@ -4,27 +4,28 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import '../helpers/http_exception.dart' as exception;
+import '../helpers/keys.dart' as keys;
 
 class IPFSModel with ChangeNotifier {
-  Future<void> sendData() async {
-    Map<String, Object> objText = {
-      "firstName": "Rhea",
-      "lastName": "Coutinho",
-      "lastName2": "Coutinho",
-      "lastName3": "Coutinho",
-      "lastName4": "Coutinho",
-      "age": 30
-    };
 
+  // TO SEND JSON FILE INTO THIS FUNCTION, ANY JSON IN ANY FORMAT
+  // Map<String, Object> objText = {
+  //   "firstName": "Rhea",
+  //   "lastName": "Coutinho",
+  //   "lastName2": "Coutinho",
+  //   "lastName3": "Coutinho",
+  //   "lastName4": ["Coutinho",  "Coutinho", "Coutinho"],
+  //   "age": 30
+  // };
+  Future<String> sendData(Map<String, dynamic> objText) async {
     print(objText.toString());
-
     try {
       // var hash = await ipfs.add(http.MultipartFile.fromString(objText.toString(), objText.toString()));
 
       // print(hash);
 
       var request = http.MultipartRequest(
-          "POST", Uri.parse('http://10.0.2.2:5001/api/v0/add'));
+          "POST", Uri.parse('${keys.getIpfsUrl}/api/v0/add'));
       var encodedData = json.encode(objText);
 
       print(encodedData);
@@ -32,9 +33,10 @@ class IPFSModel with ChangeNotifier {
       request.fields['Data'] = encodedData;
       http.Response response =
           await http.Response.fromStream(await request.send());
+      final extractedData = json.decode(response.body);
 
-      print('Uploaded! ${response.body} ++ ${response.statusCode}');
-      print(response);
+
+      return extractedData['Hash'];
     } on SocketException {
       throw exception.HttpException("No Internet connection 😑");
     } on HttpException {
@@ -47,34 +49,38 @@ class IPFSModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> receiveData() async {
-    try {
-      final url = Uri.parse(
-          "http://10.0.2.2:5001/api/v0/object/get?arg=QmeegoPCfrPnGSJ8s5UJTuBzSB5cMo8hqBaF1VqTq5yepz");
+  Future<Map<String, dynamic>?> receiveData(String hash) async {
+    if(hash.isNotEmpty) {
+      try {
+        final url = Uri.parse(
+            "${keys.getIpfsUrlForReceivingData}${hash}");
 
-      final response = await http.post(url);
-      // final List<OrderItem> loadedOrders = [];
+        final response = await http.get(url);
+        // print(response.body);
 
-      final extractedData = json.decode(response.body) as Map<String, dynamic>;
-      print(extractedData);
-      if (extractedData == null) {
-        return;
+
+        final extractedData = json.decode(response.body);
+
+        if (extractedData == null) {
+          Map<String, Object> obj = {
+            "STATUS": "Null"
+          };
+          return obj;
+        }
+
+        return extractedData as Map<String,dynamic>;
+
+      } on SocketException {
+        throw exception.HttpException("No Internet connection 😑");
+      } on HttpException {
+        throw exception.HttpException("Couldn't find the post 😱");
+      } on FormatException {
+        throw exception.HttpException("Bad response format 👎");
+      } catch (error) {
+        throw exception.HttpException(error.toString());
       }
-      final data = extractedData["Data"]
-          .toString()
-          .substring(4, extractedData["Data"].toString().length - 2);
-      print(data);
-      final decodedData = json.decode(data.toString()) as Map<String, dynamic>;
-      print(decodedData["firstName"]);
-    } on SocketException {
-      throw exception.HttpException("No Internet connection 😑");
-    } on HttpException {
-      throw exception.HttpException("Couldn't find the post 😱");
-    } on FormatException {
-      throw exception.HttpException("Bad response format 👎");
-    } catch (error) {
-      throw exception.HttpException(error.toString());
     }
+
     notifyListeners();
   }
 }
