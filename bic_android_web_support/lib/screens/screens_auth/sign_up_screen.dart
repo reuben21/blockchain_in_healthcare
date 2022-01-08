@@ -358,27 +358,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 height: 25),
                             label: const Text('Log In'),
                           ),
-                          FloatingActionButton.extended(
-                            heroTag: "logInButtonOnSignUpScreen",
-                            backgroundColor:
-                                Theme.of(context).colorScheme.primary,
-                            foregroundColor:
-                                Theme.of(context).colorScheme.secondary,
-                            onPressed: () async {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => LoginScreen(),
-                                ),
-                              );
-                            },
-                            icon: Image.asset("assets/icons/sign_in.png",
-                                color: Theme.of(context).colorScheme.secondary,
-                                width: 25,
-                                fit: BoxFit.fill,
-                                height: 25),
-                            label: const Text('Log In'),
-                          ),
                         ],
                       ),
                       const SizedBox(
