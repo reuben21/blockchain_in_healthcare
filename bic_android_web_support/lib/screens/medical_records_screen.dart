@@ -56,11 +56,9 @@ class _MedicalRecordScreenState extends State<MedicalRecordScreen> {
 
       MsgSignature _msgSignature = sign(messageHash, privateKeyInt);
 
-
       MsgSignature _msgSignature2 = MsgSignature(_msgSignature.r, _msgSignature.s, _msgSignature.v);
 
       Uint8List publicKey = privateKeyBytesToPublic(privateKeyInt);
-
 
       print(isValidSignature(messageHash,_msgSignature2,publicKey).toString());
 
@@ -118,8 +116,17 @@ class _MedicalRecordScreenState extends State<MedicalRecordScreen> {
                 foregroundColor:
                 Theme.of(context).colorScheme.primary,
                 onPressed: () async {
-                  var connection = await Provider.of<IPFSModel>(context,listen: false).sendData();
-                },
+                  Map<String, dynamic> objText = {
+                    "firstName": "Rhea",
+                    "lastName": "Coutinho",
+                    "lastName2": "Coutinho",
+                    "lastName3": "Coutinho",
+                    "lastName4": ["Coutinho",  "Coutinho", "Coutinho"],
+                    "age": 30
+                  };
+                  var hashReceived = await Provider.of<IPFSModel>(context,listen: false).sendData(objText);
+                  print("hashReceived ------"+hashReceived.toString());
+                  },
                 icon: const Icon(Icons.qr_code_scanner),
                 label: const Text('Send'),
               ),
@@ -129,8 +136,8 @@ class _MedicalRecordScreenState extends State<MedicalRecordScreen> {
                 foregroundColor:
                 Theme.of(context).colorScheme.primary,
                 onPressed: () async {
-                  var connection = await Provider.of<IPFSModel>(context,listen: false).receiveData();
-
+                  var dataReceived = await Provider.of<IPFSModel>(context,listen: false).receiveData("Qmag49qRfLCsyDcBgkp7bf21ox4HgnEgHuYxKxjTjodbmx");
+                  print("dataReceived ------"+dataReceived!['firstName']);
                 },
                 icon: const Icon(Icons.qr_code_scanner),
                 label: const Text('Receive'),
