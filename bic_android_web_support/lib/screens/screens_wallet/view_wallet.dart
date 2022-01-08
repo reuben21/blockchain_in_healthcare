@@ -215,16 +215,13 @@ class _WalletViewState extends State<WalletView> {
                                       Container(
                                         width: 60,
                                         height: 60,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .secondary,
-                                          image: const DecorationImage(
-                                              image: AssetImage(
-                                                  'assets/icons/ethereum.png'),
-                                              fit: BoxFit.contain),
-                                        ),
+                                        child: Image.asset(
+                                            "assets/icons/ethereum-500.png",
+                                            color: Theme.of(context)
+                                                .colorScheme.secondary,
+                                            width: 32,
+                                            height: 32),
+
                                       ),
                                       Column(
                                         crossAxisAlignment:
@@ -234,8 +231,8 @@ class _WalletViewState extends State<WalletView> {
                                             balanceOfAccount == "null"
                                                 ? "0 ETH"
                                                 : "$balanceOfAccount ETH",
-                                            style: const TextStyle(
-                                                color: Colors.black54,
+                                            style: TextStyle(
+                                                color: Theme.of(context).colorScheme.secondary,
                                                 fontSize: 25,
                                                 fontWeight: FontWeight.bold),
                                           ),
@@ -243,8 +240,8 @@ class _WalletViewState extends State<WalletView> {
                                             balanceOfAccountInRs == "null"
                                                 ? "0 Rs"
                                                 : "$balanceOfAccountInRs Rs",
-                                            style: const TextStyle(
-                                                color: Colors.black54,
+                                            style:  TextStyle(
+                                                color: Theme.of(context).colorScheme.secondary,
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.bold),
                                           ),
