@@ -120,12 +120,12 @@ contract MainContract is AccessControl {
         return true;
     }
  function updatePatientPrescriptionHash(
-        string memory _personalDetails,
+        string memory newPatientPrescriptionHashes,
         address _walletAddress
     ) external returns (bool status) {
         if (hasRole(VERIFIED_PATIENT, _walletAddress)) {
 
-            patientDatabase[_walletAddress].personalDetails = _personalDetails;
+            patientDatabase[_walletAddress].newPatientPrescriptionHashes = newPatientPrescriptionHashes;
         
         }
 
