@@ -188,7 +188,7 @@ class _WalletViewState extends State<WalletView> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
-                            height: 180,
+                            height: 200,
                             width: double.infinity,
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
@@ -249,160 +249,167 @@ class _WalletViewState extends State<WalletView> {
                                     ],
                                   ),
                                 ),
-                                Row(
-                                  children: [
-                                    HStack(
-                                      [
-                                        FloatingActionButton.extended(
-                                          heroTag: "sendButton",
-                                          backgroundColor: Theme.of(context)
-                                              .colorScheme
-                                              .secondary,
-                                          foregroundColor: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                          onPressed: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    TransferScreen(
-                                                  address: dropDownCurrentValue,
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                          icon: Image.asset(
-                                              "assets/icons/pay-100.png",
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                              width: 32,
-                                              height: 32),
-                                          label: const Text('Send'),
-                                        ),
-                                        // Container(
-                                        //   margin: EdgeInsets.symmetric(vertical: 5),
-                                        //   width: 90,
-                                        //   child: ClipRRect(
-                                        //       borderRadius: BorderRadius.circular(29),
-                                        //       child: ElevatedButton(
-                                        //         child: Text(
-                                        //           'text',
-                                        //           style: TextStyle(
-                                        //               color: Theme.of(context)
-                                        //                   .colorScheme
-                                        //                   .primary),
-                                        //         ),
-                                        //         onPressed: () {},
-                                        //         style: ElevatedButton.styleFrom(
-                                        //             primary: Theme.of(context)
-                                        //                 .colorScheme
-                                        //                 .primary,
-                                        //             padding: EdgeInsets.symmetric(
-                                        //                 horizontal: 10, vertical: 10),
-                                        //             textStyle: TextStyle(
-                                        //                 color: Theme.of(context)
-                                        //                     .colorScheme
-                                        //                     .primary,
-                                        //                 fontSize: 14,
-                                        //                 fontWeight: FontWeight.w500)),
-                                        //       )),
-                                        // ),
-                                        ElevatedButton(
-                                          onPressed: () async {
-                                            const snackBar = SnackBar(
-                                                content:
-                                                    Text('Balance Refreshed'));
-                                            await getAccountBalance(
-                                                dropDownCurrentValue);
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(snackBar);
-                                          },
-                                          child: Image.asset(
-                                              "assets/icons/refresh-100.png",
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                              width: 25,
-                                              fit: BoxFit.fill,
-                                              height: 25),
-                                          style: ElevatedButton.styleFrom(
-                                            shape: CircleBorder(),
-                                            padding: EdgeInsets.all(14),
-                                            primary: Theme.of(context)
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      HStack(
+                                        [
+                                          FloatingActionButton.extended(
+                                            heroTag: "sendButton",
+                                            backgroundColor: Theme.of(context)
                                                 .colorScheme
                                                 .secondary,
-                                            onPrimary: Colors.black,
-                                          ),
-                                        ),
-
-                                        FloatingActionButton.extended(
-                                          heroTag: "qrCodeButton",
-                                          backgroundColor: Theme.of(context)
-                                              .colorScheme
-                                              .secondary,
-                                          foregroundColor: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                          onPressed: () {
-                                            showDialog(
-                                              context: context,
-                                              builder: (ctx) => AlertDialog(
-                                                backgroundColor:
-                                                    Theme.of(context)
-                                                        .colorScheme
-                                                        .secondary,
-                                                title: Text(
-                                                  "Show the QR Code",
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyText1,
+                                            foregroundColor: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            onPressed: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      TransferScreen(
+                                                    address:
+                                                        dropDownCurrentValue,
+                                                  ),
                                                 ),
-                                                content: Container(
-                                                  width: 200,
-                                                  height: 240,
-                                                  child: Center(
-                                                    child: Column(
-                                                      children: [
-                                                        QrImage(
-                                                          data: dropDownCurrentValue ==
-                                                                  "Select Account"
-                                                              ? ""
-                                                              : "ethereum:" +
-                                                                  dropDownCurrentValue,
-                                                          version:
-                                                              QrVersions.auto,
-                                                          size: 200.0,
-                                                        ),
-                                                        Text(
-                                                            dropDownCurrentValue)
-                                                      ],
+                                              );
+                                            },
+                                            icon: Image.asset(
+                                                "assets/icons/pay-100.png",
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                                width: 32,
+                                                height: 32),
+                                            label: const Text('Send'),
+                                          ),
+                                          // Container(
+                                          //   margin: EdgeInsets.symmetric(vertical: 5),
+                                          //   width: 90,
+                                          //   child: ClipRRect(
+                                          //       borderRadius: BorderRadius.circular(29),
+                                          //       child: ElevatedButton(
+                                          //         child: Text(
+                                          //           'text',
+                                          //           style: TextStyle(
+                                          //               color: Theme.of(context)
+                                          //                   .colorScheme
+                                          //                   .primary),
+                                          //         ),
+                                          //         onPressed: () {},
+                                          //         style: ElevatedButton.styleFrom(
+                                          //             primary: Theme.of(context)
+                                          //                 .colorScheme
+                                          //                 .primary,
+                                          //             padding: EdgeInsets.symmetric(
+                                          //                 horizontal: 10, vertical: 10),
+                                          //             textStyle: TextStyle(
+                                          //                 color: Theme.of(context)
+                                          //                     .colorScheme
+                                          //                     .primary,
+                                          //                 fontSize: 14,
+                                          //                 fontWeight: FontWeight.w500)),
+                                          //       )),
+                                          // ),
+                                          ElevatedButton(
+                                            onPressed: () async {
+                                              const snackBar = SnackBar(
+                                                  content: Text(
+                                                      'Balance Refreshed'));
+                                              await getAccountBalance(
+                                                  dropDownCurrentValue);
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(snackBar);
+                                            },
+                                            child: Image.asset(
+                                                "assets/icons/refresh-100.png",
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                                width: 25,
+                                                fit: BoxFit.fill,
+                                                height: 25),
+                                            style: ElevatedButton.styleFrom(
+                                              shape: CircleBorder(),
+                                              padding: EdgeInsets.all(14),
+                                              primary: Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary,
+                                              onPrimary: Colors.black,
+                                            ),
+                                          ),
+
+                                          FloatingActionButton.extended(
+                                            heroTag: "qrCodeButton",
+                                            backgroundColor: Theme.of(context)
+                                                .colorScheme
+                                                .secondary,
+                                            foregroundColor: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            onPressed: () {
+                                              showDialog(
+                                                context: context,
+                                                builder: (ctx) => AlertDialog(
+                                                  backgroundColor:
+                                                      Theme.of(context)
+                                                          .colorScheme
+                                                          .secondary,
+                                                  title: Text(
+                                                    "Show the QR Code",
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyText1,
+                                                  ),
+                                                  content: Container(
+                                                    width: 200,
+                                                    height: 240,
+                                                    child: Center(
+                                                      child: Column(
+                                                        children: [
+                                                          QrImage(
+                                                            data: dropDownCurrentValue ==
+                                                                    "Select Account"
+                                                                ? ""
+                                                                : "ethereum:" +
+                                                                    dropDownCurrentValue,
+                                                            version:
+                                                                QrVersions.auto,
+                                                            size: 200.0,
+                                                          ),
+                                                          Text(
+                                                              dropDownCurrentValue)
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
+                                                  actions: <Widget>[
+                                                    ElevatedButton(
+                                                      onPressed: () {
+                                                        Navigator.of(ctx).pop();
+                                                      },
+                                                      child: const Text("okay"),
+                                                    ),
+                                                  ],
                                                 ),
-                                                actions: <Widget>[
-                                                  ElevatedButton(
-                                                    onPressed: () {
-                                                      Navigator.of(ctx).pop();
-                                                    },
-                                                    child: const Text("okay"),
-                                                  ),
-                                                ],
-                                              ),
-                                            );
-                                          },
-                                          icon: Image.asset(
-                                              "assets/icons/qr-code-100.png",
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                              width: 32,
-                                              height: 32),
-                                          label: const Text('Receive'),
-                                        ),
-                                      ],
-                                      alignment: MainAxisAlignment.spaceAround,
-                                      axisSize: MainAxisSize.max,
-                                    ),
-                                  ],
+                                              );
+                                            },
+                                            icon: Image.asset(
+                                                "assets/icons/qr-code-100.png",
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                                width: 32,
+                                                height: 32),
+                                            label: const Text('Receive'),
+                                          ),
+                                        ],
+                                        alignment:
+                                            MainAxisAlignment.spaceAround,
+                                        axisSize: MainAxisSize.max,
+                                      ),
+                                    ],
+                                  ),
                                 )
                               ],
                             ),
