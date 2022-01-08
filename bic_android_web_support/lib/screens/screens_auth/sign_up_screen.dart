@@ -38,7 +38,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   FirebaseAuth auth = FirebaseAuth.instance;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
-
   @override
   void initState() {
     // SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge, overlays: []);
@@ -52,10 +51,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   final _formKey = GlobalKey<FormBuilderState>();
 
-  void _submit(String name, String emailId, String password, String userType) async {
+  void _submit(
+      String name, String emailId, String password, String userType) async {
     await Hive.openBox<WalletHive>('WalletHive');
     try {
-      print(name+" "+emailId+" "+password+" "+userType);
+      print(name + " " + emailId + " " + password + " " + userType);
       auth
           .createUserWithEmailAndPassword(email: emailId, password: password)
           .then((value) async => {
@@ -63,7 +63,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   {
                     await Provider.of<WalletModel>(context, listen: false)
                         .createWalletInternally(
-                            name, emailId, value.user?.uid, password,userType)
+                            name, emailId, value.user?.uid, password, userType)
 
                     // _showErrorDialog("Wallet Has Been Created");
                   }
@@ -184,8 +184,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     child: formBuilderTextFieldWidget(
                                         'name',
                                         'Full Name',
-                                        Image.asset(
-                                            "assets/icons/name-100.png",
+                                        Image.asset("assets/icons/name-100.png",
                                             color: Theme.of(context)
                                                 .colorScheme
                                                 .primary,
@@ -247,35 +246,48 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           width: 15,
                                           height: 15),
                                       border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(25.0),
+                                        borderRadius:
+                                            BorderRadius.circular(25.0),
                                       ),
                                       labelStyle: const TextStyle(
                                         color: Color(0xFF6200EE),
                                       ),
                                       errorBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(color: Color(0xFF6200EE)),
-                                        borderRadius: BorderRadius.circular(25.0),
+                                        borderSide: BorderSide(
+                                            color: Color(0xFF6200EE)),
+                                        borderRadius:
+                                            BorderRadius.circular(25.0),
                                       ),
                                       focusedErrorBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(color: Color(0xFF6200EE)),
-                                        borderRadius: BorderRadius.circular(25.0),
+                                        borderSide: BorderSide(
+                                            color: Color(0xFF6200EE)),
+                                        borderRadius:
+                                            BorderRadius.circular(25.0),
                                       ),
                                       enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(color: Color(0xFF6200EE)),
-                                        borderRadius: BorderRadius.circular(25.0),
+                                        borderSide: BorderSide(
+                                            color: Color(0xFF6200EE)),
+                                        borderRadius:
+                                            BorderRadius.circular(25.0),
                                       ),
                                     ),
                                     // initialValue: 'Male',
 
                                     allowClear: true,
 
-                                    validator: FormBuilderValidators.compose(
-                                        [FormBuilderValidators.required(context)]),
-                                    items: ['Patient','Doctor','Hospital','Pharmacy']
+                                    validator: FormBuilderValidators.compose([
+                                      FormBuilderValidators.required(context)
+                                    ]),
+                                    items: [
+                                      'Patient',
+                                      'Doctor',
+                                      'Hospital',
+                                      'Pharmacy'
+                                    ]
                                         .map((gender) => DropdownMenuItem(
-                                      value: gender,
-                                      child: Text('$gender'),
-                                    ))
+                                              value: gender,
+                                              child: Text('$gender'),
+                                            ))
                                         .toList(),
                                   ),
                                 ),
@@ -302,7 +314,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 _submit(
                                     _formKey.currentState?.value["name"],
                                     _formKey.currentState?.value["emailId"],
-                                    _formKey.currentState?.value["password"],_formKey.currentState?.value["userType"]);
+                                    _formKey.currentState?.value["password"],
+                                    _formKey.currentState?.value["userType"]);
                               } else {
                                 print("validation failed");
                               }
@@ -323,6 +336,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                           const SizedBox(
                             width: 50,
+                          ),
+                          FloatingActionButton.extended(
+                            heroTag: "logInButtonOnSignUpScreen",
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                            foregroundColor:
+                                Theme.of(context).colorScheme.secondary,
+                            onPressed: () async {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => LoginScreen(),
+                                ),
+                              );
+                            },
+                            icon: Image.asset("assets/icons/sign_in.png",
+                                color: Theme.of(context).colorScheme.secondary,
+                                width: 25,
+                                fit: BoxFit.fill,
+                                height: 25),
+                            label: const Text('Log In'),
                           ),
                           FloatingActionButton.extended(
                             heroTag: "logInButtonOnSignUpScreen",

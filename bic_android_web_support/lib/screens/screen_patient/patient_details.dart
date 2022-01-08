@@ -16,8 +16,29 @@ class _PatientDetailsState extends State<PatientDetails> {
       // appBar: AppBar(
       //   elevation: 0,
       // ),
-      body: Background(
-        child: Container(),
+      body: SingleChildScrollView(
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            children: [
+              SingleChildScrollView(
+                child: Background(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Patient Detail',
+                          style: Theme.of(context).textTheme.headline1,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
