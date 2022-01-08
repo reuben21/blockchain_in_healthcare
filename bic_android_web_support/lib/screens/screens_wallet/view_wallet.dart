@@ -144,7 +144,10 @@ class _WalletViewState extends State<WalletView> {
               Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: PopupMenuButton(
-                  icon: Icon(Icons.more_vert),
+                  icon: Icon(
+                    Icons.more_vert,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
                   itemBuilder: (BuildContext context) => <PopupMenuEntry>[
                     PopupMenuItem(
                       height: 10,
@@ -271,8 +274,7 @@ class _WalletViewState extends State<WalletView> {
                                                 MaterialPageRoute(
                                                   builder: (context) =>
                                                       TransferScreen(
-                                                    address:
-                                                        dropDownCurrentValue,
+                                                    address: walletAdd,
                                                   ),
                                                 ),
                                               );
@@ -319,7 +321,7 @@ class _WalletViewState extends State<WalletView> {
                                                   content: Text(
                                                       'Balance Refreshed'));
                                               await getAccountBalance(
-                                                  dropDownCurrentValue);
+                                                  walletAdd);
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(snackBar);
                                             },
@@ -369,17 +371,16 @@ class _WalletViewState extends State<WalletView> {
                                                       child: Column(
                                                         children: [
                                                           QrImage(
-                                                            data: dropDownCurrentValue ==
+                                                            data: walletAdd ==
                                                                     "Select Account"
                                                                 ? ""
                                                                 : "ethereum:" +
-                                                                    dropDownCurrentValue,
+                                                                    walletAdd,
                                                             version:
                                                                 QrVersions.auto,
                                                             size: 200.0,
                                                           ),
-                                                          Text(
-                                                              dropDownCurrentValue)
+                                                          Text(walletAdd)
                                                         ],
                                                       ),
                                                     ),
@@ -544,7 +545,7 @@ class _WalletViewState extends State<WalletView> {
                                   Theme.of(context).colorScheme.primaryVariant,
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: SelectableText(dropDownCurrentValue),
+                                child: SelectableText(walletAdd),
                               )),
                         ),
 
