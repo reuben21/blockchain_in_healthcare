@@ -937,6 +937,54 @@
 			{
 				"inputs": [
 					{
+						"internalType": "string",
+						"name": "_personalDetails",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "_walletAddress",
+						"type": "address"
+					}
+				],
+				"name": "updateDoctorPersonalDetailHash",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "status",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "_personalDetails",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "_walletAddress",
+						"type": "address"
+					}
+				],
+				"name": "updateHospitalPersonalDetailHash",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "status",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "address",
 						"name": "_walletAddress",
 						"type": "address"
@@ -1029,6 +1077,54 @@
 				],
 				"stateMutability": "nonpayable",
 				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "_personalDetails",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "_walletAddress",
+						"type": "address"
+					}
+				],
+				"name": "updatePatientPrescriptionHash",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "status",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "_personalDetails",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "_walletAddress",
+						"type": "address"
+					}
+				],
+				"name": "updatePharmacyPersonalDetailHash",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "status",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
 			}
 		],
 		"devdoc": {
@@ -1078,11 +1174,11 @@
 	},
 	"sources": {
 		"MainContract.sol": {
-			"keccak256": "0x7f36afbd647b105bec78028f65fc4f9ff1aee33c96daa7780cd71d3420684bcc",
+			"keccak256": "0x6a38110909d41f2cd1f14bad91f8333061baf529dd9ea258e777de9cc198e263",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://b190c5b10b61cd5542ed68b09a0da20003bd1f63ba8a2ba43e3624c0c8cba74a",
-				"dweb:/ipfs/QmYn8FF3DUVYHZVSFzcVoCjzwW5YznugmEwqcW3WMwFKwG"
+				"bzz-raw://8996d337ae3e65010dbaba6600cbe7ffcc02d311d21885f64f070c532b5ce1dd",
+				"dweb:/ipfs/QmNNmq2Mp8jo7CWmdNzY74Pqmtd3zvCUXkW4MwVnEfJ5eP"
 			]
 		},
 		"Roles.sol": {

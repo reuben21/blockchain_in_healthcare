@@ -119,7 +119,18 @@ contract MainContract is AccessControl {
 
         return true;
     }
+ function updatePatientPrescriptionHash(
+        string memory _personalDetails,
+        address _walletAddress
+    ) external returns (bool status) {
+        if (hasRole(VERIFIED_PATIENT, _walletAddress)) {
 
+            patientDatabase[_walletAddress].personalDetails = _personalDetails;
+        
+        }
+
+        return true;
+    }
 
 
     function changeHospitalForPatient(
@@ -127,12 +138,14 @@ contract MainContract is AccessControl {
         address _newHospitalAddress,
         address _walletAddress
     ) external returns (bool status) {
+                if (hasRole(VERIFIED_PATIENT, _walletAddress)) {
+
         hospitalDatabase[_previousHospitalAddress].patientInHospital.decrement();
 
         patientDatabase[_walletAddress].hospitalAddress = _newHospitalAddress;
 
         hospitalDatabase[_newHospitalAddress].patientInHospital.increment();
-
+                }
         return true;
     }
 
@@ -298,6 +311,19 @@ contract MainContract is AccessControl {
 
         return true;
     }
+    //updated function.
+  function updateDoctorPersonalDetailHash(
+        string memory _personalDetails,
+        address _walletAddress
+    ) external returns (bool status) {
+        if (hasRole(VERIFIED_DOCTOR, _walletAddress)) {
+
+            patientDatabase[_walletAddress].personalDetails = _personalDetails;
+        
+        }
+
+        return true;
+    }
 
 
     function changeHospitalForDoctor(
@@ -358,6 +384,20 @@ contract MainContract is AccessControl {
         return true;
     }
 
+    //updated function.
+     function updatePharmacyPersonalDetailHash(
+        string memory _personalDetails,
+        address _walletAddress
+    ) external returns (bool status) {
+        if (hasRole(PHARMACY, _walletAddress)) {
+
+            patientDatabase[_walletAddress].personalDetails = _personalDetails;
+        
+        }
+
+        return true;
+    }
+
     function retrievePharmacyCount()
         external
         view
@@ -405,6 +445,20 @@ contract MainContract is AccessControl {
         hospitalCounter.increment();
 
         emit LogHospital(_name, _hospitalDetails, _walletAddress);
+
+        return true;
+    }
+
+    //updated function
+     function updateHospitalPersonalDetailHash(
+        string memory _personalDetails,
+        address _walletAddress
+    ) external returns (bool status) {
+        if (hasRole(HOSPITAL_ADMIN, _walletAddress)) {
+
+            patientDatabase[_walletAddress].personalDetails = _personalDetails;
+        
+        }
 
         return true;
     }
