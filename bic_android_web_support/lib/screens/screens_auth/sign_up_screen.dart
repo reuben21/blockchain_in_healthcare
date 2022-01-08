@@ -129,7 +129,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
         body: SingleChildScrollView(
       child: Container(
-        height: MediaQuery.of(context).size.height+100,
+        height: MediaQuery.of(context).size.height + 100,
         child: Column(
           children: [
             SingleChildScrollView(
@@ -142,7 +142,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       //   'Signup',
                       //   style: TextStyle(fontSize: 20, color: Colors.purple),
                       // ),
-                      SizedBox(height: size.height * 0.03),
+                      // SizedBox(height: size.height * 0.03),
                       SvgPicture.asset(
                         "assets/icons/signup.svg",
                         height: size.height * 0.35,
@@ -192,7 +192,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             height: 15),
                                         false,
                                         [
-                                          FormBuilderValidators.required(context),
+                                          FormBuilderValidators.required(
+                                              context),
                                         ])),
                                 Padding(
                                     padding: const EdgeInsets.all(15),
@@ -209,7 +210,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             height: 15),
                                         false,
                                         [
-                                          FormBuilderValidators.required(context),
+                                          FormBuilderValidators.required(
+                                              context),
                                         ])),
                                 Padding(
                                     padding: const EdgeInsets.all(15),
@@ -225,7 +227,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             height: 15),
                                         true,
                                         [
-                                          FormBuilderValidators.required(context),
+                                          FormBuilderValidators.required(
+                                              context),
                                         ])),
                               ],
                             ),
@@ -261,7 +264,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               //   ),
                               // );
                             },
-                            icon: Image.asset("assets/icons/registration-100.png",
+                            icon: Image.asset(
+                                "assets/icons/registration-100.png",
                                 color: Theme.of(context).colorScheme.secondary,
                                 width: 25,
                                 fit: BoxFit.fill,

@@ -46,6 +46,7 @@ class _WalletViewState extends State<WalletView> {
   List<String> options = <String>['Select Account'];
   String dropdownValue = 'Select Account';
   String dropDownCurrentValue = 'Select Account';
+  String walletAdd = '';
   late String scannedAddress;
 
   @override
@@ -78,10 +79,12 @@ class _WalletViewState extends State<WalletView> {
     // print(dbResponse.toString());
     dbResponse.forEach((element) {
       print(screenName + " " + element.walletAddress.toString());
-      if (options.contains(element.walletAddress)) {} else {
-        options.add(element.walletAddress);
+      if (options.contains(element.walletAddress)) {
+      } else {
+        // options.add(element.walletAddress);
+        walletAdd = element.walletAddress;
         setState(() {
-          options;
+          walletAdd;
         });
       }
     });
@@ -93,12 +96,13 @@ class _WalletViewState extends State<WalletView> {
     var ethereumRate = 258511.96959478396;
     var balance = await Provider.of<WalletModel>(context, listen: false)
         .getAccountBalance(EthereumAddress.fromHex(walletAddress));
-    var calculatedBalance = ((balance.getInWei) / BigInt.from(1000000000000000000)).toString();
-    print(calculatedBalance+"----------"+ethereumRate.toString());
+    var calculatedBalance =
+        ((balance.getInWei) / BigInt.from(1000000000000000000)).toString();
+    print(calculatedBalance + "----------" + ethereumRate.toString());
     setState(() {
       balanceOfAccount = calculatedBalance;
-      balanceOfAccountInRs = (double.parse(calculatedBalance) *
-          ethereumRate).toStringAsFixed(2);
+      balanceOfAccountInRs =
+          (double.parse(calculatedBalance) * ethereumRate).toStringAsFixed(2);
       rateForEther = "1 ETH = Rs. ${ethereumRate.toStringAsFixed(2)}";
     });
   }
@@ -106,8 +110,7 @@ class _WalletViewState extends State<WalletView> {
   void _showErrorDialog(String message) {
     showDialog(
         context: context,
-        builder: (ctx) =>
-            AlertDialog(
+        builder: (ctx) => AlertDialog(
               title: Text('An Error Occurred'),
               content: Text(message),
               actions: <Widget>[
@@ -134,10 +137,7 @@ class _WalletViewState extends State<WalletView> {
     print(screenName + " " + balanceOfAccount.toString());
     return Scaffold(
         appBar: AppBar(
-            backgroundColor: Theme
-                .of(context)
-                .colorScheme
-                .primary,
+            backgroundColor: Colors.white,
             elevation: 0,
             automaticallyImplyLeading: false,
             actions: <Widget>[
@@ -145,8 +145,7 @@ class _WalletViewState extends State<WalletView> {
                 padding: const EdgeInsets.only(right: 20),
                 child: PopupMenuButton(
                   icon: Icon(Icons.more_vert),
-                  itemBuilder: (BuildContext context) =>
-                  <PopupMenuEntry>[
+                  itemBuilder: (BuildContext context) => <PopupMenuEntry>[
                     PopupMenuItem(
                       height: 10,
                       child: ListTile(
@@ -155,19 +154,13 @@ class _WalletViewState extends State<WalletView> {
                           'Log Out',
                           style: TextStyle(fontSize: 18),
                         ),
-                        iconColor: Theme
-                            .of(context)
-                            .colorScheme
-                            .primary,
-                        textColor: Theme
-                            .of(context)
-                            .colorScheme
-                            .primary,
+                        iconColor: Theme.of(context).colorScheme.primary,
+                        textColor: Theme.of(context).colorScheme.primary,
                       ),
                       onTap: () async {
                         var walletLogoutStatus = await Provider.of<WalletModel>(
-                            context,
-                            listen: false)
+                                context,
+                                listen: false)
                             .walletLogOut();
                         // getWalletFromDatabase();
                         if (walletLogoutStatus) {
@@ -181,52 +174,53 @@ class _WalletViewState extends State<WalletView> {
             ]),
         body: SingleChildScrollView(
           child: Container(
-            height: MediaQuery
-                .of(context)
-                .size
-                .height,
-            color: Theme
-                .of(context)
-                .colorScheme
-                .primary,
+            height: MediaQuery.of(context).size.height,
+            // color: Theme.of(context).colorScheme.primary,
             child: SingleChildScrollView(
               child: Column(
                 children: [
                   ZStack([
                     Column(
                       children: [
-                        const SizedBox(
-                          height: kIsWeb ? 10 : 50,
-                        ),
-                        // const Image(image: AssetImage('assets/ethereum.png')),
-                        // (context.percentHeight * 10).heightBox,
-                        // "\$ Ethers 1".text.xl4.white.bold.center.makeCentered().py16(),
-                        // Image(
-                        //     image: new AssetImage("assets/icons/ethereum.png"),
-                        //     height: 100,
-                        //     width: MediaQuery.of(context).size.width,
-                        //     fit: BoxFit.cover,
-                        //     // scale: 0.8
-                        //
-                        //     // fit: BoxFit.fitHeight,
-                        //     ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            CarouselSlider.builder(
-                              itemCount: options.length,
-                              itemBuilder: (BuildContext context, int itemIndex,
-                                  int pageViewIndex) =>
-                                  Column(
+                        // const SizedBox(
+                        //   height: kIsWeb ? 10 : 50,
+                        // ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            height: 180,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [
+                                    Theme.of(context).colorScheme.primary,
+                                    Colors.purpleAccent.withOpacity(0.9),
+                                    // Colors.lightBlueAccent,
+                                  ]),
+                              borderRadius: BorderRadius.circular(9),
+                            ),
+                            child: Column(
+                              // crossAxisAlignment: CrossAxisAlignment.start,
+                              // mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(28.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
+                                      // SizedBox(
+                                      //     // height: 10,
+                                      //     // width: 20,
+                                      //     ),
                                       Container(
-                                        width: 100,
-                                        height: 100,
+                                        width: 60,
+                                        height: 60,
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
-                                          color: Theme
-                                              .of(context)
+                                          color: Theme.of(context)
                                               .colorScheme
                                               .secondary,
                                           image: const DecorationImage(
@@ -235,122 +229,312 @@ class _WalletViewState extends State<WalletView> {
                                               fit: BoxFit.contain),
                                         ),
                                       ),
-                                      const SizedBox(
-                                        height: 10,
+                                      Column(
+                                        children: [
+                                          Text(
+                                            balanceOfAccount == "null"
+                                                ? "0 ETH"
+                                                : "$balanceOfAccount ETH",
+                                            style: TextStyle(fontSize: 25),
+                                          ),
+                                          Text(
+                                            balanceOfAccountInRs == "null"
+                                                ? "0 Rs"
+                                                : "$balanceOfAccountInRs Rs",
+                                            style: TextStyle(fontSize: 18),
+                                          ),
+                                        ],
                                       ),
-                                      Text(
-                                        balanceOfAccount == "null"
-                                            ? "0 ETH"
-                                            : "$balanceOfAccount ETH",
-                                        style: TextStyle(fontSize: 25),
-                                      ),
-                                      Text(
-                                        balanceOfAccountInRs == "null"
-                                            ? "0 Rs"
-                                            : "$balanceOfAccountInRs Rs",
-                                        style: TextStyle(fontSize: 18),
-                                      ),
-                                      Text(
-                                        rateForEther == "null"
-                                            ? "0 Rs"
-                                            : rateForEther,
-                                        style: TextStyle(fontSize: 18),
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
+                                      // Text('ehllo'),
                                     ],
                                   ),
-                              carouselController: buttonCarouselController,
-                              options: CarouselOptions(
-                                autoPlay: false,
-                                enlargeCenterPage: true,
-                                viewportFraction: 0.9,
-                                aspectRatio: 2.0,
-                                initialPage: 2,
-                              ),
+                                ),
+                                Row(
+                                  children: [
+                                    HStack(
+                                      [
+                                        FloatingActionButton.extended(
+                                          heroTag: "sendButton",
+                                          backgroundColor: Theme.of(context)
+                                              .colorScheme
+                                              .secondary,
+                                          foregroundColor: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    TransferScreen(
+                                                  address: dropDownCurrentValue,
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                          icon: Image.asset(
+                                              "assets/icons/pay-100.png",
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                              width: 32,
+                                              height: 32),
+                                          label: const Text('Send'),
+                                        ),
+                                        // Container(
+                                        //   margin: EdgeInsets.symmetric(vertical: 5),
+                                        //   width: 90,
+                                        //   child: ClipRRect(
+                                        //       borderRadius: BorderRadius.circular(29),
+                                        //       child: ElevatedButton(
+                                        //         child: Text(
+                                        //           'text',
+                                        //           style: TextStyle(
+                                        //               color: Theme.of(context)
+                                        //                   .colorScheme
+                                        //                   .primary),
+                                        //         ),
+                                        //         onPressed: () {},
+                                        //         style: ElevatedButton.styleFrom(
+                                        //             primary: Theme.of(context)
+                                        //                 .colorScheme
+                                        //                 .primary,
+                                        //             padding: EdgeInsets.symmetric(
+                                        //                 horizontal: 10, vertical: 10),
+                                        //             textStyle: TextStyle(
+                                        //                 color: Theme.of(context)
+                                        //                     .colorScheme
+                                        //                     .primary,
+                                        //                 fontSize: 14,
+                                        //                 fontWeight: FontWeight.w500)),
+                                        //       )),
+                                        // ),
+                                        ElevatedButton(
+                                          onPressed: () async {
+                                            const snackBar = SnackBar(
+                                                content:
+                                                    Text('Balance Refreshed'));
+                                            await getAccountBalance(
+                                                dropDownCurrentValue);
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(snackBar);
+                                          },
+                                          child: Image.asset(
+                                              "assets/icons/refresh-100.png",
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                              width: 25,
+                                              fit: BoxFit.fill,
+                                              height: 25),
+                                          style: ElevatedButton.styleFrom(
+                                            shape: CircleBorder(),
+                                            padding: EdgeInsets.all(14),
+                                            primary: Theme.of(context)
+                                                .colorScheme
+                                                .secondary,
+                                            onPrimary: Colors.black,
+                                          ),
+                                        ),
+
+                                        FloatingActionButton.extended(
+                                          heroTag: "qrCodeButton",
+                                          backgroundColor: Theme.of(context)
+                                              .colorScheme
+                                              .secondary,
+                                          foregroundColor: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                          onPressed: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (ctx) => AlertDialog(
+                                                backgroundColor:
+                                                    Theme.of(context)
+                                                        .colorScheme
+                                                        .secondary,
+                                                title: Text(
+                                                  "Show the QR Code",
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText1,
+                                                ),
+                                                content: Container(
+                                                  width: 200,
+                                                  height: 240,
+                                                  child: Center(
+                                                    child: Column(
+                                                      children: [
+                                                        QrImage(
+                                                          data: dropDownCurrentValue ==
+                                                                  "Select Account"
+                                                              ? ""
+                                                              : "ethereum:" +
+                                                                  dropDownCurrentValue,
+                                                          version:
+                                                              QrVersions.auto,
+                                                          size: 200.0,
+                                                        ),
+                                                        Text(
+                                                            dropDownCurrentValue)
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                actions: <Widget>[
+                                                  ElevatedButton(
+                                                    onPressed: () {
+                                                      Navigator.of(ctx).pop();
+                                                    },
+                                                    child: const Text("okay"),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                          icon: Image.asset(
+                                              "assets/icons/qr-code-100.png",
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                              width: 32,
+                                              height: 32),
+                                          label: const Text('Receive'),
+                                        ),
+                                      ],
+                                      alignment: MainAxisAlignment.spaceAround,
+                                      axisSize: MainAxisSize.max,
+                                    ),
+                                  ],
+                                )
+                              ],
                             ),
-                            DropdownButton<String>(
-                                focusColor:
-                                Theme
-                                    .of(context)
-                                    .colorScheme
-                                    .secondary,
-                                dropdownColor:
-                                Theme
-                                    .of(context)
-                                    .colorScheme
-                                    .primary,
-                                value: dropdownValue,
-                                selectedItemBuilder: (BuildContext context) {
-                                  return options.map((String value) {
-                                    if (value == "Select Account") {
-                                      return Text(
-                                        "Select Account",
-                                        style: TextStyle(
-                                            color: Theme
-                                                .of(context)
-                                                .colorScheme
-                                                .secondary),
-                                      );
-                                    } else {
-                                      return Text(
-                                        dropdownValue
-                                            .toString()
-                                            .substring(0, 5) +
-                                            "..." +
-                                            dropdownValue
-                                                .toString()
-                                                .lastChars(5),
-                                        style: TextStyle(
-                                            color: Theme
-                                                .of(context)
-                                                .colorScheme
-                                                .secondary),
-                                      );
-                                    }
-                                  }).toList();
-                                },
-                                items: options.map<DropdownMenuItem<String>>(
-                                        (String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: value == "Select Account"
-                                            ? const Text("Select Account")
-                                            : Text(
-                                            value.toString().substring(0, 5) +
-                                                "..." +
-                                                value.toString().lastChars(5)),
-                                      );
-                                    }).toList(),
-                                onChanged: (String? newValue) {
-                                  buttonCarouselController.animateToPage(
-                                      options.indexOf(newValue!),
-                                      duration: Duration(milliseconds: 300),
-                                      curve: Curves.linear);
-                                  setState(() {
-                                    dropdownValue = newValue;
-                                    dropDownCurrentValue = newValue;
-                                  });
-                                  getAccountBalance(newValue);
-                                  print(newValue);
-                                },
-                                style: Theme
-                                    .of(context)
-                                    .textTheme
-                                    .headline5,
-                                hint: const Text("Select Account")),
-                          ],
+                          ),
                         ),
+
+                        // Column(
+                        //   mainAxisAlignment: MainAxisAlignment.center,
+                        //   crossAxisAlignment: CrossAxisAlignment.center,
+                        //   children: [
+                        //     CarouselSlider.builder(
+                        //       itemCount: options.length,
+                        //       itemBuilder: (BuildContext context, int itemIndex,
+                        //               int pageViewIndex) =>
+                        //           Column(
+                        //         children: [
+                        //           Container(
+                        //             width: 100,
+                        //             height: 100,
+                        //             decoration: BoxDecoration(
+                        //               shape: BoxShape.circle,
+                        //               color: Theme.of(context)
+                        //                   .colorScheme
+                        //                   .secondary,
+                        //               image: const DecorationImage(
+                        //                   image: AssetImage(
+                        //                       'assets/icons/ethereum.png'),
+                        //                   fit: BoxFit.contain),
+                        //             ),
+                        //           ),
+                        //           const SizedBox(
+                        //             height: 10,
+                        //           ),
+                        //           Text(
+                        //             balanceOfAccount == "null"
+                        //                 ? "0 ETH"
+                        //                 : "$balanceOfAccount ETH",
+                        //             style: TextStyle(fontSize: 25),
+                        //           ),
+                        //           Text(
+                        //             balanceOfAccountInRs == "null"
+                        //                 ? "0 Rs"
+                        //                 : "$balanceOfAccountInRs Rs",
+                        //             style: TextStyle(fontSize: 18),
+                        //           ),
+                        //           Text(
+                        //             rateForEther == "null"
+                        //                 ? "0 Rs"
+                        //                 : rateForEther,
+                        //             style: TextStyle(fontSize: 18),
+                        //           ),
+                        //           const SizedBox(
+                        //             height: 10,
+                        //           ),
+                        //         ],
+                        //       ),
+                        //       carouselController: buttonCarouselController,
+                        //       options: CarouselOptions(
+                        //         autoPlay: false,
+                        //         enlargeCenterPage: true,
+                        //         viewportFraction: 0.9,
+                        //         aspectRatio: 2.0,
+                        //         initialPage: 2,
+                        //       ),
+                        //     ),
+                        //     DropdownButton<String>(
+                        //         focusColor:
+                        //             Theme.of(context).colorScheme.secondary,
+                        //         dropdownColor:
+                        //             Theme.of(context).colorScheme.primary,
+                        //         value: dropdownValue,
+                        //         selectedItemBuilder: (BuildContext context) {
+                        //           return options.map((String value) {
+                        //             if (value == "Select Account") {
+                        //               return Text(
+                        //                 "Select Account",
+                        //                 style: TextStyle(
+                        //                     color: Theme.of(context)
+                        //                         .colorScheme
+                        //                         .secondary),
+                        //               );
+                        //             } else {
+                        //               return Text(
+                        //                 dropdownValue
+                        //                         .toString()
+                        //                         .substring(0, 5) +
+                        //                     "..." +
+                        //                     dropdownValue
+                        //                         .toString()
+                        //                         .lastChars(5),
+                        //                 style: TextStyle(
+                        //                     color: Theme.of(context)
+                        //                         .colorScheme
+                        //                         .secondary),
+                        //               );
+                        //             }
+                        //           }).toList();
+                        //         },
+                        //         items: options.map<DropdownMenuItem<String>>(
+                        //             (String value) {
+                        //           return DropdownMenuItem<String>(
+                        //             value: value,
+                        //             child: value == "Select Account"
+                        //                 ? const Text("Select Account")
+                        //                 : Text(
+                        //                     value.toString().substring(0, 5) +
+                        //                         "..." +
+                        //                         value.toString().lastChars(5)),
+                        //           );
+                        //         }).toList(),
+                        //         onChanged: (String? newValue) {
+                        //           buttonCarouselController.animateToPage(
+                        //               options.indexOf(newValue!),
+                        //               duration: Duration(milliseconds: 300),
+                        //               curve: Curves.linear);
+                        //           setState(() {
+                        //             dropdownValue = newValue;
+                        //             dropDownCurrentValue = newValue;
+                        //           });
+                        //           getAccountBalance(newValue);
+                        //           print(newValue);
+                        //         },
+                        //         style: Theme.of(context).textTheme.headline5,
+                        //         hint: const Text("Select Account")),
+                        //   ],
+                        // ),
                         Padding(
                           padding: const EdgeInsets.all(15.0),
                           child: Card(
                               clipBehavior: Clip.hardEdge,
                               color:
-                              Theme
-                                  .of(context)
-                                  .colorScheme
-                                  .primaryVariant,
+                                  Theme.of(context).colorScheme.primaryVariant,
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: SelectableText(dropDownCurrentValue),
@@ -360,189 +544,21 @@ class _WalletViewState extends State<WalletView> {
                         const SizedBox(
                           height: 10,
                         ),
-                        HStack(
-                          [
-                            FloatingActionButton.extended(
-                              heroTag: "sendButton",
-                              backgroundColor:
-                              Theme
-                                  .of(context)
-                                  .colorScheme
-                                  .secondary,
-                              foregroundColor:
-                              Theme
-                                  .of(context)
-                                  .colorScheme
-                                  .primary,
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        TransferScreen(
-                                          address: dropDownCurrentValue,
-                                        ),
-                                  ),
-                                );
-                              },
-                              icon: Image.asset("assets/icons/pay-100.png",
-                                  color: Theme
-                                      .of(context)
-                                      .primaryColor,
-                                  width: 32,
-                                  height: 32),
-                              label: const Text('Send'),
-                            ),
-                            // Container(
-                            //   margin: EdgeInsets.symmetric(vertical: 5),
-                            //   width: 90,
-                            //   child: ClipRRect(
-                            //       borderRadius: BorderRadius.circular(29),
-                            //       child: ElevatedButton(
-                            //         child: Text(
-                            //           'text',
-                            //           style: TextStyle(
-                            //               color: Theme.of(context)
-                            //                   .colorScheme
-                            //                   .primary),
-                            //         ),
-                            //         onPressed: () {},
-                            //         style: ElevatedButton.styleFrom(
-                            //             primary: Theme.of(context)
-                            //                 .colorScheme
-                            //                 .primary,
-                            //             padding: EdgeInsets.symmetric(
-                            //                 horizontal: 10, vertical: 10),
-                            //             textStyle: TextStyle(
-                            //                 color: Theme.of(context)
-                            //                     .colorScheme
-                            //                     .primary,
-                            //                 fontSize: 14,
-                            //                 fontWeight: FontWeight.w500)),
-                            //       )),
-                            // ),
-                            ElevatedButton(
-                              onPressed: () async {
-                                const snackBar = SnackBar(
-                                    content: Text('Balance Refreshed'));
-                                await getAccountBalance(dropDownCurrentValue);
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
-                              },
-                              child: Image.asset("assets/icons/refresh-100.png",
-                                  color: Theme
-                                      .of(context)
-                                      .primaryColor,
-                                  width: 25,
-                                  fit: BoxFit.fill,
-                                  height: 25),
-                              style: ElevatedButton.styleFrom(
-                                shape: CircleBorder(),
-                                padding: EdgeInsets.all(14),
-                                primary:
-                                Theme
-                                    .of(context)
-                                    .colorScheme
-                                    .secondary,
-                                onPrimary: Colors.black,
-                              ),
-                            ),
-
-                            FloatingActionButton.extended(
-                              heroTag: "qrCodeButton",
-                              backgroundColor:
-                              Theme
-                                  .of(context)
-                                  .colorScheme
-                                  .secondary,
-                              foregroundColor:
-                              Theme
-                                  .of(context)
-                                  .colorScheme
-                                  .primary,
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (ctx) =>
-                                      AlertDialog(
-                                        backgroundColor:
-                                        Theme
-                                            .of(context)
-                                            .colorScheme
-                                            .secondary,
-                                        title: Text(
-                                          "Show the QR Code",
-                                          style:
-                                          Theme
-                                              .of(context)
-                                              .textTheme
-                                              .bodyText1,
-                                        ),
-                                        content: Container(
-                                          width: 200,
-                                          height: 240,
-                                          child: Center(
-                                            child: Column(
-                                              children: [
-                                                QrImage(
-                                                  data: dropDownCurrentValue ==
-                                                      "Select Account"
-                                                      ? ""
-                                                      : "ethereum:" +
-                                                      dropDownCurrentValue,
-                                                  version: QrVersions.auto,
-                                                  size: 200.0,
-                                                ),
-                                                Text(dropDownCurrentValue)
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        actions: <Widget>[
-                                          ElevatedButton(
-                                            onPressed: () {
-                                              Navigator.of(ctx).pop();
-                                            },
-                                            child: const Text("okay"),
-                                          ),
-                                        ],
-                                      ),
-                                );
-                              },
-                              icon: Image.asset("assets/icons/qr-code-100.png",
-                                  color: Theme
-                                      .of(context)
-                                      .primaryColor,
-                                  width: 32,
-                                  height: 32),
-                              label: const Text('Receive'),
-                            ),
-                          ],
-                          alignment: MainAxisAlignment.spaceAround,
-                          axisSize: MainAxisSize.max,
-                        )
                       ],
                     ),
                   ]),
                   10.heightBox,
                   Card(
-
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         ListTile(
-
                           trailing: Image.asset("assets/icons/forward-100.png",
-                              color: Theme
-                                  .of(context)
-                                  .primaryColor,
+                              color: Theme.of(context).primaryColor,
                               width: 25,
-
                               height: 25),
-                          title: Text('See Recent Transactions', style: Theme
-                              .of(context)
-                              .textTheme
-                              .bodyText1),
+                          title: Text('See Recent Transactions',
+                              style: Theme.of(context).textTheme.bodyText1),
                           onTap: () {
                             Navigator.push(
                               context,
@@ -552,7 +568,6 @@ class _WalletViewState extends State<WalletView> {
                             );
                           },
                         ),
-
                       ],
                     ),
                   ),
