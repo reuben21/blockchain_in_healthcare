@@ -6,10 +6,8 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:bic_android_web_support/databases/boxes.dart';
 import 'package:bic_android_web_support/databases/hive_database.dart';
 import 'package:bic_android_web_support/providers/wallet.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart' as firestore;
 import '../../providers/wallet.dart';
 import '../screens_wallet/transfer_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -35,6 +33,8 @@ class WalletView extends StatefulWidget {
 class _WalletViewState extends State<WalletView> {
   final String screenName = "view_wallet.dart";
   FirebaseAuth auth = FirebaseAuth.instance;
+  firestore.CollectionReference userFirestore =
+      firestore.FirebaseFirestore.instance.collection('users');
 
   CarouselController buttonCarouselController = CarouselController();
 
@@ -45,8 +45,7 @@ class _WalletViewState extends State<WalletView> {
   late String rateForEther;
 
   List<String> options = <String>['Select Account'];
-  String dropdownValue = 'Select Account';
-  String dropDownCurrentValue = 'Select Account';
+
   String walletAdd = '';
   late String scannedAddress;
 
@@ -56,9 +55,6 @@ class _WalletViewState extends State<WalletView> {
     balanceOfAccountInRs = "null";
     rateForEther = "null";
 
-    setState(() {
-      options = <String>['Select Account'];
-    });
     getWalletFromDatabase();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     super.initState();
@@ -67,9 +63,7 @@ class _WalletViewState extends State<WalletView> {
   @override
   Future<void> didChangeDependencies() async {
     // TODO: implement didChangeDependencies
-    setState(() {
-      options = <String>['Select Account'];
-    });
+
     getWalletFromDatabase();
     super.didChangeDependencies();
   }
@@ -128,8 +122,6 @@ class _WalletViewState extends State<WalletView> {
   void dispose() {
     super.dispose();
   }
-
-  final _formKey = GlobalKey<FormBuilderState>();
 
   @override
   Widget build(BuildContext context) {
@@ -242,7 +234,7 @@ class _WalletViewState extends State<WalletView> {
                                             balanceOfAccount == "null"
                                                 ? "0 ETH"
                                                 : "$balanceOfAccount ETH",
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 color: Colors.black54,
                                                 fontSize: 25,
                                                 fontWeight: FontWeight.bold),
@@ -251,7 +243,7 @@ class _WalletViewState extends State<WalletView> {
                                             balanceOfAccountInRs == "null"
                                                 ? "0 Rs"
                                                 : "$balanceOfAccountInRs Rs",
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 color: Colors.black54,
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.bold),
@@ -270,62 +262,42 @@ class _WalletViewState extends State<WalletView> {
                                     children: [
                                       HStack(
                                         [
-                                          FloatingActionButton.extended(
-                                            heroTag: "sendButton",
-                                            backgroundColor: Theme.of(context)
-                                                .colorScheme
-                                                .secondary,
-                                            foregroundColor: Theme.of(context)
-                                                .colorScheme
-                                                .primary,
+                                          ElevatedButton.icon(
+                                            icon: Image.asset(
+                                                "assets/icons/pay-100.png",
+                                                color: Theme.of(context)
+                                                    .colorScheme.secondary,
+                                                width: 32,
+                                                height: 32),
+                                            style: ElevatedButton.styleFrom(
+                                              elevation: 0.0,
+                                              primary:
+                                              Colors.red.withOpacity(0),
+                                              shape:
+                                              RoundedRectangleBorder(
+                                                  borderRadius:
+                                                  BorderRadius.all(
+                                                    Radius.circular(20),
+                                                  ),
+                                                  side: BorderSide(
+                                                      color: Theme.of(context).colorScheme.secondary)),
+                                            ),
                                             onPressed: () {
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) =>
                                                       TransferScreen(
-                                                    address: walletAdd,
-                                                  ),
+                                                        address: walletAdd,
+                                                      ),
                                                 ),
                                               );
                                             },
-                                            icon: Image.asset(
-                                                "assets/icons/pay-100.png",
-                                                color: Theme.of(context)
-                                                    .primaryColor,
-                                                width: 32,
-                                                height: 32),
                                             label: const Text('Send'),
                                           ),
-                                          // Container(
-                                          //   margin: EdgeInsets.symmetric(vertical: 5),
-                                          //   width: 90,
-                                          //   child: ClipRRect(
-                                          //       borderRadius: BorderRadius.circular(29),
-                                          //       child: ElevatedButton(
-                                          //         child: Text(
-                                          //           'text',
-                                          //           style: TextStyle(
-                                          //               color: Theme.of(context)
-                                          //                   .colorScheme
-                                          //                   .primary),
-                                          //         ),
-                                          //         onPressed: () {},
-                                          //         style: ElevatedButton.styleFrom(
-                                          //             primary: Theme.of(context)
-                                          //                 .colorScheme
-                                          //                 .primary,
-                                          //             padding: EdgeInsets.symmetric(
-                                          //                 horizontal: 10, vertical: 10),
-                                          //             textStyle: TextStyle(
-                                          //                 color: Theme.of(context)
-                                          //                     .colorScheme
-                                          //                     .primary,
-                                          //                 fontSize: 14,
-                                          //                 fontWeight: FontWeight.w500)),
-                                          //       )),
-                                          // ),
+
                                           ElevatedButton(
+
                                             onPressed: () async {
                                               const snackBar = SnackBar(
                                                   content: Text(
@@ -335,31 +307,43 @@ class _WalletViewState extends State<WalletView> {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(snackBar);
                                             },
+                                            
                                             child: Image.asset(
                                                 "assets/icons/refresh-100.png",
-                                                color: Theme.of(context)
-                                                    .primaryColor,
+                                                color:Theme.of(context).colorScheme.secondary,
                                                 width: 25,
                                                 fit: BoxFit.fill,
                                                 height: 25),
-                                            style: ElevatedButton.styleFrom(
-                                              shape: CircleBorder(),
-                                              padding: EdgeInsets.all(14),
-                                              primary: Theme.of(context)
-                                                  .colorScheme
-                                                  .secondary,
-                                              onPrimary: Colors.black,
+                                            style:  ElevatedButton.styleFrom(
+                                              elevation: 0.0,
+                                              primary:
+                                              Colors.red.withOpacity(0),
+                                              shape:CircleBorder(side: BorderSide(
+                                                  color: Theme.of(context).colorScheme.secondary))
+
                                             ),
                                           ),
-
-                                          FloatingActionButton.extended(
-                                            heroTag: "qrCodeButton",
-                                            backgroundColor: Theme.of(context)
-                                                .colorScheme
-                                                .secondary,
-                                            foregroundColor: Theme.of(context)
-                                                .colorScheme
-                                                .primary,
+                                          ElevatedButton.icon(
+                                            icon: Image.asset(
+                                                "assets/icons/qr-code-100.png",
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .secondary,
+                                                width: 32,
+                                                height: 32),
+                                            style: ElevatedButton.styleFrom(
+                                              elevation: 0.0,
+                                              primary:
+                                                  Colors.red.withOpacity(0),
+                                              shape:
+                                                   RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                        Radius.circular(20),
+                                                      ),
+                                                      side: BorderSide(
+                                                          color: Theme.of(context).colorScheme.secondary)),
+                                            ),
                                             onPressed: () {
                                               showDialog(
                                                 context: context,
@@ -406,14 +390,8 @@ class _WalletViewState extends State<WalletView> {
                                                 ),
                                               );
                                             },
-                                            icon: Image.asset(
-                                                "assets/icons/qr-code-100.png",
-                                                color: Theme.of(context)
-                                                    .primaryColor,
-                                                width: 32,
-                                                height: 32),
-                                            label: const Text('Receive'),
-                                          ),
+                                            label: Text('Receiver'),
+                                          )
                                         ],
                                         alignment:
                                             MainAxisAlignment.spaceAround,
@@ -589,72 +567,6 @@ class _WalletViewState extends State<WalletView> {
                       ],
                     ),
                   ),
-                  // SingleChildScrollView(
-                  //   child: StreamBuilder<QuerySnapshot>(
-                  //     stream: FirebaseFirestore.instance
-                  //         .collection('users').doc(auth.currentUser?.uid).collection("transactions").snapshots(),
-                  //     builder:  (BuildContext context,  AsyncSnapshot<QuerySnapshot> snapshot) {
-                  //       if (snapshot.hasError) {
-                  //         return const Text('Something went wrong');
-                  //       }
-                  //       if (snapshot.connectionState == ConnectionState.waiting) {
-                  //         return const Text("Loading");
-                  //       }
-                  //       if (snapshot.hasData) {
-                  //         if (snapshot.data != null) {
-                  //           print(snapshot.data.docs.length);
-                  //           return SizedBox(
-                  //
-                  //             child: SingleChildScrollView(
-                  //               child: ExpansionTile(
-                  //                         backgroundColor:  Theme.of(context).colorScheme.secondary,
-                  //                         leading: Padding(
-                  //                           padding: const EdgeInsets.all(8.0),
-                  //                           child: Icon(Icons.download_done,color:  Theme.of(context).colorScheme.primary,),
-                  //                         ),
-                  //                         title: const Text(
-                  //                           'Pending',
-                  //                           style: TextStyle(
-                  //                             fontWeight: FontWeight.bold,
-                  //                           ),
-                  //                         ),
-                  //                         children: <Widget>[
-                  //                           Padding(
-                  //                             padding: const EdgeInsets.all(15.0),
-                  //                             child: Container(
-                  //                               child: Column(
-                  //                                 mainAxisAlignment: MainAxisAlignment.start,
-                  //                                 crossAxisAlignment: CrossAxisAlignment.start,
-                  //                                 children: [
-                  //                                   Padding(
-                  //                                     padding: const EdgeInsets.only(bottom: 5),
-                  //                                     child: Text(
-                  //                                       'To: ${snapshot.data}',
-                  //                                       style: TextStyle(color: Theme.of(context).colorScheme.primary ),
-                  //                                     ),
-                  //                                   ),
-                  //
-                  //                                 ],
-                  //                               ),
-                  //                             ),
-                  //                           ),
-                  //
-                  //                         ],
-                  //
-                  //                       ),
-                  //                     ),
-                  //             );
-                  //
-                  //         }
-                  //       }
-                  //       return Center(
-                  //         child: Text('No Pending Transactions'),
-                  //       );
-                  //
-                  //     },
-                  //
-                  //   ),
-                  // ),
                 ],
               ),
             ),

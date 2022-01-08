@@ -38,6 +38,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   FirebaseAuth auth = FirebaseAuth.instance;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
+
   @override
   void initState() {
     // SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge, overlays: []);
@@ -51,9 +52,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   final _formKey = GlobalKey<FormBuilderState>();
 
-  void _submit(String name, String emailId, String password) async {
+  void _submit(String name, String emailId, String password, String userType) async {
     await Hive.openBox<WalletHive>('WalletHive');
     try {
+      print(name+" "+emailId+" "+password+" "+userType);
       auth
           .createUserWithEmailAndPassword(email: emailId, password: password)
           .then((value) async => {
@@ -61,7 +63,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   {
                     await Provider.of<WalletModel>(context, listen: false)
                         .createWalletInternally(
-                            name, emailId, value.user?.uid, password)
+                            name, emailId, value.user?.uid, password,userType)
 
                     // _showErrorDialog("Wallet Has Been Created");
                   }
@@ -129,7 +131,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
         body: SingleChildScrollView(
       child: Container(
-        height: MediaQuery.of(context).size.height + 100,
+        height: MediaQuery.of(context).size.height,
         child: Column(
           children: [
             SingleChildScrollView(
@@ -183,7 +185,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         'name',
                                         'Full Name',
                                         Image.asset(
-                                            "assets/icons/at-sign-100.png",
+                                            "assets/icons/name-100.png",
                                             color: Theme.of(context)
                                                 .colorScheme
                                                 .primary,
@@ -230,6 +232,53 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           FormBuilderValidators.required(
                                               context),
                                         ])),
+                                Padding(
+                                  padding: const EdgeInsets.all(15),
+                                  child: FormBuilderDropdown(
+                                    name: 'userType',
+                                    decoration: InputDecoration(
+                                      labelText: "Type of User",
+                                      prefixIcon: Image.asset(
+                                          "assets/icons/user-100.png",
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                          scale: 4,
+                                          width: 15,
+                                          height: 15),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(25.0),
+                                      ),
+                                      labelStyle: const TextStyle(
+                                        color: Color(0xFF6200EE),
+                                      ),
+                                      errorBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(color: Color(0xFF6200EE)),
+                                        borderRadius: BorderRadius.circular(25.0),
+                                      ),
+                                      focusedErrorBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(color: Color(0xFF6200EE)),
+                                        borderRadius: BorderRadius.circular(25.0),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(color: Color(0xFF6200EE)),
+                                        borderRadius: BorderRadius.circular(25.0),
+                                      ),
+                                    ),
+                                    // initialValue: 'Male',
+
+                                    allowClear: true,
+
+                                    validator: FormBuilderValidators.compose(
+                                        [FormBuilderValidators.required(context)]),
+                                    items: ['Patient','Doctor','Hospital','Pharmacy']
+                                        .map((gender) => DropdownMenuItem(
+                                      value: gender,
+                                      child: Text('$gender'),
+                                    ))
+                                        .toList(),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -253,7 +302,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 _submit(
                                     _formKey.currentState?.value["name"],
                                     _formKey.currentState?.value["emailId"],
-                                    _formKey.currentState?.value["password"]);
+                                    _formKey.currentState?.value["password"],_formKey.currentState?.value["userType"]);
                               } else {
                                 print("validation failed");
                               }

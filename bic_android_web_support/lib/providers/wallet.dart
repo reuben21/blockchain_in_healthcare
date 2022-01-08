@@ -73,7 +73,7 @@ class WalletModel with ChangeNotifier {
         EthereumAddress.fromHex(abiJson['networks']['5777']['address']);
     final contract = DeployedContract(
         ContractAbi.fromJson(abi, "MainContract"), contractAddress);
-    print("HospitalToken Contract Address:- " + contract.address.toString());
+    print("MainContract Contract Address:- " + contract.address.toString());
     // _registerPatient = contract.function('registerPatient').encodeCall(params);
     // _getSignatureHash = contract.function('getSignatureHash');
     // _getPatientData = contract.function('getPatientData');
@@ -172,7 +172,7 @@ class WalletModel with ChangeNotifier {
   }
 
   Future<void> createWalletInternally(
-      String fullName, String emailId, String? userId, String password) async {
+      String fullName, String emailId, String? userId, String password,String userType) async {
     Credentials credentials;
     EthereumAddress myAddress;
 
@@ -198,7 +198,8 @@ class WalletModel with ChangeNotifier {
         'userName': fullName,
         'userEmail': emailId,
         'walletAddress': newWallet.privateKey.address.hex,
-        'walletEncryptedKey': _walletCredentials
+        'walletEncryptedKey': _walletCredentials,
+        'userType':userType
       }).then((value) => {});
 
       final walletHive = WalletHive()
