@@ -11,6 +11,8 @@ import 'package:web3dart/credentials.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
 
+import 'screen_patient/patient_details.dart';
+
 class MedicalRecordScreen extends StatefulWidget {
   static const routeName = '/medical_records';
 
@@ -23,8 +25,7 @@ class MedicalRecordScreen extends StatefulWidget {
 class _MedicalRecordScreenState extends State<MedicalRecordScreen> {
   @override
   void initState() {
-  super.initState();
-
+    super.initState();
   }
 
   @override
@@ -32,112 +33,104 @@ class _MedicalRecordScreenState extends State<MedicalRecordScreen> {
     super.dispose();
   }
 
-
-
-
   String privateKey =
       '0e75aade5bd385616574bd6252b0d810f3f03f013dc43cbe15dc2e21e6ff4f14';
 
-
-
-
-  Future<void> getMessage(String password,String publicKeyString  ) async {
+  Future<void> getMessage(String password, String publicKeyString) async {
     Credentials credentials;
     EthereumAddress publicAddress;
     credentials = EthPrivateKey.fromHex(privateKey);
     publicAddress = await credentials.extractAddress();
-    print("Public Address:- " +publicAddress.toString());
+    print("Public Address:- " + publicAddress.toString());
     //
     // publicAddress =  EthereumAddress.fromHex(publicKey);
 
-    if(publicAddress.toString() == publicKeyString.toLowerCase()) {
+    if (publicAddress.toString() == publicKeyString.toLowerCase()) {
       Uint8List messageHash = hexToBytes(password);
-      Uint8List privateKeyInt = EthPrivateKey.fromHex(privateKey).privateKey ;
+      Uint8List privateKeyInt = EthPrivateKey.fromHex(privateKey).privateKey;
 
       MsgSignature _msgSignature = sign(messageHash, privateKeyInt);
 
-
-      MsgSignature _msgSignature2 = MsgSignature(_msgSignature.r, _msgSignature.s, _msgSignature.v);
+      MsgSignature _msgSignature2 =
+          MsgSignature(_msgSignature.r, _msgSignature.s, _msgSignature.v);
 
       Uint8List publicKey = privateKeyBytesToPublic(privateKeyInt);
 
-
-      print(isValidSignature(messageHash,_msgSignature2,publicKey).toString());
-
-
+      print(
+          isValidSignature(messageHash, _msgSignature2, publicKey).toString());
     }
-
-
   }
-
-
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          elevation: 0,
-          automaticallyImplyLeading: false,
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        elevation: 0,
+        automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
         child: Container(
-
-          child: Column(
-            children: [
-
-              Container(
-                height: 100,
-                child: Card(
-                  color: Theme.of(context).colorScheme.primary,
-                  clipBehavior: Clip.antiAlias,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      ListTile(
-
-                        trailing: Image.asset("assets/icons/forward-100.png",
-                            color: Theme.of(context).primaryColor,
-                            width: 25,
-
-                            height: 25),
-                        title: Text('See Recent Transactions',style:Theme.of(context).textTheme.bodyText1),
-                        onTap: (){
-
-                        },
-                      ),
-
-                    ],
-                  ),
+            child: Column(
+          children: [
+            Container(
+              height: 100,
+              child: Card(
+                color: Theme.of(context).colorScheme.primary,
+                clipBehavior: Clip.antiAlias,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    ListTile(
+                      trailing: Image.asset("assets/icons/forward-100.png",
+                          color: Theme.of(context).primaryColor,
+                          width: 25,
+                          height: 25),
+                      title: Text('See Recent Transactions',
+                          style: Theme.of(context).textTheme.bodyText1),
+                      onTap: () {},
+                    ),
+                  ],
                 ),
               ),
-              FloatingActionButton.extended(
-                backgroundColor:
-                Theme.of(context).colorScheme.secondary,
-                foregroundColor:
-                Theme.of(context).colorScheme.primary,
-                onPressed: () async {
-                  var connection = await Provider.of<IPFSModel>(context,listen: false).sendData();
-                },
-                icon: const Icon(Icons.qr_code_scanner),
-                label: const Text('Send'),
-              ),
-              FloatingActionButton.extended(
-                backgroundColor:
-                Theme.of(context).colorScheme.secondary,
-                foregroundColor:
-                Theme.of(context).colorScheme.primary,
-                onPressed: () async {
-                  var connection = await Provider.of<IPFSModel>(context,listen: false).receiveData();
-
-                },
-                icon: const Icon(Icons.qr_code_scanner),
-                label: const Text('Receive'),
-              ),
-            ],
-          )
-        ),
+            ),
+            FloatingActionButton.extended(
+              heroTag: "send",
+              backgroundColor: Theme.of(context).colorScheme.secondary,
+              foregroundColor: Theme.of(context).colorScheme.primary,
+              onPressed: () async {
+                var connection =
+                    await Provider.of<IPFSModel>(context, listen: false)
+                        .sendData();
+              },
+              icon: const Icon(Icons.qr_code_scanner),
+              label: const Text('Send'),
+            ),
+            FloatingActionButton.extended(
+              heroTag: "recieve",
+              backgroundColor: Theme.of(context).colorScheme.secondary,
+              foregroundColor: Theme.of(context).colorScheme.primary,
+              onPressed: () async {
+                var connection =
+                    await Provider.of<IPFSModel>(context, listen: false)
+                        .receiveData();
+              },
+              icon: const Icon(Icons.qr_code_scanner),
+              label: const Text('Receive'),
+            ),
+            FloatingActionButton.extended(
+              heroTag: "storePatientDetails",
+              backgroundColor: Theme.of(context).colorScheme.secondary,
+              foregroundColor: Theme.of(context).colorScheme.primary,
+              onPressed: () {
+                Navigator.of(context).pushNamed(PatientDetails.routeName);
+              },
+              icon: const Icon(Icons.qr_code_scanner),
+              label: const Text('Store Patient Data'),
+            ),
+          ],
+        )),
       ),
     );
   }

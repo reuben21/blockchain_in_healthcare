@@ -1,6 +1,7 @@
 import 'package:bic_android_web_support/databases/hive_database.dart';
 import 'package:bic_android_web_support/providers/credentials.dart';
 import 'package:bic_android_web_support/providers/crypto_api.dart';
+import 'package:bic_android_web_support/screens/screen_patient/patient_details.dart';
 import 'package:bic_android_web_support/screens/screens_auth/login_screen.dart';
 import 'package:bic_android_web_support/screens/screens_auth/sign_up_screen.dart';
 import 'package:bic_android_web_support/screens/screens_wallet/confirmation_screen.dart';
@@ -25,27 +26,21 @@ import 'package:provider/provider.dart';
 
 // ignore_for_file: prefer_const_constructors
 Future<void> main() async {
-   WidgetsFlutterBinding.ensureInitialized();
-   await Firebase.initializeApp();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
 
   await Hive.initFlutter();
 
   Hive.registerAdapter(WalletHiveAdapter());
   await Hive.openBox<WalletHive>('WalletHive');
-  
+
   runApp(MyApp());
-
-
 }
-
-
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
-
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -74,7 +69,6 @@ class MyApp extends StatelessWidget {
           ],
           localizationsDelegates: const [
             FormBuilderLocalizations.delegate,
-
           ],
           debugShowCheckedModeBanner: false,
           title: 'Blockchain in Flutter',
@@ -88,42 +82,41 @@ class MyApp extends StatelessWidget {
             backgroundColor: Color(0xFFf5f7ec),
             bottomAppBarColor: Color(0xFFf5f7ec),
             textTheme: ThemeData.light().textTheme.copyWith(
-              bodyText1: TextStyle(
-                  color: Color(0xff732eca),
-                  fontSize: 16,
-                  fontFamily: 'Handlee'),
-              bodyText2: TextStyle(
-                color: Color(0xFFf5f7ec),
-                fontFamily: 'Handlee',
-              ),
-
-              headline6: TextStyle(
-                color: kSecondaryColor[100],
-                fontSize: 15,
-                fontFamily: 'PlayfairDisplay',
-              ),
-              headline5: GoogleFonts.lato(
-                color: Color(0xFFf5f7ec),
-                fontSize: 18,
-                backgroundColor: Color(0xff732eca),
-              ),
-              headline4: GoogleFonts.lato(
-                  color: Color(0xff732eca),
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500),
-              headline3: GoogleFonts.lato(
-                  color: Color(0xff732eca),
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500),
-              headline2: GoogleFonts.lato(
-                  color: Color(0xFFf5f7ec),
-                  fontSize: 40,
-                  fontWeight: FontWeight.w500),
-              headline1: GoogleFonts.lato(
-                  color: Color(0xff732eca),
-                  fontSize: 40,
-                  fontWeight: FontWeight.w500),
-            ),
+                  bodyText1: TextStyle(
+                      color: Color(0xff732eca),
+                      fontSize: 16,
+                      fontFamily: 'Handlee'),
+                  bodyText2: TextStyle(
+                    color: Color(0xFFf5f7ec),
+                    fontFamily: 'Handlee',
+                  ),
+                  headline6: TextStyle(
+                    color: kSecondaryColor[100],
+                    fontSize: 15,
+                    fontFamily: 'PlayfairDisplay',
+                  ),
+                  headline5: GoogleFonts.lato(
+                    color: Color(0xFFf5f7ec),
+                    fontSize: 18,
+                    backgroundColor: Color(0xff732eca),
+                  ),
+                  headline4: GoogleFonts.lato(
+                      color: Color(0xff732eca),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500),
+                  headline3: GoogleFonts.lato(
+                      color: Color(0xff732eca),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500),
+                  headline2: GoogleFonts.lato(
+                      color: Color(0xFFf5f7ec),
+                      fontSize: 40,
+                      fontWeight: FontWeight.w500),
+                  headline1: GoogleFonts.lato(
+                      color: Color(0xff732eca),
+                      fontSize: 40,
+                      fontWeight: FontWeight.w500),
+                ),
           ),
           // home: WalletScreen(),
           routes: {
@@ -131,21 +124,28 @@ class MyApp extends StatelessWidget {
             '/': (ctx) => SignUpScreen(),
             // '/': (ctx) => WalletView(),
             // '/': (ctx) => Ipfs_screen(),
+            PatientDetails.routeName: (ctx) => PatientDetails(),
             PrescriptionScreen.routeName: (ctx) => PrescriptionScreen(),
             MedicalRecordScreen.routeName: (ctx) => MedicalRecordScreen(),
             WalletScreen.routeName: (ctx) => WalletScreen(),
             WalletView.routeName: (ctx) => WalletView(),
             WalletLogin.routeName: (ctx) => WalletLogin(),
-            TransferScreen.routeName: (ctx) => TransferScreen(address: '',),
+            TransferScreen.routeName: (ctx) => TransferScreen(
+                  address: '',
+                ),
             TabsScreen.routeName: (ctx) => TabsScreen(),
-            LoginScreen.routeName: (ctx)=> LoginScreen(),
-            SignUpScreen.routeName: (ctx)=> SignUpScreen(),
+            LoginScreen.routeName: (ctx) => LoginScreen(),
+            SignUpScreen.routeName: (ctx) => SignUpScreen(),
             TransactionList.routeName: (ctx) => TransactionList(),
-            ConfirmationScreen.routeName: (ctx) => ConfirmationScreen(receiverAddress: '',amount: '',password: '',senderAddress: '',)
+            ConfirmationScreen.routeName: (ctx) => ConfirmationScreen(
+                  receiverAddress: '',
+                  amount: '',
+                  password: '',
+                  senderAddress: '',
+                )
           },
         ),
       ),
     );
   }
 }
-
