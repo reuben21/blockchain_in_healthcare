@@ -1,7 +1,9 @@
+import 'package:bic_android_web_support/providers/ipfs.dart';
 import 'package:bic_android_web_support/screens/screens_auth/background.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:provider/provider.dart';
 
 class PatientDetails extends StatefulWidget {
   static const routeName = '/patientDetail';
@@ -231,7 +233,35 @@ class _PatientDetailsState extends State<PatientDetails> {
                               Theme.of(context).colorScheme.primary,
                           foregroundColor:
                               Theme.of(context).colorScheme.secondary,
-                          onPressed: () {},
+                          onPressed: () async {
+                            _formKey.currentState?.save();
+                            if (_formKey.currentState?.validate() != null) {
+                              // _formKey.currentState?.value["name"];
+                              // _formKey.currentState?.value["age"];
+                              // _formKey.currentState?.value["address"];
+                              // _formKey.currentState?.value["gender"];
+
+                              Map<String, dynamic> objText = {
+                                "firstName":
+                                    _formKey.currentState?.value["name"],
+                                "age": _formKey.currentState?.value["age"],
+                                "address":
+                                    _formKey.currentState?.value["address"],
+                                "gender":
+                                    _formKey.currentState?.value["gender"],
+                                // "lastName4": ["Coutinho", "Coutinho", "Coutinho"],
+                                // "age": 30
+                              };
+                              var hashReceived = await Provider.of<IPFSModel>(
+                                      context,
+                                      listen: false)
+                                  .sendData(objText);
+                              print("hashReceived ------" +
+                                  hashReceived.toString());
+                            } else {
+                              print("validation failed");
+                            }
+                          },
                           icon: Image.asset("assets/icons/sign_in.png",
                               color: Theme.of(context).colorScheme.secondary,
                               width: 25,
