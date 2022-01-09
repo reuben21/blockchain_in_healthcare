@@ -1,4 +1,5 @@
 import 'package:bic_android_web_support/screens/screens_wallet/view_wallet.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 
 import '../../screens/medical_records_screen.dart';
@@ -7,6 +8,7 @@ import '../../screens/prescription_screen.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:cloud_firestore/cloud_firestore.dart' as firestore;
 
 class TabsScreen extends StatefulWidget {
   static const routeName = '/tabs-screen';
@@ -18,11 +20,14 @@ class TabsScreen extends StatefulWidget {
 }
 
 class _TabsScreenState extends State<TabsScreen> {
+
   late List<Map<String, Object>> _pages;
   late List<Map<String, Widget>> _screens;
 
   @override
   void initState() {
+
+
     _pages = [
       {'title': 'Record'},
       {'title': 'Medicine'},

@@ -1,7 +1,6 @@
 import 'dart:convert';
 
-import 'package:bic_android_web_support/databases/boxes.dart';
-import 'package:bic_android_web_support/databases/hive_database.dart';
+import 'package:bic_android_web_support/databases/wallet_shared_preferences.dart';
 import 'package:bic_android_web_support/screens/screens_auth/background.dart';
 import 'package:bic_android_web_support/screens/screens_wallet/confirmation_screen.dart';
 
@@ -322,6 +321,14 @@ class _TransferScreenState extends State<TransferScreen> {
                                           // var dbResponse =
                                           // await DBProviderWallet.db.getWalletByWalletAddress(widget.address);
                                           // print(dbResponse);
+                                          var dbResponse = await WalletSharedPreference.getWalletDetails();
+
+
+                                          try {
+
+                                          Wallet newWallet = Wallet.fromJson(dbResponse!['walletEncryptedKey'].toString(), password);
+                                          credentialsNew = newWallet.privateKey;
+                                          myAddress = await credentialsNew.extractAddress();
 
                                           if (true) {
                                             Navigator.push(
@@ -331,13 +338,21 @@ class _TransferScreenState extends State<TransferScreen> {
                                                     ConfirmationScreen(
                                                   receiverAddress:
                                                       receiverAddress,
+                                                  credentials: credentialsNew,
                                                   amount: amount,
-                                                  password: password,
-                                                  senderAddress: widget.address,
+
+                                                  senderAddress: myAddress.hex,
                                                 ),
                                               ),
                                             );
                                           }
+                                        } catch(error) {
+
+                                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                              content: Text(error.toString()),
+                                            ));
+                                          }
+
                                         }
                                       },
                                       label: const Text("Transfer",
@@ -346,47 +361,7 @@ class _TransferScreenState extends State<TransferScreen> {
                                     ),
                                   ),
                                 ),
-                                // FloatingActionButton.extended(
-                                //   backgroundColor:
-                                //       Theme.of(context).colorScheme.primary,
-                                //   foregroundColor:
-                                //       Theme.of(context).colorScheme.secondary,
-                                //   onPressed: () async {
-                                //     Credentials credentialsNew;
-                                //     EthereumAddress myAddress;
-                                //     _formKey.currentState?.save();
-                                //     if (_formKey.currentState?.validate() !=
-                                //         null) {
-                                //       String amount = _formKey
-                                //           .currentState?.value["amount"];
-                                //       String receiverAddress = _formKey
-                                //           .currentState?.value["address"];
-                                //       String password = _formKey
-                                //           .currentState?.value["password"];
-                                //       // var dbResponse =
-                                //       // await DBProviderWallet.db.getWalletByWalletAddress(widget.address);
-                                //       // print(dbResponse);
-                                //
-                                //       if (true) {
-                                //         Navigator.push(
-                                //           context,
-                                //           MaterialPageRoute(
-                                //             builder: (context) =>
-                                //                 ConfirmationScreen(
-                                //                   receiverAddress: receiverAddress,
-                                //                   amount: amount,
-                                //                   password: password,
-                                //                   senderAddress: widget.address,
-                                //                 ),
-                                //           ),
-                                //         );
-                                //       }
-                                //     }
-                                //   },
-                                //   icon: const Icon(
-                                //       Icons.add_circle_outline_outlined),
-                                //   label: const Text('Transfer'),
-                                // ),
+
                               ],
                             )),
                       ),

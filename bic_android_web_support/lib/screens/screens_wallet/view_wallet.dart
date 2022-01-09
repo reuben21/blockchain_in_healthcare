@@ -1,10 +1,10 @@
 // import 'package:bic_android_web_support/providers/credentials.dart';
+import 'package:bic_android_web_support/databases/wallet_shared_preferences.dart';
 import 'package:bic_android_web_support/providers/crypto_api.dart';
 import 'package:bic_android_web_support/screens/screens_wallet/transaction_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:bic_android_web_support/databases/boxes.dart';
-import 'package:bic_android_web_support/databases/hive_database.dart';
+
 import 'package:bic_android_web_support/providers/wallet.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart' as firestore;
@@ -64,24 +64,15 @@ class _WalletViewState extends State<WalletView> {
   Future<void> didChangeDependencies() async {
     // TODO: implement didChangeDependencies
 
-    getWalletFromDatabase();
+
     super.didChangeDependencies();
   }
 
   Future<void> getWalletFromDatabase() async {
-    final box = Boxes.getWallets();
-    var dbResponse = box.values.toList().cast<WalletHive>();
-    // print(dbResponse.toString());
-    dbResponse.forEach((element) {
-      print(screenName + " " + element.walletAddress.toString());
-      if (options.contains(element.walletAddress)) {
-      } else {
-        // options.add(element.walletAddress);
-        walletAdd = element.walletAddress;
-        setState(() {
-          walletAdd;
-        });
-      }
+    var dbResponse = await WalletSharedPreference.getWalletDetails();
+    walletAdd = dbResponse!['walletAddress'].toString();
+    setState(() {
+      walletAdd;
     });
   }
 
@@ -125,7 +116,7 @@ class _WalletViewState extends State<WalletView> {
 
   @override
   Widget build(BuildContext context) {
-    getWalletFromDatabase();
+    // getWalletFromDatabase();
     print(screenName + " " + options.toString());
     print(screenName + " " + balanceOfAccount.toString());
     return Scaffold(

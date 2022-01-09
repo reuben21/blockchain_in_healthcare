@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:bic_android_web_support/databases/hive_database.dart';
+
 import 'package:bic_android_web_support/providers/wallet.dart';
 import 'package:bic_android_web_support/screens/Tabs/tabs_screen.dart';
 import 'package:bic_android_web_support/screens/screens_auth/background.dart';
@@ -8,7 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:hive/hive.dart';
+
 
 import '../../providers/patient.dart';
 import '../../theme.dart';
@@ -36,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void _submit(String emailId, String password) async {
     print(emailId + " " + password);
     try {
-      await Hive.openBox<WalletHive>('WalletHive');
+
       auth
           .signInWithEmailAndPassword(email: emailId, password: password)
           .then((value) async => {

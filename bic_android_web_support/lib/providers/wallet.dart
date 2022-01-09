@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
-import 'package:bic_android_web_support/databases/boxes.dart';
-import 'package:bic_android_web_support/databases/hive_database.dart';
+
+
+import 'package:bic_android_web_support/databases/wallet_shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart' as firestore;
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -17,7 +18,7 @@ import 'package:web3dart/web3dart.dart';
 class WalletModel with ChangeNotifier {
   FirebaseAuth auth = FirebaseAuth.instance;
   firestore.CollectionReference userFirestore =
-      firestore.FirebaseFirestore.instance.collection('users');
+  firestore.FirebaseFirestore.instance.collection('users');
 
   late String _walletAddress;
   late String _walletPassword;
@@ -48,7 +49,6 @@ class WalletModel with ChangeNotifier {
   late Web3Client _client;
 
 
-
   final String _rpcUrl = keys.rpcUrl;
 
   WalletModel() {
@@ -65,7 +65,7 @@ class WalletModel with ChangeNotifier {
     EthereumAddress contractAddress;
 
     String abiString =
-        await rootBundle.loadString('assets/abis/MainContract.json');
+    await rootBundle.loadString('assets/abis/MainContract.json');
     var abiJson = jsonDecode(abiString);
     abi = jsonEncode(abiJson['abi']);
 
@@ -85,10 +85,8 @@ class WalletModel with ChangeNotifier {
     return _client.getBalance(address);
   }
 
-  Future<List<dynamic>> readContract(
-    ContractFunction functionName,
-    List<dynamic> functionArgs,
-  ) async {
+  Future<List<dynamic>> readContract(ContractFunction functionName,
+      List<dynamic> functionArgs,) async {
     final contract = await getDeployedContract();
     var queryResult = await _client.call(
       contract: contract,
@@ -117,9 +115,6 @@ class WalletModel with ChangeNotifier {
 
   Future<bool> transferEther(Credentials credentials, String senderAddress,
       String receiverAddress, String amount) async {
-    
-
-
     try {
       EthereumAddress transactionTo;
       EthereumAddress transactionFrom;
@@ -137,19 +132,28 @@ class WalletModel with ChangeNotifier {
       TransactionReceipt? txReceipt =
       await _client.getTransactionReceipt(transactionHash);
 
-      if(auth.currentUser?.uid.toString() != null) {
-
-        userFirestore.doc(auth.currentUser?.uid.toString()).collection("transactions").doc().set({
-          "from":tx.from.hex.toString(),
-          "to":tx.to?.hex.toString(),
-          "value":tx.value.getInWei.toString(),
-          "status":txReceipt?.status.toString(),
-          "blockNumber":txReceipt?.blockNumber.blockNum.toString(),
-          "contractAddress":txReceipt?.contractAddress?.hex.toString(),
-          "gasUsed":txReceipt?.gasUsed.toString(),
-          "transactionHash":transactionHash,
-          "date":"${DateTime.now().year.toString()}-${DateTime.now().month.toString()}-${DateTime.now().day.toString()}",
-          "dateTime":DateTime.now().toIso8601String()
+      if (auth.currentUser?.uid.toString() != null) {
+        userFirestore.doc(auth.currentUser?.uid.toString()).collection(
+            "transactions").doc().set({
+          "from": tx.from.hex.toString(),
+          "to": tx.to?.hex.toString(),
+          "value": tx.value.getInWei.toString(),
+          "status": txReceipt?.status.toString(),
+          "blockNumber": txReceipt?.blockNumber.blockNum.toString(),
+          "contractAddress": txReceipt?.contractAddress?.hex.toString(),
+          "gasUsed": txReceipt?.gasUsed.toString(),
+          "transactionHash": transactionHash,
+          "date": "${DateTime
+              .now()
+              .year
+              .toString()}-${DateTime
+              .now()
+              .month
+              .toString()}-${DateTime
+              .now()
+              .day
+              .toString()}",
+          "dateTime": DateTime.now().toIso8601String()
         });
       }
 
@@ -171,8 +175,8 @@ class WalletModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> createWalletInternally(
-      String fullName, String emailId, String? userId, String password,String userType) async {
+  Future<void> createWalletInternally(String fullName, String emailId,
+      String? userId, String password, String userType) async {
     Credentials credentials;
     EthereumAddress myAddress;
 
@@ -180,7 +184,9 @@ class WalletModel with ChangeNotifier {
       var rng = Random.secure();
 
       BigInt EthPrivateKeyInteger =
-          EthPrivateKey.createRandom(rng).privateKeyInt;
+          EthPrivateKey
+              .createRandom(rng)
+              .privateKeyInt;
 
       credentials = EthPrivateKey.fromInt(EthPrivateKeyInteger);
       myAddress = await credentials.extractAddress();
@@ -199,18 +205,13 @@ class WalletModel with ChangeNotifier {
         'userEmail': emailId,
         'walletAddress': newWallet.privateKey.address.hex,
         'walletEncryptedKey': _walletCredentials,
-        'userType':userType
+        'userType': userType
       }).then((value) => {});
 
-      final walletHive = WalletHive()
-        ..walletAddress = newWallet.privateKey.address.hex
-        ..walletEncryptedKey = _walletCredentials
-        ..userEmail = emailId
-        ..userName = fullName
-        ..createdDate = DateTime.now();
 
-      final box = Boxes.getWallets();
-      box.add(walletHive);
+      await WalletSharedPreference.setWalletDetails(
+          fullName, emailId,  newWallet.privateKey.address.hex, _walletCredentials,
+          userType);
 
       notifyListeners();
     } on SocketException {
@@ -229,15 +230,14 @@ class WalletModel with ChangeNotifier {
     Credentials credentials;
     EthereumAddress myAddress;
 
-    print(uid.toString()+" "+password);
-
+    print(uid.toString() + " " + password);
 
 
     try {
-
       String emailId;
       String fullName;
-      userFirestore.doc(uid).get().then((firestore.DocumentSnapshot documentSnapshot) {
+      userFirestore.doc(uid).get().then((
+          firestore.DocumentSnapshot documentSnapshot) async {
         if (documentSnapshot.exists) {
           print('Document exists on the database');
           print(documentSnapshot.get('walletAddress'));
@@ -245,21 +245,15 @@ class WalletModel with ChangeNotifier {
           String walletAddressFirestore = documentSnapshot.get('walletAddress');
           String userEmailFirestore = documentSnapshot.get('userEmail');
           String userNameFirestore = documentSnapshot.get('userName');
-          String walletEncryptedKeyFirestore = documentSnapshot.get('walletEncryptedKey');
+          String userType = documentSnapshot.get('userType');
+          String walletEncryptedKeyFirestore = documentSnapshot.get(
+              'walletEncryptedKey');
 
-          final walletHive = WalletHive()
-            ..walletAddress = walletAddressFirestore
-            ..walletEncryptedKey = walletEncryptedKeyFirestore
-            ..userEmail =  userEmailFirestore
-            ..userName = userNameFirestore
-            ..createdDate = DateTime.now();
-
-          final box = Boxes.getWallets();
-          box.add(walletHive);
+          await WalletSharedPreference.setWalletDetails(
+              userNameFirestore, userEmailFirestore, walletAddressFirestore, walletEncryptedKeyFirestore,
+              userType);
         }
-
       });
-
 
 
       notifyListeners();
@@ -277,11 +271,10 @@ class WalletModel with ChangeNotifier {
 
   Future<bool> walletLogOut() async {
     try {
-      final box = Boxes.getWallets();
-      box.deleteFromDisk();
+      // final box = Boxes.getWallets();
+      // box.deleteFromDisk();
       auth.signOut();
       return true;
-
     } on SocketException {
       throw exception.HttpException("No Internet connection 😑");
     } on HttpException {
@@ -291,45 +284,43 @@ class WalletModel with ChangeNotifier {
     } catch (error) {
       throw exception.HttpException(error.toString());
     }
-
   }
 
-  Future<Map<String,dynamic>> estimateGas( String senderAddress,
+  Future<Map<String, dynamic>> estimateGas(String senderAddress,
       String receiverAddress, String amount) async {
     try {
+      var gasEstimate = await _client.estimateGas(
+          sender: EthereumAddress.fromHex(senderAddress),
+          to: EthereumAddress.fromHex(receiverAddress),
+          value: EtherAmount.fromUnitAndValue(EtherUnit.ether, amount));
 
+      var gasPrice = await _client.getGasPrice();
 
-     var gasEstimate = await _client.estimateGas(sender: EthereumAddress.fromHex(senderAddress),
-      to: EthereumAddress.fromHex(receiverAddress),value: EtherAmount.fromUnitAndValue(EtherUnit.ether, amount));
+      var gasCostEstimation = gasEstimate * gasPrice.getInWei;
 
-     var gasPrice = await _client.getGasPrice();
+      var gasAmountInWei = EtherAmount.fromUnitAndValue(
+          EtherUnit.wei, gasCostEstimation.toString());
 
-     var gasCostEstimation = gasEstimate * gasPrice.getInWei;
+      var actualAmountInWei = EtherAmount.fromUnitAndValue(
+          EtherUnit.ether, amount);
 
-     var gasAmountInWei = EtherAmount.fromUnitAndValue(EtherUnit.wei, gasCostEstimation.toString());
+      var totalAmount = (gasAmountInWei.getInWei + actualAmountInWei.getInWei) /
+          BigInt.from(1000000000000000000);
 
-     var actualAmountInWei = EtherAmount.fromUnitAndValue(EtherUnit.ether,amount);
-
-     var totalAmount = (gasAmountInWei.getInWei + actualAmountInWei.getInWei)/BigInt.from(1000000000000000000);
-
-      Map<String,dynamic> result = {
-       "gasPrice": gasPrice.getInWei,
-        "gasEstimate":gasEstimate,
+      Map<String, dynamic> result = {
+        "gasPrice": gasPrice.getInWei,
+        "gasEstimate": gasEstimate,
         "gasCostEstimation": gasCostEstimation,
-        "gasAmountInWei":gasAmountInWei.getInWei,
-        "actualAmountInWei":actualAmountInWei.getInWei,
-        "totalAmount":totalAmount.toString()
+        "gasAmountInWei": gasAmountInWei.getInWei,
+        "actualAmountInWei": actualAmountInWei.getInWei,
+        "totalAmount": totalAmount.toString()
       };
 
       print(result);
 
 
-
-
-
-        notifyListeners();
-        return result;
-
+      notifyListeners();
+      return result;
     } on SocketException {
       throw exception.HttpException("No Internet connection 😑");
     } on HttpException {
@@ -339,7 +330,6 @@ class WalletModel with ChangeNotifier {
     } catch (error) {
       throw exception.HttpException(error.toString());
     }
-
   }
 
 

@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:bic_android_web_support/databases/hive_database.dart';
+
 import 'package:bic_android_web_support/providers/wallet.dart';
 import 'package:bic_android_web_support/screens/Tabs/tabs_screen.dart';
 import 'package:bic_android_web_support/screens/screen_unusefull/create_wallet.dart';
@@ -10,7 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:hive/hive.dart';
+
 import 'package:flutter/foundation.dart' show kIsWeb;
 import '../../providers/patient.dart';
 import 'login_screen.dart';
@@ -53,7 +53,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   void _submit(
       String name, String emailId, String password, String userType) async {
-    await Hive.openBox<WalletHive>('WalletHive');
+    // await Hive.openBox<WalletHive>('WalletHive');
     try {
       print(name + " " + emailId + " " + password + " " + userType);
       auth
