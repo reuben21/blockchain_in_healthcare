@@ -60,6 +60,7 @@ class _PatientDetailsState extends State<PatientDetails> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       // appBar: AppBar(
       //   elevation: 0,
@@ -227,47 +228,51 @@ class _PatientDetailsState extends State<PatientDetails> {
                             ),
                           ),
                         ),
-                        FloatingActionButton.extended(
-                          heroTag: "StorePatienDetails",
-                          backgroundColor:
-                              Theme.of(context).colorScheme.primary,
-                          foregroundColor:
-                              Theme.of(context).colorScheme.secondary,
-                          onPressed: () async {
-                            _formKey.currentState?.save();
-                            if (_formKey.currentState?.validate() != null) {
-                              // _formKey.currentState?.value["name"];
-                              // _formKey.currentState?.value["age"];
-                              // _formKey.currentState?.value["address"];
-                              // _formKey.currentState?.value["gender"];
+                        Container(
+                          height: 50,
+                          width: size.width * 0.8,
+                          child: FloatingActionButton.extended(
+                            heroTag: "StorePatienDetails",
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                            foregroundColor:
+                                Theme.of(context).colorScheme.secondary,
+                            onPressed: () async {
+                              _formKey.currentState?.save();
+                              if (_formKey.currentState?.validate() != null) {
+                                // _formKey.currentState?.value["name"];
+                                // _formKey.currentState?.value["age"];
+                                // _formKey.currentState?.value["address"];
+                                // _formKey.currentState?.value["gender"];
 
-                              Map<String, dynamic> objText = {
-                                "firstName":
-                                    _formKey.currentState?.value["name"],
-                                "age": _formKey.currentState?.value["age"],
-                                "address":
-                                    _formKey.currentState?.value["address"],
-                                "gender":
-                                    _formKey.currentState?.value["gender"],
-                                // "lastName4": ["Coutinho", "Coutinho", "Coutinho"],
-                                // "age": 30
-                              };
-                              var hashReceived = await Provider.of<IPFSModel>(
-                                      context,
-                                      listen: false)
-                                  .sendData(objText);
-                              print("hashReceived ------" +
-                                  hashReceived.toString());
-                            } else {
-                              print("validation failed");
-                            }
-                          },
-                          icon: Image.asset("assets/icons/sign_in.png",
-                              color: Theme.of(context).colorScheme.secondary,
-                              width: 25,
-                              fit: BoxFit.fill,
-                              height: 25),
-                          label: const Text('Store Details'),
+                                Map<String, dynamic> objText = {
+                                  "firstName":
+                                      _formKey.currentState?.value["name"],
+                                  "age": _formKey.currentState?.value["age"],
+                                  "address":
+                                      _formKey.currentState?.value["address"],
+                                  "gender":
+                                      _formKey.currentState?.value["gender"],
+                                  // "lastName4": ["Coutinho", "Coutinho", "Coutinho"],
+                                  // "age": 30
+                                };
+                                var hashReceived = await Provider.of<IPFSModel>(
+                                        context,
+                                        listen: false)
+                                    .sendData(objText);
+                                print("hashReceived ------" +
+                                    hashReceived.toString());
+                              } else {
+                                print("validation failed");
+                              }
+                            },
+                            icon: Image.asset("assets/icons/sign_in.png",
+                                color: Theme.of(context).colorScheme.secondary,
+                                width: 25,
+                                fit: BoxFit.fill,
+                                height: 25),
+                            label: const Text('Store Details'),
+                          ),
                         ),
                       ],
                     ),

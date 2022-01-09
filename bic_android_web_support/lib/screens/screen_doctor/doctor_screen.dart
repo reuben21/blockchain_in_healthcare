@@ -51,7 +51,7 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
       MsgSignature _msgSignature = sign(messageHash, privateKeyInt);
 
       MsgSignature _msgSignature2 =
-      MsgSignature(_msgSignature.r, _msgSignature.s, _msgSignature.v);
+          MsgSignature(_msgSignature.r, _msgSignature.s, _msgSignature.v);
 
       Uint8List publicKey = privateKeyBytesToPublic(privateKeyInt);
 
@@ -71,8 +71,7 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
         title: const Text("Doctor Record"),
       ),
       body: SingleChildScrollView(
-        child: Container(
-        ),
+        child: Container(),
       ),
     );
   }
