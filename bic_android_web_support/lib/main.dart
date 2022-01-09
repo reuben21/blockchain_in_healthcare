@@ -1,6 +1,7 @@
 import 'package:bic_android_web_support/databases/wallet_shared_preferences.dart';
 import 'package:bic_android_web_support/providers/credentials.dart';
 import 'package:bic_android_web_support/providers/crypto_api.dart';
+import 'package:bic_android_web_support/screens/screen_doctor/doctor_details.dart';
 import 'package:bic_android_web_support/screens/screen_patient/patient_details.dart';
 import 'package:bic_android_web_support/screens/screens_auth/login_screen.dart';
 import 'package:bic_android_web_support/screens/screens_auth/sign_up_screen.dart';
@@ -124,6 +125,7 @@ class MyApp extends StatelessWidget {
             '/': (ctx) => SignUpScreen(),
             // '/': (ctx) => WalletView(),
             // '/': (ctx) => Ipfs_screen(),
+            DoctorDetails.routeName: (ctx) => DoctorDetails(),
             PatientDetails.routeName: (ctx) => PatientDetails(),
             PrescriptionScreen.routeName: (ctx) => PrescriptionScreen(),
             MedicalRecordScreen.routeName: (ctx) => MedicalRecordScreen(),
@@ -143,7 +145,7 @@ class MyApp extends StatelessWidget {
                   amount: '',
                   senderAddress: '',
                 ),
-            SplashWelcomeScreen.routeName:(ctx) => SplashWelcomeScreen()
+            SplashWelcomeScreen.routeName: (ctx) => SplashWelcomeScreen()
           },
         ),
       ),

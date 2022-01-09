@@ -5,15 +5,16 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:provider/provider.dart';
 
-class PatientDetails extends StatefulWidget {
-  static const routeName = '/patientDetail';
-  const PatientDetails({Key? key}) : super(key: key);
+class DoctorDetails extends StatefulWidget {
+  static const routeName = '/doctorDetail';
+
+  const DoctorDetails({Key? key}) : super(key: key);
 
   @override
-  _PatientDetailsState createState() => _PatientDetailsState();
+  _DoctorDetailsState createState() => _DoctorDetailsState();
 }
 
-class _PatientDetailsState extends State<PatientDetails> {
+class _DoctorDetailsState extends State<DoctorDetails> {
   final _formKey = GlobalKey<FormBuilderState>();
 
   Widget formBuilderTextFieldWidget(
@@ -81,7 +82,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Patient Detail',
+                          'Doctors Detail',
                           style: Theme.of(context).textTheme.headline1,
                         ),
                         // SizedBox(height: size.height * 0.03),
@@ -236,7 +237,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                           height: 50,
                           width: size.width * 0.8,
                           child: FloatingActionButton.extended(
-                            heroTag: "StorePatienDetails",
+                            heroTag: "StoreDoctorDetails",
                             backgroundColor:
                                 Theme.of(context).colorScheme.primary,
                             foregroundColor:

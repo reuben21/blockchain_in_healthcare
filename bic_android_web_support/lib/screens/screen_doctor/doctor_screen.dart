@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:bic_android_web_support/providers/ipfs.dart';
+import 'package:bic_android_web_support/screens/screen_doctor/doctor_details.dart';
 import 'package:bic_android_web_support/screens/screen_patient/patient_details.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -71,7 +72,27 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
         title: const Text("Doctor Record"),
       ),
       body: SingleChildScrollView(
-        child: Container(),
+        child: Container(
+          child: FloatingActionButton.extended(
+            heroTag: "PatientDetails",
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            foregroundColor: Theme.of(context).colorScheme.secondary,
+            onPressed: () async {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DoctorDetails(),
+                ),
+              );
+            },
+            icon: Image.asset("assets/icons/sign_in.png",
+                color: Theme.of(context).colorScheme.secondary,
+                width: 25,
+                fit: BoxFit.fill,
+                height: 25),
+            label: const Text('Log In'),
+          ),
+        ),
       ),
     );
   }
