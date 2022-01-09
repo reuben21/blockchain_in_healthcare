@@ -156,7 +156,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                                               scale: 4,
                                               width: 15,
                                               height: 15),
-                                          true,
+                                          false,
                                           [
                                             FormBuilderValidators.required(
                                                 context),
@@ -224,6 +224,20 @@ class _PatientDetailsState extends State<PatientDetails> {
                               ),
                             ),
                           ),
+                        ),
+                        FloatingActionButton.extended(
+                          heroTag: "StorePatienDetails",
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primary,
+                          foregroundColor:
+                              Theme.of(context).colorScheme.secondary,
+                          onPressed: () {},
+                          icon: Image.asset("assets/icons/sign_in.png",
+                              color: Theme.of(context).colorScheme.secondary,
+                              width: 25,
+                              fit: BoxFit.fill,
+                              height: 25),
+                          label: const Text('Store Details'),
                         ),
                       ],
                     ),
