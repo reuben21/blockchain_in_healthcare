@@ -15,6 +15,7 @@ class _PatientDetailsState extends State<PatientDetails> {
   final _formKey = GlobalKey<FormBuilderState>();
 
   Widget formBuilderTextFieldWidget(
+      TextInputType inputTextType,
       String initialValue,
       String fieldName,
       String labelText,
@@ -22,7 +23,7 @@ class _PatientDetailsState extends State<PatientDetails> {
       bool obscure,
       List<FormFieldValidator> validators) {
     return FormBuilderTextField(
-      // keyboardType: ,
+      keyboardType: inputTextType,
       initialValue: initialValue,
       obscureText: obscure,
       maxLines: 1,
@@ -103,6 +104,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                                   Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
+                                          TextInputType.text,
                                           'Ankita Tripathi',
                                           'name',
                                           'Full Name',
@@ -122,7 +124,8 @@ class _PatientDetailsState extends State<PatientDetails> {
                                   Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
-                                          '40,',
+                                          TextInputType.number,
+                                          '40',
                                           'age',
                                           'Age',
                                           Image.asset(
@@ -141,6 +144,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                                   Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
+                                          TextInputType.streetAddress,
                                           'skldfjf',
                                           'address',
                                           'Address',
