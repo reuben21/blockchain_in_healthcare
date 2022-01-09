@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:bic_android_web_support/providers/wallet.dart';
-import 'package:bic_android_web_support/screens/Tabs/tabs_screen.dart';
+import 'package:bic_android_web_support/screens/Tabs/tabs_screen_patient.dart';
 import 'package:bic_android_web_support/screens/screens_auth/background.dart';
 import 'package:bic_android_web_support/screens/screens_auth/textfieldcontainer.dart';
 import 'package:firebase_auth/firebase_auth.dart';

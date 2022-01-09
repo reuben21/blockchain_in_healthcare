@@ -13,7 +13,7 @@ import 'package:web3dart/credentials.dart';
 import '../providers/ipfs.dart';
 import '../providers/patient.dart';
 import '../providers/wallet.dart';
-import '../screens/Tabs/tabs_screen.dart';
+import '../screens/Tabs/tabs_screen_patient.dart';
 import '../screens/medical_records_screen.dart';
 import '../screens/prescription_screen.dart';
 import 'screens/screens_wallet/transfer_screen.dart';

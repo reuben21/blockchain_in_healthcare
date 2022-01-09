@@ -1,3 +1,8 @@
+import 'dart:ffi';
+
+import 'package:bic_android_web_support/databases/wallet_shared_preferences.dart';
+import 'package:bic_android_web_support/screens/screen_pharmacy/pharmacy_prescription.dart';
+import 'package:bic_android_web_support/screens/screen_pharmacy/pharmacy_screen.dart';
 import 'package:bic_android_web_support/screens/screens_wallet/view_wallet.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
@@ -20,27 +25,53 @@ class TabsScreen extends StatefulWidget {
 }
 
 class _TabsScreenState extends State<TabsScreen> {
+  late final List<Map<String, Widget>> screen;
+  late List<Map<String, Object>> _pagesPatient = [
+    {'title': 'Record'},
+    {'title': 'Medicine'},
+    {'title': 'Wallet'}
+  ];
 
-  late List<Map<String, Object>> _pages;
-  late List<Map<String, Widget>> _screens;
+  late final List<Map<String, Widget>> _screensPatient = [
+    {'page': MedicalRecordScreen()},
+    {'page': PrescriptionScreen()},
+    {'page': WalletView()}
+  ];
+
+  late List<Map<String, Widget>> _iconsPatient = [
+    {'page': PharmacyRecordScreen()},
+    {'page': PharmacyPrescriptionScreen()},
+    {'page': WalletView()}
+  ];
+
+  late final List<Map<String, Widget>> _screensPharmacy = [
+    {'page': PharmacyRecordScreen()},
+    {'page': PharmacyPrescriptionScreen()},
+    {'page': WalletView()}
+  ];
+
 
   @override
   void initState() {
+    getUserType();
 
-
-    _pages = [
-      {'title': 'Record'},
-      {'title': 'Medicine'},
-      {'title': 'Wallet'}
-    ];
-    _screens = [
-      {'page': MedicalRecordScreen()},
-      {'page': PrescriptionScreen()},
-      {'page': WalletView()}
-    ];
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     super.initState();
   }
+  Future<void> getUserType() async {
+    String? userType = await WalletSharedPreference.getUserType();
+    if(userType == 'Patient') {
+      _setEntityPage(_screensPatient);
+    } else if(userType == 'Doctor') {
+      _setEntityPage(_screensPatient);
+    }  else if(userType == 'Hospital') {
+      _setEntityPage(_screensPatient);
+    }  else if(userType == 'Pharmacy') {
+      _setEntityPage(_screensPharmacy);
+    }
+
+  }
+
 
   @override
   void dispose() {
@@ -49,10 +80,18 @@ class _TabsScreenState extends State<TabsScreen> {
 
   int _selectPageIndex = 0;
 
+
   void _selectPage(int index) {
     setState(() {
       _selectPageIndex = index;
     });
+  }
+
+  void _setEntityPage(List<Map<String, Widget>> page) {
+    setState(() {
+      screen = page;
+    });
+
   }
 
   @override
@@ -63,7 +102,7 @@ class _TabsScreenState extends State<TabsScreen> {
       // appBar: AppBar(
       //   title: Text(_pages[_selectPageIndex]['title'].toString()),
       // ),
-      body: _screens[_selectPageIndex]['page'],
+      body: screen[_selectPageIndex]['page'],
       bottomNavigationBar: BottomNavyBar(
         // backgroundColor: Theme.of(context).bottomAppBarColor,
         // unselectedItemColor: Colors.white,

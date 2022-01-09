@@ -45,5 +45,10 @@ class WalletSharedPreference {
     return walletDetails;
   }
 
+  static Future<String?> getUserType() async {
+    String? userType =  _preferences.getString(_userType);
+    return userType;
+  }
+
 
 }

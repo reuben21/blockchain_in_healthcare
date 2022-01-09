@@ -112,7 +112,7 @@ class _MedicalRecordScreenState extends State<MedicalRecordScreen> {
                 print("hashReceived ------" + hashReceived.toString());
               },
               icon: const Icon(Icons.qr_code_scanner),
-              label: const Text('Send'),
+              label: const Text('Send Patient'),
             ),
             FloatingActionButton.extended(
               backgroundColor: Theme.of(context).colorScheme.secondary,

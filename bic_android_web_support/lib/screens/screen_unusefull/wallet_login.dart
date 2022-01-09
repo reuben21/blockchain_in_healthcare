@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import '../../providers/wallet.dart';
-import '../Tabs/tabs_screen.dart';
+import '../Tabs/tabs_screen_patient.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';

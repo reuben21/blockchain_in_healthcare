@@ -2,7 +2,7 @@ import 'dart:convert';
 
 
 import 'package:bic_android_web_support/databases/wallet_shared_preferences.dart';
-import 'package:bic_android_web_support/screens/Tabs/tabs_screen.dart';
+import 'package:bic_android_web_support/screens/Tabs/tabs_screen_patient.dart';
 
 import '../../providers/wallet.dart';
 import 'package:flutter/material.dart';
