@@ -4981,19 +4981,19 @@
     "absolutePath": "project:/contracts/HospitalToken.sol",
     "exportedSymbols": {
       "Context": [
-        3115
+        3206
       ],
       "ERC20": [
-        2264
+        2355
       ],
       "HospitalToken": [
         30
       ],
       "IERC20": [
-        2342
+        2433
       ],
       "IERC20Metadata": [
-        2367
+        2458
       ]
     },
     "id": 31,
@@ -5017,7 +5017,7 @@
         "id": 2,
         "nodeType": "ImportDirective",
         "scope": 31,
-        "sourceUnit": 2265,
+        "sourceUnit": 2356,
         "src": "60:56:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -5030,7 +5030,7 @@
               "id": 3,
               "name": "ERC20",
               "nodeType": "IdentifierPath",
-              "referencedDeclaration": 2264,
+              "referencedDeclaration": 2355,
               "src": "146:5:0"
             },
             "id": 4,
@@ -5039,20 +5039,20 @@
           }
         ],
         "contractDependencies": [
-          2264,
-          2342,
-          2367,
-          3115
+          2355,
+          2433,
+          2458,
+          3206
         ],
         "contractKind": "contract",
         "fullyImplemented": true,
         "id": 30,
         "linearizedBaseContracts": [
           30,
-          2264,
-          2367,
-          2342,
-          3115
+          2355,
+          2458,
+          2433,
+          3206
         ],
         "name": "HospitalToken",
         "nodeType": "ContractDefinition",
@@ -5124,7 +5124,7 @@
                       "name": "_mint",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2124,
+                      "referencedDeclaration": 2215,
                       "src": "214:5:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_$_t_uint256_$returns$__$",
@@ -5196,7 +5196,7 @@
                   "id": 6,
                   "name": "ERC20",
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 2264,
+                  "referencedDeclaration": 2355,
                   "src": "173:5:0"
                 },
                 "nodeType": "ModifierInvocation",
@@ -5354,19 +5354,19 @@
     "absolutePath": "project:/contracts/HospitalToken.sol",
     "exportedSymbols": {
       "Context": [
-        3115
+        3206
       ],
       "ERC20": [
-        2264
+        2355
       ],
       "HospitalToken": [
         30
       ],
       "IERC20": [
-        2342
+        2433
       ],
       "IERC20Metadata": [
-        2367
+        2458
       ]
     },
     "id": 31,
@@ -5390,7 +5390,7 @@
         "id": 2,
         "nodeType": "ImportDirective",
         "scope": 31,
-        "sourceUnit": 2265,
+        "sourceUnit": 2356,
         "src": "60:56:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -5403,7 +5403,7 @@
               "id": 3,
               "name": "ERC20",
               "nodeType": "IdentifierPath",
-              "referencedDeclaration": 2264,
+              "referencedDeclaration": 2355,
               "src": "146:5:0"
             },
             "id": 4,
@@ -5412,20 +5412,20 @@
           }
         ],
         "contractDependencies": [
-          2264,
-          2342,
-          2367,
-          3115
+          2355,
+          2433,
+          2458,
+          3206
         ],
         "contractKind": "contract",
         "fullyImplemented": true,
         "id": 30,
         "linearizedBaseContracts": [
           30,
-          2264,
-          2367,
-          2342,
-          3115
+          2355,
+          2458,
+          2433,
+          3206
         ],
         "name": "HospitalToken",
         "nodeType": "ContractDefinition",
@@ -5497,7 +5497,7 @@
                       "name": "_mint",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2124,
+                      "referencedDeclaration": 2215,
                       "src": "214:5:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_$_t_uint256_$returns$__$",
@@ -5569,7 +5569,7 @@
                   "id": 6,
                   "name": "ERC20",
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 2264,
+                  "referencedDeclaration": 2355,
                   "src": "173:5:0"
                 },
                 "nodeType": "ModifierInvocation",
@@ -5729,14 +5729,65 @@
   },
   "networks": {
     "5777": {
-      "events": {},
+      "events": {
+        "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "spender",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "value",
+              "type": "uint256"
+            }
+          ],
+          "name": "Approval",
+          "type": "event"
+        },
+        "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "from",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "to",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "value",
+              "type": "uint256"
+            }
+          ],
+          "name": "Transfer",
+          "type": "event"
+        }
+      },
       "links": {},
       "address": "0xe8eb2b150Dfd4EC8617c0C522f48017D92879F38",
       "transactionHash": "0x5bcd23ef0d7d847b64756e56b1072d25b19aad3b12970eb4ae9c51dd8ab01b10"
     }
   },
   "schemaVersion": "3.4.4",
-  "updatedAt": "2022-01-07T17:40:26.375Z",
+  "updatedAt": "2022-01-09T13:31:16.103Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",

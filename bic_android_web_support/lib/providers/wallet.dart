@@ -82,7 +82,17 @@ class WalletModel with ChangeNotifier {
   }
 
   Future<EtherAmount> getAccountBalance(EthereumAddress address) async {
+    try {
     return _client.getBalance(address);
+    } on SocketException {
+      throw exception.HttpException("No Internet connection 😑");
+    } on HttpException {
+      throw exception.HttpException("Couldn't find the post 😱");
+    } on FormatException {
+      throw exception.HttpException("Bad response format 👎");
+    } catch (error) {
+      throw exception.HttpException(error.toString());
+    }
   }
 
   Future<List<dynamic>> readContract(ContractFunction functionName,
@@ -111,7 +121,6 @@ class WalletModel with ChangeNotifier {
   }
 
   // writeContract('storePharmacy', ['Pharmacy A','pharmacy ipfs hash',credentials.toString()], credentials);
-
 
   Future<bool> transferEther(Credentials credentials, String senderAddress,
       String receiverAddress, String amount) async {
