@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:bic_android_web_support/databases/boxes.dart';
-import 'package:bic_android_web_support/databases/hive_database.dart';
+
+import 'package:bic_android_web_support/databases/wallet_shared_preferences.dart';
 import 'package:bic_android_web_support/screens/Tabs/tabs_screen.dart';
 
 import '../../providers/wallet.dart';
@@ -17,13 +17,13 @@ class ConfirmationScreen extends StatefulWidget {
 
   final String receiverAddress;
   final String senderAddress;
-  final String password;
   final String amount;
+  final Credentials credentials;
 
   const ConfirmationScreen(
       {required this.receiverAddress,
+        required this.credentials,
       required this.amount,
-      required this.password,
       required this.senderAddress});
 
   @override
@@ -393,23 +393,18 @@ class _ConfirmationScreenState extends State<ConfirmationScreen> {
 
                       String amount = widget.amount;
                       String receiverAddress = widget.receiverAddress;
-                      String password = widget.password;
+
                       // var dbResponse =
                       // await DBProviderWallet.db.getWalletByWalletAddress(widget.address);
                       // print(dbResponse);
 
                       if (true) {
-                        final box = Boxes.getWallets();
-                        var dbResponse = box.values.toList().cast<WalletHive>();
 
-                        Wallet newWallet = Wallet.fromJson(
-                            dbResponse[0].walletEncryptedKey, password);
-                        credentialsNew = newWallet.privateKey;
-                        myAddress = await credentialsNew.extractAddress();
-                        print(myAddress);
+
+
                         var txStatus = await Provider.of<WalletModel>(context,
                                 listen: false)
-                            .transferEther(credentialsNew, myAddress.hex,
+                            .transferEther(widget.credentials, widget.senderAddress,
                                 receiverAddress, amount);
                         if (txStatus) {
                           Navigator.push(

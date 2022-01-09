@@ -1,14 +1,15 @@
 import 'dart:async';
-import 'package:bic_android_web_support/databases/hive_database.dart';
+
 import 'package:bic_android_web_support/providers/wallet.dart';
 import 'package:bic_android_web_support/screens/Tabs/tabs_screen.dart';
 import 'package:bic_android_web_support/screens/screens_auth/background.dart';
 import 'package:bic_android_web_support/screens/screens_auth/textfieldcontainer.dart';
+import 'package:bic_android_web_support/screens/splash_welcome_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:hive/hive.dart';
+
 
 import '../../providers/patient.dart';
 import '../../theme.dart';
@@ -36,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void _submit(String emailId, String password) async {
     print(emailId + " " + password);
     try {
-      await Hive.openBox<WalletHive>('WalletHive');
+
       auth
           .signInWithEmailAndPassword(email: emailId, password: password)
           .then((value) async => {
@@ -48,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     // _showErrorDialog("Wallet Has Been Created");
                   }
               });
-      Navigator.of(context).pushNamed(TabsScreen.routeName);
+      Navigator.of(context).pushNamed(SplashWelcomeScreen.routeName);
     } catch (error) {
       _showErrorDialog(error.toString());
     }
@@ -106,6 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             Padding(
                                 padding: const EdgeInsets.all(15),
                                 child: FormBuilderTextField(
+                                  initialValue: 'reuben211999@gmail.com',
                                   maxLines: 1,
                                   name: 'emailId',
                                   decoration: InputDecoration(
@@ -121,22 +123,22 @@ class _LoginScreenState extends State<LoginScreen> {
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(25.0),
                                     ),
-                                    labelStyle: TextStyle(
+                                    labelStyle: const TextStyle(
                                       color: Color(0xFF6200EE),
                                     ),
                                     errorBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Color(0xFF6200EE)),
+                                      borderSide:const
+                                          BorderSide(color: const Color(0xFF6200EE)),
                                       borderRadius: BorderRadius.circular(25.0),
                                     ),
                                     focusedErrorBorder: OutlineInputBorder(
                                       borderSide:
-                                          BorderSide(color: Color(0xFF6200EE)),
+                                          const BorderSide(color: Color(0xFF6200EE)),
                                       borderRadius: BorderRadius.circular(25.0),
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide:
-                                          BorderSide(color: Color(0xFF6200EE)),
+                                          const BorderSide(color: Color(0xFF6200EE)),
                                       borderRadius: BorderRadius.circular(25.0),
                                     ),
                                   ),
@@ -149,6 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             Padding(
                                 padding: const EdgeInsets.all(15),
                                 child: FormBuilderTextField(
+                                  initialValue: 'Reuben@21',
                                   obscureText: true,
                                   maxLines: 1,
                                   name: 'password',

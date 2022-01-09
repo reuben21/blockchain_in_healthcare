@@ -1,4 +1,4 @@
-import 'package:bic_android_web_support/databases/hive_database.dart';
+import 'package:bic_android_web_support/databases/wallet_shared_preferences.dart';
 import 'package:bic_android_web_support/providers/credentials.dart';
 import 'package:bic_android_web_support/providers/crypto_api.dart';
 import 'package:bic_android_web_support/screens/screen_patient/patient_details.dart';
@@ -7,8 +7,10 @@ import 'package:bic_android_web_support/screens/screens_auth/sign_up_screen.dart
 import 'package:bic_android_web_support/screens/screens_wallet/confirmation_screen.dart';
 import 'package:bic_android_web_support/screens/screens_wallet/transaction_list.dart';
 import 'package:bic_android_web_support/screens/screens_wallet/view_wallet.dart';
+import 'package:bic_android_web_support/screens/splash_welcome_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:web3dart/credentials.dart';
+
 import '../providers/ipfs.dart';
 import '../providers/patient.dart';
 import '../providers/wallet.dart';
@@ -29,15 +31,13 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  await Hive.initFlutter();
-
-  Hive.registerAdapter(WalletHiveAdapter());
-  await Hive.openBox<WalletHive>('WalletHive');
+  await WalletSharedPreference.init();
 
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  late Credentials credentials;
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -138,11 +138,12 @@ class MyApp extends StatelessWidget {
             SignUpScreen.routeName: (ctx) => SignUpScreen(),
             TransactionList.routeName: (ctx) => TransactionList(),
             ConfirmationScreen.routeName: (ctx) => ConfirmationScreen(
+                  credentials: credentials,
                   receiverAddress: '',
                   amount: '',
-                  password: '',
                   senderAddress: '',
-                )
+                ),
+            SplashWelcomeScreen.routeName:(ctx) => SplashWelcomeScreen()
           },
         ),
       ),

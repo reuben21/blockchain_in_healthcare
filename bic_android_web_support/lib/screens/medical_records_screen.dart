@@ -68,6 +68,7 @@ class _MedicalRecordScreenState extends State<MedicalRecordScreen> {
         backgroundColor: Theme.of(context).colorScheme.primary,
         elevation: 0,
         automaticallyImplyLeading: false,
+        title: const Text("Patient Records"),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -112,7 +113,7 @@ class _MedicalRecordScreenState extends State<MedicalRecordScreen> {
                 print("hashReceived ------" + hashReceived.toString());
               },
               icon: const Icon(Icons.qr_code_scanner),
-              label: const Text('Send'),
+              label: const Text('Send Patient'),
             ),
             FloatingActionButton.extended(
               backgroundColor: Theme.of(context).colorScheme.secondary,

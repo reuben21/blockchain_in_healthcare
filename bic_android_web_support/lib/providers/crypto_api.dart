@@ -14,7 +14,7 @@ class CryptoApiModel with ChangeNotifier {
     try {
 
       http.Response response = await http.get(Uri.parse(cryptoUrl+"/ETH/INR"),
-          headers: {"X-CoinAPI-Key": "5C33017A-65B2-4CC0-A73C-41FCD23BFE19"});;
+          headers: {"X-CoinAPI-Key": "5C33017A-65B2-4CC0-A73C-41FCD23BFE19"});
       final responseBody = json.decode(response.body);
       final statusCode = response.statusCode;
 

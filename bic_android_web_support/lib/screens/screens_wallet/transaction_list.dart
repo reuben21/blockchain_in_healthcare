@@ -1,6 +1,4 @@
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:bic_android_web_support/databases/boxes.dart';
-import 'package:bic_android_web_support/databases/hive_database.dart';
 import 'package:bic_android_web_support/providers/wallet.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
