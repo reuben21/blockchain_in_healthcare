@@ -14,9 +14,16 @@ class PatientDetails extends StatefulWidget {
 class _PatientDetailsState extends State<PatientDetails> {
   final _formKey = GlobalKey<FormBuilderState>();
 
-  Widget formBuilderTextFieldWidget(String fieldName, String labelText,
-      Image icon, bool obscure, List<FormFieldValidator> validators) {
+  Widget formBuilderTextFieldWidget(
+      String initialValue,
+      String fieldName,
+      String labelText,
+      Image icon,
+      bool obscure,
+      List<FormFieldValidator> validators) {
     return FormBuilderTextField(
+      // keyboardType: ,
+      initialValue: initialValue,
       obscureText: obscure,
       maxLines: 1,
       name: fieldName,
@@ -96,6 +103,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                                   Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
+                                          'Ankita Tripathi',
                                           'name',
                                           'Full Name',
                                           Image.asset(
@@ -114,6 +122,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                                   Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
+                                          '40,',
                                           'age',
                                           'Age',
                                           Image.asset(
@@ -132,6 +141,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                                   Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
+                                          'skldfjf',
                                           'address',
                                           'Address',
                                           Image.asset(
@@ -150,6 +160,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                                   Padding(
                                     padding: const EdgeInsets.all(15),
                                     child: FormBuilderDropdown(
+                                      initialValue: 'Female',
                                       name: 'gender',
                                       decoration: InputDecoration(
                                         labelText: "Gender",

@@ -122,7 +122,8 @@ class _MedicalRecordScreenState extends State<MedicalRecordScreen> {
                     await Provider.of<IPFSModel>(context, listen: false)
                         .receiveData(
                             "Qmag49qRfLCsyDcBgkp7bf21ox4HgnEgHuYxKxjTjodbmx");
-                print("dataReceived ------" + dataReceived!['firstName']);
+                print("dataReceived ------" +
+                    dataReceived!['lastName4'][0].toString());
               },
               icon: const Icon(Icons.qr_code_scanner),
               label: const Text('Receive'),
