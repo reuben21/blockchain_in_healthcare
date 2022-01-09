@@ -1,6 +1,8 @@
 import 'dart:ffi';
 
 import 'package:bic_android_web_support/databases/wallet_shared_preferences.dart';
+import 'package:bic_android_web_support/screens/screen_doctor/doctor_prescription.dart';
+import 'package:bic_android_web_support/screens/screen_doctor/doctor_screen.dart';
 import 'package:bic_android_web_support/screens/screen_pharmacy/pharmacy_prescription.dart';
 import 'package:bic_android_web_support/screens/screen_pharmacy/pharmacy_screen.dart';
 import 'package:bic_android_web_support/screens/screens_wallet/view_wallet.dart';
@@ -25,7 +27,8 @@ class TabsScreen extends StatefulWidget {
 }
 
 class _TabsScreenState extends State<TabsScreen> {
-  late final List<Map<String, Widget>> screen;
+  late List<Map<String, Widget>> screen;
+
   late List<Map<String, Object>> _pagesPatient = [
     {'title': 'Record'},
     {'title': 'Medicine'},
@@ -38,11 +41,12 @@ class _TabsScreenState extends State<TabsScreen> {
     {'page': WalletView()}
   ];
 
-  late List<Map<String, Widget>> _iconsPatient = [
-    {'page': PharmacyRecordScreen()},
-    {'page': PharmacyPrescriptionScreen()},
+  late final List<Map<String, Widget>> _screensDoctor = [
+    {'page': DoctorRecordScreen()},
+    {'page': DoctorPrescriptionScreen()},
     {'page': WalletView()}
   ];
+
 
   late final List<Map<String, Widget>> _screensPharmacy = [
     {'page': PharmacyRecordScreen()},
@@ -55,6 +59,7 @@ class _TabsScreenState extends State<TabsScreen> {
   void initState() {
     getUserType();
 
+
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     super.initState();
   }
@@ -63,7 +68,7 @@ class _TabsScreenState extends State<TabsScreen> {
     if(userType == 'Patient') {
       _setEntityPage(_screensPatient);
     } else if(userType == 'Doctor') {
-      _setEntityPage(_screensPatient);
+      _setEntityPage(_screensDoctor);
     }  else if(userType == 'Hospital') {
       _setEntityPage(_screensPatient);
     }  else if(userType == 'Pharmacy') {

@@ -1,9 +1,10 @@
 import 'dart:async';
 
 import 'package:bic_android_web_support/providers/wallet.dart';
-import 'package:bic_android_web_support/screens/Tabs/tabs_screen_patient.dart';
+import 'package:bic_android_web_support/screens/Tabs/tabs_screen.dart';
 import 'package:bic_android_web_support/screens/screens_auth/background.dart';
 import 'package:bic_android_web_support/screens/screens_auth/textfieldcontainer.dart';
+import 'package:bic_android_web_support/screens/splash_welcome_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
@@ -48,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     // _showErrorDialog("Wallet Has Been Created");
                   }
               });
-      Navigator.of(context).pushNamed(TabsScreen.routeName);
+      Navigator.of(context).pushNamed(SplashWelcomeScreen.routeName);
     } catch (error) {
       _showErrorDialog(error.toString());
     }

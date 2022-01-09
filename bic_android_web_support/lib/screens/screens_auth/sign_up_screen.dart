@@ -2,7 +2,7 @@ import 'dart:math';
 
 
 import 'package:bic_android_web_support/providers/wallet.dart';
-import 'package:bic_android_web_support/screens/Tabs/tabs_screen_patient.dart';
+import 'package:bic_android_web_support/screens/Tabs/tabs_screen.dart';
 import 'package:bic_android_web_support/screens/screen_unusefull/create_wallet.dart';
 import 'package:bic_android_web_support/screens/screens_auth/background.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

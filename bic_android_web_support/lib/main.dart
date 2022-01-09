@@ -7,13 +7,14 @@ import 'package:bic_android_web_support/screens/screens_auth/sign_up_screen.dart
 import 'package:bic_android_web_support/screens/screens_wallet/confirmation_screen.dart';
 import 'package:bic_android_web_support/screens/screens_wallet/transaction_list.dart';
 import 'package:bic_android_web_support/screens/screens_wallet/view_wallet.dart';
+import 'package:bic_android_web_support/screens/splash_welcome_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:web3dart/credentials.dart';
 
 import '../providers/ipfs.dart';
 import '../providers/patient.dart';
 import '../providers/wallet.dart';
-import '../screens/Tabs/tabs_screen_patient.dart';
+import '../screens/Tabs/tabs_screen.dart';
 import '../screens/medical_records_screen.dart';
 import '../screens/prescription_screen.dart';
 import 'screens/screens_wallet/transfer_screen.dart';
@@ -141,7 +142,8 @@ class MyApp extends StatelessWidget {
                   receiverAddress: '',
                   amount: '',
                   senderAddress: '',
-                )
+                ),
+            SplashWelcomeScreen.routeName:(ctx) => SplashWelcomeScreen()
           },
         ),
       ),

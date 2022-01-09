@@ -282,6 +282,7 @@ class WalletModel with ChangeNotifier {
     try {
       // final box = Boxes.getWallets();
       // box.deleteFromDisk();
+      await WalletSharedPreference.deleteWalletData();
       auth.signOut();
       return true;
     } on SocketException {

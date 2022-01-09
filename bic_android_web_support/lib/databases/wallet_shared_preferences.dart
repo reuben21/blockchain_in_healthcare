@@ -50,5 +50,16 @@ class WalletSharedPreference {
     return userType;
   }
 
+  static Future<void> deleteWalletData() async {
+
+     _preferences.remove(_userName);
+    _preferences.remove(_userEmail);
+     _preferences.remove(_walletAddress);
+     _preferences.remove(_walletEncryptedKey);
+     _preferences.remove(_userType);
+
+
+  }
+
 
 }

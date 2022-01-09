@@ -12,16 +12,16 @@ import 'package:web3dart/credentials.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
 
-class PharmacyRecordScreen extends StatefulWidget {
-  static const routeName = '/pharmacy-record-screen';
+class DoctorRecordScreen extends StatefulWidget {
+  static const routeName = '/doctor-record-screen';
 
   @override
-  _PharmacyRecordScreenState createState() {
-    return _PharmacyRecordScreenState();
+  _DoctorRecordScreenState createState() {
+    return _DoctorRecordScreenState();
   }
 }
 
-class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
+class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
   @override
   void initState() {
     super.initState();
@@ -68,11 +68,11 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
         backgroundColor: Theme.of(context).colorScheme.primary,
         elevation: 0,
         automaticallyImplyLeading: false,
-        title: const Text("Pharmacy Record"),
+        title: const Text("Doctor Record"),
       ),
       body: SingleChildScrollView(
         child: Container(
-            ),
+        ),
       ),
     );
   }

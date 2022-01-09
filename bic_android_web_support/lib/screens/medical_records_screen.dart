@@ -68,6 +68,7 @@ class _MedicalRecordScreenState extends State<MedicalRecordScreen> {
         backgroundColor: Theme.of(context).colorScheme.primary,
         elevation: 0,
         automaticallyImplyLeading: false,
+        title: const Text("Patient Records"),
       ),
       body: SingleChildScrollView(
         child: Container(

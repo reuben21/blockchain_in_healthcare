@@ -68,6 +68,7 @@ class _PharmacyPrescriptionScreenState extends State<PharmacyPrescriptionScreen>
         backgroundColor: Theme.of(context).colorScheme.primary,
         elevation: 0,
         automaticallyImplyLeading: false,
+        title: const Text("Pharmacy Prescription"),
       ),
       body: SingleChildScrollView(
         child: Container(
