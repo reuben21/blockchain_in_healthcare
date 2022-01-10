@@ -45,20 +45,20 @@ class PharmacyModel with ChangeNotifier {
   }
 
   Future<List<dynamic>> readContract(
-      ContractFunction functionName,
+      String functionName,
       List<dynamic> functionArgs,
       ) async {
     final contract = await getDeployedContract();
     var queryResult = await _client.call(
       contract: contract,
-      function: functionName,
+      function: contract.function(functionName),
       params: functionArgs,
     );
 
     return queryResult;
   }
 
-  Future<void> writeContract(String functionName,
+  Future<String> writeContract(String functionName,
       List<dynamic> functionArgs, Credentials credentials) async {
     final contract = await getDeployedContract();
     String transactionHash = await _client.sendTransaction(
@@ -69,6 +69,14 @@ class PharmacyModel with ChangeNotifier {
         parameters: functionArgs,
       ),
     );
+    return transactionHash;
+  }
+
+  Future<void> storePharmacyEstimate(String ipfsHash,Credentials credentials) async {
+
+    // String txHash = writeContract(functio)
+
+
   }
 
 

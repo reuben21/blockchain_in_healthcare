@@ -24,6 +24,7 @@ class WalletModel with ChangeNotifier {
   late String _walletPassword;
   late String _walletCredentials;
   late DateTime _expiryDate;
+  late Credentials _credentials;
 
   bool get isWalletAvailable {
     print(_walletCredentials != null);
@@ -32,6 +33,10 @@ class WalletModel with ChangeNotifier {
 
   String get walletDecryptedKey {
     return _walletCredentials;
+  }
+
+  Credentials get walletCredentials {
+    return _credentials;
   }
 
   String? get token {
@@ -95,12 +100,14 @@ class WalletModel with ChangeNotifier {
     }
   }
 
-  Future<List<dynamic>> readContract(ContractFunction functionName,
-      List<dynamic> functionArgs,) async {
+  Future<List<dynamic>> readContract(
+      String functionName,
+      List<dynamic> functionArgs,
+      ) async {
     final contract = await getDeployedContract();
     var queryResult = await _client.call(
       contract: contract,
-      function: functionName,
+      function: contract.function(functionName),
       params: functionArgs,
     );
 
@@ -261,6 +268,10 @@ class WalletModel with ChangeNotifier {
           await WalletSharedPreference.setWalletDetails(
               userNameFirestore, userEmailFirestore, walletAddressFirestore, walletEncryptedKeyFirestore,
               userType);
+          Wallet newWallet = Wallet.fromJson(
+              walletEncryptedKeyFirestore,
+              password);
+          _credentials = newWallet.privateKey;
         }
       });
 

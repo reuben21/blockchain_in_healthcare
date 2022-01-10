@@ -13,6 +13,10 @@ import '../../helpers/http_exception.dart' as exception;
 import 'package:web3dart/web3dart.dart';
 
 class FirebaseModel with ChangeNotifier {
+  FirebaseAuth auth = FirebaseAuth.instance;
+  firestore.CollectionReference userFirestore =
+  firestore.FirebaseFirestore.instance.collection('users');
+
   late Web3Client _client;
   final String _rpcUrl = keys.rpcUrl;
 
@@ -44,33 +48,58 @@ class FirebaseModel with ChangeNotifier {
     return contract;
   }
 
-  Future<List<dynamic>> readContract(
-      ContractFunction functionName,
-      List<dynamic> functionArgs,
-      ) async {
-    final contract = await getDeployedContract();
-    var queryResult = await _client.call(
-      contract: contract,
-      function: functionName,
-      params: functionArgs,
-    );
 
-    return queryResult;
+  Future<bool> storeTransaction(String transactionHash) async {
+    try {
+
+      TransactionInformation tx =
+      await _client.getTransactionByHash(transactionHash);
+
+      TransactionReceipt? txReceipt =
+      await _client.getTransactionReceipt(transactionHash);
+
+      if (auth.currentUser?.uid.toString() != null) {
+        userFirestore.doc(auth.currentUser?.uid.toString()).collection(
+            "transactions").doc().set({
+          "from": tx.from.hex.toString(),
+          "to": tx.to?.hex.toString(),
+          "value": tx.value.getInWei.toString(),
+          "status": txReceipt?.status.toString(),
+          "blockNumber": txReceipt?.blockNumber.blockNum.toString(),
+          "contractAddress": txReceipt?.contractAddress?.hex.toString(),
+          "gasUsed": txReceipt?.gasUsed.toString(),
+          "transactionHash": transactionHash,
+          "date": "${DateTime
+              .now()
+              .year
+              .toString()}-${DateTime
+              .now()
+              .month
+              .toString()}-${DateTime
+              .now()
+              .day
+              .toString()}",
+          "dateTime": DateTime.now().toIso8601String()
+        });
+      }
+
+      if (tx.hash.isNotEmpty) {
+        return true;
+      } else {
+        return false;
+      }
+      notifyListeners();
+    } on SocketException {
+      throw exception.HttpException("No Internet connection 😑");
+    } on HttpException {
+      throw exception.HttpException("Couldn't find the post 😱");
+    } on FormatException {
+      throw exception.HttpException("Bad response format 👎");
+    } catch (error) {
+      throw exception.HttpException(error.toString());
+    }
+    notifyListeners();
   }
-
-  Future<void> writeContract(String functionName,
-      List<dynamic> functionArgs, Credentials credentials) async {
-    final contract = await getDeployedContract();
-    String transactionHash = await _client.sendTransaction(
-      credentials,
-      Transaction.callContract(
-        contract: contract,
-        function: contract.function(functionName),
-        parameters: functionArgs,
-      ),
-    );
-  }
-
 
 
 

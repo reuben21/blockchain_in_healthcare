@@ -84,11 +84,12 @@ class GasEstimationModel with ChangeNotifier {
   }
 
   Future<Map<String, dynamic>> estimateGasForContractFunction(
-      String senderAddress, String functionName,List<dynamic> params) async {
-    try {
+      EthereumAddress senderAddress, String functionName,List<dynamic> params) async {
+    // try {
       DeployedContract contract = await getDeployedContract();
+
       var gasEstimate = await _client.estimateGas(
-          sender: EthereumAddress.fromHex(senderAddress),
+          sender: senderAddress,
           to: contract.address,
           data: contract.function(functionName).encodeCall(params));
 
@@ -100,7 +101,7 @@ class GasEstimationModel with ChangeNotifier {
           EtherUnit.wei, gasCostEstimation.toString());
 
       var actualAmountInWei =
-          EtherAmount.fromUnitAndValue(EtherUnit.ether, 1);
+          EtherAmount.fromUnitAndValue(EtherUnit.ether, 0);
 
       var totalAmount = (gasAmountInWei.getInWei + actualAmountInWei.getInWei) /
           BigInt.from(1000000000000000000);
@@ -118,14 +119,14 @@ class GasEstimationModel with ChangeNotifier {
 
       notifyListeners();
       return result;
-    } on SocketException {
-      throw exception.HttpException("No Internet connection 😑");
-    } on HttpException {
-      throw exception.HttpException("Couldn't find the post 😱");
-    } on FormatException {
-      throw exception.HttpException("Bad response format 👎");
-    } catch (error) {
-      throw exception.HttpException(error.toString());
-    }
+    // } on SocketException {
+    //   throw exception.HttpException("No Internet connection 😑");
+    // } on HttpException {
+    //   throw exception.HttpException("Couldn't find the post 😱");
+    // } on FormatException {
+    //   throw exception.HttpException("Bad response format 👎");
+    // } catch (error) {
+    //   throw exception.HttpException(error.toString());
+    // }
   }
 }
