@@ -66,7 +66,6 @@ class _WalletViewState extends State<WalletView> {
   Future<void> didChangeDependencies() async {
     // TODO: implement didChangeDependencies
 
-
     super.didChangeDependencies();
   }
 
@@ -84,7 +83,7 @@ class _WalletViewState extends State<WalletView> {
       var balance = await Provider.of<WalletModel>(context, listen: false)
           .getAccountBalance(EthereumAddress.fromHex(walletAddress));
       var calculatedBalance =
-      ((balance.getInWei) / BigInt.from(1000000000000000000)).toString();
+          ((balance.getInWei) / BigInt.from(1000000000000000000)).toString();
       print(calculatedBalance + "----------" + ethereumRate.toString());
       setState(() {
         balanceOfAccount = calculatedBalance;
@@ -93,16 +92,11 @@ class _WalletViewState extends State<WalletView> {
         rateForEther = "1 ETH = Rs. ${ethereumRate.toStringAsFixed(2)}";
       });
       ScaffoldMessenger.of(context)
-          .showSnackBar( const SnackBar(
-          content: Text("Balance Refreshed")));
-    }  catch (error) {
-
-
+          .showSnackBar(const SnackBar(content: Text("Balance Refreshed")));
+    } catch (error) {
       ScaffoldMessenger.of(context)
-          .showSnackBar( SnackBar(
-          content: Text(error.toString())));
+          .showSnackBar(SnackBar(content: Text(error.toString())));
     }
-
   }
 
   void _showErrorDialog(String message) {
@@ -157,7 +151,6 @@ class _WalletViewState extends State<WalletView> {
                         textColor: Theme.of(context).colorScheme.primary,
                       ),
                       onTap: () async {
-
                         var walletLogoutStatus = await Provider.of<WalletModel>(
                                 context,
                                 listen: false)
@@ -186,7 +179,7 @@ class _WalletViewState extends State<WalletView> {
                         //   height: kIsWeb ? 10 : 50,
                         // ),
                         Padding(
-                          padding:const EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           child: Container(
                             height: 220,
                             width: double.infinity,
@@ -205,7 +198,6 @@ class _WalletViewState extends State<WalletView> {
                               // crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-
                                 Padding(
                                   padding: const EdgeInsets.all(15),
                                   child: Row(
@@ -216,16 +208,28 @@ class _WalletViewState extends State<WalletView> {
                                       //     // height: 10,
                                       //     // width: 20,
                                       //     ),
-                                      Container(
-                                        width: 60,
-                                        height: 60,
-                                        child: Image.asset(
-                                            "assets/icons/ethereum-500.png",
-                                            color: Theme.of(context)
-                                                .colorScheme.secondary,
-                                            width: 32,
-                                            height: 32),
 
+                                      Container(
+                                        width: 70,
+                                        height: 70,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                            width: 3,
+                                            color: Colors.white,
+                                            style: BorderStyle.solid,
+                                          ),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Image.asset(
+                                              "assets/icons/ethereum-500.png",
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary,
+                                              width: 32,
+                                              height: 32),
+                                        ),
                                       ),
                                       Column(
                                         crossAxisAlignment:
@@ -236,7 +240,9 @@ class _WalletViewState extends State<WalletView> {
                                                 ? "0 ETH"
                                                 : "$balanceOfAccount ETH",
                                             style: TextStyle(
-                                                color: Theme.of(context).colorScheme.secondary,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .secondary,
                                                 fontSize: 25,
                                                 fontWeight: FontWeight.bold),
                                           ),
@@ -244,192 +250,188 @@ class _WalletViewState extends State<WalletView> {
                                             balanceOfAccountInRs == "null"
                                                 ? "0 ₹"
                                                 : "$balanceOfAccountInRs ₹",
-                                            style:  TextStyle(
-                                                color: Theme.of(context).colorScheme.secondary,
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .secondary,
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.bold),
                                           ),
-
                                         ],
                                       ),
                                       // Text('ehllo'),
-
                                     ],
                                   ),
                                 ),
                                 Card(
-                                     borderOnForeground: true,
-                                     clipBehavior: Clip.antiAlias,
-                                     shape: RoundedRectangleBorder(
-                                       side: BorderSide(color: Theme.of(context).colorScheme.secondary,width: 1),
-                                       borderRadius: BorderRadius.circular(5),
-                                     ),
-
-                                      color:Colors.red.withOpacity(0),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: SelectableText(walletAdd),
-                                      )),
+                                    borderOnForeground: true,
+                                    clipBehavior: Clip.antiAlias,
+                                    shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .secondary,
+                                          width: 1),
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    color: Colors.red.withOpacity(0),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: SelectableText(walletAdd),
+                                    )),
                                 Padding(
                                   padding: const EdgeInsets.all(15),
                                   child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-
-                                            SizedBox(
-                                              width: 125,
-                                              height: 45,
-                                              child: ElevatedButton.icon(
-                                                icon: Image.asset(
-                                                    "assets/icons/pay-100.png",
-                                                    color: Theme.of(context)
-                                                        .colorScheme.secondary,
-                                                    width: 32,
-                                                    height: 32),
-                                                style: ElevatedButton.styleFrom(
-                                                  elevation: 0.0,
-                                                  primary:
-                                                  Colors.red.withOpacity(0),
-                                                  shape:
-                                                  RoundedRectangleBorder(
-                                                      borderRadius:
-                                                      const BorderRadius.all(
-                                                        Radius.circular(5),
-                                                      ),
-                                                      side: BorderSide(width: 2,
-                                                          color: Theme.of(context).colorScheme.secondary)),
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      SizedBox(
+                                        width: 125,
+                                        height: 45,
+                                        child: ElevatedButton.icon(
+                                          icon: Image.asset(
+                                              "assets/icons/pay-100.png",
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary,
+                                              width: 32,
+                                              height: 32),
+                                          style: ElevatedButton.styleFrom(
+                                            elevation: 0.0,
+                                            primary: Colors.red.withOpacity(0),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                  Radius.circular(5),
                                                 ),
-                                                onPressed: () {
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          TransferScreen(
-                                                            address: walletAdd,
-                                                          ),
-                                                    ),
-                                                  );
-                                                },
-                                                label: const Text('Transfer'),
-                                              ),
-                                            ),
-
-                                            SizedBox(
-                                              width: 70,
-                                              height: 40,
-                                              child: ElevatedButton(
-
-                                                onPressed: () async {
-
-                                                  await getAccountBalance(
-                                                      walletAdd);
-
-                                                },
-
-                                                child: Image.asset(
-                                                    "assets/icons/refresh-100.png",
-                                                    color:Theme.of(context).colorScheme.secondary,
-                                                    width: 80,
-                                                    fit: BoxFit.scaleDown,
-                                                    height: 80),
-                                                style:  ElevatedButton.styleFrom(
-                                                  elevation: 0.0,
-                                                  primary:
-                                                  Colors.red.withOpacity(0),
-                                                  shape:CircleBorder(side: BorderSide(width: 2,
-                                                      color: Theme.of(context).colorScheme.secondary))
-
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 125,
-                                              height: 45,
-                                              child: ElevatedButton.icon(
-                                                icon: Image.asset(
-                                                    "assets/icons/qr-code-100.png",
+                                                side: BorderSide(
+                                                    width: 2,
                                                     color: Theme.of(context)
                                                         .colorScheme
-                                                        .secondary,
-                                                    width: 32,
-                                                    height: 32),
-                                                style: ElevatedButton.styleFrom(
-                                                  elevation: 0.0,
-                                                  primary:
-                                                      Colors.red.withOpacity(0),
-                                                  shape:
-                                                       RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              const BorderRadius.all(
-                                                            Radius.circular(5),
-                                                          ),
-                                                          side: BorderSide(width: 2,
-                                                              color: Theme.of(context).colorScheme.secondary)),
+                                                        .secondary)),
+                                          ),
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    TransferScreen(
+                                                  address: walletAdd,
                                                 ),
-                                                onPressed: () {
-                                                  showDialog(
-                                                    context: context,
-                                                    builder: (ctx) => AlertDialog(
-                                                      backgroundColor:
-                                                          Theme.of(context)
-                                                              .colorScheme
-                                                              .secondary,
-                                                      title: Text(
-                                                        "Show the QR Code",
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .bodyText1,
-                                                      ),
-                                                      content: Container(
-                                                        width: 200,
-                                                        height: 240,
-                                                        child: Center(
-                                                          child: Column(
-                                                            children: [
-                                                              QrImage(
-                                                                data: walletAdd ==
-                                                                        "Select Account"
-                                                                    ? ""
-                                                                    : "ethereum:" +
-                                                                        walletAdd,
-                                                                version:
-                                                                    QrVersions.auto,
-                                                                size: 200.0,
-                                                              ),
-                                                              Text(walletAdd)
-                                                            ],
-                                                          ),
+                                              ),
+                                            );
+                                          },
+                                          label: const Text('Transfer'),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 70,
+                                        height: 40,
+                                        child: ElevatedButton(
+                                          onPressed: () async {
+                                            await getAccountBalance(walletAdd);
+                                          },
+                                          child: Image.asset(
+                                              "assets/icons/refresh-100.png",
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary,
+                                              width: 80,
+                                              fit: BoxFit.scaleDown,
+                                              height: 80),
+                                          style: ElevatedButton.styleFrom(
+                                              elevation: 0.0,
+                                              primary:
+                                                  Colors.red.withOpacity(0),
+                                              shape: CircleBorder(
+                                                  side: BorderSide(
+                                                      width: 2,
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .secondary))),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 125,
+                                        height: 45,
+                                        child: ElevatedButton.icon(
+                                          icon: Image.asset(
+                                              "assets/icons/qr-code-100.png",
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary,
+                                              width: 32,
+                                              height: 32),
+                                          style: ElevatedButton.styleFrom(
+                                            elevation: 0.0,
+                                            primary: Colors.red.withOpacity(0),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                  Radius.circular(5),
+                                                ),
+                                                side: BorderSide(
+                                                    width: 2,
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .secondary)),
+                                          ),
+                                          onPressed: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (ctx) => AlertDialog(
+                                                backgroundColor:
+                                                    Theme.of(context)
+                                                        .colorScheme
+                                                        .secondary,
+                                                title: Text(
+                                                  "Show the QR Code",
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText1,
+                                                ),
+                                                content: Container(
+                                                  width: 200,
+                                                  height: 240,
+                                                  child: Center(
+                                                    child: Column(
+                                                      children: [
+                                                        QrImage(
+                                                          data: walletAdd ==
+                                                                  "Select Account"
+                                                              ? ""
+                                                              : "ethereum:" +
+                                                                  walletAdd,
+                                                          version:
+                                                              QrVersions.auto,
+                                                          size: 200.0,
                                                         ),
-                                                      ),
-                                                      actions: <Widget>[
-                                                        ElevatedButton(
-                                                          onPressed: () {
-                                                            Navigator.of(ctx).pop();
-                                                          },
-                                                          child: const Text("okay"),
-                                                        ),
+                                                        Text(walletAdd)
                                                       ],
                                                     ),
-                                                  );
-                                                },
-                                                label: const Text('QR Code'),
+                                                  ),
+                                                ),
+                                                actions: <Widget>[
+                                                  ElevatedButton(
+                                                    onPressed: () {
+                                                      Navigator.of(ctx).pop();
+                                                    },
+                                                    child: const Text("okay"),
+                                                  ),
+                                                ],
                                               ),
-                                            )
-                                          ],
-
+                                            );
+                                          },
+                                          label: const Text('QR Code'),
                                         ),
-                                ),
+                                      )
                                     ],
                                   ),
-
-
-
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-
-
-
 
                         const SizedBox(
                           height: 10,
@@ -438,41 +440,41 @@ class _WalletViewState extends State<WalletView> {
                     ),
                   ]),
                   10.heightBox,
-
-                      Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Card(
-                          borderOnForeground: true,
-                          clipBehavior: Clip.antiAlias,
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(color: Theme.of(context).colorScheme.primary,width: 2),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              ListTile(
-
-                                trailing: Image.asset("assets/icons/forward-100.png",
-                                    color: Theme.of(context).primaryColor,
-                                    width: 25,
-                                    height: 25),
-                                title: Text('See Recent Transactions',
-                                    style: Theme.of(context).textTheme.bodyText1),
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => TransactionList(),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Card(
+                      borderOnForeground: true,
+                      clipBehavior: Clip.antiAlias,
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                            color: Theme.of(context).colorScheme.primary,
+                            width: 2),
+                        borderRadius: BorderRadius.circular(10),
                       ),
-
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          ListTile(
+                            trailing: Image.asset(
+                                "assets/icons/forward-100.png",
+                                color: Theme.of(context).primaryColor,
+                                width: 25,
+                                height: 25),
+                            title: Text('See Recent Transactions',
+                                style: Theme.of(context).textTheme.bodyText1),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => TransactionList(),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
