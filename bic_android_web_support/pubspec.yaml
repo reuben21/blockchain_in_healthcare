@@ -32,8 +32,6 @@ dependencies:
   web3dart: ^2.3.3 # ALL SYSTEMS
 
   http: ^0.13.4 # ALL SYSTEMS
-  dio: ^4.0.4
-
 
   provider: ^6.0.1 # ALL SYSTEMS
   intl: ^0.17.0 # ALL SYSTEMS
