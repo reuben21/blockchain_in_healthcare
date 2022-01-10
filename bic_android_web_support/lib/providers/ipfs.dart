@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import '../helpers/http_exception.dart' as exception;
 import '../helpers/keys.dart' as keys;
+import 'package:http_parser/http_parser.dart';
 
 class IPFSModel with ChangeNotifier {
 
@@ -32,7 +34,7 @@ class IPFSModel with ChangeNotifier {
 
       request.fields['Data'] = encodedData;
       http.Response response =
-          await http.Response.fromStream(await request.send());
+      await http.Response.fromStream(await request.send());
       final extractedData = json.decode(response.body);
 
 
@@ -49,8 +51,40 @@ class IPFSModel with ChangeNotifier {
     notifyListeners();
   }
 
+
+  Future<String> sendFile(File _file) async {
+    try {
+
+      var request = http.MultipartRequest(
+          "POST", Uri.parse('${keys.getIpfsUrl}/api/v0/add'));
+
+
+      request.files.add(http.MultipartFile.fromBytes(
+          'path',
+          _file.readAsBytesSync(),
+          filename: _file.path.split("/").last
+         ));
+      http.Response response =
+      await http.Response.fromStream(await request.send());
+
+      final extractedData = json.decode(response.body);
+
+      return extractedData['Hash'].toString();
+    } on SocketException {
+      throw exception.HttpException("No Internet connection 😑");
+    } on HttpException {
+      throw exception.HttpException("Couldn't find the post 😱");
+    } on FormatException {
+      throw exception.HttpException("Bad response format 👎");
+    } catch (error) {
+      throw exception.HttpException(error.toString());
+    }
+    notifyListeners();
+  }
+
+
   Future<Map<String, dynamic>?> receiveData(String hash) async {
-    if(hash.isNotEmpty) {
+    if (hash.isNotEmpty) {
       try {
         final url = Uri.parse(
             "${keys.getIpfsUrlForReceivingData}${hash}");
@@ -68,8 +102,7 @@ class IPFSModel with ChangeNotifier {
           return obj;
         }
 
-        return extractedData as Map<String,dynamic>;
-
+        return extractedData as Map<String, dynamic>;
       } on SocketException {
         throw exception.HttpException("No Internet connection 😑");
       } on HttpException {

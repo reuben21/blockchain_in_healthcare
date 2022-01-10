@@ -11,27 +11,22 @@ contract MainContract is AccessControl {
     struct patientRecord {
         string name;
         string personalDetails;
+        address doctorAddress;
         address hospitalAddress;
         address walletAddress;
         string[] previousPatientRecordHashes;
         string newMedicalRecordHash;
-
         string[] previousPatientPrescriptionHashes;
-
-        // RHEA:- MAKE FUNCTIONS BELOW FOR THIS FIELD IMPORTANT
         string newPatientPrescriptionHashes;
-        
     }
 
-
     struct doctorRecord {
-        
         address walletAddress;
         string name;
         string personalDetails;
         string docSpecialization;
         address hospitalAddress;
-        
+        Counters.Counter patientCount;
     }
 
     struct pharmacyRecord {
@@ -69,22 +64,23 @@ contract MainContract is AccessControl {
         string _personalDetails,
         address owner
     );
-    event LogUpdatePatientPersonalDetails(string name, string _personalDetails);
+    event LogUpdatePatientPersonalDetails(string _personalDetails);
 
     //: PATIENT DATABASE
     mapping(address => patientRecord) patientDatabase;
-
 
     function storePatient(
         string memory _name,
         string memory _personalDetails,
         address _hospitalAddress,
+        address _doctorAddress,
         address _walletAddress
     ) external returns (bool status) {
         if (hasRole(PATIENT, _walletAddress)) {
             patientDatabase[_walletAddress].name = _name;
             patientDatabase[_walletAddress].personalDetails = _personalDetails;
             patientDatabase[_walletAddress].hospitalAddress = _hospitalAddress;
+            patientDatabase[_walletAddress].doctorAddress = _doctorAddress;
             patientDatabase[_walletAddress].walletAddress = _walletAddress;
         } else {
             _setupRole(PATIENT, _walletAddress);
@@ -92,6 +88,10 @@ contract MainContract is AccessControl {
             patientDatabase[_walletAddress].personalDetails = _personalDetails;
             patientDatabase[_walletAddress].hospitalAddress = _hospitalAddress;
             patientDatabase[_walletAddress].walletAddress = _walletAddress;
+            patientDatabase[_walletAddress].doctorAddress = _doctorAddress;
+
+            doctorDatabase[_doctorAddress].patientCount.increment();
+
             hospitalDatabase[_hospitalAddress].patientInHospital.increment();
             patientCounter.increment();
         }
@@ -105,51 +105,70 @@ contract MainContract is AccessControl {
         return true;
     }
 
-
     // RHEA:- MAKE FUNCTIONS BELOW FOR ALL ENTITIES
     function updatePatientPersonalDetailHash(
         string memory _personalDetails,
         address _walletAddress
     ) external returns (bool status) {
         if (hasRole(VERIFIED_PATIENT, _walletAddress)) {
-
             patientDatabase[_walletAddress].personalDetails = _personalDetails;
-        
+             emit LogUpdatePatientPersonalDetails(
+            patientDatabase[_walletAddress].personalDetails
+        );
         }
 
         return true;
     }
- function updatePatientPrescriptionHash(
+
+    function updatePatientPrescriptionHash(
         string memory newPatientPrescriptionHashes,
         address _walletAddress
     ) external returns (bool status) {
         if (hasRole(VERIFIED_PATIENT, _walletAddress)) {
-
-            patientDatabase[_walletAddress].newPatientPrescriptionHashes = newPatientPrescriptionHashes;
-        
+            patientDatabase[_walletAddress]
+                .newPatientPrescriptionHashes = newPatientPrescriptionHashes;
         }
 
         return true;
     }
-
 
     function changeHospitalForPatient(
         address _previousHospitalAddress,
         address _newHospitalAddress,
         address _walletAddress
     ) external returns (bool status) {
-                if (hasRole(VERIFIED_PATIENT, _walletAddress)) {
+        if (hasRole(VERIFIED_PATIENT, _walletAddress)) {
+            hospitalDatabase[_previousHospitalAddress]
+                .patientInHospital
+                .decrement();
 
-        hospitalDatabase[_previousHospitalAddress].patientInHospital.decrement();
+            patientDatabase[_walletAddress]
+                .hospitalAddress = _newHospitalAddress;
 
-        patientDatabase[_walletAddress].hospitalAddress = _newHospitalAddress;
-
-        hospitalDatabase[_newHospitalAddress].patientInHospital.increment();
-                }
-        return true;
+            hospitalDatabase[_newHospitalAddress].patientInHospital.increment();
+             return true;
+        }
+       
     }
 
-   
+    function changeDoctorForPatient(
+        address _previousDoctorAddress,
+        address _newDoctorAddress,
+        address _walletAddress
+    ) external returns (bool status) {
+        if (hasRole(VERIFIED_PATIENT, _walletAddress)) {
+            doctorDatabase[_previousDoctorAddress]
+                .patientCount
+                .decrement();
+
+            patientDatabase[_walletAddress]
+                .doctorAddress = _newDoctorAddress;
+
+            doctorDatabase[_newDoctorAddress].patientCount.increment();
+             return true;
+        }
+       
+    }
 
     function retrievePatientCount()
         external
@@ -183,10 +202,7 @@ contract MainContract is AccessControl {
     ) public returns (bool success) {
         patientDatabase[_walletAddress].personalDetails = _personalDetails;
 
-        emit LogUpdatePatientPersonalDetails(
-            patientDatabase[_walletAddress].name,
-            patientDatabase[_walletAddress].personalDetails
-        );
+       
 
         return true;
     }
@@ -218,7 +234,7 @@ contract MainContract is AccessControl {
     function updatePatientPrescription(
         address _walletAddress,
         string memory prescriptionHash
-    ) external returns (string memory status) {
+    ) external returns (bool status) {
         if (
             keccak256(
                 abi.encodePacked(
@@ -228,7 +244,7 @@ contract MainContract is AccessControl {
         ) {
             patientDatabase[_walletAddress]
                 .newPatientPrescriptionHashes = prescriptionHash;
-            return "ENTERED ONCE PRESCRIPTION ONLY";
+            return true;
         } else {
             patientDatabase[_walletAddress]
                 .previousPatientPrescriptionHashes
@@ -237,7 +253,7 @@ contract MainContract is AccessControl {
                 );
             patientDatabase[_walletAddress]
                 .newPatientPrescriptionHashes = prescriptionHash;
-            return "ENTERED TWICE PRESCRIPTION ONLY";
+            return true;
         }
     }
 
@@ -274,7 +290,7 @@ contract MainContract is AccessControl {
         return patientDatabase[_patientAddress].previousPatientRecordHashes;
     }
 
-    event LogStoreDoctor(string name, string personalDetails, address owner);
+    event LogStoreDoctor(string name, string personalDetails, address walletAddress);
     event LogUpdateDoctor(string name, string personalDetails);
     event LogDeleteDoctor(string name, uint256 empIdIndex);
 
@@ -299,6 +315,7 @@ contract MainContract is AccessControl {
             doctorDatabase[_walletAddress].walletAddress = _walletAddress;
             doctorDatabase[_walletAddress].hospitalAddress = _hospitalAddress;
             doctorDatabase[_walletAddress].personalDetails = _personalDetails;
+
             hospitalDatabase[_hospitalAddress].doctorInHospital.increment();
             doctorCounter.increment();
         }
@@ -311,20 +328,18 @@ contract MainContract is AccessControl {
 
         return true;
     }
+
     //updated function.
-  function updateDoctorPersonalDetailHash(
+    function updateDoctorPersonalDetailHash(
         string memory _personalDetails,
         address _walletAddress
     ) external returns (bool status) {
         if (hasRole(VERIFIED_DOCTOR, _walletAddress)) {
-
             patientDatabase[_walletAddress].personalDetails = _personalDetails;
-        
         }
 
         return true;
     }
-
 
     function changeHospitalForDoctor(
         address _previousHospitalAddress,
@@ -385,14 +400,12 @@ contract MainContract is AccessControl {
     }
 
     //updated function.
-     function updatePharmacyPersonalDetailHash(
+    function updatePharmacyPersonalDetailHash(
         string memory _personalDetails,
         address _walletAddress
     ) external returns (bool status) {
         if (hasRole(PHARMACY, _walletAddress)) {
-
             patientDatabase[_walletAddress].personalDetails = _personalDetails;
-        
         }
 
         return true;
@@ -450,20 +463,16 @@ contract MainContract is AccessControl {
     }
 
     //updated function
-     function updateHospitalPersonalDetailHash(
+    function updateHospitalPersonalDetailHash(
         string memory _personalDetails,
         address _walletAddress
     ) external returns (bool status) {
         if (hasRole(HOSPITAL_ADMIN, _walletAddress)) {
-
             patientDatabase[_walletAddress].personalDetails = _personalDetails;
-        
         }
 
         return true;
     }
-
-
 
     function retrieveHospitalCount()
         external

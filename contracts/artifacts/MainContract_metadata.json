@@ -116,7 +116,7 @@
 					{
 						"indexed": false,
 						"internalType": "address",
-						"name": "owner",
+						"name": "walletAddress",
 						"type": "address"
 					}
 				],
@@ -195,12 +195,6 @@
 			{
 				"anonymous": false,
 				"inputs": [
-					{
-						"indexed": false,
-						"internalType": "string",
-						"name": "name",
-						"type": "string"
-					},
 					{
 						"indexed": false,
 						"internalType": "string",
@@ -297,6 +291,35 @@
 					}
 				],
 				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_previousDoctorAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_newDoctorAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_walletAddress",
+						"type": "address"
+					}
+				],
+				"name": "changeDoctorForPatient",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "status",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
@@ -871,6 +894,11 @@
 					},
 					{
 						"internalType": "address",
+						"name": "_doctorAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
 						"name": "_walletAddress",
 						"type": "address"
 					}
@@ -1070,9 +1098,9 @@
 				"name": "updatePatientPrescription",
 				"outputs": [
 					{
-						"internalType": "string",
+						"internalType": "bool",
 						"name": "status",
-						"type": "string"
+						"type": "bool"
 					}
 				],
 				"stateMutability": "nonpayable",
@@ -1174,11 +1202,11 @@
 	},
 	"sources": {
 		"MainContract.sol": {
-			"keccak256": "0x0b829bd0152b0746202e8ee691c9df4a1167160e0369a1f338512d1fa0e6780e",
+			"keccak256": "0x22491b065e66e45b57802a65d58ea8fbb644282bb6ca6db9350361420cbcb33f",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://76573b367363f2e3a27a696130a42ea56c5a767a4eebd5ea0f0bb204d8535f95",
-				"dweb:/ipfs/QmfXFpAKjqtBhotPbpppEWUUE5eRx5QQuxzK9ab3jiQYWv"
+				"bzz-raw://d143b3e4c97bfa024f5cf9d28542ecd52970380f0b3cf018f5f37421cb4dedbd",
+				"dweb:/ipfs/Qma42HkKZ1A8nnmBswWe5iYbzA9tCpBdSd3mArkEEkQcYd"
 			]
 		},
 		"Roles.sol": {

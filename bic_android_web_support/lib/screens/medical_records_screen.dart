@@ -1,9 +1,12 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:bic_android_web_support/providers/ipfs.dart';
 import 'package:bic_android_web_support/screens/screen_patient/patient_details.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:velocity_x/src/extensions/context_ext.dart';
 import 'package:velocity_x/src/extensions/num_ext.dart';
@@ -22,6 +25,30 @@ class MedicalRecordScreen extends StatefulWidget {
 }
 
 class _MedicalRecordScreenState extends State<MedicalRecordScreen> {
+
+
+
+  void _openFileExplorer() async {
+    // setState(() => _loadingPath = true);
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles( );
+      if (result != null) {
+        File file = File(result.files.single.path.toString());
+        var hashReceived =
+        await Provider.of<IPFSModel>(context, listen: false)
+            .sendFile(file);
+
+      } else {
+        // User canceled the picker
+      }
+    } on PlatformException catch (e) {
+      print("Unsupported operation" + e.toString());
+    } catch (ex) {
+      print(ex);
+    }
+
+  }
+
   @override
   void initState() {
     super.initState();
@@ -99,18 +126,21 @@ class _MedicalRecordScreenState extends State<MedicalRecordScreen> {
               backgroundColor: Theme.of(context).colorScheme.secondary,
               foregroundColor: Theme.of(context).colorScheme.primary,
               onPressed: () async {
-                Map<String, dynamic> objText = {
-                  "firstName": "Rhea",
-                  "lastName": "Coutinho",
-                  "lastName2": "Coutinho",
-                  "lastName3": "Coutinho",
-                  "lastName4": ["Coutinho", "Coutinho", "Coutinho"],
-                  "age": 30
-                };
-                var hashReceived =
-                    await Provider.of<IPFSModel>(context, listen: false)
-                        .sendData(objText);
-                print("hashReceived ------" + hashReceived.toString());
+
+                _openFileExplorer();
+
+                // Map<String, dynamic> objText = {
+                //   "firstName": "Rhea",
+                //   "lastName": "Coutinho",
+                //   "lastName2": "Coutinho",
+                //   "lastName3": "Coutinho",
+                //   "lastName4": ["Coutinho", "Coutinho", "Coutinho"],
+                //   "age": 30
+                // };
+                // var hashReceived =
+                //     await Provider.of<IPFSModel>(context, listen: false)
+                //         .sendData(objText);
+                // print("hashReceived ------" + hashReceived.toString());
               },
               icon: const Icon(Icons.qr_code_scanner),
               label: const Text('Send Patient'),
@@ -154,3 +184,6 @@ class _MedicalRecordScreenState extends State<MedicalRecordScreen> {
     );
   }
 }
+
+
+
