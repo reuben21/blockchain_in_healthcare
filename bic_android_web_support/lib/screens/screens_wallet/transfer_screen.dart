@@ -307,8 +307,7 @@ class _TransferScreenState extends State<TransferScreen> {
                                       //     vertical: 20, horizontal: 40),
                                       // color: Theme.of(context).colorScheme.primary,
                                       onPressed: () async {
-                                        Credentials credentialsNew;
-                                        EthereumAddress myAddress;
+
                                         _formKey.currentState?.save();
                                         if (_formKey.currentState?.validate() !=
                                             null) {
@@ -325,6 +324,8 @@ class _TransferScreenState extends State<TransferScreen> {
 
 
                                           try {
+                                            Credentials credentialsNew;
+                                            EthereumAddress myAddress;
 
                                           Wallet newWallet = Wallet.fromJson(dbResponse!['walletEncryptedKey'].toString(), password);
                                           credentialsNew = newWallet.privateKey;

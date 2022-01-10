@@ -53,11 +53,13 @@ class _WalletViewState extends State<WalletView> {
 
   @override
   void initState() {
+
     balanceOfAccount = "null";
     balanceOfAccountInRs = "null";
     rateForEther = "null";
 
     getWalletFromDatabase();
+    getAccountBalance();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     super.initState();
   }
@@ -78,11 +80,17 @@ class _WalletViewState extends State<WalletView> {
     });
   }
 
-  Future<void> getAccountBalance(String walletAddress) async {
+  Future<void> getAccountBalance() async {
     try {
+      Credentials credentialsNew;
+      EthereumAddress address;
+
+      credentialsNew = Provider.of<WalletModel>(context,listen: false).walletCredentials;
+      address =
+      await credentialsNew.extractAddress();
       var ethereumRate = 258511.96959478396;
       var balance = await Provider.of<WalletModel>(context, listen: false)
-          .getAccountBalance(EthereumAddress.fromHex(walletAddress));
+          .getAccountBalance(EthereumAddress.fromHex(address.hex));
       var calculatedBalance =
       ((balance.getInWei) / BigInt.from(1000000000000000000)).toString();
       print(calculatedBalance + "----------" + ethereumRate.toString());
@@ -323,7 +331,7 @@ class _WalletViewState extends State<WalletView> {
                                                 onPressed: () async {
 
                                                   await getAccountBalance(
-                                                      walletAdd);
+                                                      );
 
                                                 },
 

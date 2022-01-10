@@ -24,6 +24,7 @@ class WalletModel with ChangeNotifier {
   late String _walletPassword;
   late String _walletCredentials;
   late DateTime _expiryDate;
+  late Credentials _credentials;
 
   bool get isWalletAvailable {
     print(_walletCredentials != null);
@@ -32,6 +33,10 @@ class WalletModel with ChangeNotifier {
 
   String get walletDecryptedKey {
     return _walletCredentials;
+  }
+
+  Credentials get walletCredentials {
+    return _credentials;
   }
 
   String? get token {
@@ -261,6 +266,10 @@ class WalletModel with ChangeNotifier {
           await WalletSharedPreference.setWalletDetails(
               userNameFirestore, userEmailFirestore, walletAddressFirestore, walletEncryptedKeyFirestore,
               userType);
+          Wallet newWallet = Wallet.fromJson(
+              walletEncryptedKeyFirestore,
+              password);
+          _credentials = newWallet.privateKey;
         }
       });
 
