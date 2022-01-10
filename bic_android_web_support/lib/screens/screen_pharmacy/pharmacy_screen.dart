@@ -33,6 +33,9 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
   @override
   void initState() {
     pharmacyName = '';
+    pharmacyIpfsHash = {
+
+    };
     fetchPharmacyData();
     super.initState();
   }
@@ -45,13 +48,21 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
     address =
     await credentialsNew.extractAddress();
     var data =await Provider.of<PharmacyModel>(context,listen: false).readContract("getPharmacyData", [address]);
-    print(data);
-    var pharmacyData = await Provider.of<IPFSModel>(context,listen: false).receiveData(data[1]);
-    print(pharmacyData);
-    setState(() {
-      pharmacyName = data[0];
-      pharmacyIpfsHash = pharmacyData!;
-    });
+    print(data[0]);
+    if(data[0]!='') {
+      var pharmacyData = await Provider.of<IPFSModel>(context,listen: false).receiveData(data[1]);
+      print(pharmacyData);
+      setState(() {
+        pharmacyName = data[0];
+        pharmacyIpfsHash = pharmacyData!;
+      });
+    } else {
+      setState(() {
+        pharmacyName = data[0];
+
+      });
+    }
+
   }
 
   @override
@@ -80,7 +91,17 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
                 child: Container(
                   width: double.infinity,
                   height: 500,
-                  child: Card(
+                  child: pharmacyName == '' ?Card(
+                      borderOnForeground: true,
+                      clipBehavior: Clip.antiAlias,
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(color: Theme.of(context).colorScheme.primary,width: 2),
+                        borderRadius: BorderRadius.circular(10),
+                      ),child: ListTile(
+                    leading: Icon(Icons.arrow_drop_down_circle),
+                    title: const Text("Not Registered on Blockchain",style: TextStyle(fontSize: 15),),
+
+                  ), ) :Card(
                     borderOnForeground: true,
                     clipBehavior: Clip.antiAlias,
                     shape: RoundedRectangleBorder(

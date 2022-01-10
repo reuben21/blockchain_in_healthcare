@@ -395,6 +395,8 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                                   myAddress =
                                       await credentialsNew.extractAddress();
 
+                                  // var hospitalAddress = EthereumAddress.fromHex("  ");
+                                  // var doctorAddress = EthereumAddress.fromHex("  ");
                                   var gasEstimation =
                                       await Provider.of<GasEstimationModel>(
                                               context,
