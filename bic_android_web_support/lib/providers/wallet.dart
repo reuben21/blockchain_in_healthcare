@@ -100,12 +100,14 @@ class WalletModel with ChangeNotifier {
     }
   }
 
-  Future<List<dynamic>> readContract(ContractFunction functionName,
-      List<dynamic> functionArgs,) async {
+  Future<List<dynamic>> readContract(
+      String functionName,
+      List<dynamic> functionArgs,
+      ) async {
     final contract = await getDeployedContract();
     var queryResult = await _client.call(
       contract: contract,
-      function: functionName,
+      function: contract.function(functionName),
       params: functionArgs,
     );
 

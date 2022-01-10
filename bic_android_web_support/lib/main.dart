@@ -2,6 +2,7 @@ import 'package:bic_android_web_support/databases/wallet_shared_preferences.dart
 import 'package:bic_android_web_support/providers/credentials.dart';
 import 'package:bic_android_web_support/providers/crypto_api.dart';
 import 'package:bic_android_web_support/providers/gas_estimation.dart';
+import 'package:bic_android_web_support/providers/provider_firebase/model_firebase.dart';
 import 'package:bic_android_web_support/providers/provider_pharmacy/model_pharmacy.dart';
 import 'package:bic_android_web_support/screens/screen_doctor/doctor_details.dart';
 import 'package:bic_android_web_support/screens/screen_patient/patient_details.dart';
@@ -48,6 +49,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (ctx) => CryptoApiModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => FirebaseModel(),
         ),
         ChangeNotifierProvider(
           create: (ctx) => CredentialsModel(),

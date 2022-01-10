@@ -88,6 +88,7 @@ class _WalletViewState extends State<WalletView> {
       credentialsNew = Provider.of<WalletModel>(context,listen: false).walletCredentials;
       address =
       await credentialsNew.extractAddress();
+      // var ethereumRate = await Provider.of<CryptoApiModel>(context,listen: false).getCryptoDataForEthInr();
       var ethereumRate = 258511.96959478396;
       var balance = await Provider.of<WalletModel>(context, listen: false)
           .getAccountBalance(EthereumAddress.fromHex(address.hex));

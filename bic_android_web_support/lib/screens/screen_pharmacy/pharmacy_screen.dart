@@ -47,7 +47,8 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
     credentialsNew = Provider.of<WalletModel>(context,listen: false).walletCredentials;
     address =
     await credentialsNew.extractAddress();
-    var data =await Provider.of<PharmacyModel>(context,listen: false).readContract("getPharmacyData", [address]);
+    var data =await Provider.of<WalletModel>(context,listen: false).readContract("getPharmacyData", [address]);
+    print(data);
     print(data[0]);
     if(data[0]!='') {
       var pharmacyData = await Provider.of<IPFSModel>(context,listen: false).receiveData(data[1]);

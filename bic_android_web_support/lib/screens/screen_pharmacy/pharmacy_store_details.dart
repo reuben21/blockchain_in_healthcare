@@ -1,6 +1,7 @@
 import 'package:bic_android_web_support/databases/wallet_shared_preferences.dart';
 import 'package:bic_android_web_support/providers/gas_estimation.dart';
 import 'package:bic_android_web_support/providers/ipfs.dart';
+import 'package:bic_android_web_support/providers/provider_firebase/model_firebase.dart';
 import 'package:bic_android_web_support/providers/provider_pharmacy/model_pharmacy.dart';
 import 'package:bic_android_web_support/screens/screens_auth/background.dart';
 import 'package:flutter/material.dart';
@@ -418,7 +419,11 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                                     myAddress
                                   ], credentialsNew);
 
-                                  print(transactionHash);
+                                  var firebase =
+                                  await Provider.of<FirebaseModel>(
+                                      context,
+                                      listen: false).storeTransaction(transactionHash);
+
 
                                 }
                               } else {
