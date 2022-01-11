@@ -238,7 +238,7 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
                                           TextInputType.number,
-                                          '2012',
+                                          widget.pharmacyYearOrigin.toString() == ''?"2000":widget.pharmacyYearOrigin.toString(),
                                           'pharmacy_year_origin',
                                           'Pharmacy Year Origin',
                                           Image.asset(
@@ -259,7 +259,8 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
                                           TextInputType.number,
-                                          '2012',
+                                          widget.pharmacyPhoneNo.toString() == ''?"7123456789":widget.pharmacyPhoneNo.toString(),
+
                                           'pharmacy_phone_no',
                                           'Pharmacy Phone Number',
                                           Image.asset(
