@@ -375,7 +375,8 @@ contract MainContract is AccessControl {
         );
     }
 
-    event LogPharmacy(string name, string personalDetails, address owner);
+    event LogStorePharmacy(string name, string personalDetails, address owner);
+    event LogGetPharmacy(string name, string personalDetails, address owner);
 
     //: Pharmacy DATABASE
     mapping(address => pharmacyRecord) pharmacyDatabase;
@@ -390,10 +391,11 @@ contract MainContract is AccessControl {
         pharmacyDatabase[_walletAddress].walletAddress = _walletAddress;
         pharmacyDatabase[_walletAddress].personalDetails = _personalDetails;
         pharmacyCounter.increment();
-        emit LogPharmacy(
+        
+        emit LogStorePharmacy(
             pharmacyDatabase[_walletAddress].name,
             pharmacyDatabase[_walletAddress].personalDetails,
-            _walletAddress
+            pharmacyDatabase[_walletAddress].walletAddress
         );
 
         return true;
@@ -428,11 +430,14 @@ contract MainContract is AccessControl {
             address walletAddress
         )
     {
+         if (hasRole(PHARMACY, _walletAddress)) {
         return (
+            
             pharmacyDatabase[_walletAddress].name,
             pharmacyDatabase[_walletAddress].personalDetails,
             _walletAddress
         );
+         }
     }
 
     event LogHospital(

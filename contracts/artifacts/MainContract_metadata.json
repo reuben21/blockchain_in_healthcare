@@ -60,17 +60,17 @@
 					{
 						"indexed": false,
 						"internalType": "string",
-						"name": "_hospitalDetails",
+						"name": "personalDetails",
 						"type": "string"
 					},
 					{
 						"indexed": false,
 						"internalType": "address",
-						"name": "walletAddress",
+						"name": "owner",
 						"type": "address"
 					}
 				],
-				"name": "LogHospital",
+				"name": "LogGetPharmacy",
 				"type": "event"
 			},
 			{
@@ -85,17 +85,17 @@
 					{
 						"indexed": false,
 						"internalType": "string",
-						"name": "personalDetails",
+						"name": "_hospitalDetails",
 						"type": "string"
 					},
 					{
 						"indexed": false,
 						"internalType": "address",
-						"name": "owner",
+						"name": "walletAddress",
 						"type": "address"
 					}
 				],
-				"name": "LogPharmacy",
+				"name": "LogHospital",
 				"type": "event"
 			},
 			{
@@ -152,6 +152,31 @@
 					}
 				],
 				"name": "LogStorePatient",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "personalDetails",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					}
+				],
+				"name": "LogStorePharmacy",
 				"type": "event"
 			},
 			{
@@ -1202,11 +1227,11 @@
 	},
 	"sources": {
 		"MainContract.sol": {
-			"keccak256": "0x22491b065e66e45b57802a65d58ea8fbb644282bb6ca6db9350361420cbcb33f",
+			"keccak256": "0xecaeb500ce20152a8dc8eb141294a17d128172a774a1a2af4ebf20bac9ad0c04",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://d143b3e4c97bfa024f5cf9d28542ecd52970380f0b3cf018f5f37421cb4dedbd",
-				"dweb:/ipfs/Qma42HkKZ1A8nnmBswWe5iYbzA9tCpBdSd3mArkEEkQcYd"
+				"bzz-raw://b3bd92902ce856ff76d329ca671038c09341b50306095c592b04b9fe70657d6f",
+				"dweb:/ipfs/QmSRp6JrcztWv1rwJ7h7sgvLgxreuwrZimmHPnFQZQmX8h"
 			]
 		},
 		"Roles.sol": {
