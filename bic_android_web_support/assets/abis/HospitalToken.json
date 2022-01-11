@@ -4981,19 +4981,19 @@
     "absolutePath": "project:/contracts/HospitalToken.sol",
     "exportedSymbols": {
       "Context": [
-        3269
+        3283
       ],
       "ERC20": [
-        2418
+        2432
       ],
       "HospitalToken": [
         30
       ],
       "IERC20": [
-        2496
+        2510
       ],
       "IERC20Metadata": [
-        2521
+        2535
       ]
     },
     "id": 31,
@@ -5017,7 +5017,7 @@
         "id": 2,
         "nodeType": "ImportDirective",
         "scope": 31,
-        "sourceUnit": 2419,
+        "sourceUnit": 2433,
         "src": "60:56:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -5030,7 +5030,7 @@
               "id": 3,
               "name": "ERC20",
               "nodeType": "IdentifierPath",
-              "referencedDeclaration": 2418,
+              "referencedDeclaration": 2432,
               "src": "146:5:0"
             },
             "id": 4,
@@ -5039,20 +5039,20 @@
           }
         ],
         "contractDependencies": [
-          2418,
-          2496,
-          2521,
-          3269
+          2432,
+          2510,
+          2535,
+          3283
         ],
         "contractKind": "contract",
         "fullyImplemented": true,
         "id": 30,
         "linearizedBaseContracts": [
           30,
-          2418,
-          2521,
-          2496,
-          3269
+          2432,
+          2535,
+          2510,
+          3283
         ],
         "name": "HospitalToken",
         "nodeType": "ContractDefinition",
@@ -5124,7 +5124,7 @@
                       "name": "_mint",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2278,
+                      "referencedDeclaration": 2292,
                       "src": "214:5:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_$_t_uint256_$returns$__$",
@@ -5196,7 +5196,7 @@
                   "id": 6,
                   "name": "ERC20",
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 2418,
+                  "referencedDeclaration": 2432,
                   "src": "173:5:0"
                 },
                 "nodeType": "ModifierInvocation",
@@ -5354,19 +5354,19 @@
     "absolutePath": "project:/contracts/HospitalToken.sol",
     "exportedSymbols": {
       "Context": [
-        3269
+        3283
       ],
       "ERC20": [
-        2418
+        2432
       ],
       "HospitalToken": [
         30
       ],
       "IERC20": [
-        2496
+        2510
       ],
       "IERC20Metadata": [
-        2521
+        2535
       ]
     },
     "id": 31,
@@ -5390,7 +5390,7 @@
         "id": 2,
         "nodeType": "ImportDirective",
         "scope": 31,
-        "sourceUnit": 2419,
+        "sourceUnit": 2433,
         "src": "60:56:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -5403,7 +5403,7 @@
               "id": 3,
               "name": "ERC20",
               "nodeType": "IdentifierPath",
-              "referencedDeclaration": 2418,
+              "referencedDeclaration": 2432,
               "src": "146:5:0"
             },
             "id": 4,
@@ -5412,20 +5412,20 @@
           }
         ],
         "contractDependencies": [
-          2418,
-          2496,
-          2521,
-          3269
+          2432,
+          2510,
+          2535,
+          3283
         ],
         "contractKind": "contract",
         "fullyImplemented": true,
         "id": 30,
         "linearizedBaseContracts": [
           30,
-          2418,
-          2521,
-          2496,
-          3269
+          2432,
+          2535,
+          2510,
+          3283
         ],
         "name": "HospitalToken",
         "nodeType": "ContractDefinition",
@@ -5497,7 +5497,7 @@
                       "name": "_mint",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2278,
+                      "referencedDeclaration": 2292,
                       "src": "214:5:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_$_t_uint256_$returns$__$",
@@ -5569,7 +5569,7 @@
                   "id": 6,
                   "name": "ERC20",
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 2418,
+                  "referencedDeclaration": 2432,
                   "src": "173:5:0"
                 },
                 "nodeType": "ModifierInvocation",
@@ -5783,11 +5783,11 @@
       },
       "links": {},
       "address": "0xe8eb2b150Dfd4EC8617c0C522f48017D92879F38",
-      "transactionHash": "0x5bcd23ef0d7d847b64756e56b1072d25b19aad3b12970eb4ae9c51dd8ab01b10"
+      "transactionHash": "0x894a243c427d2c77189c5fbc930b493a19fd52755e6a3a5c4998d090f9f7914d"
     }
   },
   "schemaVersion": "3.4.4",
-  "updatedAt": "2022-01-10T13:29:39.338Z",
+  "updatedAt": "2022-01-11T03:36:05.641Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
