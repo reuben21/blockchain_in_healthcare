@@ -27,31 +27,36 @@ class PharmacyRecordScreen extends StatefulWidget {
 
 class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
   late String pharmacyName;
-  late Map<String,dynamic> pharmacyIpfsHash;
-
+  late Map<String, dynamic> pharmacyIpfsHash;
 
   @override
   void initState() {
     pharmacyName = '';
     pharmacyIpfsHash = {
-
+      "pharmacy_name":"",
+      "pharmacy_owner_name":"",
+      "pharmacy_address":"",
+      "pharmacy_year_origin":"",
+      "pharmacy_phone_no":"",
     };
     fetchPharmacyData();
     super.initState();
   }
-  
+
   Future<void> fetchPharmacyData() async {
     Credentials credentialsNew;
     EthereumAddress address;
 
-    credentialsNew = Provider.of<WalletModel>(context,listen: false).walletCredentials;
-    address =
-    await credentialsNew.extractAddress();
-    var data =await Provider.of<WalletModel>(context,listen: false).readContract("getPharmacyData", [address]);
+    credentialsNew =
+        Provider.of<WalletModel>(context, listen: false).walletCredentials;
+    address = await credentialsNew.extractAddress();
+    var data = await Provider.of<WalletModel>(context, listen: false)
+        .readContract("getPharmacyData", [address]);
     print(data);
     print(data[0]);
-    if(data[0]!='') {
-      var pharmacyData = await Provider.of<IPFSModel>(context,listen: false).receiveData(data[1]);
+    if (data[0] != '') {
+      var pharmacyData = await Provider.of<IPFSModel>(context, listen: false)
+          .receiveData(data[1]);
       print(pharmacyData);
       setState(() {
         pharmacyName = data[0];
@@ -60,10 +65,8 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
     } else {
       setState(() {
         pharmacyName = data[0];
-
       });
     }
-
   }
 
   @override
@@ -71,11 +74,13 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
     super.dispose();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    var textStyleForName = TextStyle(
+        fontSize: 15,
+        fontWeight: FontWeight.bold,
+        color: Theme.of(context).colorScheme.primary);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -92,86 +97,136 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
                 child: Container(
                   width: double.infinity,
                   height: 500,
-                  child: pharmacyName == '' ?Card(
-                      borderOnForeground: true,
-                      clipBehavior: Clip.antiAlias,
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(color: Theme.of(context).colorScheme.primary,width: 2),
-                        borderRadius: BorderRadius.circular(10),
-                      ),child: ListTile(
-                    leading: Icon(Icons.arrow_drop_down_circle),
-                    title: const Text("Not Registered on Blockchain",style: TextStyle(fontSize: 15),),
-
-                  ), ) :Card(
-                    borderOnForeground: true,
-                    clipBehavior: Clip.antiAlias,
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(color: Theme.of(context).colorScheme.primary,width: 2),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        ListTile(
-                          leading: Icon(Icons.arrow_drop_down_circle),
-                          title: const Text('Pharmacy Name',style: TextStyle(fontSize: 15),),
-                          subtitle: Text(
-                            pharmacyName,
-                            style: TextStyle(fontSize:20,color: Colors.black.withOpacity(0.6)),
+                  child: pharmacyName == ''
+                      ? Card(
+                          borderOnForeground: true,
+                          clipBehavior: Clip.antiAlias,
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                color: Theme.of(context).colorScheme.primary,
+                                width: 2),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: ListTile(
+                            leading: Icon(Icons.arrow_drop_down_circle),
+                            title: const Text(
+                              "Not Registered on Blockchain",
+                              style: TextStyle(fontSize: 15),
+                            ),
+                          ),
+                        )
+                      : Card(
+                          borderOnForeground: true,
+                          clipBehavior: Clip.antiAlias,
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                color: Theme.of(context).colorScheme.primary,
+                                width: 2),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              ListTile(
+                                leading: Image.asset(
+                                    "assets/icons/pharmacy-shop-100.png",
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                    width: 35,
+                                    height: 35),
+                                title: Text('Pharmacy Name',
+                                    style: textStyleForName),
+                                subtitle: Text(
+                                  pharmacyName,
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.black.withOpacity(0.6)),
+                                ),
+                              ),
+                              ListTile(
+                                leading: Image.asset(
+                                    "assets/icons/name-100.png",
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                    width: 35,
+                                    height: 35),
+                                title: Text('Owner', style: textStyleForName),
+                                subtitle: Text(
+                                  pharmacyIpfsHash['pharmacy_owner_name'],
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.black.withOpacity(0.6)),
+                                ),
+                              ),
+                              ListTile(
+                                leading: Image.asset(
+                                    "assets/icons/address-100.png",
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                    width: 35,
+                                    height: 35),
+                                title: Text('Address', style: textStyleForName),
+                                subtitle: Text(
+                                  pharmacyIpfsHash['pharmacy_address'],
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.black.withOpacity(0.6)),
+                                ),
+                              ),
+                              ListTile(
+                                leading: Image.asset(
+                                    "assets/icons/year-view-100.png",
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                    width: 35,
+                                    height: 35),
+                                title: Text(
+                                  'Year Started',
+                                  style: textStyleForName,
+                                ),
+                                subtitle: Text(
+                                  pharmacyIpfsHash['pharmacy_year_origin'],
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.black.withOpacity(0.6)),
+                                ),
+                              ),
+                              ListTile(
+                                leading: Image.asset(
+                                    "assets/icons/phone-100.png",
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                    width: 35,
+                                    height: 35),
+                                title:
+                                    Text('Phone No', style: textStyleForName),
+                                subtitle: Text(
+                                  pharmacyIpfsHash['pharmacy_phone_no'],
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.black.withOpacity(0.6)),
+                                ),
+                              ),
+                              // ListTile(
+                              //
+                              //   trailing: Image.asset("assets/icons/forward-100.png",
+                              //       color: Theme.of(context).primaryColor,
+                              //       width: 25,
+                              //       height: 25),
+                              //   title: Text('Store your Pharmacy on Blockchain',
+                              //       style: Theme.of(context).textTheme.bodyText1),
+                              //   onTap: () {
+                              //     Navigator.push(
+                              //       context,
+                              //       MaterialPageRoute(
+                              //         builder: (context) => PharmacyStoreDetails(),
+                              //       ),
+                              //     );
+                              //   },
+                              // ),
+                            ],
                           ),
                         ),
-                        ListTile(
-                          leading: Icon(Icons.arrow_drop_down_circle),
-                          title: const Text('Owner',style: TextStyle(fontSize: 15),),
-                          subtitle: Text(
-                            pharmacyIpfsHash['pharmacy_owner_name'],
-                            style: TextStyle(fontSize:20,color: Colors.black.withOpacity(0.6)),
-                          ),
-                        ),
-                        ListTile(
-                          leading: Icon(Icons.arrow_drop_down_circle),
-                          title: const Text('Address',style: TextStyle(fontSize: 15),),
-                          subtitle: Text(
-                            pharmacyIpfsHash['pharmacy_address'],
-                            style: TextStyle(fontSize:20,color: Colors.black.withOpacity(0.6)),
-                          ),
-                        ),
-                        ListTile(
-                          leading: Icon(Icons.arrow_drop_down_circle),
-                          title: const Text('Year Started',style: TextStyle(fontSize: 15),),
-                          subtitle: Text(
-                            pharmacyIpfsHash['pharmacy_year_origin'],
-                            style: TextStyle(fontSize:20,color: Colors.black.withOpacity(0.6)),
-                          ),
-                        ),
-                        ListTile(
-                          leading: Icon(Icons.arrow_drop_down_circle),
-                          title: const Text('Phone No',style: TextStyle(fontSize: 15),),
-                          subtitle: Text(
-                            pharmacyIpfsHash['pharmacy_phone_no'],
-                            style: TextStyle(fontSize:20,color: Colors.black.withOpacity(0.6)),
-                          ),
-                        ),
-                        // ListTile(
-                        //
-                        //   trailing: Image.asset("assets/icons/forward-100.png",
-                        //       color: Theme.of(context).primaryColor,
-                        //       width: 25,
-                        //       height: 25),
-                        //   title: Text('Store your Pharmacy on Blockchain',
-                        //       style: Theme.of(context).textTheme.bodyText1),
-                        //   onTap: () {
-                        //     Navigator.push(
-                        //       context,
-                        //       MaterialPageRoute(
-                        //         builder: (context) => PharmacyStoreDetails(),
-                        //       ),
-                        //     );
-                        //   },
-                        // ),
-                      ],
-                    ),
-                  ),
                 ),
               ),
               Padding(
@@ -180,25 +235,33 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
                   borderOnForeground: true,
                   clipBehavior: Clip.antiAlias,
                   shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Theme.of(context).colorScheme.primary,width: 2),
+                    side: BorderSide(
+                        color: Theme.of(context).colorScheme.primary, width: 2),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       ListTile(
-
                         trailing: Image.asset("assets/icons/forward-100.png",
                             color: Theme.of(context).primaryColor,
                             width: 25,
                             height: 25),
-                        title: Text('Store your Pharmacy on Blockchain',
+                        title: Text('Store or Update Pharmacy on Blockchain',
                             style: Theme.of(context).textTheme.bodyText1),
                         onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => PharmacyStoreDetails(),
+                              builder: (context) => PharmacyStoreDetails(
+                                pharmacyName: pharmacyIpfsHash['pharmacy_name'],
+                                pharmacyOwnerName:
+                                    pharmacyIpfsHash['pharmacy_owner_name'],
+                                pharmacyAddress:
+                                    pharmacyIpfsHash['pharmacy_address'],
+                                pharmacyYearOrigin: pharmacyIpfsHash['pharmacy_year_origin'],
+                                pharmacyPhoneNo: pharmacyIpfsHash['pharmacy_phone_no'],
+                              ),
                             ),
                           );
                         },
@@ -209,7 +272,7 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
               ),
             ],
           ),
-            ),
+        ),
       ),
     );
   }
