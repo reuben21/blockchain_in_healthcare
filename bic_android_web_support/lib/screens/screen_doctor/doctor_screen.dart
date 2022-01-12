@@ -38,9 +38,9 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
     doctorIpfsHash = {
       "doctor_name": "",
       "doctor_age": "",
-      "doc_address": "",
-      "doc_gender": "",
-      "doc_phone_no": "",
+      "doctor_address": "",
+      "doctor_gender": "",
+      "doctor_phone_no": "",
     };
     fetchDoctorData();
     super.initState();
@@ -53,7 +53,7 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
     credentialsNew =
         Provider.of<WalletModel>(context, listen: false).walletCredentials;
     address = await credentialsNew.extractAddress();
-
+    print(address);
     var dataRole = await Provider.of<WalletModel>(context, listen: false)
         .readContract("hasRole", [
       hexToBytes(
@@ -67,13 +67,13 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
     // print(data);
     // print(data[0]);
     if (data[0].toString() != '') {
-      var pharmacyData = await Provider.of<IPFSModel>(context, listen: false)
+      var doctorData = await Provider.of<IPFSModel>(context, listen: false)
           .receiveData(data[1]);
-      print(pharmacyData);
+      print(doctorData);
       setState(() {
         doctorName = data[0].toString();
         doctorIpfsHashData = data[1].toString();
-        doctorIpfsHash = pharmacyData!;
+        doctorIpfsHash = doctorData!;
       });
     } else {
       setState(() {
@@ -219,7 +219,7 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                                           Theme.of(context).colorScheme.primary,
                                       width: 35,
                                       height: 35),
-                                  title: Text('Pharmacy Name',
+                                  title: Text('Doctor Name',
                                       style: textStyleForName),
                                   subtitle: Text(
                                     doctorName,
@@ -355,20 +355,20 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                               color: Theme.of(context).primaryColor,
                               width: 25,
                               height: 25),
-                          title: Text('Store or Update Pharmacy on Blockchain',
+                          title: Text('Store or Update Doctor on Blockchain',
                               style: Theme.of(context).textTheme.bodyText1),
                           onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => DoctorDetails(
-                                  doctorName: doctorIpfsHash['pharmacy_name'],
+                                  doctorName: doctorIpfsHash['doctor_name'],
                                   doctorAge: doctorIpfsHash['doctor_age'],
                                   doctorAddress:
                                       doctorIpfsHash['doctor_address'],
                                   doctorGender: doctorIpfsHash['doctor_gender'],
-                                  doctorPhoneNo:
-                                      doctorIpfsHash['doctor_phone_no'],
+                                  doctorPhoneNo: doctorIpfsHash[''
+                                      ''],
                                 ),
                               ),
                             );
