@@ -1,4 +1,6 @@
 
+import 'dart:typed_data';
+
 import '../../helpers/keys.dart' as keys;
 import 'package:bic_android_web_support/providers/ipfs.dart';
 import 'package:bic_android_web_support/providers/wallet.dart';
@@ -49,6 +51,13 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
     credentialsNew =
         Provider.of<WalletModel>(context, listen: false).walletCredentials;
     address = await credentialsNew.extractAddress();
+
+    var dataRole = await Provider.of<WalletModel>(context, listen: false)
+        .readContract("hasRole", [ hexToBytes("0x504841524d414359000000000000000000000000000000000000000000000000"),address]);
+    print(dataRole);
+
+
+
     var data = await Provider.of<WalletModel>(context, listen: false)
         .readContract("getPharmacyData", [address]);
     // print(data);

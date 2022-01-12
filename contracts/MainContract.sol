@@ -1,12 +1,25 @@
 pragma solidity ^0.8.0;
 
 //SPDX-License-Identifier: MIT
-import "./access/AccessControlEnumerable.sol";
-import "./Roles.sol";
+
 import "./openzeppelin/contracts/utils/Counters.sol";
+import "./openzeppelin/contracts/access/AccessControl.sol";
+
+
+bytes32 constant PATIENT = "PATIENT";
+bytes32 constant VERIFIED_PATIENT = "VERIFIED_PATIENT";
+
+bytes32 constant DOCTOR = "DOCTOR";
+bytes32 constant VERIFIED_DOCTOR = "VERIFIED_DOCTOR";
+
+bytes32 constant PHARMACY = "PHARMACY";
+
+bytes32 constant HOSPITAL_ADMIN = "HOSPITAL_ADMIN";
 
 contract MainContract is AccessControl {
     using Counters for Counters.Counter;
+    
+
 
     struct patientRecord {
         string name;
@@ -16,6 +29,7 @@ contract MainContract is AccessControl {
         address walletAddress;
         string[] previousPatientRecordHashes;
         string newMedicalRecordHash;
+        
         string[] previousPatientPrescriptionHashes;
         string newPatientPrescriptionHashes;
     }
@@ -57,6 +71,33 @@ contract MainContract is AccessControl {
         // default role of contract deployer
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
     }
+
+    function stringToBytes32(string memory source) public pure returns (bytes32 result) {
+    bytes memory tempEmptyStringTest = bytes(source);
+    if (tempEmptyStringTest.length == 0) {
+        return 0x0;
+    }
+
+    assembly {
+        result := mload(add(source, 32))
+    }
+}
+
+    // function getRoleForUser(address _walletAddress) external view return(String role) {
+    //     if (hasRole(PATIENT,_walletAddress)) {
+    //         return "PATIENT";
+    //     } else if (hasRole(VERIFIED_PATIENT,_walletAddress)) {
+    //         return "VERIFIED_PATIENT";
+    //     } else if (hasRole(DOCTOR,_walletAddress)) {
+    //         return "DOCTOR";
+    //     } else if (hasRole(VERIFIED_DOCTOR,_walletAddress)) {
+    //         return "VERIFIED_DOCTOR";
+    //     } else if (hasRole(HOSPITAL,_walletAddress)) {
+    //         return "HOSPITAL";
+    //     } else if (hasRole(PHARMACY,_walletAddress)) {
+    //         return "PHARMACY";
+    //     }
+    // }
 
     event LogStorePatient(
         string name,

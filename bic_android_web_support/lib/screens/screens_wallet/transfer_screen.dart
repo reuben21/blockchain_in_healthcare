@@ -124,35 +124,29 @@ class _TransferScreenState extends State<TransferScreen> {
                     // mainAxisAlignment: MainAxisAlignment.center,
 
                     children: [
+                      const SizedBox(
+                        height: 80,
+                      ),
                       Flexible(
                         fit: FlexFit.loose,
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 30),
+                          padding: const EdgeInsets.only(left: 0),
                           child: Text(
-                            "Transfer Ether",
+                            "Transfer ETH",
                             style: Theme.of(context).textTheme.headline1,
                             textAlign: TextAlign.left,
                           ),
                         ),
                       ),
 
-                      Flexible(
-                        fit: FlexFit.loose,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 30, top: 30),
-                          child: Text(
-                            "From: ",
-                            style: Theme.of(context).textTheme.bodyText1,
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
+
                       const SizedBox(
                         height: 15,
                       ),
+
                       // widget.address
                       Container(
-                        height: 40,
+                        height: 65,
                         width: double.infinity,
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
@@ -165,12 +159,29 @@ class _TransferScreenState extends State<TransferScreen> {
                               ]),
                           borderRadius: BorderRadius.circular(9),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Text(
+                        child: ListTile(
+                          leading: Image.asset(
+                              "assets/icons/wallet.png",
+                              color:
+                              Theme.of(context).colorScheme.secondary,
+                              width: 35,
+                              height: 35),
+                          title: Text('From Wallet Address', style: TextStyle(fontSize: 18,fontWeight:FontWeight.bold,color:
+                          Theme.of(context).colorScheme.secondary,)),
+                          subtitle: Text(
                             widget.address,
+                            style: TextStyle(
+                                fontSize: 15,
+                              color:
+                              Theme.of(context).colorScheme.secondary,),
                           ),
                         ),
+                        // Padding(
+                        //   padding: const EdgeInsets.all(10.0),
+                        //   child: Text(
+                        //     widget.address,style: TextStyle(fontSize: 20),
+                        //   ),
+                        // ),
                       ),
                       // Text((result != null)
                       //     ? "Ethereum Address: " + result.code.toString()
@@ -296,13 +307,13 @@ class _TransferScreenState extends State<TransferScreen> {
                                     child: ElevatedButton.icon(
 
                                       icon: Image.asset(
-                                          "assets/icons/login-right-100.png",
+                                          "assets/icons/money-transfer-100.png",
                                           color: Theme.of(context)
                                               .colorScheme
                                               .secondary,
                                           scale: 1,
-                                          width: 25,
-                                          height: 25),
+                                          width: 32,
+                                          height: 32),
                                       // padding: EdgeInsets.symmetric(
                                       //     vertical: 20, horizontal: 40),
                                       // color: Theme.of(context).colorScheme.primary,
