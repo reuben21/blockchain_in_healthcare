@@ -23,8 +23,23 @@ class DoctorRecordScreen extends StatefulWidget {
 }
 
 class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
+  String? role;
+  late String doctorName;
+  late String doctorIpfsHashData;
+  late Map<String, dynamic> doctorIpfsHash;
   @override
   void initState() {
+    role = '';
+    doctorName = '';
+    doctorIpfsHashData = '';
+    // doctorIpfsHash = {
+    //   "dcotor_name":"",
+    //   "pharmacy_owner_name":"",
+    //   "pharmacy_address":"",
+    //   "pharmacy_year_origin":"",
+    //   "pharmacy_phone_no":"",
+    // };
+    // fetchPharmacyData();
     super.initState();
   }
 
