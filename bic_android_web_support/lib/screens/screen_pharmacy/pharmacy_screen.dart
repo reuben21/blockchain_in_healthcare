@@ -25,12 +25,14 @@ class PharmacyRecordScreen extends StatefulWidget {
 }
 
 class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
+   String? role;
   late String pharmacyName;
   late String pharmacyIpfsHashData;
   late Map<String, dynamic> pharmacyIpfsHash;
 
   @override
   void initState() {
+    role = '';
     pharmacyName = '';
     pharmacyIpfsHashData = '';
     pharmacyIpfsHash = {
@@ -54,7 +56,9 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
 
     var dataRole = await Provider.of<WalletModel>(context, listen: false)
         .readContract("hasRole", [ hexToBytes("0x504841524d414359000000000000000000000000000000000000000000000000"),address]);
-    print(dataRole);
+    print("Role Status -"+dataRole.toString());
+
+
 
 
 
@@ -65,7 +69,7 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
     if (data[0].toString() != '') {
       var pharmacyData = await Provider.of<IPFSModel>(context, listen: false)
           .receiveData(data[1]);
-      // print(pharmacyData);
+      print(pharmacyData);
       setState(() {
         pharmacyName = data[0].toString();
         pharmacyIpfsHashData = data[1].toString();
@@ -75,6 +79,14 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
       setState(() {
         pharmacyName = data[0];
       });
+    }
+    if (dataRole[0]) {
+
+      setState(() {
+        role = "PHARMACY";
+      });
+    } else {
+      role = "UNVERIFIED";
     }
   }
 
@@ -107,6 +119,40 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
         child: Container(
           child: Column(
             children: [
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: Card(
+                  borderOnForeground: true,
+                  clipBehavior: Clip.antiAlias,
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                        color: Theme.of(context).colorScheme.primary, width: 2),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      ListTile(
+                        leading: Image.asset(
+                            "assets/icons/checked-user-male-100.png",
+                            color:
+                            Theme.of(context).colorScheme.primary,
+                            width: 35,
+                            height: 35),
+                        title: Text('Role',
+                            style: textStyleForName),
+                        subtitle: Text(
+                          role.toString(),
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.black.withOpacity(0.6)),
+                        ),
+                      ),
+
+                    ],
+                  ),
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.all(8),
                 child: Container(

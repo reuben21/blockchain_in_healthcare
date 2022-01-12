@@ -79,6 +79,12 @@ class _TransactionListState extends State<TransactionList> {
                         itemCount: documents?.length,
                         itemBuilder: (BuildContext context, int position) {
                           return Card(
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  width: 2),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                             color: Theme.of(context).colorScheme.secondary,
                             elevation: 0.0,
                             child: ExpansionTile(
