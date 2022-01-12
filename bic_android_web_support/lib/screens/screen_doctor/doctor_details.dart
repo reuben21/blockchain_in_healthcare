@@ -8,7 +8,19 @@ import 'package:provider/provider.dart';
 class DoctorDetails extends StatefulWidget {
   static const routeName = '/doctorDetail';
 
-  const DoctorDetails({Key? key}) : super(key: key);
+  final String? doctorName;
+  final String? doctorAge;
+  final String? doctorAddress;
+  final String? doctorGender;
+  final String? doctorPhoneNo;
+
+  const DoctorDetails({
+    required this.doctorName,
+    required this.doctorAge,
+    required this.doctorAddress,
+    required this.doctorGender,
+    required this.doctorPhoneNo,
+  });
 
   @override
   _DoctorDetailsState createState() => _DoctorDetailsState();
@@ -114,8 +126,8 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                       child: formBuilderTextFieldWidget(
                                           TextInputType.text,
                                           'Ankita Tripathi',
-                                          'name',
-                                          'Full Name',
+                                          'doctor_name',
+                                          'Doctor Name',
                                           Image.asset(
                                               "assets/icons/name-100.png",
                                               color: Theme.of(context)
@@ -134,7 +146,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                       child: formBuilderTextFieldWidget(
                                           TextInputType.number,
                                           '40',
-                                          'age',
+                                          'doctor_age',
                                           'Age',
                                           Image.asset(
                                               "assets/icons/at-sign-100.png",
@@ -154,8 +166,28 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                       child: formBuilderTextFieldWidget(
                                           TextInputType.streetAddress,
                                           'skldfjf',
-                                          'address',
+                                          'doc_address',
                                           'Address',
+                                          Image.asset(
+                                              "assets/icons/key-100.png",
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                              scale: 4,
+                                              width: 15,
+                                              height: 15),
+                                          false,
+                                          [
+                                            FormBuilderValidators.required(
+                                                context),
+                                          ])),
+                                  Padding(
+                                      padding: const EdgeInsets.all(15),
+                                      child: formBuilderTextFieldWidget(
+                                          TextInputType.phone,
+                                          '8977558895',
+                                          'doc_phone_no',
+                                          'Phone no',
                                           Image.asset(
                                               "assets/icons/key-100.png",
                                               color: Theme.of(context)
@@ -173,7 +205,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                     padding: const EdgeInsets.all(15),
                                     child: FormBuilderDropdown(
                                       initialValue: 'Female',
-                                      name: 'gender',
+                                      name: 'doc_gender',
                                       decoration: InputDecoration(
                                         labelText: "Gender",
                                         prefixIcon: Image.asset(
@@ -252,12 +284,13 @@ class _DoctorDetailsState extends State<DoctorDetails> {
 
                                 Map<String, dynamic> objText = {
                                   "firstName":
-                                      _formKey.currentState?.value["name"],
-                                  "age": _formKey.currentState?.value["age"],
-                                  "address":
-                                      _formKey.currentState?.value["address"],
-                                  "gender":
-                                      _formKey.currentState?.value["gender"],
+                                      _formKey.currentState?.value["doc_name"],
+                                  "age":
+                                      _formKey.currentState?.value["doc_age"],
+                                  "address": _formKey
+                                      .currentState?.value["doc_address"],
+                                  "gender": _formKey
+                                      .currentState?.value["doc_gender"],
                                   // "lastName4": ["Coutinho", "Coutinho", "Coutinho"],
                                   // "age": 30
                                 };
