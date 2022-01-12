@@ -22,13 +22,12 @@ class PharmacyStoreDetails extends StatefulWidget {
   final String? pharmacyPhoneNo;
 
 
-  const PharmacyStoreDetails(
-      {required this.pharmacyName,
-        required this.pharmacyOwnerName,
-        required this.pharmacyAddress,
-        required this.pharmacyYearOrigin,
-        required this.pharmacyPhoneNo,
-        });
+  const PharmacyStoreDetails({required this.pharmacyName,
+    required this.pharmacyOwnerName,
+    required this.pharmacyAddress,
+    required this.pharmacyYearOrigin,
+    required this.pharmacyPhoneNo,
+  });
 
 
   @override
@@ -55,8 +54,78 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
     });
   }
 
-  Widget formBuilderTextFieldWidget(
-      TextInputType inputTextType,
+  Future<void> estimateGasFunction(String pharmacyName, String ipfsHash,
+      EthereumAddress walletAddress) async {
+    var gasEstimation =
+    await Provider.of<GasEstimationModel>(
+        context,
+        listen: false)
+        .estimateGasForContractFunction(
+        walletAddress, "storePharmacy", [
+      pharmacyName,
+      ipfsHash,
+      walletAddress
+    ]);
+    print(gasEstimation);
+
+    return showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor:
+        Theme.of(context)
+            .colorScheme
+            .secondary,
+        title: Text(
+          "Show the QR Code",
+          style: Theme.of(context)
+              .textTheme
+              .bodyText1,
+        ),
+        content: Container(
+          width: 200,
+          height: 240,
+          child: Center(
+            child: Column(
+              children: [
+
+              ],
+            ),
+          ),
+        ),
+        actions: <Widget>[
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+            child: const Text("okay"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> executeTransaction(String pharmacyName, String ipfsHash,
+      EthereumAddress walletAddress, Credentials credentials) async {
+    var transactionHash =
+    await Provider.of<PharmacyModel>(
+        context,
+        listen: false).writeContract("storePharmacy", [
+      pharmacyName,
+      ipfsHash,
+      walletAddress
+    ], credentials);
+
+    var firebaseStatus =
+    await Provider.of<FirebaseModel>(
+        context,
+        listen: false).storeTransaction(transactionHash);
+
+    if (firebaseStatus) {
+      Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
+    }
+  }
+
+  Widget formBuilderTextFieldWidget(TextInputType inputTextType,
       String initialValue,
       String fieldName,
       String labelText,
@@ -103,14 +172,19 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery
+        .of(context)
+        .size;
     return Scaffold(
       // appBar: AppBar(
       //   elevation: 0,
       // ),
       body: SingleChildScrollView(
         child: Container(
-          height: MediaQuery.of(context).size.height,
+          height: MediaQuery
+              .of(context)
+              .size
+              .height,
           child: Column(
             children: [
               SingleChildScrollView(
@@ -121,7 +195,10 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                       children: [
                         Text(
                           'Pharmacy Detail',
-                          style: Theme.of(context).textTheme.headline1,
+                          style: Theme
+                              .of(context)
+                              .textTheme
+                              .headline1,
                         ),
 
                         // SizedBox(height: size.height * 0.03),
@@ -157,7 +234,8 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                                             begin: Alignment.topLeft,
                                             end: Alignment.bottomRight,
                                             colors: [
-                                              Theme.of(context)
+                                              Theme
+                                                  .of(context)
                                                   .colorScheme
                                                   .primary,
                                               Colors.purpleAccent
@@ -178,12 +256,15 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
                                           TextInputType.text,
-                                          widget.pharmacyName.toString() == ''?'Pharmacy A':widget.pharmacyName.toString(),
+                                          widget.pharmacyName.toString() == ''
+                                              ? 'Pharmacy A'
+                                              : widget.pharmacyName.toString(),
                                           'pharmacy_name',
                                           'Pharmacy Name',
                                           Image.asset(
                                               "assets/icons/pharmacy-shop-100.png",
-                                              color: Theme.of(context)
+                                              color: Theme
+                                                  .of(context)
                                                   .colorScheme
                                                   .primary,
                                               scale: 4,
@@ -198,12 +279,15 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
                                           TextInputType.text,
-                                          widget.pharmacyOwnerName.toString() == ''?'Pharmacy Owner':widget.pharmacyOwnerName.toString(),
+                                          widget.pharmacyOwnerName.toString() ==
+                                              '' ? 'Pharmacy Owner' : widget
+                                              .pharmacyOwnerName.toString(),
                                           'pharmacy_owner_name',
                                           'Name of Owner',
                                           Image.asset(
                                               "assets/icons/name-100.png",
-                                              color: Theme.of(context)
+                                              color: Theme
+                                                  .of(context)
                                                   .colorScheme
                                                   .primary,
                                               scale: 4,
@@ -218,12 +302,17 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
                                           TextInputType.streetAddress,
-                                          widget.pharmacyAddress.toString() == ''?'Shop No 3, Happy Home Apartment, near J B Khot School, Mahavir Nagar, Borivali West, Mumbai, Maharashtra':widget.pharmacyAddress.toString(),
+                                          widget.pharmacyAddress.toString() ==
+                                              ''
+                                              ? 'Shop No 3, Happy Home Apartment, near J B Khot School, Mahavir Nagar, Borivali West, Mumbai, Maharashtra'
+                                              : widget.pharmacyAddress
+                                              .toString(),
                                           'pharmacy_address',
                                           'Pharmacy Address',
                                           Image.asset(
                                               "assets/icons/address-100.png",
-                                              color: Theme.of(context)
+                                              color: Theme
+                                                  .of(context)
                                                   .colorScheme
                                                   .primary,
                                               scale: 4,
@@ -238,12 +327,17 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
                                           TextInputType.number,
-                                          widget.pharmacyYearOrigin.toString() == ''?"2000":widget.pharmacyYearOrigin.toString(),
+                                          widget.pharmacyYearOrigin
+                                              .toString() == ''
+                                              ? "2000"
+                                              : widget.pharmacyYearOrigin
+                                              .toString(),
                                           'pharmacy_year_origin',
                                           'Pharmacy Year Origin',
                                           Image.asset(
                                               "assets/icons/year-view-100.png",
-                                              color: Theme.of(context)
+                                              color: Theme
+                                                  .of(context)
                                                   .colorScheme
                                                   .primary,
                                               scale: 4,
@@ -259,13 +353,16 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
                                           TextInputType.number,
-                                          widget.pharmacyPhoneNo.toString() == ''?"7123456789":widget.pharmacyPhoneNo.toString(),
+                                          widget.pharmacyPhoneNo.toString() ==
+                                              '' ? "7123456789" : widget
+                                              .pharmacyPhoneNo.toString(),
 
                                           'pharmacy_phone_no',
                                           'Pharmacy Phone Number',
                                           Image.asset(
                                               "assets/icons/phone-100.png",
-                                              color: Theme.of(context)
+                                              color: Theme
+                                                  .of(context)
                                                   .colorScheme
                                                   .primary,
                                               scale: 4,
@@ -275,8 +372,10 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                                           [
                                             FormBuilderValidators.required(
                                                 context),
-                                            FormBuilderValidators.minLength(context, 10),
-                                            FormBuilderValidators.maxLength(context, 13),
+                                            FormBuilderValidators.minLength(
+                                                context, 10),
+                                            FormBuilderValidators.maxLength(
+                                                context, 13),
                                           ])),
                                   Padding(
                                       padding: const EdgeInsets.all(15),
@@ -288,7 +387,8 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                                           'Wallet Password',
                                           Image.asset(
                                               "assets/icons/key-100.png",
-                                              color: Theme.of(context)
+                                              color: Theme
+                                                  .of(context)
                                                   .colorScheme
                                                   .primary,
                                               scale: 4,
@@ -369,9 +469,15 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                           child: FloatingActionButton.extended(
                             heroTag: "pharmacyStoreDetailsButton",
                             backgroundColor:
-                                Theme.of(context).colorScheme.primary,
+                            Theme
+                                .of(context)
+                                .colorScheme
+                                .primary,
                             foregroundColor:
-                                Theme.of(context).colorScheme.secondary,
+                            Theme
+                                .of(context)
+                                .colorScheme
+                                .secondary,
                             onPressed: () async {
                               _formKey.currentState?.save();
                               if (_formKey.currentState?.validate() != null) {
@@ -396,8 +502,8 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                                   // "age": 30
                                 };
                                 var hashReceived = await Provider.of<IPFSModel>(
-                                        context,
-                                        listen: false)
+                                    context,
+                                    listen: false)
                                     .sendData(objText);
                                 print("hashReceived ------" +
                                     hashReceived.toString());
@@ -413,40 +519,12 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                                       _formKey.currentState?.value["password"]);
                                   credentialsNew = newWallet.privateKey;
                                   myAddress =
-                                      await credentialsNew.extractAddress();
+                                  await credentialsNew.extractAddress();
 
                                   // var hospitalAddress = EthereumAddress.fromHex("  ");
                                   // var doctorAddress = EthereumAddress.fromHex("  ");
-                                  var gasEstimation =
-                                      await Provider.of<GasEstimationModel>(
-                                              context,
-                                              listen: false)
-                                          .estimateGasForContractFunction(
-                                              myAddress, "storePharmacy", [
-                                    _formKey
-                                        .currentState?.value["pharmacy_name"].toString(),
-                                    hashReceived,
-                                    myAddress
-                                  ]);
-                                  var transactionHash =
-                                  await Provider.of<PharmacyModel>(
-                                      context,
-                                      listen: false).writeContract("storePharmacy", [
-                                    _formKey
-                                        .currentState?.value["pharmacy_name"].toString(),
-                                    hashReceived,
-                                    myAddress
-                                  ], credentialsNew);
-
-                                  var firebaseStatus =
-                                  await Provider.of<FirebaseModel>(
-                                      context,
-                                      listen: false).storeTransaction(transactionHash);
-
-                                  if(firebaseStatus ) {
-                                    Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
-
-                                  }
+                                  estimateGasFunction(_formKey
+                                      .currentState?.value["pharmacy_name"],hashReceived,myAddress);
 
                                 }
                               } else {
@@ -454,7 +532,10 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                               }
                             },
                             icon: Image.asset("assets/icons/sign_in.png",
-                                color: Theme.of(context).colorScheme.secondary,
+                                color: Theme
+                                    .of(context)
+                                    .colorScheme
+                                    .secondary,
                                 width: 25,
                                 fit: BoxFit.fill,
                                 height: 25),

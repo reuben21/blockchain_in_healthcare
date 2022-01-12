@@ -1,14 +1,11 @@
-import 'dart:convert';
-import 'dart:typed_data';
 
-import 'package:bic_android_web_support/databases/wallet_shared_preferences.dart';
+import '../../helpers/keys.dart' as keys;
 import 'package:bic_android_web_support/providers/ipfs.dart';
-import 'package:bic_android_web_support/providers/provider_pharmacy/model_pharmacy.dart';
 import 'package:bic_android_web_support/providers/wallet.dart';
-import 'package:bic_android_web_support/screens/screen_patient/patient_details.dart';
 import 'package:bic_android_web_support/screens/screen_pharmacy/pharmacy_store_details.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:velocity_x/src/extensions/context_ext.dart';
 import 'package:velocity_x/src/extensions/num_ext.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -27,11 +24,13 @@ class PharmacyRecordScreen extends StatefulWidget {
 
 class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
   late String pharmacyName;
+  late String pharmacyIpfsHashData;
   late Map<String, dynamic> pharmacyIpfsHash;
 
   @override
   void initState() {
     pharmacyName = '';
+    pharmacyIpfsHashData = '';
     pharmacyIpfsHash = {
       "pharmacy_name":"",
       "pharmacy_owner_name":"",
@@ -52,14 +51,15 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
     address = await credentialsNew.extractAddress();
     var data = await Provider.of<WalletModel>(context, listen: false)
         .readContract("getPharmacyData", [address]);
-    print(data);
-    print(data[0]);
-    if (data[0] != '') {
+    // print(data);
+    // print(data[0]);
+    if (data[0].toString() != '') {
       var pharmacyData = await Provider.of<IPFSModel>(context, listen: false)
           .receiveData(data[1]);
-      print(pharmacyData);
+      // print(pharmacyData);
       setState(() {
-        pharmacyName = data[0];
+        pharmacyName = data[0].toString();
+        pharmacyIpfsHashData = data[1].toString();
         pharmacyIpfsHash = pharmacyData!;
       });
     } else {
@@ -74,6 +74,10 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
     super.dispose();
   }
 
+  void _launchURL(String _url) async {
+    if (!await launch(_url)) throw 'Could not launch $_url';
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -81,6 +85,8 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
         fontSize: 15,
         fontWeight: FontWeight.bold,
         color: Theme.of(context).colorScheme.primary);
+
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -97,7 +103,7 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
                 child: Container(
                   width: double.infinity,
                   height: 500,
-                  child: pharmacyName == ''
+                  child: pharmacyIpfsHash['pharmacy_owner_name'] == ''
                       ? Card(
                           borderOnForeground: true,
                           clipBehavior: Clip.antiAlias,
@@ -107,9 +113,9 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
                                 width: 2),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          child: ListTile(
+                          child: const ListTile(
                             leading: Icon(Icons.arrow_drop_down_circle),
-                            title: const Text(
+                            title: Text(
                               "Not Registered on Blockchain",
                               style: TextStyle(fontSize: 15),
                             ),
@@ -206,6 +212,28 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
                                       fontSize: 20,
                                       color: Colors.black.withOpacity(0.6)),
                                 ),
+                              ),
+                              ListTile(
+                                leading: Image.asset(
+                                    "assets/icons/storage-100.png",
+                                    color:
+                                    Theme.of(context).colorScheme.primary,
+                                    width: 35,
+                                    height: 35),
+                                title:
+                                Text('IPFS Hash', style: textStyleForName),
+                                subtitle: Text(
+                                  pharmacyIpfsHashData,
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.black.withOpacity(0.6)),
+                                ),
+                                onTap: () {
+                                  String _url = "${keys.getIpfsUrlForReceivingData}$pharmacyIpfsHashData";
+                                  _launchURL(_url);
+
+
+                                },
                               ),
                               // ListTile(
                               //

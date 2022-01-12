@@ -60,6 +60,7 @@ class FirebaseModel with ChangeNotifier {
 
       var gasPrice = await _client.getGasPrice();
       if(txReceipt?.cumulativeGasUsed != null) {
+
         String? culma = txReceipt?.cumulativeGasUsed.toString();
         var gasCostEstimation = BigInt.parse(culma.toString()) * gasPrice.getInWei;
         var gasAmountInWei = EtherAmount.fromUnitAndValue(
