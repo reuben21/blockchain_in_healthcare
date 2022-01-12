@@ -107,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             Padding(
                                 padding: const EdgeInsets.all(15),
                                 child: FormBuilderTextField(
-                                  initialValue: 'reuben211999@gmail.com',
+                                  initialValue: 'pharmacy_a@gmail.com',
                                   maxLines: 1,
                                   name: 'emailId',
                                   decoration: InputDecoration(
@@ -151,7 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             Padding(
                                 padding: const EdgeInsets.all(15),
                                 child: FormBuilderTextField(
-                                  initialValue: 'Reuben@21',
+                                  initialValue: 'Password@123',
                                   obscureText: true,
                                   maxLines: 1,
                                   name: 'password',

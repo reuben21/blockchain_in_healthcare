@@ -35,6 +35,6 @@ module.exports = function (deployer) {
 
 
 
-  deployer.deploy(HospitalCoinContract);
+  // deployer.deploy(HospitalCoinContract);
 
 };

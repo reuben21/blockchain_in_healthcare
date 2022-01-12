@@ -58,15 +58,28 @@ class FirebaseModel with ChangeNotifier {
       TransactionReceipt? txReceipt =
       await _client.getTransactionReceipt(transactionHash);
 
-      if (auth.currentUser?.uid.toString() != null) {
-        userFirestore.doc(auth.currentUser?.uid.toString()).collection(
-            "transactions").doc().set({
+      var gasPrice = await _client.getGasPrice();
+      if(txReceipt?.cumulativeGasUsed != null) {
+
+        String? culma = txReceipt?.cumulativeGasUsed.toString();
+        var gasCostEstimation = BigInt.parse(culma.toString()) * gasPrice.getInWei;
+        var gasAmountInWei = EtherAmount.fromUnitAndValue(
+            EtherUnit.wei, gasCostEstimation.toString());
+
+        var actualAmountInWei =
+        EtherAmount.fromUnitAndValue(EtherUnit.ether, tx.value.getInEther);
+
+        var totalAmount = (gasAmountInWei.getInWei + actualAmountInWei.getInWei) /
+            BigInt.from(1000000000000000000);
+
+        Map<String,String?> data = {
           "from": tx.from.hex.toString(),
           "to": tx.to?.hex.toString(),
           "value": tx.value.getInWei.toString(),
           "status": txReceipt?.status.toString(),
           "blockNumber": txReceipt?.blockNumber.blockNum.toString(),
           "contractAddress": txReceipt?.contractAddress?.hex.toString(),
+          "cumulativeGasUsed":txReceipt?.cumulativeGasUsed.toString(),
           "gasUsed": txReceipt?.gasUsed.toString(),
           "transactionHash": transactionHash,
           "date": "${DateTime
@@ -79,9 +92,21 @@ class FirebaseModel with ChangeNotifier {
               .now()
               .day
               .toString()}",
-          "dateTime": DateTime.now().toIso8601String()
-        });
+          "dateTime": DateTime.now().toIso8601String(),
+          "totalAmountInEther":totalAmount.toString()
+
+        };
+
+
+        if (auth.currentUser?.uid.toString() != null) {
+          userFirestore.doc(auth.currentUser?.uid.toString()).collection(
+              "transactions").doc().set(data);
+          print(data);
+        }
       }
+
+
+
 
       if (tx.hash.isNotEmpty) {
         return true;

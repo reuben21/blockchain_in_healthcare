@@ -33,3 +33,19 @@ for Patient: -
 patient_a@gmail.com
 Password@123
 
+
+To Save Truffle State and contract deployment
+
+1) `npm install ganache-cli@latest --global`
+
+2)run ` ganache-cli --db="./data/save/" -i="5777" -p="7545" -d --mnemonic="tomorrow better yellow peace relief capable side volcano mechanic long bunker purity" ` 
+
+3) from another terminal run `truffle deploy`
+
+4) use Meta Mask to transfer some Ether into Mobile
+
+5) Ctrl + C to close gnache-cli
+
+6) Next Time Directly run ` ganache-cli --db="./data/save/" -i="5777" -p="7545" -d --mnemonic="tomorrow better yellow peace relief capable side volcano mechanic long bunker purity" `
+
+7) Now refresh balance on mobile

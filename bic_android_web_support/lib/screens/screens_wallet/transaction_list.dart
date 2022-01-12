@@ -171,7 +171,7 @@ class _TransactionListState extends State<TransactionList> {
                                 softWrap: false,
                               ),
                               trailing: Text(
-                                '${EtherAmount.fromUnitAndValue(EtherUnit.wei, documents[position]['value']).getInEther} ETH',
+                                '${ documents[position]['totalAmountInEther'].toString()} ETH',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color:
