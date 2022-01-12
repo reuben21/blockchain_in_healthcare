@@ -55,7 +55,7 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
   }
 
   Future<void> estimateGasFunction(String pharmacyName, String ipfsHash,
-      EthereumAddress walletAddress) async {
+      EthereumAddress walletAddress,Credentials credentials) async {
     var gasEstimation =
     await Provider.of<GasEstimationModel>(
         context,
@@ -372,33 +372,13 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                     backgroundColor: Theme.of(context).colorScheme.primary,
                     foregroundColor: Theme.of(context).colorScheme.secondary,
                     onPressed: () async {
-                      Credentials credentialsNew;
-                      EthereumAddress myAddress;
-
-                      // String amount = widget.amount;
-                      // String receiverAddress = widget.receiverAddress;
-
-                      // var dbResponse =
-                      // await DBProviderWallet.db.getWalletByWalletAddress(widget.address);
-                      // print(dbResponse);
-
-                      if (true) {
 
 
-                        //
-                        // var txStatus = await Provider.of<WalletModel>(context,
-                        //     listen: false)
-                        //     .transferEther(widget.credentials, widget.senderAddress,
-                        //     receiverAddress, amount);
-                        // if (txStatus) {
-                        //   Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => TabsScreen(),
-                        //     ),
-                        //   );
-                        // }
-                      }
+
+
+                        executeTransaction(pharmacyName,ipfsHash,walletAddress,credentials);
+
+
                     },
                     icon: const Icon(Icons.add_circle_outline_outlined),
                     label: const Text('Confirm Pay'),
@@ -840,7 +820,7 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                                   // var hospitalAddress = EthereumAddress.fromHex("  ");
                                   // var doctorAddress = EthereumAddress.fromHex("  ");
                                   estimateGasFunction(_formKey
-                                      .currentState?.value["pharmacy_name"],hashReceived,myAddress);
+                                      .currentState?.value["pharmacy_name"],hashReceived,myAddress,credentialsNew);
 
                                 }
                               } else {
