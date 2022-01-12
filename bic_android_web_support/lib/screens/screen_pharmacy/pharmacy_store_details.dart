@@ -84,10 +84,10 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
         ),
         content: Container(
           height: MediaQuery.of(context).size.height,
-          width: 500,
+          width: MediaQuery.of(context).size.width,
           // color: Theme.of(context).colorScheme.secondary,
           child: Padding(
-            padding: const EdgeInsets.all(25.0),
+            padding: const EdgeInsets.all(10.0),
             child: Center(
               child: Column(
                 children: [
@@ -111,86 +111,112 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                     ),
                     child: Padding(
                       padding: EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      child:  Column(
                         children: [
-                          Column(
-                            children: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  const Text(
-                                    'From',
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                    ),
-                                    overflow: TextOverflow.fade,
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Container(
-                                    height: 40,
-                                    // heightheight: 60,
-                                    width: 120,
-                                    child: Text(
-                                      walletAddress.hex,
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
                           Container(
-                            // width: 30,
-                            height: 60,
-                            child: Row(
-                              children: [
-                                VerticalDivider(
-                                  color: Colors.white,
-                                  thickness: 2,
-                                ),
-                              ],
+                            height: 65,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [
+                                    Theme.of(context).colorScheme.primary,
+                                    Colors.purpleAccent.withOpacity(0.9),
+                                    // Colors.lightBlueAccent,
+                                  ]),
+                              borderRadius: BorderRadius.circular(9),
                             ),
-                          ),
-                          // Row()
-                          Row(
-                            children: [
-                              Column(
-                                children: [
-                                  const Text(
-                                    'To:',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Container(
-                                    height: 40,
-                                    // heightheight: 60,
-                                    width: 120,
-                                    child: Text(
-                                      "contract",
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                  // Text(
-                                  //   widget.senderAddress,
-                                  //   overflow: TextOverflow.ellipsis,
-                                  // ),
-                                ],
+                            child: ListTile(
+                              leading: Image.asset(
+                                  "assets/icons/wallet.png",
+                                  color:
+                                  Theme.of(context).colorScheme.secondary,
+                                  width: 35,
+                                  height: 35),
+                              title: Text('From Wallet Address', style: TextStyle(fontSize: 18,fontWeight:FontWeight.bold,color:
+                              Theme.of(context).colorScheme.secondary,)),
+                              subtitle: Text(
+                                walletAddress.hex.toString(),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color:
+                                  Theme.of(context).colorScheme.secondary,),
                               ),
-                            ],
-                          )
+                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.all(10.0),
+                            //   child: Text(
+                            //     widget.address,style: TextStyle(fontSize: 20),
+                            //   ),
+                            // ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                   Container(
+                    height: 90,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Colors.purpleAccent.withOpacity(0.9),
+                            Theme.of(context).colorScheme.primary,
+
+                            // Colors.lightBlueAccent,
+                          ]),
+                      borderRadius: BorderRadius.circular(9),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child:  Column(
+                        children: [
+                          Container(
+                            height: 65,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [
+                                    Colors.purpleAccent.withOpacity(0.9),
+                                    Theme.of(context).colorScheme.primary,
+
+                                    // Colors.lightBlueAccent,
+                                  ]),
+                              borderRadius: BorderRadius.circular(9),
+                            ),
+                            child: ListTile(
+                              trailing: Image.asset(
+                                  "assets/icons/wallet.png",
+                                  color:
+                                  Theme.of(context).colorScheme.secondary,
+                                  width: 35,
+                                  height: 35),
+                              title: Text('To Wallet Address', style: TextStyle(fontSize: 18,fontWeight:FontWeight.bold,color:
+                              Theme.of(context).colorScheme.secondary,)),
+                              subtitle: Text(
+                                gasEstimation['contractAddress'].toString(),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color:
+                                  Theme.of(context).colorScheme.secondary,),
+                              ),
+                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.all(10.0),
+                            //   child: Text(
+                            //     widget.address,style: TextStyle(fontSize: 20),
+                            //   ),
+                            // ),
+                          ),
+
                         ],
                       ),
                     ),

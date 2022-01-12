@@ -112,6 +112,7 @@ class GasEstimationModel with ChangeNotifier {
         "gasCostEstimation": gasCostEstimation,
         "gasAmountInWei": gasAmountInWei.getInWei,
         "actualAmountInWei": actualAmountInWei.getInWei,
+        "contractAddress":contract.address.hex.toString(),
         "totalAmount": totalAmount.toString()
       };
 
