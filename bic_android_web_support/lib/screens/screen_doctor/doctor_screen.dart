@@ -73,24 +73,58 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          child: FloatingActionButton.extended(
-            heroTag: "PatientDetails",
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            foregroundColor: Theme.of(context).colorScheme.secondary,
-            onPressed: () async {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DoctorDetails(),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: Card(
+                  borderOnForeground: true,
+                  clipBehavior: Clip.antiAlias,
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                        color: Theme.of(context).colorScheme.primary, width: 2),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      ListTile(
+                        trailing: Image.asset("assets/icons/forward-100.png",
+                            color: Theme.of(context).primaryColor,
+                            width: 25,
+                            height: 25),
+                        title: Text('Store or Update Doctor on Blockchain',
+                            style: Theme.of(context).textTheme.bodyText1),
+                        onTap: () {
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DoctorDetails(),
+                            ),
+                          );
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => PharmacyStoreDetails(
+                          //       pharmacyName: pharmacyIpfsHash['pharmacy_name'],
+                          //       pharmacyOwnerName:
+                          //       pharmacyIpfsHash['pharmacy_owner_name'],
+                          //       pharmacyAddress:
+                          //       pharmacyIpfsHash['pharmacy_address'],
+                          //       pharmacyYearOrigin: pharmacyIpfsHash['pharmacy_year_origin'],
+                          //       pharmacyPhoneNo: pharmacyIpfsHash['pharmacy_phone_no'],
+                          //     ),
+                          //   ),
+                          // );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-              );
-            },
-            icon: Image.asset("assets/icons/sign_in.png",
-                color: Theme.of(context).colorScheme.secondary,
-                width: 25,
-                fit: BoxFit.fill,
-                height: 25),
-            label: const Text('Log In'),
+              ),
+
+            ],
           ),
         ),
       ),
