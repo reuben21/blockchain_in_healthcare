@@ -55,7 +55,7 @@ class _WalletViewState extends State<WalletView> {
 
   @override
   void initState() {
-    // initiateSetup();
+    initiateSetup();
     balanceOfAccount = "null";
     balanceOfAccountInRs = "null";
     rateForEther = "null";
@@ -99,20 +99,30 @@ class _WalletViewState extends State<WalletView> {
 
 
   Future<void> initiateSetup() async {
-    // _client = Web3Client(keys.rpcUrl, Client(),socketConnector: () {
-    //   return IOWebSocketChannel.connect(keys.rpcUrlWebSocket).cast<String>();
-    // });
+    _client = Web3Client(keys.rpcUrl, Client(),socketConnector: () {
+      return IOWebSocketChannel.connect(keys.rpcUrlWebSocket).cast<String>();
+    });
     // var blockNumber = await _client.getBlockNumber();
     // print("blockNumber");
     // FilterOptions options = FilterOptions(fromBlock: BlockNum.exact(0),toBlock:BlockNum.current());
     // var logs = await _client.getLogs(options);
     // print(logs);
+    Credentials credentialsNew;
+    EthereumAddress address;
 
-    // _client.pendingTransactions().listen((event) async {
-    //   print("event DATA = "+event.toString());
-    //   await getAccountBalance();
-    //
-    // });
+    credentialsNew =
+        Provider.of<WalletModel>(context, listen: false).walletCredentials;
+    address = await credentialsNew.extractAddress();
+    _client.pendingTransactions().listen((event) async {
+      print("event DATA = "+event.toString());
+      TransactionInformation tx =
+      await _client.getTransactionByHash(event.toString());
+      if(tx.to?.hex.toString() == address.hex.toString()){
+        await getAccountBalance();
+      }
+
+
+    });
 
     //     .listen((event) {
     //   print("event pendingTransactions = "+event.toString());

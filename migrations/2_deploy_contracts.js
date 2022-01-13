@@ -6,7 +6,7 @@
 var MainContract = artifacts.require("./MainContract.sol");
 // var Roles = artifacts.require("./Roles.sol");
 
-var HospitalCoinContract = artifacts.require("./HospitalToken.sol");
+// var HospitalCoinContract = artifacts.require("./HospitalToken.sol");
 
 module.exports = function (deployer) {
   // deployer.deploy(ConvertLib);

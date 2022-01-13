@@ -4,7 +4,9 @@ import 'dart:typed_data';
 import 'package:bic_android_web_support/providers/ipfs.dart';
 import 'package:bic_android_web_support/screens/Tabs/tabs_screen.dart';
 import 'package:bic_android_web_support/screens/screen_patient/patient_details.dart';
+import 'package:bic_android_web_support/screens/screens_auth/background.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:velocity_x/src/extensions/context_ext.dart';
 import 'package:velocity_x/src/extensions/num_ext.dart';
@@ -23,9 +25,21 @@ class SplashWelcomeScreen extends StatefulWidget {
 }
 
 class _SplashWelcomeScreenState extends State<SplashWelcomeScreen> {
+  bool status = false;
+
   @override
   void initState() {
+    callme();
     super.initState();
+  }
+
+  callme() async {
+    await Future.delayed(Duration(seconds: 5));
+
+      setState(() {
+        status = true;
+      });
+
   }
 
   @override
@@ -33,62 +47,66 @@ class _SplashWelcomeScreenState extends State<SplashWelcomeScreen> {
     super.dispose();
   }
 
-  String privateKey =
-      '0e75aade5bd385616574bd6252b0d810f3f03f013dc43cbe15dc2e21e6ff4f14';
 
-  Future<void> getMessage(String password, String publicKeyString) async {
-    Credentials credentials;
-    EthereumAddress publicAddress;
-    credentials = EthPrivateKey.fromHex(privateKey);
-    publicAddress = await credentials.extractAddress();
-    print("Public Address:- " + publicAddress.toString());
-    //
-    // publicAddress =  EthereumAddress.fromHex(publicKey);
-
-    if (publicAddress.toString() == publicKeyString.toLowerCase()) {
-      Uint8List messageHash = hexToBytes(password);
-      Uint8List privateKeyInt = EthPrivateKey.fromHex(privateKey).privateKey;
-
-      MsgSignature _msgSignature = sign(messageHash, privateKeyInt);
-
-      MsgSignature _msgSignature2 =
-          MsgSignature(_msgSignature.r, _msgSignature.s, _msgSignature.v);
-
-      Uint8List publicKey = privateKeyBytesToPublic(privateKeyInt);
-
-      print(
-          isValidSignature(messageHash, _msgSignature2, publicKey).toString());
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     // TODO: implement build
     return Scaffold(
 
       body: SingleChildScrollView(
-        child: Container(
-          child: ElevatedButton.icon(
-            icon: Image.asset("assets/icons/login-right-100.png",
-                color: Theme.of(context).colorScheme.secondary,
-                scale: 1,
-                width: 25,
-                height: 25),
-            // padding: EdgeInsets.symmetric(
-            //     vertical: 20, horizontal: 40),
-            // color: Theme.of(context).colorScheme.primary,
-            onPressed: () async {
-              if (true) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => TabsScreen(),
+        child: Background(
+          child: Center(
+            child: Column(
+              children: [
+                SizedBox(height: size.height * 0.08),
+                SvgPicture.asset(
+                  "assets/icons/signup.svg",
+                  height: size.height * 0.35,
+                ),
+                SizedBox(height: size.height * 0.03),
+                Text(
+                  'Welcome Back !',
+                  style: Theme.of(context).textTheme.headline1,
+                ),
+                status ? Text(
+                  'Your Data has been loaded',
+                  style: Theme.of(context).textTheme.bodyText1,
+                ) :Text(
+                  'We are Loading your Data',
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
+                status ? Container(
+                  child: ElevatedButton.icon(
+                    icon: Image.asset("assets/icons/login-right-100.png",
+                        color: Theme.of(context).colorScheme.secondary,
+                        scale: 1,
+                        width: 25,
+                        height: 25),
+
+                    // padding: EdgeInsets.symmetric(
+                    //     vertical: 20, horizontal: 40),
+                    // color: Theme.of(context).colorScheme.primary,
+                    onPressed: () async {
+                      if (true) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TabsScreen(),
+                          ),
+                        );
+                      }
+                    },
+                    label:
+                        const Text("Continue", style: TextStyle(color: Colors.white)),
                   ),
-                );
-              }
-            },
-            label:
-                const Text("Transfer", style: TextStyle(color: Colors.white)),
+                ) : Text(
+                  'Give us a Second',
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
+              ],
+            ),
           ),
         ),
       ),
