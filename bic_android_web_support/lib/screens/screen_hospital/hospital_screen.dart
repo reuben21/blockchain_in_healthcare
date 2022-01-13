@@ -97,12 +97,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
                             style: Theme.of(context).textTheme.bodyText1),
                         onTap: () {
 
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DoctorDetails(),
-                            ),
-                          );
+
                           // Navigator.push(
                           //   context,
                           //   MaterialPageRoute(
