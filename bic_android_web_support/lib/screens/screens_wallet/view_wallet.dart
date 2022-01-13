@@ -55,7 +55,7 @@ class _WalletViewState extends State<WalletView> {
 
   @override
   void initState() {
-    initiateSetup();
+    // initiateSetup();
     balanceOfAccount = "null";
     balanceOfAccountInRs = "null";
     rateForEther = "null";
@@ -65,20 +65,64 @@ class _WalletViewState extends State<WalletView> {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     super.initState();
   }
-  Future<void> initiateSetup() async {
-    _client = Web3Client(keys.rpcUrl, Client(),socketConnector: () {
-      return IOWebSocketChannel.connect(keys.rpcUrlWebSocket).cast<String>();
-    });
-    var blockNumber = await _client.getBlockNumber();
-    print("blockNumber");
-    FilterOptions options = FilterOptions(fromBlock: BlockNum.exact(0),toBlock:BlockNum.current());
-    var logs = await _client.getLogs(options);
-    print(logs);
 
-    _client.events(FilterOptions(fromBlock: BlockNum.exact(0),toBlock:BlockNum.current() )).listen((event) {
-      print("event address = "+event.address!.hex.toString());
-      print("event DATA = "+event.data.toString());
-    });
+
+  Future<void> getAccountBalance() async {
+    try {
+      print("getAccountBalance()");
+      Credentials credentialsNew;
+      EthereumAddress address;
+
+      credentialsNew =
+          Provider.of<WalletModel>(context, listen: false).walletCredentials;
+      address = await credentialsNew.extractAddress();
+      // var ethereumRate = await Provider.of<CryptoApiModel>(context,listen: false).getCryptoDataForEthInr();
+      var ethereumRate = 258511.96959478396;
+      var balance = await Provider.of<WalletModel>(context, listen: false)
+          .getAccountBalance(EthereumAddress.fromHex(address.hex));
+      var calculatedBalance =
+      ((balance.getInWei) / BigInt.from(1000000000000000000)).toString();
+      print(calculatedBalance + "----------" + ethereumRate.toString());
+      setState(() {
+        balanceOfAccount = calculatedBalance;
+        balanceOfAccountInRs =
+            (double.parse(calculatedBalance) * ethereumRate).toStringAsFixed(2);
+        rateForEther = "1 ETH = Rs. ${ethereumRate.toStringAsFixed(2)}";
+      });
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("Balance Refreshed")));
+    } catch (error) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(error.toString())));
+    }
+  }
+
+
+  Future<void> initiateSetup() async {
+    // _client = Web3Client(keys.rpcUrl, Client(),socketConnector: () {
+    //   return IOWebSocketChannel.connect(keys.rpcUrlWebSocket).cast<String>();
+    // });
+    // var blockNumber = await _client.getBlockNumber();
+    // print("blockNumber");
+    // FilterOptions options = FilterOptions(fromBlock: BlockNum.exact(0),toBlock:BlockNum.current());
+    // var logs = await _client.getLogs(options);
+    // print(logs);
+
+    // _client.pendingTransactions().listen((event) async {
+    //   print("event DATA = "+event.toString());
+    //   await getAccountBalance();
+    //
+    // });
+
+    //     .listen((event) {
+    //   print("event pendingTransactions = "+event.toString());
+    //   getAccountBalance();
+    // });
+    // _client.events
+    // _client.events(FilterOptions(fromBlock: BlockNum.exact(0),toBlock:BlockNum.pending() )).listen((event) {
+    //   print("event address = "+event.address!.hex.toString());
+    //   print("event DATA = "+event.blockNum.toString());
+    // });
 
   }
 
@@ -95,35 +139,6 @@ class _WalletViewState extends State<WalletView> {
     setState(() {
       walletAdd;
     });
-  }
-
-  Future<void> getAccountBalance() async {
-    try {
-      Credentials credentialsNew;
-      EthereumAddress address;
-
-      credentialsNew =
-          Provider.of<WalletModel>(context, listen: false).walletCredentials;
-      address = await credentialsNew.extractAddress();
-      // var ethereumRate = await Provider.of<CryptoApiModel>(context,listen: false).getCryptoDataForEthInr();
-      var ethereumRate = 258511.96959478396;
-      var balance = await Provider.of<WalletModel>(context, listen: false)
-          .getAccountBalance(EthereumAddress.fromHex(address.hex));
-      var calculatedBalance =
-          ((balance.getInWei) / BigInt.from(1000000000000000000)).toString();
-      print(calculatedBalance + "----------" + ethereumRate.toString());
-      setState(() {
-        balanceOfAccount = calculatedBalance;
-        balanceOfAccountInRs =
-            (double.parse(calculatedBalance) * ethereumRate).toStringAsFixed(2);
-        rateForEther = "1 ETH = Rs. ${ethereumRate.toStringAsFixed(2)}";
-      });
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text("Balance Refreshed")));
-    } catch (error) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(error.toString())));
-    }
   }
 
   void _showErrorDialog(String message) {
@@ -150,8 +165,8 @@ class _WalletViewState extends State<WalletView> {
   @override
   Widget build(BuildContext context) {
     // getWalletFromDatabase();
-    print(screenName + " " + options.toString());
-    print(screenName + " " + balanceOfAccount.toString());
+    // print(screenName + " " + options.toString());
+    // print(screenName + " " + balanceOfAccount.toString());
     return Scaffold(
         appBar: AppBar(
             backgroundColor: Colors.white,
