@@ -21,14 +21,13 @@ class PharmacyStoreDetails extends StatefulWidget {
   final String? pharmacyYearOrigin;
   final String? pharmacyPhoneNo;
 
-
-  const PharmacyStoreDetails({required this.pharmacyName,
+  const PharmacyStoreDetails({
+    required this.pharmacyName,
     required this.pharmacyOwnerName,
     required this.pharmacyAddress,
     required this.pharmacyYearOrigin,
     required this.pharmacyPhoneNo,
   });
-
 
   @override
   _PharmacyStoreDetailsState createState() => _PharmacyStoreDetailsState();
@@ -55,32 +54,21 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
   }
 
   Future<void> estimateGasFunction(String pharmacyName, String ipfsHash,
-      EthereumAddress walletAddress,Credentials credentials) async {
+      EthereumAddress walletAddress, Credentials credentials) async {
     var gasEstimation =
-    await Provider.of<GasEstimationModel>(
-        context,
-        listen: false)
-        .estimateGasForContractFunction(
-        walletAddress, "storePharmacy", [
-      pharmacyName,
-      ipfsHash,
-      walletAddress
-    ]);
+        await Provider.of<GasEstimationModel>(context, listen: false)
+            .estimateGasForContractFunction(walletAddress, "storePharmacy",
+                [pharmacyName, ipfsHash, walletAddress]);
     print(gasEstimation);
 
     return showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
         insetPadding: EdgeInsets.all(15),
-        backgroundColor:
-        Theme.of(context)
-            .colorScheme
-            .secondary,
+        backgroundColor: Theme.of(context).colorScheme.secondary,
         title: Text(
           "Confirmation Screen",
-          style: Theme.of(context)
-              .textTheme
-              .bodyText1,
+          style: Theme.of(context).textTheme.bodyText1,
         ),
         content: Container(
           height: MediaQuery.of(context).size.height,
@@ -91,7 +79,6 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
             child: Center(
               child: Column(
                 children: [
-
                   const SizedBox(
                     height: 15,
                   ),
@@ -111,7 +98,7 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                     ),
                     child: Padding(
                       padding: EdgeInsets.all(8.0),
-                      child:  Column(
+                      child: Column(
                         children: [
                           Container(
                             height: 65,
@@ -128,20 +115,25 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                               borderRadius: BorderRadius.circular(9),
                             ),
                             child: ListTile(
-                              leading: Image.asset(
-                                  "assets/icons/wallet.png",
+                              leading: Image.asset("assets/icons/wallet.png",
                                   color:
-                                  Theme.of(context).colorScheme.secondary,
+                                      Theme.of(context).colorScheme.secondary,
                                   width: 35,
                                   height: 35),
-                              title: Text('From Wallet Address', style: TextStyle(fontSize: 18,fontWeight:FontWeight.bold,color:
-                              Theme.of(context).colorScheme.secondary,)),
+                              title: Text('From Wallet Address',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
+                                  )),
                               subtitle: Text(
                                 walletAddress.hex.toString(),
                                 style: TextStyle(
                                   fontSize: 15,
                                   color:
-                                  Theme.of(context).colorScheme.secondary,),
+                                      Theme.of(context).colorScheme.secondary,
+                                ),
                               ),
                             ),
                             // Padding(
@@ -158,7 +150,7 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                   const SizedBox(
                     height: 15,
                   ),
-                   Container(
+                  Container(
                     height: 90,
                     width: double.infinity,
                     decoration: BoxDecoration(
@@ -175,7 +167,7 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                     ),
                     child: Padding(
                       padding: EdgeInsets.all(8.0),
-                      child:  Column(
+                      child: Column(
                         children: [
                           Container(
                             height: 65,
@@ -193,20 +185,25 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                               borderRadius: BorderRadius.circular(9),
                             ),
                             child: ListTile(
-                              trailing: Image.asset(
-                                  "assets/icons/wallet.png",
+                              trailing: Image.asset("assets/icons/wallet.png",
                                   color:
-                                  Theme.of(context).colorScheme.secondary,
+                                      Theme.of(context).colorScheme.secondary,
                                   width: 35,
                                   height: 35),
-                              title: Text('To Wallet Address', style: TextStyle(fontSize: 18,fontWeight:FontWeight.bold,color:
-                              Theme.of(context).colorScheme.secondary,)),
+                              title: Text('To Wallet Address',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
+                                  )),
                               subtitle: Text(
                                 gasEstimation['contractAddress'].toString(),
                                 style: TextStyle(
                                   fontSize: 15,
                                   color:
-                                  Theme.of(context).colorScheme.secondary,),
+                                      Theme.of(context).colorScheme.secondary,
+                                ),
                               ),
                             ),
                             // Padding(
@@ -216,7 +213,6 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                             //   ),
                             // ),
                           ),
-
                         ],
                       ),
                     ),
@@ -277,7 +273,8 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                gasEstimation['gasEstimate'].toString() + " units",
+                                gasEstimation['gasEstimate'].toString() +
+                                    " units",
                                 style: Theme.of(context).textTheme.bodyText1,
                                 textAlign: TextAlign.left,
                               ),
@@ -318,9 +315,9 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                       Row(children: <Widget>[
                         Expanded(
                           child: Divider(
-                            // thickness: 2,
-                            // color: Colors.grey,
-                          ),
+                              // thickness: 2,
+                              // color: Colors.grey,
+                              ),
                         ),
                       ]),
                       const SizedBox(
@@ -348,7 +345,8 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                gasEstimation['totalAmount'].toString() + " ETH",
+                                gasEstimation['totalAmount'].toString() +
+                                    " ETH",
                                 style: TextStyle(
                                     color: Colors.grey,
                                     fontSize: 18,
@@ -372,13 +370,8 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                     backgroundColor: Theme.of(context).colorScheme.primary,
                     foregroundColor: Theme.of(context).colorScheme.secondary,
                     onPressed: () async {
-
-
-
-
-                        executeTransaction(pharmacyName,ipfsHash,walletAddress,credentials);
-
-
+                      executeTransaction(
+                          pharmacyName, ipfsHash, walletAddress, credentials);
                     },
                     icon: const Icon(Icons.add_circle_outline_outlined),
                     label: const Text('Confirm Pay'),
@@ -403,25 +396,22 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
   Future<void> executeTransaction(String pharmacyName, String ipfsHash,
       EthereumAddress walletAddress, Credentials credentials) async {
     var transactionHash =
-    await Provider.of<PharmacyModel>(
-        context,
-        listen: false).writeContract("storePharmacy", [
-      pharmacyName,
-      ipfsHash,
-      walletAddress
-    ], credentials);
+        await Provider.of<PharmacyModel>(context, listen: false).writeContract(
+            "storePharmacy",
+            [pharmacyName, ipfsHash, walletAddress],
+            credentials);
 
     var firebaseStatus =
-    await Provider.of<FirebaseModel>(
-        context,
-        listen: false).storeTransaction(transactionHash);
+        await Provider.of<FirebaseModel>(context, listen: false)
+            .storeTransaction(transactionHash);
 
     if (firebaseStatus) {
       Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
     }
   }
 
-  Widget formBuilderTextFieldWidget(TextInputType inputTextType,
+  Widget formBuilderTextFieldWidget(
+      TextInputType inputTextType,
       String initialValue,
       String fieldName,
       String labelText,
@@ -468,19 +458,14 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery
-        .of(context)
-        .size;
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       // appBar: AppBar(
       //   elevation: 0,
       // ),
       body: SingleChildScrollView(
         child: Container(
-          height: MediaQuery
-              .of(context)
-              .size
-              .height,
+          height: MediaQuery.of(context).size.height,
           child: Column(
             children: [
               SingleChildScrollView(
@@ -491,10 +476,7 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                       children: [
                         Text(
                           'Pharmacy Detail',
-                          style: Theme
-                              .of(context)
-                              .textTheme
-                              .headline1,
+                          style: Theme.of(context).textTheme.headline1,
                         ),
 
                         // SizedBox(height: size.height * 0.03),
@@ -530,8 +512,7 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                                             begin: Alignment.topLeft,
                                             end: Alignment.bottomRight,
                                             colors: [
-                                              Theme
-                                                  .of(context)
+                                              Theme.of(context)
                                                   .colorScheme
                                                   .primary,
                                               Colors.purpleAccent
@@ -559,8 +540,7 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                                           'Pharmacy Name',
                                           Image.asset(
                                               "assets/icons/pharmacy-shop-100.png",
-                                              color: Theme
-                                                  .of(context)
+                                              color: Theme.of(context)
                                                   .colorScheme
                                                   .primary,
                                               scale: 4,
@@ -576,14 +556,15 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                                       child: formBuilderTextFieldWidget(
                                           TextInputType.text,
                                           widget.pharmacyOwnerName.toString() ==
-                                              '' ? 'Pharmacy Owner' : widget
-                                              .pharmacyOwnerName.toString(),
+                                                  ''
+                                              ? 'Pharmacy Owner'
+                                              : widget.pharmacyOwnerName
+                                                  .toString(),
                                           'pharmacy_owner_name',
                                           'Name of Owner',
                                           Image.asset(
                                               "assets/icons/name-100.png",
-                                              color: Theme
-                                                  .of(context)
+                                              color: Theme.of(context)
                                                   .colorScheme
                                                   .primary,
                                               scale: 4,
@@ -599,16 +580,15 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                                       child: formBuilderTextFieldWidget(
                                           TextInputType.streetAddress,
                                           widget.pharmacyAddress.toString() ==
-                                              ''
+                                                  ''
                                               ? 'Shop No 3, Happy Home Apartment, near J B Khot School, Mahavir Nagar, Borivali West, Mumbai, Maharashtra'
                                               : widget.pharmacyAddress
-                                              .toString(),
+                                                  .toString(),
                                           'pharmacy_address',
                                           'Pharmacy Address',
                                           Image.asset(
                                               "assets/icons/address-100.png",
-                                              color: Theme
-                                                  .of(context)
+                                              color: Theme.of(context)
                                                   .colorScheme
                                                   .primary,
                                               scale: 4,
@@ -624,16 +604,17 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                                       child: formBuilderTextFieldWidget(
                                           TextInputType.number,
                                           widget.pharmacyYearOrigin
-                                              .toString() == ''
+                                                      .toString() ==
+                                                  ''
                                               ? "2000"
-                                              : widget.pharmacyYearOrigin
-                                              .toString(),
+                                              : widget
+                                                  .pharmacyYearOrigin
+                                                  .toString(),
                                           'pharmacy_year_origin',
                                           'Pharmacy Year Origin',
                                           Image.asset(
                                               "assets/icons/year-view-100.png",
-                                              color: Theme
-                                                  .of(context)
+                                              color: Theme.of(context)
                                                   .colorScheme
                                                   .primary,
                                               scale: 4,
@@ -650,15 +631,15 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                                       child: formBuilderTextFieldWidget(
                                           TextInputType.number,
                                           widget.pharmacyPhoneNo.toString() ==
-                                              '' ? "7123456789" : widget
-                                              .pharmacyPhoneNo.toString(),
-
+                                                  ''
+                                              ? "7123456789"
+                                              : widget.pharmacyPhoneNo
+                                                  .toString(),
                                           'pharmacy_phone_no',
                                           'Pharmacy Phone Number',
                                           Image.asset(
                                               "assets/icons/phone-100.png",
-                                              color: Theme
-                                                  .of(context)
+                                              color: Theme.of(context)
                                                   .colorScheme
                                                   .primary,
                                               scale: 4,
@@ -677,14 +658,12 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
                                           TextInputType.number,
-
                                           'Password@123',
                                           'password',
                                           'Wallet Password',
                                           Image.asset(
                                               "assets/icons/key-100.png",
-                                              color: Theme
-                                                  .of(context)
+                                              color: Theme.of(context)
                                                   .colorScheme
                                                   .primary,
                                               scale: 4,
@@ -765,15 +744,9 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                           child: FloatingActionButton.extended(
                             heroTag: "pharmacyStoreDetailsButton",
                             backgroundColor:
-                            Theme
-                                .of(context)
-                                .colorScheme
-                                .primary,
+                                Theme.of(context).colorScheme.primary,
                             foregroundColor:
-                            Theme
-                                .of(context)
-                                .colorScheme
-                                .secondary,
+                                Theme.of(context).colorScheme.secondary,
                             onPressed: () async {
                               _formKey.currentState?.save();
                               if (_formKey.currentState?.validate() != null) {
@@ -798,8 +771,8 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                                   // "age": 30
                                 };
                                 var hashReceived = await Provider.of<IPFSModel>(
-                                    context,
-                                    listen: false)
+                                        context,
+                                        listen: false)
                                     .sendData(objText);
                                 print("hashReceived ------" +
                                     hashReceived.toString());
@@ -808,30 +781,31 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                                   EthereumAddress myAddress;
                                   var dbResponse = await WalletSharedPreference
                                       .getWalletDetails();
-
+                                  print(
+                                      _formKey.currentState?.value["password"]);
                                   Wallet newWallet = Wallet.fromJson(
                                       dbResponse!['walletEncryptedKey']
                                           .toString(),
                                       _formKey.currentState?.value["password"]);
                                   credentialsNew = newWallet.privateKey;
                                   myAddress =
-                                  await credentialsNew.extractAddress();
+                                      await credentialsNew.extractAddress();
 
                                   // var hospitalAddress = EthereumAddress.fromHex("  ");
                                   // var doctorAddress = EthereumAddress.fromHex("  ");
-                                  estimateGasFunction(_formKey
-                                      .currentState?.value["pharmacy_name"],hashReceived,myAddress,credentialsNew);
-
+                                  estimateGasFunction(
+                                      _formKey
+                                          .currentState?.value["pharmacy_name"],
+                                      hashReceived,
+                                      myAddress,
+                                      credentialsNew);
                                 }
                               } else {
                                 print("validation failed");
                               }
                             },
                             icon: Image.asset("assets/icons/sign_in.png",
-                                color: Theme
-                                    .of(context)
-                                    .colorScheme
-                                    .secondary,
+                                color: Theme.of(context).colorScheme.secondary,
                                 width: 25,
                                 fit: BoxFit.fill,
                                 height: 25),

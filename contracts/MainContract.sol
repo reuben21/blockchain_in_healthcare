@@ -5,7 +5,6 @@ pragma solidity ^0.8.0;
 import "./openzeppelin/contracts/utils/Counters.sol";
 import "./openzeppelin/contracts/access/AccessControl.sol";
 
-
 bytes32 constant PATIENT = "PATIENT";
 bytes32 constant VERIFIED_PATIENT = "VERIFIED_PATIENT";
 
@@ -18,8 +17,6 @@ bytes32 constant HOSPITAL_ADMIN = "HOSPITAL_ADMIN";
 
 contract MainContract is AccessControl {
     using Counters for Counters.Counter;
-    
-
 
     struct patientRecord {
         string name;
@@ -29,7 +26,6 @@ contract MainContract is AccessControl {
         address walletAddress;
         string[] previousPatientRecordHashes;
         string newMedicalRecordHash;
-        
         string[] previousPatientPrescriptionHashes;
         string newPatientPrescriptionHashes;
     }
@@ -72,16 +68,20 @@ contract MainContract is AccessControl {
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
     }
 
-    function stringToBytes32(string memory source) public pure returns (bytes32 result) {
-    bytes memory tempEmptyStringTest = bytes(source);
-    if (tempEmptyStringTest.length == 0) {
-        return 0x0;
-    }
+    function stringToBytes32(string memory source)
+        public
+        pure
+        returns (bytes32 result)
+    {
+        bytes memory tempEmptyStringTest = bytes(source);
+        if (tempEmptyStringTest.length == 0) {
+            return 0x0;
+        }
 
-    assembly {
-        result := mload(add(source, 32))
+        assembly {
+            result := mload(add(source, 32))
+        }
     }
-}
 
     // function getRoleForUser(address _walletAddress) external view return(String role) {
     //     if (hasRole(PATIENT,_walletAddress)) {
@@ -153,9 +153,9 @@ contract MainContract is AccessControl {
     ) external returns (bool status) {
         if (hasRole(VERIFIED_PATIENT, _walletAddress)) {
             patientDatabase[_walletAddress].personalDetails = _personalDetails;
-             emit LogUpdatePatientPersonalDetails(
-            patientDatabase[_walletAddress].personalDetails
-        );
+            emit LogUpdatePatientPersonalDetails(
+                patientDatabase[_walletAddress].personalDetails
+            );
         }
 
         return true;
@@ -187,9 +187,8 @@ contract MainContract is AccessControl {
                 .hospitalAddress = _newHospitalAddress;
 
             hospitalDatabase[_newHospitalAddress].patientInHospital.increment();
-             return true;
+            return true;
         }
-       
     }
 
     function changeDoctorForPatient(
@@ -198,17 +197,13 @@ contract MainContract is AccessControl {
         address _walletAddress
     ) external returns (bool status) {
         if (hasRole(VERIFIED_PATIENT, _walletAddress)) {
-            doctorDatabase[_previousDoctorAddress]
-                .patientCount
-                .decrement();
+            doctorDatabase[_previousDoctorAddress].patientCount.decrement();
 
-            patientDatabase[_walletAddress]
-                .doctorAddress = _newDoctorAddress;
+            patientDatabase[_walletAddress].doctorAddress = _newDoctorAddress;
 
             doctorDatabase[_newDoctorAddress].patientCount.increment();
-             return true;
+            return true;
         }
-       
     }
 
     function retrievePatientCount()
@@ -242,8 +237,6 @@ contract MainContract is AccessControl {
         string memory _personalDetails
     ) public returns (bool success) {
         patientDatabase[_walletAddress].personalDetails = _personalDetails;
-
-       
 
         return true;
     }
@@ -331,7 +324,11 @@ contract MainContract is AccessControl {
         return patientDatabase[_patientAddress].previousPatientRecordHashes;
     }
 
-    event LogStoreDoctor(string name, string personalDetails, address walletAddress);
+    event LogStoreDoctor(
+        string name,
+        string personalDetails,
+        address walletAddress
+    );
     event LogUpdateDoctor(string name, string personalDetails);
     event LogDeleteDoctor(string name, uint256 empIdIndex);
 
@@ -400,6 +397,24 @@ contract MainContract is AccessControl {
         return doctorCounter.current();
     }
 
+    function getDoctorData(address _walletAddress)
+        public
+        view
+        returns (
+            string memory name,
+            string memory doctorDetails,
+            address walletAddress
+        )
+    {
+        if (hasRole(PHARMACY, _walletAddress)) {
+            return (
+                pharmacyDatabase[_walletAddress].name,
+                pharmacyDatabase[_walletAddress].personalDetails,
+                _walletAddress
+            );
+        }
+    }
+
     function retrieveDoctorData(address _walletAddress)
         public
         view
@@ -432,7 +447,7 @@ contract MainContract is AccessControl {
         pharmacyDatabase[_walletAddress].walletAddress = _walletAddress;
         pharmacyDatabase[_walletAddress].personalDetails = _personalDetails;
         pharmacyCounter.increment();
-        
+
         emit LogStorePharmacy(
             pharmacyDatabase[_walletAddress].name,
             pharmacyDatabase[_walletAddress].personalDetails,
@@ -471,14 +486,13 @@ contract MainContract is AccessControl {
             address walletAddress
         )
     {
-         if (hasRole(PHARMACY, _walletAddress)) {
-        return (
-            
-            pharmacyDatabase[_walletAddress].name,
-            pharmacyDatabase[_walletAddress].personalDetails,
-            _walletAddress
-        );
-         }
+        if (hasRole(PHARMACY, _walletAddress)) {
+            return (
+                pharmacyDatabase[_walletAddress].name,
+                pharmacyDatabase[_walletAddress].personalDetails,
+                _walletAddress
+            );
+        }
     }
 
     event LogHospital(

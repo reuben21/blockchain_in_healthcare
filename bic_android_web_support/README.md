@@ -26,7 +26,7 @@ hospital_a@gmail.com
 Password@123
 
 for Pharmacy: -
-pharmacy_a@gmail.com
+    pharmacy_a@gmail.com
 Password@123
 
 for Patient: -
