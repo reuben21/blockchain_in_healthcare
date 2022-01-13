@@ -68,14 +68,7 @@ contract MainContract is AccessControl {
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
     }
 
-    event LogTransferEther(address _to,address _from);
-    
-    function transferEther(address payable _To )public payable returns (bool)
-    {
-     _To.transfer(msg.value);
-    emit LogTransferEther(_To,msg.sender);
-     return true;
-    }
+  
 
     function stringToBytes32(string memory source)
         public
@@ -92,21 +85,23 @@ contract MainContract is AccessControl {
         }
     }
 
-    // function getRoleForUser(address _walletAddress) external view return(String role) {
-    //     if (hasRole(PATIENT,_walletAddress)) {
-    //         return "PATIENT";
-    //     } else if (hasRole(VERIFIED_PATIENT,_walletAddress)) {
-    //         return "VERIFIED_PATIENT";
-    //     } else if (hasRole(DOCTOR,_walletAddress)) {
-    //         return "DOCTOR";
-    //     } else if (hasRole(VERIFIED_DOCTOR,_walletAddress)) {
-    //         return "VERIFIED_DOCTOR";
-    //     } else if (hasRole(HOSPITAL,_walletAddress)) {
-    //         return "HOSPITAL";
-    //     } else if (hasRole(PHARMACY,_walletAddress)) {
-    //         return "PHARMACY";
-    //     }
-    // }
+    function getRoleForUser(address _walletAddress) external view returns(string memory role) {
+        if (hasRole(PATIENT,_walletAddress)) {
+            return "PATIENT";
+        } else if (hasRole(VERIFIED_PATIENT,_walletAddress)) {
+            return "VERIFIED_PATIENT";
+        } else if (hasRole(DOCTOR,_walletAddress)) {
+            return "DOCTOR";
+        } else if (hasRole(VERIFIED_DOCTOR,_walletAddress)) {
+            return "VERIFIED_DOCTOR";
+        } else if (hasRole(HOSPITAL_ADMIN,_walletAddress)) {
+            return "HOSPITAL_ADMIN";
+        } else if (hasRole(PHARMACY,_walletAddress)) {
+            return "PHARMACY";
+        } else {
+            return "UNVERIFIED";
+        }
+    }
 
     event LogStorePatient(
         string name,
@@ -382,11 +377,16 @@ contract MainContract is AccessControl {
         address _walletAddress
     ) external returns (bool status) {
         if (hasRole(VERIFIED_DOCTOR, _walletAddress)) {
-            patientDatabase[_walletAddress].personalDetails = _personalDetails;
+            doctorDatabase[_walletAddress].personalDetails = _personalDetails;
+             return true;
+        } else {
+            return false;
         }
 
-        return true;
+       
     }
+
+    
 
     function changeHospitalForDoctor(
         address _previousHospitalAddress,
@@ -472,7 +472,7 @@ contract MainContract is AccessControl {
         address _walletAddress
     ) external returns (bool status) {
         if (hasRole(PHARMACY, _walletAddress)) {
-            patientDatabase[_walletAddress].personalDetails = _personalDetails;
+            pharmacyDatabase[_walletAddress].personalDetails = _personalDetails;
         }
 
         return true;

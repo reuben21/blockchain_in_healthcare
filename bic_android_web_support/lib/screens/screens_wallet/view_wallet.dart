@@ -178,45 +178,7 @@ class _WalletViewState extends State<WalletView> {
     // print(screenName + " " + options.toString());
     // print(screenName + " " + balanceOfAccount.toString());
     return Scaffold(
-        appBar: AppBar(
-            backgroundColor: Colors.white,
-            elevation: 0,
-            automaticallyImplyLeading: false,
-            actions: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(right: 20),
-                child: PopupMenuButton(
-                  icon: Icon(
-                    Icons.more_vert,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-                    PopupMenuItem(
-                      height: 10,
-                      child: ListTile(
-                        leading: const Icon(Icons.logout_outlined),
-                        title: const Text(
-                          'Log Out',
-                          style: TextStyle(fontSize: 18),
-                        ),
-                        iconColor: Theme.of(context).colorScheme.primary,
-                        textColor: Theme.of(context).colorScheme.primary,
-                      ),
-                      onTap: () async {
-                        var walletLogoutStatus = await Provider.of<WalletModel>(
-                                context,
-                                listen: false)
-                            .walletLogOut();
-                        // getWalletFromDatabase();
-                        if (walletLogoutStatus) {
-                          Navigator.of(context).pushReplacementNamed("/");
-                        }
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ]),
+
         body: SingleChildScrollView(
           child: Container(
             height: MediaQuery.of(context).size.height,
@@ -227,9 +189,9 @@ class _WalletViewState extends State<WalletView> {
                   ZStack([
                     Column(
                       children: [
-                        // const SizedBox(
-                        //   height: kIsWeb ? 10 : 50,
-                        // ),
+                        const SizedBox(
+                          height: kIsWeb ? 10 : 50,
+                        ),
                         Padding(
                           padding: const EdgeInsets.all(10),
                           child: Container(
@@ -521,6 +483,43 @@ class _WalletViewState extends State<WalletView> {
                                   builder: (context) => TransactionList(),
                                 ),
                               );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Card(
+                      borderOnForeground: true,
+                      clipBehavior: Clip.antiAlias,
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                            color: Theme.of(context).colorScheme.primary,
+                            width: 2),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          ListTile(
+                            trailing: Image.asset(
+                                "assets/icons/forward-100.png",
+                                color: Theme.of(context).primaryColor,
+                                width: 25,
+                                height: 25),
+                            title: Text('Log Out',
+                                style: Theme.of(context).textTheme.bodyText1),
+                            onTap: () async {
+                              var walletLogoutStatus = await Provider.of<WalletModel>(
+                                  context,
+                                  listen: false)
+                                  .walletLogOut();
+                              // getWalletFromDatabase();
+                              if (walletLogoutStatus) {
+                                Navigator.of(context).pushReplacementNamed("/");
+                              }
                             },
                           ),
                         ],

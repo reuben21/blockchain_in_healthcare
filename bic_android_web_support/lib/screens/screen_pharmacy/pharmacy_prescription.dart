@@ -75,22 +75,26 @@ class _PharmacyPrescriptionScreenState extends State<PharmacyPrescriptionScreen>
             child: Column(
               children: [
                 Container(
-                  height: 100,
+                  height: 125,
+                  width: 100,
                   child: Card(
                     color: Theme.of(context).colorScheme.primary,
                     clipBehavior: Clip.antiAlias,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        ListTile(
-                          trailing: Image.asset("assets/icons/forward-100.png",
-                              color: Theme.of(context).primaryColor,
-                              width: 25,
-                              height: 25),
-                          title: Text('See Recent Transactions',
-                              style: Theme.of(context).textTheme.bodyText1),
-                          onTap: () {},
-                        ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text("1",style: TextStyle(color: Theme.of(context).colorScheme.secondary,fontSize: 18,fontWeight: FontWeight.bold),),
+                      ),
+                        Image.asset(
+                            "assets/icons/hospital-count-100.png",
+                            color: Theme.of(context)
+                                .colorScheme
+                                .secondary,
+
+                            width: 50,
+                            height: 50)
                       ],
                     ),
                   ),
