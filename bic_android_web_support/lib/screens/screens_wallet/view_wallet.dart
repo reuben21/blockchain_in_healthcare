@@ -454,6 +454,195 @@ class _WalletViewState extends State<WalletView> {
                     ),
                   ]),
                   10.heightBox,
+                  Container(
+                    width: double.infinity,
+                    child: Column(
+
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            SizedBox(
+                              height: 125,
+                              width: 185,
+                              child: Card(
+
+                                clipBehavior: Clip.antiAlias,
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                      color: Theme.of(context).colorScheme.primary, width: 2),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        "1",
+                                        style: TextStyle(
+                                            color: Theme.of(context).colorScheme.primary,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                    Image.asset("assets/icons/patient-count-100.png",
+                                        color: Theme.of(context).colorScheme.primary,
+                                        width: 50,
+                                        height: 50),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        "Patient Count",
+                                        style: TextStyle(
+                                            color: Theme.of(context).colorScheme.primary,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 125,
+                              width:  185,
+                              child: Card(
+                                clipBehavior: Clip.antiAlias,
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                      color: Theme.of(context).colorScheme.primary, width: 2),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        "1",
+                                        style: TextStyle(
+                                            color: Theme.of(context).colorScheme.primary,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                    Image.asset("assets/icons/doctor-count-100.png",
+                                        color: Theme.of(context).colorScheme.primary,
+                                        width: 50,
+                                        height: 50),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        "Doctor Count",
+                                        style: TextStyle(
+                                            color: Theme.of(context).colorScheme.primary,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+                          children: [
+                            SizedBox(
+                              height: 125,
+                              width: 185,
+                              child: Card(
+                                // color: Theme.of(context).colorScheme.primary,
+                                clipBehavior: Clip.antiAlias,
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                      color: Theme.of(context).colorScheme.primary, width: 2),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        "1",
+                                        style: TextStyle(
+                                            color: Theme.of(context).colorScheme.primary,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                    Image.asset("assets/icons/hospital-count-100.png",
+                                        color: Theme.of(context).colorScheme.primary,
+                                        width: 50,
+                                        height: 50),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        "Hospital Count",
+                                        style: TextStyle(
+                                            color: Theme.of(context).colorScheme.primary,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 125,
+                              width:  185,
+                              child: Card(
+
+                                clipBehavior: Clip.antiAlias,
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                      color: Theme.of(context).colorScheme.primary, width: 2),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        "1",
+                                        style: TextStyle(
+                                            color: Theme.of(context).colorScheme.primary,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                    Image.asset("assets/icons/pharmacy-count-100.png",
+                                        color: Theme.of(context).colorScheme.primary,
+                                        width: 50,
+                                        height: 50),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        "Pharmacy Count",
+                                        style: TextStyle(
+                                            color: Theme.of(context).colorScheme.primary,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(8),
                     child: Card(

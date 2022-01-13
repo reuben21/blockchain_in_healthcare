@@ -716,11 +716,26 @@
 			},
 			{
 				"inputs": [],
-				"name": "retrieveDoctorCount",
+				"name": "retrieveCountForEntities",
 				"outputs": [
 					{
 						"internalType": "uint256",
+						"name": "patientCount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
 						"name": "doctorCount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "hospitalCount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "pharmacyCount",
 						"type": "uint256"
 					}
 				],
@@ -728,29 +743,13 @@
 				"type": "function"
 			},
 			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "_walletAddress",
-						"type": "address"
-					}
-				],
-				"name": "retrieveDoctorData",
+				"inputs": [],
+				"name": "retrieveDoctorCount",
 				"outputs": [
 					{
-						"internalType": "string",
-						"name": "name",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "personalDetails",
-						"type": "string"
-					},
-					{
-						"internalType": "address",
-						"name": "hospitalAddress",
-						"type": "address"
+						"internalType": "uint256",
+						"name": "doctorCount",
+						"type": "uint256"
 					}
 				],
 				"stateMutability": "view",
@@ -1294,11 +1293,11 @@
 	},
 	"sources": {
 		"MainContract.sol": {
-			"keccak256": "0x68b0cd96034747576f82211b08e556d8186c5efd98a907d6493c467d621d5a75",
+			"keccak256": "0x438e46dc42182950836db0801e26a7c68e4910a49697ba7fd52f38134ae6fe3b",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://2a148a5e331760dfa3fca0d28eb443a0aee943dcf1c3969835a377c110ddb7cd",
-				"dweb:/ipfs/QmTiqYQs8XS8BW8QRdCTmQF3utLkU73hQQBfY5VdSrE6au"
+				"bzz-raw://3f29e86243263cc15f3a67fdf9e61d29db70e7875fef1b50bc22fed9c0e2d0cd",
+				"dweb:/ipfs/QmS7vgYZQtZA1kVSseP46bAs6Q4VEMVDmENFHCnrcTKbZt"
 			]
 		},
 		"openzeppelin/contracts/access/AccessControl.sol": {

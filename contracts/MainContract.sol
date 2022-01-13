@@ -398,7 +398,6 @@ contract MainContract is AccessControl {
         doctorDatabase[_walletAddress].hospitalAddress = _newHospitalAddress;
 
         hospitalDatabase[_newHospitalAddress].doctorInHospital.increment();
-
         return true;
     }
 
@@ -424,21 +423,6 @@ contract MainContract is AccessControl {
         
     }
 
-    function retrieveDoctorData(address _walletAddress)
-        public
-        view
-        returns (
-            string memory name,
-            string memory personalDetails,
-            address hospitalAddress
-        )
-    {
-        return (
-            doctorDatabase[_walletAddress].name,
-            doctorDatabase[_walletAddress].personalDetails,
-            doctorDatabase[_walletAddress].hospitalAddress
-        );
-    }
 
     event LogStorePharmacy(string name, string personalDetails, address owner);
     event LogGetPharmacy(string name, string personalDetails, address owner);
@@ -606,5 +590,13 @@ contract MainContract is AccessControl {
         require(hasRole(DOCTOR, _addressOfDoctor));
         grantRole(VERIFIED_DOCTOR, _addressOfDoctor);
         return true;
+    }
+
+     function retrieveCountForEntities()
+        external
+        view
+        returns (uint256 patientCount,uint256 doctorCount,uint256 hospitalCount,uint256 pharmacyCount)
+    {
+        return(patientCounter.current(),doctorCounter.current(), hospitalCounter.current(),pharmacyCounter.current());
     }
 }
