@@ -1,15 +1,16 @@
-// import 'package:bic_android_web_support/providers/credentials.dart';
-import 'dart:io';
+
 
 import 'package:bic_android_web_support/databases/wallet_shared_preferences.dart';
 import 'package:bic_android_web_support/providers/crypto_api.dart';
 import 'package:bic_android_web_support/screens/screens_wallet/transaction_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-
+import 'package:http/http.dart';
+import 'package:web3dart/web3dart.dart';
 import 'package:bic_android_web_support/providers/wallet.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart' as firestore;
+import 'package:web_socket_channel/io.dart';
 import '../../providers/wallet.dart';
 import '../screens_wallet/transfer_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -33,6 +34,7 @@ class WalletView extends StatefulWidget {
 }
 
 class _WalletViewState extends State<WalletView> {
+  late Web3Client _client;
   final String screenName = "view_wallet.dart";
   FirebaseAuth auth = FirebaseAuth.instance;
   firestore.CollectionReference userFirestore =
@@ -53,6 +55,7 @@ class _WalletViewState extends State<WalletView> {
 
   @override
   void initState() {
+    initiateSetup();
     balanceOfAccount = "null";
     balanceOfAccountInRs = "null";
     rateForEther = "null";
@@ -61,6 +64,22 @@ class _WalletViewState extends State<WalletView> {
     getAccountBalance();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     super.initState();
+  }
+  Future<void> initiateSetup() async {
+    _client = Web3Client(keys.rpcUrl, Client(),socketConnector: () {
+      return IOWebSocketChannel.connect(keys.rpcUrlWebSocket).cast<String>();
+    });
+    var blockNumber = await _client.getBlockNumber();
+    print("blockNumber");
+    FilterOptions options = FilterOptions(fromBlock: BlockNum.exact(0),toBlock:BlockNum.current());
+    var logs = await _client.getLogs(options);
+    print(logs);
+
+    _client.events(FilterOptions(fromBlock: BlockNum.exact(0),toBlock:BlockNum.current() )).listen((event) {
+      print("event address = "+event.address!.hex.toString());
+      print("event DATA = "+event.data.toString());
+    });
+
   }
 
   @override
@@ -251,7 +270,7 @@ class _WalletViewState extends State<WalletView> {
                                                 color: Theme.of(context)
                                                     .colorScheme
                                                     .secondary,
-                                                fontSize: 25,
+                                                fontSize: 18,
                                                 fontWeight: FontWeight.bold),
                                           ),
                                           Text(

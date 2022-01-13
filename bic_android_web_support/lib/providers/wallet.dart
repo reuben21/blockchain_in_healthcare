@@ -6,9 +6,9 @@ import 'dart:math';
 import 'package:bic_android_web_support/databases/wallet_shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart' as firestore;
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:web_socket_channel/io.dart';
 
 import '../helpers/keys.dart' as keys;
-import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
@@ -61,7 +61,9 @@ class WalletModel with ChangeNotifier {
   }
 
   Future<void> initiateSetup() async {
-    _client = Web3Client(_rpcUrl, Client());
+    _client = Web3Client(_rpcUrl, Client(),socketConnector: () {
+      return IOWebSocketChannel.connect(keys.rpcUrlWebSocket).cast<String>();
+    });
     getDeployedContract();
   }
 
@@ -88,6 +90,7 @@ class WalletModel with ChangeNotifier {
 
   Future<EtherAmount> getAccountBalance(EthereumAddress address) async {
     try {
+
     return _client.getBalance(address);
     } on SocketException {
       throw exception.HttpException("No Internet connection 😑");

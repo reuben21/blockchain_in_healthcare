@@ -16,6 +16,20 @@ String get rpcUrl {
   return "http://127.0.0.1:7545";
 }
 
+String get rpcUrlWebSocket {
+  if(kIsWeb) {
+    return "ws://127.0.0.1:7545";
+  }
+  else if(Platform.isWindows) {
+    return "ws://127.0.0.1:7545";
+  } else if (Platform.isAndroid) {
+    return  "ws://10.0.2.2:7545";
+  }
+
+  return "http://127.0.0.1:7545";
+}
+
+
 String get getIpfsUrl {
   if(kIsWeb) {
     return "http://127.0.0.1:5001";
