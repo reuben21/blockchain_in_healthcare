@@ -184,25 +184,6 @@
 				"inputs": [
 					{
 						"indexed": false,
-						"internalType": "address",
-						"name": "_to",
-						"type": "address"
-					},
-					{
-						"indexed": false,
-						"internalType": "address",
-						"name": "_from",
-						"type": "address"
-					}
-				],
-				"name": "LogTransferEther",
-				"type": "event"
-			},
-			{
-				"anonymous": false,
-				"inputs": [
-					{
-						"indexed": false,
 						"internalType": "string",
 						"name": "name",
 						"type": "string"
@@ -601,6 +582,25 @@
 						"internalType": "bytes32",
 						"name": "",
 						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_walletAddress",
+						"type": "address"
+					}
+				],
+				"name": "getRoleForUser",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "role",
+						"type": "string"
 					}
 				],
 				"stateMutability": "view",
@@ -1057,25 +1057,6 @@
 			{
 				"inputs": [
 					{
-						"internalType": "address payable",
-						"name": "_To",
-						"type": "address"
-					}
-				],
-				"name": "transferEther",
-				"outputs": [
-					{
-						"internalType": "bool",
-						"name": "",
-						"type": "bool"
-					}
-				],
-				"stateMutability": "payable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
 						"internalType": "string",
 						"name": "_personalDetails",
 						"type": "string"
@@ -1313,11 +1294,11 @@
 	},
 	"sources": {
 		"MainContract.sol": {
-			"keccak256": "0x17d7c482af6a4b8522aa5da99a868ff7f89cb262329c05b0d9b2fa6e7919a832",
+			"keccak256": "0xcb55b73078ada80a20b7f4738ff18da58f76d5150c88fc9cb02c8966696c643d",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://13c3f465182d50da219d7cc9a6965fa75e8237e6f4268734d059a5c327893bdd",
-				"dweb:/ipfs/QmY86UKAZ2v5q4y5rdQ3h6hqXbQ5M7n72boNnk4SywfxU3"
+				"bzz-raw://c1ff5eb453b692d4963dbdde1aa1868f392cea37ad43e9d079c01d38c3878367",
+				"dweb:/ipfs/QmdS97RNMsRDPdeGz45AKMhVxHhcdeLGHWeTNeH8M4k3Wf"
 			]
 		},
 		"openzeppelin/contracts/access/AccessControl.sol": {
