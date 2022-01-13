@@ -460,7 +460,7 @@ class _WalletViewState extends State<WalletView> {
                       ],
                     ),
                   ]),
-                  10.heightBox,
+                  1.heightBox,
                   Container(
                     width: double.infinity,
                     child: Column(
