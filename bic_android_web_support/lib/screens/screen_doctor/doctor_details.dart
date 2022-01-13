@@ -53,8 +53,12 @@ class _DoctorDetailsState extends State<DoctorDetails> {
     });
   }
 
-  Future<void> estimateGasFunction(String doctorName, String ipfsHash,
-      EthereumAddress walletAddress, Credentials credentials) async {
+  Future<void> estimateGasFunction(
+      String doctorName,
+      String ipfsHash,
+      EthereumAddress walletAddress,
+      EthereumAddress walletAddress1,
+      Credentials credentials) async {
     var gasEstimation =
         await Provider.of<GasEstimationModel>(context, listen: false)
             .estimateGasForContractFunction(walletAddress, "storeDoctor",
@@ -728,6 +732,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                       _formKey
                                           .currentState?.value["doctor_name"],
                                       hashReceived,
+                                      myAddress,
                                       myAddress,
                                       credentialsNew);
                                 }

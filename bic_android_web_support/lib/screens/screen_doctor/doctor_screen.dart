@@ -166,12 +166,12 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                               width: 35,
                               height: 35),
                           title: Text('Role', style: textStyleForName),
-                          subtitle: Text(
-                            role.toString(),
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.black.withOpacity(0.6)),
-                          ),
+                          // subtitle: Text(
+                          //   role.toString(),
+                          //   style: TextStyle(
+                          //       fontSize: 20,
+                          //       color: Colors.black.withOpacity(0.6)),
+                          // ),
                         ),
                       ],
                     ),
@@ -367,8 +367,8 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                                   doctorAddress:
                                       doctorIpfsHash['doctor_address'],
                                   doctorGender: doctorIpfsHash['doctor_gender'],
-                                  doctorPhoneNo: doctorIpfsHash[''
-                                      ''],
+                                  doctorPhoneNo:
+                                      doctorIpfsHash['doctor_phone_no'],
                                 ),
                               ),
                             );
