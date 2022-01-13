@@ -47,6 +47,7 @@ class _WalletViewState extends State<WalletView> {
   late String balanceOfAccount;
   late String balanceOfAccountInRs;
   late String rateForEther;
+  List countForEntities =['','','',''];
 
   List<String> options = <String>['Select Account'];
 
@@ -76,6 +77,10 @@ class _WalletViewState extends State<WalletView> {
       credentialsNew =
           Provider.of<WalletModel>(context, listen: false).walletCredentials;
       address = await credentialsNew.extractAddress();
+
+      var countEntities = await Provider.of<WalletModel>(context, listen: false)
+          .readContract("retrieveCountForEntities", []);
+      // print("Role Status -"+dataRole);
       // var ethereumRate = await Provider.of<CryptoApiModel>(context,listen: false).getCryptoDataForEthInr();
       var ethereumRate = 258511.96959478396;
       var balance = await Provider.of<WalletModel>(context, listen: false)
@@ -84,13 +89,15 @@ class _WalletViewState extends State<WalletView> {
       ((balance.getInWei) / BigInt.from(1000000000000000000)).toString();
       print(calculatedBalance + "----------" + ethereumRate.toString());
       setState(() {
+        countForEntities = countEntities;
         balanceOfAccount = calculatedBalance;
         balanceOfAccountInRs =
             (double.parse(calculatedBalance) * ethereumRate).toStringAsFixed(2);
         rateForEther = "1 ETH = Rs. ${ethereumRate.toStringAsFixed(2)}";
       });
+
       ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text("Balance Refreshed")));
+          .showSnackBar(const SnackBar(content: Text("Refreshed Page")));
     } catch (error) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(error.toString())));
@@ -479,7 +486,7 @@ class _WalletViewState extends State<WalletView> {
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(
-                                        "1",
+                                        countForEntities[0].toString(),
                                         style: TextStyle(
                                             color: Theme.of(context).colorScheme.primary,
                                             fontSize: 18,
@@ -520,7 +527,7 @@ class _WalletViewState extends State<WalletView> {
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(
-                                        "1",
+                                        countForEntities[1].toString(),
                                         style: TextStyle(
                                             color: Theme.of(context).colorScheme.primary,
                                             fontSize: 18,
@@ -570,7 +577,7 @@ class _WalletViewState extends State<WalletView> {
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(
-                                        "1",
+                                        countForEntities[2].toString(),
                                         style: TextStyle(
                                             color: Theme.of(context).colorScheme.primary,
                                             fontSize: 18,
@@ -612,7 +619,7 @@ class _WalletViewState extends State<WalletView> {
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(
-                                        "1",
+                                        countForEntities[3].toString(),
                                         style: TextStyle(
                                             color: Theme.of(context).colorScheme.primary,
                                             fontSize: 18,
