@@ -415,13 +415,13 @@ contract MainContract is AccessControl {
             address walletAddress
         )
     {
-        if (hasRole(PHARMACY, _walletAddress)) {
+        
             return (
-                pharmacyDatabase[_walletAddress].name,
-                pharmacyDatabase[_walletAddress].personalDetails,
+                doctorDatabase[_walletAddress].name,
+                doctorDatabase[_walletAddress].personalDetails,
                 _walletAddress
             );
-        }
+        
     }
 
     function retrieveDoctorData(address _walletAddress)
