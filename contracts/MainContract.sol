@@ -68,6 +68,15 @@ contract MainContract is AccessControl {
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
     }
 
+    event LogTransferEther(address _to,address _from);
+    
+    function transferEther(address payable _To )public payable returns (bool)
+    {
+     _To.transfer(msg.value);
+    emit LogTransferEther(_To,msg.sender);
+     return true;
+    }
+
     function stringToBytes32(string memory source)
         public
         pure
