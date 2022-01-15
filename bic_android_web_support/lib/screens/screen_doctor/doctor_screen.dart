@@ -98,7 +98,7 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
     if (!await launch(_url)) throw 'Could not launch $_url';
   }
 
-
+ 
 
   @override
   Widget build(BuildContext context) {
