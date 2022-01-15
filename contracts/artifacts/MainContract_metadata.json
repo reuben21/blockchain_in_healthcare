@@ -467,6 +467,52 @@
 				"inputs": [
 					{
 						"internalType": "address",
+						"name": "_walletAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_recordPosition",
+						"type": "uint256"
+					}
+				],
+				"name": "getMedicalRecord",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "index",
+								"type": "uint256"
+							},
+							{
+								"internalType": "string",
+								"name": "patientRecordHash",
+								"type": "string"
+							},
+							{
+								"internalType": "bool",
+								"name": "verified",
+								"type": "bool"
+							}
+						],
+						"internalType": "struct MainContract.MedicalRecord",
+						"name": "value",
+						"type": "tuple"
+					},
+					{
+						"internalType": "uint256",
+						"name": "medicalRecordCount",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
 						"name": "_patientAddress",
 						"type": "address"
 					}
@@ -490,45 +536,7 @@
 						"type": "address"
 					}
 				],
-				"name": "getMultipleRecords",
-				"outputs": [
-					{
-						"internalType": "string[]",
-						"name": "status",
-						"type": "string[]"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "_patientAddress",
-						"type": "address"
-					}
-				],
 				"name": "getNewPrescription",
-				"outputs": [
-					{
-						"internalType": "string",
-						"name": "status",
-						"type": "string"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "_patientAddress",
-						"type": "address"
-					}
-				],
-				"name": "getNewRecords",
 				"outputs": [
 					{
 						"internalType": "string",
@@ -715,6 +723,30 @@
 				"type": "function"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_walletAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "string",
+						"name": "_personalDetails",
+						"type": "string"
+					}
+				],
+				"name": "resetPatientPersonalDetailHash",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "success",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
 				"inputs": [],
 				"name": "retrieveCountForEntities",
 				"outputs": [
@@ -881,6 +913,64 @@
 				],
 				"name": "revokeRole",
 				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "_medicalRecordHash",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "_walletAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "bool",
+						"name": "_verified",
+						"type": "bool"
+					}
+				],
+				"name": "setMedicalRecord",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "status",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "index",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "_walletAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "bool",
+						"name": "_verified",
+						"type": "bool"
+					}
+				],
+				"name": "setMedicalRecordVerificationStatus",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "status",
+						"type": "bool"
+					}
+				],
 				"stateMutability": "nonpayable",
 				"type": "function"
 			},
@@ -1104,54 +1194,6 @@
 			{
 				"inputs": [
 					{
-						"internalType": "address",
-						"name": "_walletAddress",
-						"type": "address"
-					},
-					{
-						"internalType": "string",
-						"name": "medicalRecordHash",
-						"type": "string"
-					}
-				],
-				"name": "updatePatientMedicalRecords",
-				"outputs": [
-					{
-						"internalType": "bool",
-						"name": "status",
-						"type": "bool"
-					}
-				],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "_walletAddress",
-						"type": "address"
-					},
-					{
-						"internalType": "string",
-						"name": "_personalDetails",
-						"type": "string"
-					}
-				],
-				"name": "updatePatientPersonalData",
-				"outputs": [
-					{
-						"internalType": "bool",
-						"name": "success",
-						"type": "bool"
-					}
-				],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
 						"internalType": "string",
 						"name": "_personalDetails",
 						"type": "string"
@@ -1293,11 +1335,11 @@
 	},
 	"sources": {
 		"MainContract.sol": {
-			"keccak256": "0x438e46dc42182950836db0801e26a7c68e4910a49697ba7fd52f38134ae6fe3b",
+			"keccak256": "0x845a3bf53a2059c9654c4d7dfc30fea6547e7e3b8cb39f07449e6655c2544855",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://3f29e86243263cc15f3a67fdf9e61d29db70e7875fef1b50bc22fed9c0e2d0cd",
-				"dweb:/ipfs/QmS7vgYZQtZA1kVSseP46bAs6Q4VEMVDmENFHCnrcTKbZt"
+				"bzz-raw://e4cd6053c4334b4bd8008b139123bfd010fd0221263400fde37d873544e3fa98",
+				"dweb:/ipfs/Qmad7Py2aAgY2YcRk33JLL71QptTcaU2yFVuAJ7koaoo86"
 			]
 		},
 		"openzeppelin/contracts/access/AccessControl.sol": {

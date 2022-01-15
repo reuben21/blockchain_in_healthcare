@@ -62,9 +62,7 @@ class WalletModel with ChangeNotifier {
   }
 
   Future<void> initiateSetup() async {
-    _client = Web3Client(_rpcUrl, Client(),socketConnector: () {
-      return IOWebSocketChannel.connect(keys.rpcUrlWebSocket).cast<String>();
-    });
+    _client = Web3Client(_rpcUrl, Client());
     getDeployedContract();
   }
 

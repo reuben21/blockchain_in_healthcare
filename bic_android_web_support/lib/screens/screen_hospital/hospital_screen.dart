@@ -59,13 +59,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
       address
     ]);
     print("Role Status -" + dataRole.toString());
-    // if (dataRole[0]) {
-    //   setState(() {
-    //
-    //   });
-    // } else {
-    //   role = "UNVERIFIED";
-    // }
+
     var data = await Provider.of<WalletModel>(context, listen: false)
         .readContract("getHospitalData", [address]);
     print(data);
@@ -110,7 +104,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
         backgroundColor: Theme.of(context).colorScheme.primary,
         elevation: 0,
         automaticallyImplyLeading: false,
-        title: const Text("hospital Record"),
+        title: Center(child: const Text("Hospital Record")),
       ),
       body: SingleChildScrollView(
         child: SingleChildScrollView(
@@ -135,6 +129,98 @@ class _HospitalScreenState extends State<HospitalScreen> {
               : Container(
             child: Column(
               children: [
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(
+                      height: 125,
+                      width: 185,
+                      child: Card(
+
+                        clipBehavior: Clip.antiAlias,
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                              color: Theme.of(context).colorScheme.primary, width: 2),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "0",
+                                style: TextStyle(
+                                    color: Theme.of(context).colorScheme.primary,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Image.asset("assets/icons/patient-count-100.png",
+                                color: Theme.of(context).colorScheme.primary,
+                                width: 50,
+                                height: 50),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "Patient's in Hospital",
+                                style: TextStyle(
+                                    color: Theme.of(context).colorScheme.primary,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 125,
+                      width:  185,
+                      child: Card(
+                        clipBehavior: Clip.antiAlias,
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                              color: Theme.of(context).colorScheme.primary, width: 2),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "0",
+                                style: TextStyle(
+                                    color: Theme.of(context).colorScheme.primary,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Image.asset("assets/icons/doctor-count-100.png",
+                                color: Theme.of(context).colorScheme.primary,
+                                width: 50,
+                                height: 50),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "Doctor's in Hospital",
+                                style: TextStyle(
+                                    color: Theme.of(context).colorScheme.primary,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                  ],
+                ),
                 Padding(
                   padding: const EdgeInsets.all(8),
                   child: Card(
@@ -174,7 +260,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
                   padding: const EdgeInsets.all(8),
                   child: Container(
                     width: double.infinity,
-                    height: 500,
+                    height: 400,
                     child: hospitalIpfsHash['hospitalName'] == ''
                         ? Card(
                       borderOnForeground: true,
@@ -207,7 +293,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
                         children: <Widget>[
                           ListTile(
                             leading: Image.asset(
-                                "assets/icons/pharmacy-shop-100.png",
+                                "assets/icons/hospital-count-100.png",
                                 color:
                                 Theme.of(context).colorScheme.primary,
                                 width: 35,
