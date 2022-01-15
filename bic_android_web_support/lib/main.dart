@@ -4,6 +4,7 @@ import 'package:bic_android_web_support/providers/crypto_api.dart';
 import 'package:bic_android_web_support/providers/gas_estimation.dart';
 import 'package:bic_android_web_support/providers/provider_doctor/model_doctor.dart';
 import 'package:bic_android_web_support/providers/provider_firebase/model_firebase.dart';
+import 'package:bic_android_web_support/providers/provider_hospital/model_hospital.dart';
 import 'package:bic_android_web_support/providers/provider_pharmacy/model_pharmacy.dart';
 import 'package:bic_android_web_support/screens/screen_doctor/doctor_details.dart';
 import 'package:bic_android_web_support/screens/screen_patient/patient_details.dart';
@@ -62,6 +63,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (ctx) => DoctorModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => HospitalModel(),
         ),
         ChangeNotifierProvider(
           create: (ctx) => GasEstimationModel(),

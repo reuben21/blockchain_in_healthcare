@@ -72,6 +72,53 @@ class _HospitalAccessControlState extends State<HospitalAccessControl> {
       ),
       body: SingleChildScrollView(
         child: Container(
+          child:  Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: Card(
+                  borderOnForeground: true,
+                  clipBehavior: Clip.antiAlias,
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                        color: Theme.of(context).colorScheme.primary, width: 2),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      ListTile(
+                        trailing: Image.asset("assets/icons/forward-100.png",
+                            color: Theme.of(context).primaryColor,
+                            width: 25,
+                            height: 25),
+                        title: Text('Grant Role',
+                            style: Theme.of(context).textTheme.bodyText1),
+                        onTap: () {
+
+
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => PharmacyStoreDetails(
+                          //       pharmacyName: pharmacyIpfsHash['pharmacy_name'],
+                          //       pharmacyOwnerName:
+                          //       pharmacyIpfsHash['pharmacy_owner_name'],
+                          //       pharmacyAddress:
+                          //       pharmacyIpfsHash['pharmacy_address'],
+                          //       pharmacyYearOrigin: pharmacyIpfsHash['pharmacy_year_origin'],
+                          //       pharmacyPhoneNo: pharmacyIpfsHash['pharmacy_phone_no'],
+                          //     ),
+                          //   ),
+                          // );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
             ),
       ),
     );

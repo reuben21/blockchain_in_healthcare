@@ -203,7 +203,7 @@ class _WalletViewState extends State<WalletView> {
                           padding: const EdgeInsets.all(10),
                           child: Container(
                             height: 220,
-                            width: double.infinity,
+                            width: kIsWeb ?  500 : double.infinity,
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
                                   begin: Alignment.topLeft,

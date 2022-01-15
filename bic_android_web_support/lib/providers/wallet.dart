@@ -118,7 +118,7 @@ class WalletModel with ChangeNotifier {
     return queryResult;
   }
 
-  Future<void> writeContract(String functionName,
+  Future<String> writeContract(String functionName,
       List<dynamic> functionArgs, Credentials credentials) async {
     final contract = await getDeployedContract();
     String transactionHash = await _client.sendTransaction(
@@ -129,6 +129,7 @@ class WalletModel with ChangeNotifier {
         parameters: functionArgs,
       ),
     );
+    return transactionHash;
   }
 
   // writeContract('storePharmacy', ['Pharmacy A','pharmacy ipfs hash',credentials.toString()], credentials);

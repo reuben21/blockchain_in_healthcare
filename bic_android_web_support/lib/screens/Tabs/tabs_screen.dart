@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:bic_android_web_support/databases/wallet_shared_preferences.dart';
 import 'package:bic_android_web_support/screens/screen_doctor/doctor_prescription.dart';
 import 'package:bic_android_web_support/screens/screen_doctor/doctor_screen.dart';
