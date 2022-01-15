@@ -98,33 +98,7 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
     if (!await launch(_url)) throw 'Could not launch $_url';
   }
 
-  String privateKey =
-      '0e75aade5bd385616574bd6252b0d810f3f03f013dc43cbe15dc2e21e6ff4f14';
 
-  Future<void> getMessage(String password, String publicKeyString) async {
-    Credentials credentials;
-    EthereumAddress publicAddress;
-    credentials = EthPrivateKey.fromHex(privateKey);
-    publicAddress = await credentials.extractAddress();
-    print("Public Address:- " + publicAddress.toString());
-    //
-    // publicAddress =  EthereumAddress.fromHex(publicKey);
-
-    if (publicAddress.toString() == publicKeyString.toLowerCase()) {
-      Uint8List messageHash = hexToBytes(password);
-      Uint8List privateKeyInt = EthPrivateKey.fromHex(privateKey).privateKey;
-
-      MsgSignature _msgSignature = sign(messageHash, privateKeyInt);
-
-      MsgSignature _msgSignature2 =
-          MsgSignature(_msgSignature.r, _msgSignature.s, _msgSignature.v);
-
-      Uint8List publicKey = privateKeyBytesToPublic(privateKeyInt);
-
-      print(
-          isValidSignature(messageHash, _msgSignature2, publicKey).toString());
-    }
-  }
 
   @override
   Widget build(BuildContext context) {

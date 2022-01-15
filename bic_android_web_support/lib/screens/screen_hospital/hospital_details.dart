@@ -550,6 +550,26 @@ class _HospitalDetailScreenState extends State<HospitalDetailScreen> {
                                   Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
+                                          TextInputType.phone,
+                                          '8977558895',
+                                          'hospitalPhoneNo',
+                                          'Phone no',
+                                          Image.asset(
+                                              "assets/icons/key-100.png",
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                              scale: 4,
+                                              width: 15,
+                                              height: 15),
+                                          false,
+                                          [
+                                            FormBuilderValidators.required(
+                                                context),
+                                          ])),
+                                  Padding(
+                                      padding: const EdgeInsets.all(15),
+                                      child: formBuilderTextFieldWidget(
                                           TextInputType.streetAddress,
                                           'Password@123',
                                           'password',
@@ -596,6 +616,8 @@ class _HospitalDetailScreenState extends State<HospitalDetailScreen> {
                                   "origin": _formKey.currentState?.value["origin"],
                                   "address":
                                       _formKey.currentState?.value["address"],
+                                  "hospitalPhoneNo":
+                                  _formKey.currentState?.value["hospitalPhoneNo"],
 
                                   // "lastName4": ["Coutinho", "Coutinho", "Coutinho"],
                                   // "age": 30

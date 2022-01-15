@@ -55,16 +55,20 @@ class _HospitalScreenState extends State<HospitalScreen> {
     address = await credentialsNew.extractAddress();
     print(address);
     var dataRole = await Provider.of<WalletModel>(context, listen: false)
-        .readContract("hasRole", [
-      hexToBytes(
-          "0x504841524d414359000000000000000000000000000000000000000000000000"),
+        .readContract("getRoleForUser", [
       address
     ]);
     print("Role Status -" + dataRole.toString());
-
+    // if (dataRole[0]) {
+    //   setState(() {
+    //
+    //   });
+    // } else {
+    //   role = "UNVERIFIED";
+    // }
     var data = await Provider.of<WalletModel>(context, listen: false)
-        .readContract("gethospitalData", [address]);
-    // print(data);
+        .readContract("getHospitalData", [address]);
+    print(data);
     // print(data[0]);
     if (data[0].toString() != '') {
       var hospitalData = await Provider.of<IPFSModel>(context, listen: false)
@@ -74,19 +78,14 @@ class _HospitalScreenState extends State<HospitalScreen> {
         hospitalName = data[0].toString();
         hospitalIpfsHashData = data[1].toString();
         hospitalIpfsHash = hospitalData!;
+        role = dataRole[0].toString();
       });
     } else {
       setState(() {
         hospitalName = data[0];
       });
     }
-    if (dataRole[0]) {
-      setState(() {
-        role = "hospital";
-      });
-    } else {
-      role = "UNVERIFIED";
-    }
+
   }
 
   @override
@@ -98,33 +97,6 @@ class _HospitalScreenState extends State<HospitalScreen> {
     if (!await launch(_url)) throw 'Could not launch $_url';
   }
 
-  String privateKey =
-      '0e75aade5bd385616574bd6252b0d810f3f03f013dc43cbe15dc2e21e6ff4f14';
-
-  Future<void> getMessage(String password, String publicKeyString) async {
-    Credentials credentials;
-    EthereumAddress publicAddress;
-    credentials = EthPrivateKey.fromHex(privateKey);
-    publicAddress = await credentials.extractAddress();
-    print("Public Address:- " + publicAddress.toString());
-    //
-    // publicAddress =  EthereumAddress.fromHex(publicKey);
-
-    if (publicAddress.toString() == publicKeyString.toLowerCase()) {
-      Uint8List messageHash = hexToBytes(password);
-      Uint8List privateKeyInt = EthPrivateKey.fromHex(privateKey).privateKey;
-
-      MsgSignature _msgSignature = sign(messageHash, privateKeyInt);
-
-      MsgSignature _msgSignature2 =
-      MsgSignature(_msgSignature.r, _msgSignature.s, _msgSignature.v);
-
-      Uint8List publicKey = privateKeyBytesToPublic(privateKeyInt);
-
-      print(
-          isValidSignature(messageHash, _msgSignature2, publicKey).toString());
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +114,25 @@ class _HospitalScreenState extends State<HospitalScreen> {
       ),
       body: SingleChildScrollView(
         child: SingleChildScrollView(
-          child: Container(
+          child: hospitalIpfsHashData.toString() == ''
+              ? Card(
+            borderOnForeground: true,
+            clipBehavior: Clip.antiAlias,
+            shape: RoundedRectangleBorder(
+              side: BorderSide(
+                  color: Theme.of(context).colorScheme.primary,
+                  width: 2),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: const ListTile(
+              leading: Icon(Icons.arrow_drop_down_circle),
+              title: Text(
+                "Not Registered on Blockchain",
+                style: TextStyle(fontSize: 15),
+              ),
+            ),
+          )
+              : Container(
             child: Column(
               children: [
                 Padding(
@@ -165,15 +155,18 @@ class _HospitalScreenState extends State<HospitalScreen> {
                               color: Theme.of(context).colorScheme.primary,
                               width: 35,
                               height: 35),
-                          title: Text('Role', style: textStyleForName),
-                          // subtitle: Text(
-                          //   role.toString(),
-                          //   style: TextStyle(
-                          //       fontSize: 20,
-                          //       color: Colors.black.withOpacity(0.6)),
-                          // ),
+                          title: Text(
+                            "Role",
+                              style: textStyleForName
+                          ),
+                          subtitle: Text(
+                            role!,
+                            style: TextStyle(
+                            fontSize: 18,
+                            color:  Colors.black.withOpacity(0.6),
+                          ),
                         ),
-                      ],
+                        )],
                     ),
                   ),
                 ),
@@ -182,7 +175,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
                   child: Container(
                     width: double.infinity,
                     height: 500,
-                    child: hospitalIpfsHash['hospital_name'] == ''
+                    child: hospitalIpfsHash['hospitalName'] == ''
                         ? Card(
                       borderOnForeground: true,
                       clipBehavior: Clip.antiAlias,
@@ -228,21 +221,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
                                   color: Colors.black.withOpacity(0.6)),
                             ),
                           ),
-                          ListTile(
-                            leading: Image.asset(
-                                "assets/icons/name-100.png",
-                                color:
-                                Theme.of(context).colorScheme.primary,
-                                width: 35,
-                                height: 35),
-                            title: Text('Owner', style: textStyleForName),
-                            subtitle: Text(
-                              hospitalIpfsHash['hospital_age'],
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.black.withOpacity(0.6)),
-                            ),
-                          ),
+
                           ListTile(
                             leading: Image.asset(
                                 "assets/icons/address-100.png",
@@ -253,7 +232,40 @@ class _HospitalScreenState extends State<HospitalScreen> {
                             title:
                             Text('Address', style: textStyleForName),
                             subtitle: Text(
-                              hospitalIpfsHash['hospital_address'],
+                              hospitalIpfsHash['address'],
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.black.withOpacity(0.6)),
+                            ),
+                          ),
+                          // ListTile(
+                          //   leading: Image.asset(
+                          //       "assets/icons/phone-100.png",
+                          //       color:
+                          //       Theme.of(context).colorScheme.primary,
+                          //       width: 35,
+                          //       height: 35),
+                          //   title:
+                          //   Text('Phone No', style: textStyleForName),
+                          //   subtitle: Text(
+                          //     hospitalIpfsHash['hospital_phone_no'],
+                          //     style: TextStyle(
+                          //         fontSize: 20,
+                          //         color: Colors.black.withOpacity(0.6)),
+                          //   ),
+                          // ),
+
+                          ListTile(
+                            leading: Image.asset(
+                                "assets/icons/phone-100.png",
+                                color:
+                                Theme.of(context).colorScheme.primary,
+                                width: 35,
+                                height: 35),
+                            title:
+                            Text('Phone No', style: textStyleForName),
+                            subtitle: Text(
+                              hospitalIpfsHash['hospitalPhoneNo'].toString(),
                               style: TextStyle(
                                   fontSize: 20,
                                   color: Colors.black.withOpacity(0.6)),
@@ -271,23 +283,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
                               style: textStyleForName,
                             ),
                             subtitle: Text(
-                              hospitalIpfsHash['hospital_gender'],
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.black.withOpacity(0.6)),
-                            ),
-                          ),
-                          ListTile(
-                            leading: Image.asset(
-                                "assets/icons/phone-100.png",
-                                color:
-                                Theme.of(context).colorScheme.primary,
-                                width: 35,
-                                height: 35),
-                            title:
-                            Text('Phone No', style: textStyleForName),
-                            subtitle: Text(
-                              hospitalIpfsHash['hospital_phone_no'],
+                              hospitalIpfsHash['origin'].toString(),
                               style: TextStyle(
                                   fontSize: 20,
                                   color: Colors.black.withOpacity(0.6)),
