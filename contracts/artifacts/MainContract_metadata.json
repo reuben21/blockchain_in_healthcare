@@ -14,226 +14,6 @@
 				"anonymous": false,
 				"inputs": [
 					{
-						"indexed": false,
-						"internalType": "string",
-						"name": "name",
-						"type": "string"
-					},
-					{
-						"indexed": false,
-						"internalType": "uint256",
-						"name": "empIdIndex",
-						"type": "uint256"
-					}
-				],
-				"name": "LogDeleteDoctor",
-				"type": "event"
-			},
-			{
-				"anonymous": false,
-				"inputs": [
-					{
-						"indexed": false,
-						"internalType": "string",
-						"name": "name",
-						"type": "string"
-					},
-					{
-						"indexed": false,
-						"internalType": "uint256",
-						"name": "empIdIndex",
-						"type": "uint256"
-					}
-				],
-				"name": "LogDeleteHospital",
-				"type": "event"
-			},
-			{
-				"anonymous": false,
-				"inputs": [
-					{
-						"indexed": false,
-						"internalType": "string",
-						"name": "name",
-						"type": "string"
-					},
-					{
-						"indexed": false,
-						"internalType": "string",
-						"name": "personalDetails",
-						"type": "string"
-					},
-					{
-						"indexed": false,
-						"internalType": "address",
-						"name": "owner",
-						"type": "address"
-					}
-				],
-				"name": "LogGetPharmacy",
-				"type": "event"
-			},
-			{
-				"anonymous": false,
-				"inputs": [
-					{
-						"indexed": false,
-						"internalType": "string",
-						"name": "name",
-						"type": "string"
-					},
-					{
-						"indexed": false,
-						"internalType": "string",
-						"name": "_hospitalDetails",
-						"type": "string"
-					},
-					{
-						"indexed": false,
-						"internalType": "address",
-						"name": "walletAddress",
-						"type": "address"
-					}
-				],
-				"name": "LogHospital",
-				"type": "event"
-			},
-			{
-				"anonymous": false,
-				"inputs": [
-					{
-						"indexed": false,
-						"internalType": "string",
-						"name": "name",
-						"type": "string"
-					},
-					{
-						"indexed": false,
-						"internalType": "string",
-						"name": "personalDetails",
-						"type": "string"
-					},
-					{
-						"indexed": false,
-						"internalType": "address",
-						"name": "walletAddress",
-						"type": "address"
-					}
-				],
-				"name": "LogStoreDoctor",
-				"type": "event"
-			},
-			{
-				"anonymous": false,
-				"inputs": [
-					{
-						"indexed": false,
-						"internalType": "string",
-						"name": "name",
-						"type": "string"
-					},
-					{
-						"indexed": false,
-						"internalType": "address",
-						"name": "hospitalAddress",
-						"type": "address"
-					},
-					{
-						"indexed": false,
-						"internalType": "string",
-						"name": "_personalDetails",
-						"type": "string"
-					},
-					{
-						"indexed": false,
-						"internalType": "address",
-						"name": "owner",
-						"type": "address"
-					}
-				],
-				"name": "LogStorePatient",
-				"type": "event"
-			},
-			{
-				"anonymous": false,
-				"inputs": [
-					{
-						"indexed": false,
-						"internalType": "string",
-						"name": "name",
-						"type": "string"
-					},
-					{
-						"indexed": false,
-						"internalType": "string",
-						"name": "personalDetails",
-						"type": "string"
-					},
-					{
-						"indexed": false,
-						"internalType": "address",
-						"name": "owner",
-						"type": "address"
-					}
-				],
-				"name": "LogStorePharmacy",
-				"type": "event"
-			},
-			{
-				"anonymous": false,
-				"inputs": [
-					{
-						"indexed": false,
-						"internalType": "string",
-						"name": "name",
-						"type": "string"
-					},
-					{
-						"indexed": false,
-						"internalType": "string",
-						"name": "personalDetails",
-						"type": "string"
-					}
-				],
-				"name": "LogUpdateDoctor",
-				"type": "event"
-			},
-			{
-				"anonymous": false,
-				"inputs": [
-					{
-						"indexed": false,
-						"internalType": "string",
-						"name": "name",
-						"type": "string"
-					},
-					{
-						"indexed": false,
-						"internalType": "string",
-						"name": "dateOfBirth",
-						"type": "string"
-					}
-				],
-				"name": "LogUpdateHospital",
-				"type": "event"
-			},
-			{
-				"anonymous": false,
-				"inputs": [
-					{
-						"indexed": false,
-						"internalType": "string",
-						"name": "_personalDetails",
-						"type": "string"
-					}
-				],
-				"name": "LogUpdatePatientPersonalDetails",
-				"type": "event"
-			},
-			{
-				"anonymous": false,
-				"inputs": [
-					{
 						"indexed": true,
 						"internalType": "bytes32",
 						"name": "role",
@@ -513,44 +293,6 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "_patientAddress",
-						"type": "address"
-					}
-				],
-				"name": "getMultiplePrescription",
-				"outputs": [
-					{
-						"internalType": "string[]",
-						"name": "status",
-						"type": "string[]"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "_patientAddress",
-						"type": "address"
-					}
-				],
-				"name": "getNewPrescription",
-				"outputs": [
-					{
-						"internalType": "string",
-						"name": "status",
-						"type": "string"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
 						"name": "_walletAddress",
 						"type": "address"
 					}
@@ -636,7 +378,7 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "_addressOfAdmin",
+						"name": "_addressOfHospitalAdmin",
 						"type": "address"
 					},
 					{
@@ -929,12 +671,36 @@
 						"type": "address"
 					},
 					{
+						"internalType": "address",
+						"name": "_doctorWalletAddress",
+						"type": "address"
+					}
+				],
+				"name": "setMedicalRecordByDoctor",
+				"outputs": [
+					{
 						"internalType": "bool",
-						"name": "_verified",
+						"name": "status",
 						"type": "bool"
 					}
 				],
-				"name": "setMedicalRecord",
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "_medicalRecordHash",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "_walletAddress",
+						"type": "address"
+					}
+				],
+				"name": "setMedicalRecordByPatient",
 				"outputs": [
 					{
 						"internalType": "bool",
@@ -954,7 +720,12 @@
 					},
 					{
 						"internalType": "address",
-						"name": "_walletAddress",
+						"name": "_patientWalletAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_doctorWalletAddress",
 						"type": "address"
 					},
 					{
@@ -1218,54 +989,6 @@
 			{
 				"inputs": [
 					{
-						"internalType": "address",
-						"name": "_walletAddress",
-						"type": "address"
-					},
-					{
-						"internalType": "string",
-						"name": "prescriptionHash",
-						"type": "string"
-					}
-				],
-				"name": "updatePatientPrescription",
-				"outputs": [
-					{
-						"internalType": "bool",
-						"name": "status",
-						"type": "bool"
-					}
-				],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "string",
-						"name": "newPatientPrescriptionHashes",
-						"type": "string"
-					},
-					{
-						"internalType": "address",
-						"name": "_walletAddress",
-						"type": "address"
-					}
-				],
-				"name": "updatePatientPrescriptionHash",
-				"outputs": [
-					{
-						"internalType": "bool",
-						"name": "status",
-						"type": "bool"
-					}
-				],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
 						"internalType": "string",
 						"name": "_personalDetails",
 						"type": "string"
@@ -1335,11 +1058,11 @@
 	},
 	"sources": {
 		"MainContract.sol": {
-			"keccak256": "0x845a3bf53a2059c9654c4d7dfc30fea6547e7e3b8cb39f07449e6655c2544855",
+			"keccak256": "0x171bba29ee27cf461212fe62ba6175366f8c674ae377a4f41db76ad37f962cd6",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://e4cd6053c4334b4bd8008b139123bfd010fd0221263400fde37d873544e3fa98",
-				"dweb:/ipfs/Qmad7Py2aAgY2YcRk33JLL71QptTcaU2yFVuAJ7koaoo86"
+				"bzz-raw://82d9ac16c9eb3e9ed1f4d433c787895f9da7fd9f56ddc4ebc88f314772f5e029",
+				"dweb:/ipfs/QmaVtWnREV1GNPJkUZWffrNwgaWyn374jc1qDxLC6HsZn1"
 			]
 		},
 		"openzeppelin/contracts/access/AccessControl.sol": {
