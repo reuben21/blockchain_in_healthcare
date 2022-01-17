@@ -8,9 +8,6 @@ import 'package:bic_android_web_support/screens/screen_pharmacy/pharmacy_store_d
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:velocity_x/src/extensions/context_ext.dart';
-import 'package:velocity_x/src/extensions/num_ext.dart';
-import 'package:velocity_x/velocity_x.dart';
 import 'package:web3dart/credentials.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
@@ -55,7 +52,7 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
     address = await credentialsNew.extractAddress();
 
     var dataRole = await Provider.of<WalletModel>(context, listen: false)
-        .readContract("hasRole", [ hexToBytes("0x504841524d414359000000000000000000000000000000000000000000000000"),address]);
+        .readContract("getRoleForUser",[address]);
     print("Role Status -"+dataRole.toString());
 
 
@@ -80,10 +77,10 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
         pharmacyName = data[0];
       });
     }
-    if (dataRole[0]) {
+    if (dataRole[0] != '') {
 
       setState(() {
-        role = "PHARMACY";
+        role = dataRole[0].toString();
       });
     } else {
       role = "UNVERIFIED";

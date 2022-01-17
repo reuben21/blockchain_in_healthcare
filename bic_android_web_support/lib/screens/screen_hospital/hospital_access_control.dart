@@ -12,6 +12,8 @@ import 'package:web3dart/credentials.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
 
+import 'grant_role_screen.dart';
+
 class HospitalAccessControl extends StatefulWidget {
   static const routeName = '/hospital-access-control-screen';
 
@@ -97,20 +99,12 @@ class _HospitalAccessControlState extends State<HospitalAccessControl> {
                         onTap: () {
 
 
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => PharmacyStoreDetails(
-                          //       pharmacyName: pharmacyIpfsHash['pharmacy_name'],
-                          //       pharmacyOwnerName:
-                          //       pharmacyIpfsHash['pharmacy_owner_name'],
-                          //       pharmacyAddress:
-                          //       pharmacyIpfsHash['pharmacy_address'],
-                          //       pharmacyYearOrigin: pharmacyIpfsHash['pharmacy_year_origin'],
-                          //       pharmacyPhoneNo: pharmacyIpfsHash['pharmacy_phone_no'],
-                          //     ),
-                          //   ),
-                          // );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => GrantRoleScreen(),
+                            ),
+                          );
                         },
                       ),
                     ],

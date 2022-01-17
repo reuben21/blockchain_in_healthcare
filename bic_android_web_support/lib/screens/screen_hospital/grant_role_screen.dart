@@ -3,47 +3,27 @@ import 'package:bic_android_web_support/providers/gas_estimation.dart';
 import 'package:bic_android_web_support/providers/ipfs.dart';
 import 'package:bic_android_web_support/providers/provider_doctor/model_doctor.dart';
 import 'package:bic_android_web_support/providers/provider_firebase/model_firebase.dart';
+import 'package:bic_android_web_support/providers/wallet.dart';
 import 'package:bic_android_web_support/screens/Tabs/tabs_screen.dart';
 import 'package:bic_android_web_support/screens/screens_auth/background.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:provider/provider.dart';
 import 'package:web3dart/credentials.dart';
 
-class DoctorDetails extends StatefulWidget {
-  static const routeName = '/doctorDetail';
+class GrantRoleScreen extends StatefulWidget {
+  static const routeName = '/hospital-detail-screen';
 
-  final String? doctorName;
-  final String? doctorAge;
-  final String? doctorAddress;
-  final String? doctorGender;
-  final String? doctorPhoneNo;
 
-  const DoctorDetails({
-    required this.doctorName,
-    required this.doctorAge,
-    required this.doctorAddress,
-    required this.doctorGender,
-    required this.doctorPhoneNo,
-  });
 
   @override
-  _DoctorDetailsState createState() => _DoctorDetailsState();
+  _GrantRoleScreenState createState() => _GrantRoleScreenState();
 }
 
-class _DoctorDetailsState extends State<DoctorDetails> {
+class _GrantRoleScreenState extends State<GrantRoleScreen> {
   final _formKey = GlobalKey<FormBuilderState>();
-
   String walletAdd = '';
-
-  @override
-  void initState() {
-    getWalletFromDatabase();
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
-    super.initState();
-  }
 
   Future<void> getWalletFromDatabase() async {
     var dbResponse = await WalletSharedPreference.getWalletDetails();
@@ -54,16 +34,16 @@ class _DoctorDetailsState extends State<DoctorDetails> {
   }
 
   Future<void> estimateGasFunction(
-      String doctorName,
-      String ipfsHash,
+      String functionName,
+      EthereumAddress userAddess,
       EthereumAddress walletAddress,
-      EthereumAddress walletAddress1,
       Credentials credentials) async {
     var gasEstimation =
-        await Provider.of<GasEstimationModel>(context, listen: false)
-            .estimateGasForContractFunction(walletAddress, "storeDoctor",
-                [doctorName, ipfsHash, walletAddress, walletAddress]);
+    await Provider.of<GasEstimationModel>(context, listen: false)
+        .estimateGasForContractFunction(walletAddress, functionName,
+        [  walletAddress,userAddess]);
     print(gasEstimation);
+
 
     return showDialog(
       context: context,
@@ -121,7 +101,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                             child: ListTile(
                               leading: Image.asset("assets/icons/wallet.png",
                                   color:
-                                      Theme.of(context).colorScheme.secondary,
+                                  Theme.of(context).colorScheme.secondary,
                                   width: 35,
                                   height: 35),
                               title: Text('From Wallet Address',
@@ -129,14 +109,14 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                     color:
-                                        Theme.of(context).colorScheme.secondary,
+                                    Theme.of(context).colorScheme.secondary,
                                   )),
                               subtitle: Text(
                                 walletAddress.hex.toString(),
                                 style: TextStyle(
                                   fontSize: 15,
                                   color:
-                                      Theme.of(context).colorScheme.secondary,
+                                  Theme.of(context).colorScheme.secondary,
                                 ),
                               ),
                             ),
@@ -191,7 +171,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                             child: ListTile(
                               trailing: Image.asset("assets/icons/wallet.png",
                                   color:
-                                      Theme.of(context).colorScheme.secondary,
+                                  Theme.of(context).colorScheme.secondary,
                                   width: 35,
                                   height: 35),
                               title: Text('To Wallet Address',
@@ -199,14 +179,14 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                     color:
-                                        Theme.of(context).colorScheme.secondary,
+                                    Theme.of(context).colorScheme.secondary,
                                   )),
                               subtitle: Text(
                                 gasEstimation['contractAddress'].toString(),
                                 style: TextStyle(
                                   fontSize: 15,
                                   color:
-                                      Theme.of(context).colorScheme.secondary,
+                                  Theme.of(context).colorScheme.secondary,
                                 ),
                               ),
                             ),
@@ -319,9 +299,9 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                       Row(children: <Widget>[
                         Expanded(
                           child: Divider(
-                              // thickness: 2,
-                              // color: Colors.grey,
-                              ),
+                            // thickness: 2,
+                            // color: Colors.grey,
+                          ),
                         ),
                       ]),
                       const SizedBox(
@@ -374,8 +354,8 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                     backgroundColor: Theme.of(context).colorScheme.primary,
                     foregroundColor: Theme.of(context).colorScheme.secondary,
                     onPressed: () async {
-                      executeTransaction(doctorName, ipfsHash, walletAddress,
-                          walletAddress, credentials);
+                      executeTransaction(functionName, userAddess, walletAddress,
+                          credentials);
                     },
                     icon: const Icon(Icons.add_circle_outline_outlined),
                     label: const Text('Confirm Pay'),
@@ -398,23 +378,23 @@ class _DoctorDetailsState extends State<DoctorDetails> {
   }
 
   Future<void> executeTransaction(
-      String doctorName,
-      String ipfsHash,
+      String functionName,
+      EthereumAddress userAddress,
       EthereumAddress walletAddress,
-      EthereumAddress walletAddress1,
       Credentials credentials) async {
-    var transactionHash = await Provider.of<DoctorModel>(context, listen: false)
-        .writeContract("storeDoctor",
-            [doctorName, ipfsHash, walletAddress1, walletAddress], credentials);
+    var transactionHash = await Provider.of<WalletModel>(context, listen: false)
+        .writeContract(functionName,
+        [  walletAddress,userAddress],credentials);
 
     var firebaseStatus =
-        await Provider.of<FirebaseModel>(context, listen: false)
-            .storeTransaction(transactionHash);
+    await Provider.of<FirebaseModel>(context, listen: false)
+        .storeTransaction(transactionHash);
 
     if (firebaseStatus) {
       Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
     }
   }
+
 
   Widget formBuilderTextFieldWidget(
       TextInputType inputTextType,
@@ -481,7 +461,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Doctors Detail',
+                          'Grant Role',
                           style: Theme.of(context).textTheme.headline1,
                         ),
                         // SizedBox(height: size.height * 0.03),
@@ -508,93 +488,15 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                     height: 10,
                                   ),
 
-                                  Padding(
-                                      padding: const EdgeInsets.all(15),
-                                      child: formBuilderTextFieldWidget(
-                                          TextInputType.text,
-                                          'Ankita Tripathi',
-                                          'doctor_name',
-                                          'Doctor Name',
-                                          Image.asset(
-                                              "assets/icons/name-100.png",
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                              scale: 4,
-                                              width: 15,
-                                              height: 15),
-                                          false,
-                                          [
-                                            FormBuilderValidators.required(
-                                                context),
-                                          ])),
-                                  Padding(
-                                      padding: const EdgeInsets.all(15),
-                                      child: formBuilderTextFieldWidget(
-                                          TextInputType.number,
-                                          '40',
-                                          'doctor_age',
-                                          'Age',
-                                          Image.asset(
-                                              "assets/icons/at-sign-100.png",
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                              scale: 4,
-                                              width: 15,
-                                              height: 15),
-                                          false,
-                                          [
-                                            FormBuilderValidators.required(
-                                                context),
-                                          ])),
+
+
                                   Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
                                           TextInputType.streetAddress,
-                                          'skldfjf',
-                                          'doctor_address',
-                                          'Address',
-                                          Image.asset(
-                                              "assets/icons/key-100.png",
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                              scale: 4,
-                                              width: 15,
-                                              height: 15),
-                                          false,
-                                          [
-                                            FormBuilderValidators.required(
-                                                context),
-                                          ])),
-                                  Padding(
-                                      padding: const EdgeInsets.all(15),
-                                      child: formBuilderTextFieldWidget(
-                                          TextInputType.streetAddress,
-                                          'skldfjf',
-                                          'hospital_address',
-                                          'Hospital Wallet Address',
-                                          Image.asset(
-                                              "assets/icons/key-100.png",
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                              scale: 4,
-                                              width: 15,
-                                              height: 15),
-                                          false,
-                                          [
-                                            FormBuilderValidators.required(
-                                                context),
-                                          ])),
-                                  Padding(
-                                      padding: const EdgeInsets.all(15),
-                                      child: formBuilderTextFieldWidget(
-                                          TextInputType.phone,
-                                          '8977558895',
-                                          'doctor_phone_no',
-                                          'Phone no',
+                                          '0x1072f3b15da7fecfce1120d605d299f185d0fe1b',
+                                          'walletAddress',
+                                          'Wallet Address',
                                           Image.asset(
                                               "assets/icons/key-100.png",
                                               color: Theme.of(context)
@@ -611,10 +513,9 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                   Padding(
                                     padding: const EdgeInsets.all(15),
                                     child: FormBuilderDropdown(
-                                      initialValue: 'Female',
-                                      name: 'doctor_gender',
+                                      name: 'role',
                                       decoration: InputDecoration(
-                                        labelText: "Gender",
+                                        labelText: "Role To Grant",
                                         prefixIcon: Image.asset(
                                             "assets/icons/user-100.png",
                                             color: Theme.of(context)
@@ -625,7 +526,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                             height: 15),
                                         border: OutlineInputBorder(
                                           borderRadius:
-                                              BorderRadius.circular(25.0),
+                                          BorderRadius.circular(25.0),
                                         ),
                                         labelStyle: const TextStyle(
                                           color: Color(0xFF6200EE),
@@ -634,19 +535,19 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                           borderSide: BorderSide(
                                               color: Color(0xFF6200EE)),
                                           borderRadius:
-                                              BorderRadius.circular(25.0),
+                                          BorderRadius.circular(25.0),
                                         ),
                                         focusedErrorBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
                                               color: Color(0xFF6200EE)),
                                           borderRadius:
-                                              BorderRadius.circular(25.0),
+                                          BorderRadius.circular(25.0),
                                         ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
                                               color: Color(0xFF6200EE)),
                                           borderRadius:
-                                              BorderRadius.circular(25.0),
+                                          BorderRadius.circular(25.0),
                                         ),
                                       ),
                                       // initialValue: 'Male',
@@ -657,20 +558,20 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                         FormBuilderValidators.required(context)
                                       ]),
                                       items: [
-                                        'Male',
-                                        'Female',
+                                        'VERIFIED_PATIENT',
+                                        'VERIFIED_DOCTOR',
                                       ]
-                                          .map((gender) => DropdownMenuItem(
-                                                value: gender,
-                                                child: Text('$gender'),
-                                              ))
+                                          .map((role) => DropdownMenuItem(
+                                        value: role,
+                                        child: Text('$role'),
+                                      ))
                                           .toList(),
                                     ),
                                   ),
                                   Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
-                                          TextInputType.number,
+                                          TextInputType.streetAddress,
                                           'Password@123',
                                           'password',
                                           'Wallet Password',
@@ -687,6 +588,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                             FormBuilderValidators.required(
                                                 context),
                                           ])),
+
                                 ],
                               ),
                             ),
@@ -696,11 +598,11 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                           height: 50,
                           width: size.width * 0.8,
                           child: FloatingActionButton.extended(
-                            heroTag: "doctorStoreDetailsButton",
+                            heroTag: "StoreGrantRoleScreen",
                             backgroundColor:
-                                Theme.of(context).colorScheme.primary,
+                            Theme.of(context).colorScheme.primary,
                             foregroundColor:
-                                Theme.of(context).colorScheme.secondary,
+                            Theme.of(context).colorScheme.secondary,
                             onPressed: () async {
                               _formKey.currentState?.save();
                               if (_formKey.currentState?.validate() != null) {
@@ -708,54 +610,40 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                 // _formKey.currentState?.value["age"];
                                 // _formKey.currentState?.value["address"];
                                 // _formKey.currentState?.value["gender"];
-                                print("hello wolrd");
+                                // _formKey.currentState?.value["password"]
+                                String role =_formKey.currentState?.value["role"];
+                                String address = _formKey.currentState?.value["walletAddress"];
                                 Map<String, dynamic> objText = {
-                                  "doctor_name": _formKey
-                                      .currentState?.value["doctor_name"],
-                                  "doctor_age": _formKey
-                                      .currentState?.value["doctor_age"],
-                                  "doctor_address": _formKey
-                                      .currentState?.value["doctor_address"],
-                                  "doctor_gender": _formKey
-                                      .currentState?.value["doctor_gender"],
-                                  "doctor_phone_no": _formKey
-                                      .currentState?.value["doctor_phone_no"],
-                                  "wallet_address": walletAdd,
-                                  // "lastName4": ["Coutinho", "Coutinho", "Coutinho"],
-                                  // "age": 30
+                                  "role":role,
+                                  "walletAddress": _formKey.currentState?.value["walletAddress"],
+
                                 };
-                                var hashReceived = await Provider.of<IPFSModel>(
-                                        context,
-                                        listen: false)
-                                    .sendData(objText);
-                                print("hashReceived ------" +
-                                    hashReceived.toString());
-                                if (hashReceived != null) {
-                                  Credentials credentialsNew;
-                                  EthereumAddress myAddress;
-                                  var dbResponse = await WalletSharedPreference
-                                      .getWalletDetails();
-                                  print(
-                                      _formKey.currentState?.value["password"]);
-                                  Wallet newWallet = Wallet.fromJson(
-                                      dbResponse!['walletEncryptedKey']
-                                          .toString(),
-                                      _formKey.currentState?.value["password"]);
 
-                                  credentialsNew = newWallet.privateKey;
-                                  myAddress =
-                                      await credentialsNew.extractAddress();
+                                Credentials credentialsNew;
+                                EthereumAddress myAddress;
+                                var dbResponse = await WalletSharedPreference
+                                    .getWalletDetails();
+                                print(
+                                    _formKey.currentState?.value["password"]);
+                                Wallet newWallet = Wallet.fromJson(
+                                    dbResponse!['walletEncryptedKey']
+                                        .toString(),
+                                    _formKey.currentState?.value["password"]);
 
-                                  // var hospitalAddress = EthereumAddress.fromHex("  ");
-                                  // var doctorAddress = EthereumAddress.fromHex("  ");
-                                  estimateGasFunction(
-                                      _formKey
-                                          .currentState?.value["doctor_name"],
-                                      hashReceived,
+                                credentialsNew = newWallet.privateKey;
+                                myAddress =
+                                await credentialsNew.extractAddress();
+                                print(myAddress.hex);
+                                if(role=='VERIFIED_PATIENT'){
+                                  estimateGasFunction('grantRoleVerifiedPatient',EthereumAddress.fromHex(address),
                                       myAddress,
+                                      credentialsNew);
+                                }else {
+                                  estimateGasFunction('grantRoleVerifiedDoctor',EthereumAddress.fromHex(address),
                                       myAddress,
                                       credentialsNew);
                                 }
+
                               } else {
                                 print("validation failed");
                               }
