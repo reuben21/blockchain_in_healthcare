@@ -24,6 +24,12 @@ contract MainContract is AccessControl {
         bool verified;
     }
 
+    struct Prescription {
+        uint256 index;
+        string prescriptionHash;
+        bool verified;
+    }
+
     struct patientRecord {
         string name;
         string personalDetails;
@@ -32,6 +38,9 @@ contract MainContract is AccessControl {
         address walletAddress;
         uint256 medicalRecordCount;
         mapping(uint256 => MedicalRecord) medicalRecords;
+
+        uint256 prescriptionCount;
+        mapping(uint256 => Prescription) prescriptions;
     }
 
     struct doctorRecord {
@@ -160,6 +169,61 @@ contract MainContract is AccessControl {
                     patientDatabase[_walletAddress].medicalRecordCount
                 ]
                 .verified = true;
+        }
+
+        return true;
+    }
+
+
+     function setPrescriptionRecordByDoctor(
+        string memory _prescriptionRecordHash,
+        address _walletAddress,
+        address _doctorWalletAddress
+    ) external returns (bool status) {
+        if (
+            hasRole(DOCTOR, _doctorWalletAddress) ||
+            hasRole(VERIFIED_DOCTOR, _doctorWalletAddress)
+        ) {
+            patientDatabase[_walletAddress].prescriptionCount++;
+
+            patientDatabase[_walletAddress]
+                .prescriptionCount = patientDatabase[_walletAddress]
+                .prescriptionCount;
+
+            patientDatabase[_walletAddress]
+                .prescriptions[
+                    patientDatabase[_walletAddress].prescriptionCount
+                ]
+                .index = patientDatabase[_walletAddress].prescriptionCount;
+
+            patientDatabase[_walletAddress]
+                .prescriptions[
+                    patientDatabase[_walletAddress].prescriptionCount
+                ]
+                .prescriptionHash = _prescriptionRecordHash;
+
+            patientDatabase[_walletAddress]
+                .prescriptions[
+                    patientDatabase[_walletAddress].prescriptionCount
+                ]
+                .verified = true;
+        }
+
+        return true;
+    }
+
+    function resetPrescriptionHash(
+        uint256 index,
+        address _patientWalletAddress,
+        address _pharmacyWalletAddress,
+        string memory _medicalRecordHash
+    ) external returns (bool status) {
+        if (
+            hasRole(PHARMACY, _pharmacyWalletAddress)
+        ) {
+            patientDatabase[_patientWalletAddress]
+                .prescriptions[index]
+                .prescriptionHash = _medicalRecordHash;
         }
 
         return true;

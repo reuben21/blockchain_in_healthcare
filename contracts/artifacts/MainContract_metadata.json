@@ -189,7 +189,7 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "_walletAddress",
+						"name": "_doctorAddress",
 						"type": "address"
 					}
 				],
@@ -209,6 +209,11 @@
 						"internalType": "address",
 						"name": "walletAddress",
 						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "patientCount",
+						"type": "uint256"
 					}
 				],
 				"stateMutability": "view",
@@ -218,7 +223,7 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "addressOfUser",
+						"name": "_hospitalAddress",
 						"type": "address"
 					}
 				],
@@ -226,7 +231,7 @@
 				"outputs": [
 					{
 						"internalType": "string",
-						"name": "_nameAdmin",
+						"name": "nameAdmin",
 						"type": "string"
 					},
 					{
@@ -238,6 +243,16 @@
 						"internalType": "address",
 						"name": "walletAddress",
 						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "doctorCountInHospital",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "patientCountInHospital",
+						"type": "uint256"
 					}
 				],
 				"stateMutability": "view",
@@ -482,6 +497,40 @@
 					{
 						"internalType": "bool",
 						"name": "success",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "index",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "_patientWalletAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_pharmacyWalletAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "string",
+						"name": "_medicalRecordHash",
+						"type": "string"
+					}
+				],
+				"name": "resetPrescriptionHash",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "status",
 						"type": "bool"
 					}
 				],
@@ -735,6 +784,35 @@
 					}
 				],
 				"name": "setMedicalRecordVerificationStatus",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "status",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "_prescriptionRecordHash",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "_walletAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_doctorWalletAddress",
+						"type": "address"
+					}
+				],
+				"name": "setPrescriptionRecordByDoctor",
 				"outputs": [
 					{
 						"internalType": "bool",
@@ -1058,11 +1136,11 @@
 	},
 	"sources": {
 		"MainContract.sol": {
-			"keccak256": "0x171bba29ee27cf461212fe62ba6175366f8c674ae377a4f41db76ad37f962cd6",
+			"keccak256": "0x89a9ad747f230531b5a191b3ecb21fd81447b1949c822adc0e9fd51be46afe1a",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://82d9ac16c9eb3e9ed1f4d433c787895f9da7fd9f56ddc4ebc88f314772f5e029",
-				"dweb:/ipfs/QmaVtWnREV1GNPJkUZWffrNwgaWyn374jc1qDxLC6HsZn1"
+				"bzz-raw://548c101cbd4d8d7904be7f55f02a8c1c6451d595316ed05f43d6b2b7a490991c",
+				"dweb:/ipfs/QmeG7rAkNyJnqAhsYNSKuJRfmmkCFvpEUEyPEgG7a4TDz7"
 			]
 		},
 		"openzeppelin/contracts/access/AccessControl.sol": {
