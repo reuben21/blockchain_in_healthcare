@@ -159,6 +159,7 @@ contract MainContract is AccessControl {
                     patientDatabase[_walletAddress].medicalRecordCount
                 ]
                 .index = patientDatabase[_walletAddress].medicalRecordCount;
+                
             patientDatabase[_walletAddress]
                 .medicalRecords[
                     patientDatabase[_walletAddress].medicalRecordCount
@@ -210,6 +211,22 @@ contract MainContract is AccessControl {
         }
 
         return true;
+    }
+
+    function getPrescriptions(address _walletAddress, uint256 _recordPosition)
+        external
+        view
+        returns (Prescription memory value, uint256 medicalRecordCount)
+    {
+        if (
+            hasRole(PATIENT, _walletAddress) ||
+            hasRole(VERIFIED_PATIENT, _walletAddress) ||  hasRole(PHARMACY, _walletAddress)
+        ) {
+            return (
+                patientDatabase[_walletAddress].prescriptions[_recordPosition],
+                patientDatabase[_walletAddress].prescriptionCount
+            );
+        }
     }
 
     function resetPrescriptionHash(
