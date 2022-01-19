@@ -15,7 +15,7 @@ import 'package:web3dart/credentials.dart';
 class HospitalDetailScreen extends StatefulWidget {
   static const routeName = '/hospital-detail-screen';
 
-  const HospitalDetailScreen({Key? key}) : super(key: key);
+
 
   @override
   _HospitalDetailScreenState createState() => _HospitalDetailScreenState();

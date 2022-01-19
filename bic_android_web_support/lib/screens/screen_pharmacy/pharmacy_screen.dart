@@ -1,3 +1,4 @@
+
 import 'dart:typed_data';
 
 import '../../helpers/keys.dart' as keys;
@@ -7,9 +8,6 @@ import 'package:bic_android_web_support/screens/screen_pharmacy/pharmacy_store_d
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:velocity_x/src/extensions/context_ext.dart';
-import 'package:velocity_x/src/extensions/num_ext.dart';
-import 'package:velocity_x/velocity_x.dart';
 import 'package:web3dart/credentials.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
@@ -24,7 +22,7 @@ class PharmacyRecordScreen extends StatefulWidget {
 }
 
 class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
-  String? role;
+   String? role;
   late String pharmacyName;
   late String pharmacyIpfsHashData;
   late Map<String, dynamic> pharmacyIpfsHash;
@@ -35,11 +33,11 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
     pharmacyName = '';
     pharmacyIpfsHashData = '';
     pharmacyIpfsHash = {
-      "pharmacy_name": "",
-      "pharmacy_owner_name": "",
-      "pharmacy_address": "",
-      "pharmacy_year_origin": "",
-      "pharmacy_phone_no": "",
+      "pharmacy_name":"",
+      "pharmacy_owner_name":"",
+      "pharmacy_address":"",
+      "pharmacy_year_origin":"",
+      "pharmacy_phone_no":"",
     };
     fetchPharmacyData();
     super.initState();
@@ -54,12 +52,12 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
     address = await credentialsNew.extractAddress();
 
     var dataRole = await Provider.of<WalletModel>(context, listen: false)
-        .readContract("hasRole", [
-      hexToBytes(
-          "0x444f43544f520000000000000000000000000000000000000000000000000000"),
-      address
-    ]);
-    print("Role Status -" + dataRole.toString());
+        .readContract("getRoleForUser",[address]);
+    print("Role Status -"+dataRole.toString());
+
+
+
+
 
     var data = await Provider.of<WalletModel>(context, listen: false)
         .readContract("getPharmacyData", [address]);
@@ -79,9 +77,10 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
         pharmacyName = data[0];
       });
     }
-    if (dataRole[0]) {
+    if (dataRole[0] != '') {
+
       setState(() {
-        role = "PHARMACY";
+        role = dataRole[0].toString();
       });
     } else {
       role = "UNVERIFIED";
@@ -104,6 +103,7 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
         fontSize: 15,
         fontWeight: FontWeight.bold,
         color: Theme.of(context).colorScheme.primary);
+
 
     return Scaffold(
       appBar: AppBar(
@@ -132,10 +132,12 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
                       ListTile(
                         leading: Image.asset(
                             "assets/icons/checked-user-male-100.png",
-                            color: Theme.of(context).colorScheme.primary,
+                            color:
+                            Theme.of(context).colorScheme.primary,
                             width: 35,
                             height: 35),
-                        title: Text('Role', style: textStyleForName),
+                        title: Text('Role',
+                            style: textStyleForName),
                         subtitle: Text(
                           role.toString(),
                           style: TextStyle(
@@ -143,6 +145,7 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
                               color: Colors.black.withOpacity(0.6)),
                         ),
                       ),
+
                     ],
                   ),
                 ),
@@ -266,11 +269,11 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
                                 leading: Image.asset(
                                     "assets/icons/storage-100.png",
                                     color:
-                                        Theme.of(context).colorScheme.primary,
+                                    Theme.of(context).colorScheme.primary,
                                     width: 35,
                                     height: 35),
                                 title:
-                                    Text('IPFS Hash', style: textStyleForName),
+                                Text('IPFS Hash', style: textStyleForName),
                                 subtitle: Text(
                                   pharmacyIpfsHashData,
                                   style: TextStyle(
@@ -278,9 +281,10 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
                                       color: Colors.black.withOpacity(0.6)),
                                 ),
                                 onTap: () {
-                                  String _url =
-                                      "${keys.getIpfsUrlForReceivingData}$pharmacyIpfsHashData";
+                                  String _url = "${keys.getIpfsUrlForReceivingData}$pharmacyIpfsHashData";
                                   _launchURL(_url);
+
+
                                 },
                               ),
                               // ListTile(
@@ -335,10 +339,8 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
                                     pharmacyIpfsHash['pharmacy_owner_name'],
                                 pharmacyAddress:
                                     pharmacyIpfsHash['pharmacy_address'],
-                                pharmacyYearOrigin:
-                                    pharmacyIpfsHash['pharmacy_year_origin'],
-                                pharmacyPhoneNo:
-                                    pharmacyIpfsHash['pharmacy_phone_no'],
+                                pharmacyYearOrigin: pharmacyIpfsHash['pharmacy_year_origin'],
+                                pharmacyPhoneNo: pharmacyIpfsHash['pharmacy_phone_no'],
                               ),
                             ),
                           );

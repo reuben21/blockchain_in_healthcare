@@ -50,6 +50,9 @@ dependencies:
 
   file_picker: ^4.3.1
 
+  bip39: ^1.0.6
+  ed25519_hd_key: ^2.1.0
+  hex: ^0.2.0
 
 
 

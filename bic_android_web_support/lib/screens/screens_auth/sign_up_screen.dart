@@ -1,6 +1,7 @@
 import 'dart:math';
 
 
+import 'package:bic_android_web_support/providers/services/address_service.dart';
 import 'package:bic_android_web_support/providers/wallet.dart';
 import 'package:bic_android_web_support/screens/Tabs/tabs_screen.dart';
 import 'package:bic_android_web_support/screens/screen_unusefull/create_wallet.dart';
@@ -9,10 +10,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
+import 'package:bip39/bip39.dart' as bip39;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import '../../providers/patient.dart';
+import 'package:ed25519_hd_key/ed25519_hd_key.dart';
+import 'package:hex/hex.dart';
+import 'package:convert/convert.dart';
 import 'login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -38,6 +41,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   FirebaseAuth auth = FirebaseAuth.instance;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
+
   @override
   void initState() {
     // SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge, overlays: []);
@@ -49,11 +53,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
     super.dispose();
   }
 
+  Future<String> getPrivateKey(String mnemonic) async {
+    final seed = bip39.mnemonicToSeedHex(mnemonic);
+    final master = await ED25519_HD_KEY.getMasterKeyFromSeed(hex.decode(seed),
+        masterSecret: 'Bitcoin seed');
+    final privateKey = HEX.encode(master.key);
+    print('private 2: $privateKey');
+    return privateKey;
+  }
+
   final _formKey = GlobalKey<FormBuilderState>();
 
   void _submit(
       String name, String emailId, String password, String userType) async {
     // await Hive.openBox<WalletHive>('WalletHive');
+
+    // String mnemonic = bip39.generateMnemonic();
+    // String mnemonic1 = "family hazard relief health depart mosquito author staff obscure ten average resource";
+    // String mnemonic2 = "family hazard relief health depart mosquito author staff obscure ten average resource";
+    // final privateKey2 = getPrivateKey(mnemonic2);
+    // print(mnemonic1);
+    // final seed = bip39.mnemonicToSeedHex(mnemonic1);
+    // final master = await ED25519_HD_KEY.getMasterKeyFromSeed(hex.decode(seed),
+    //     masterSecret: 'REUBEN@21');
+    // final privateKey = HEX.encode(master.key);
+    // print('private 1: $privateKey');
     try {
       print(name + " " + emailId + " " + password + " " + userType);
       auth
