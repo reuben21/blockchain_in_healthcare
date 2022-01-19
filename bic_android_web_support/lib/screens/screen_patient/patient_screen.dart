@@ -1,5 +1,7 @@
 import 'dart:typed_data';
 
+import 'package:bic_android_web_support/screens/screen_patient/patient_details.dart';
+
 import '../../helpers/keys.dart' as keys;
 import 'package:bic_android_web_support/providers/ipfs.dart';
 import 'package:bic_android_web_support/providers/wallet.dart';
@@ -14,27 +16,27 @@ import 'package:web3dart/credentials.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
 
-class PharmacyRecordScreen extends StatefulWidget {
-  static const routeName = '/pharmacy-record-screen';
+class PatientRecordScreen extends StatefulWidget {
+  static const routeName = '/patient-record-screen';
 
   @override
-  _PharmacyRecordScreenState createState() {
-    return _PharmacyRecordScreenState();
+  _PatientRecordScreenState createState() {
+    return _PatientRecordScreenState();
   }
 }
 
-class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
+class _PatientRecordScreenState extends State<PatientRecordScreen> {
   String? role;
-  late String pharmacyName;
-  late String pharmacyIpfsHashData;
-  late Map<String, dynamic> pharmacyIpfsHash;
+  late String patientName;
+  late String patientIpfsHashData;
+  late Map<String, dynamic> patientIpfsHash;
 
   @override
   void initState() {
     role = '';
-    pharmacyName = '';
-    pharmacyIpfsHashData = '';
-    pharmacyIpfsHash = {
+    patientName = '';
+    patientIpfsHashData = '';
+    patientIpfsHash = {
       "pharmacy_name": "",
       "pharmacy_owner_name": "",
       "pharmacy_address": "",
@@ -70,13 +72,13 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
           .receiveData(data[1]);
       print(pharmacyData);
       setState(() {
-        pharmacyName = data[0].toString();
-        pharmacyIpfsHashData = data[1].toString();
-        pharmacyIpfsHash = pharmacyData!;
+        patientName = data[0].toString();
+        patientIpfsHashData = data[1].toString();
+        patientIpfsHash = pharmacyData!;
       });
     } else {
       setState(() {
-        pharmacyName = data[0];
+        patientName = data[0];
       });
     }
     if (dataRole[0]) {
@@ -152,7 +154,7 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
                 child: Container(
                   width: double.infinity,
                   height: 500,
-                  child: pharmacyIpfsHash['pharmacy_owner_name'] == ''
+                  child: patientIpfsHash['pharmacy_owner_name'] == ''
                       ? Card(
                           borderOnForeground: true,
                           clipBehavior: Clip.antiAlias,
@@ -192,7 +194,7 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
                                 title: Text('Pharmacy Name',
                                     style: textStyleForName),
                                 subtitle: Text(
-                                  pharmacyName,
+                                  patientName,
                                   style: TextStyle(
                                       fontSize: 20,
                                       color: Colors.black.withOpacity(0.6)),
@@ -207,7 +209,7 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
                                     height: 35),
                                 title: Text('Owner', style: textStyleForName),
                                 subtitle: Text(
-                                  pharmacyIpfsHash['pharmacy_owner_name'],
+                                  patientIpfsHash['pharmacy_owner_name'],
                                   style: TextStyle(
                                       fontSize: 20,
                                       color: Colors.black.withOpacity(0.6)),
@@ -222,7 +224,7 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
                                     height: 35),
                                 title: Text('Address', style: textStyleForName),
                                 subtitle: Text(
-                                  pharmacyIpfsHash['pharmacy_address'],
+                                  patientIpfsHash['pharmacy_address'],
                                   style: TextStyle(
                                       fontSize: 20,
                                       color: Colors.black.withOpacity(0.6)),
@@ -240,7 +242,7 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
                                   style: textStyleForName,
                                 ),
                                 subtitle: Text(
-                                  pharmacyIpfsHash['pharmacy_year_origin'],
+                                  patientIpfsHash['pharmacy_year_origin'],
                                   style: TextStyle(
                                       fontSize: 20,
                                       color: Colors.black.withOpacity(0.6)),
@@ -256,7 +258,7 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
                                 title:
                                     Text('Phone No', style: textStyleForName),
                                 subtitle: Text(
-                                  pharmacyIpfsHash['pharmacy_phone_no'],
+                                  patientIpfsHash['pharmacy_phone_no'],
                                   style: TextStyle(
                                       fontSize: 20,
                                       color: Colors.black.withOpacity(0.6)),
@@ -272,14 +274,14 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
                                 title:
                                     Text('IPFS Hash', style: textStyleForName),
                                 subtitle: Text(
-                                  pharmacyIpfsHashData,
+                                  patientIpfsHashData,
                                   style: TextStyle(
                                       fontSize: 16,
                                       color: Colors.black.withOpacity(0.6)),
                                 ),
                                 onTap: () {
                                   String _url =
-                                      "${keys.getIpfsUrlForReceivingData}$pharmacyIpfsHashData";
+                                      "${keys.getIpfsUrlForReceivingData}$patientIpfsHashData";
                                   _launchURL(_url);
                                 },
                               ),
@@ -329,16 +331,16 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => PharmacyStoreDetails(
-                                pharmacyName: pharmacyIpfsHash['pharmacy_name'],
-                                pharmacyOwnerName:
-                                    pharmacyIpfsHash['pharmacy_owner_name'],
-                                pharmacyAddress:
-                                    pharmacyIpfsHash['pharmacy_address'],
-                                pharmacyYearOrigin:
-                                    pharmacyIpfsHash['pharmacy_year_origin'],
-                                pharmacyPhoneNo:
-                                    pharmacyIpfsHash['pharmacy_phone_no'],
+                              builder: (context) => PatientStoreDetails(
+                                patientName: patientIpfsHash['pharmacy_name'],
+                                patientHospitalHash:
+                                    patientIpfsHash['pharmacy_owner_name'],
+                                patientAddress:
+                                    patientIpfsHash['pharmacy_address'],
+                                patientAge:
+                                    patientIpfsHash['pharmacy_year_origin'],
+                                patientPhoneNo:
+                                    patientIpfsHash['pharmacy_phone_no'],
                               ),
                             ),
                           );

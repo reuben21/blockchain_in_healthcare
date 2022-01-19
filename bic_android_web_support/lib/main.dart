@@ -5,9 +5,11 @@ import 'package:bic_android_web_support/providers/gas_estimation.dart';
 import 'package:bic_android_web_support/providers/provider_doctor/model_doctor.dart';
 import 'package:bic_android_web_support/providers/provider_firebase/model_firebase.dart';
 import 'package:bic_android_web_support/providers/provider_hospital/model_hospital.dart';
+import 'package:bic_android_web_support/providers/provider_patient/model_patient.dart';
 import 'package:bic_android_web_support/providers/provider_pharmacy/model_pharmacy.dart';
 import 'package:bic_android_web_support/screens/screen_doctor/doctor_details.dart';
 import 'package:bic_android_web_support/screens/screen_patient/patient_details.dart';
+import 'package:bic_android_web_support/screens/screen_patient/patient_screen.dart';
 import 'package:bic_android_web_support/screens/screens_auth/login_screen.dart';
 import 'package:bic_android_web_support/screens/screens_auth/sign_up_screen.dart';
 import 'package:bic_android_web_support/screens/screens_wallet/confirmation_screen.dart';
@@ -51,6 +53,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (ctx) => CryptoApiModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => PatientModel(),
         ),
         ChangeNotifierProvider(
           create: (ctx) => FirebaseModel(),
@@ -146,9 +151,9 @@ class MyApp extends StatelessWidget {
             // '/': (ctx) => WalletView(),
             // '/': (ctx) => Ipfs_screen(),
             // DoctorDetails.routeName: (ctx) => DoctorDetails(),
-            PatientDetails.routeName: (ctx) => PatientDetails(),
+            PatientRecordScreen.routeName: (ctx) => PatientRecordScreen(),
             PrescriptionScreen.routeName: (ctx) => PrescriptionScreen(),
-            MedicalRecordScreen.routeName: (ctx) => MedicalRecordScreen(),
+            // MedicalRecordScreen.routeName: (ctx) => MedicalRecordScreen(),
             WalletScreen.routeName: (ctx) => WalletScreen(),
             WalletView.routeName: (ctx) => WalletView(),
             WalletLogin.routeName: (ctx) => WalletLogin(),

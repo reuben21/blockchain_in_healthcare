@@ -55,16 +55,12 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
     address = await credentialsNew.extractAddress();
     print(address);
     var dataRole = await Provider.of<WalletModel>(context, listen: false)
-        .readContract("hasRole", [
-      hexToBytes(
-          "0x504841524d414359000000000000000000000000000000000000000000000000"),
-      address
-    ]);
+        .readContract("getRoleForUser", [address]);
     print("Role Status -" + dataRole.toString());
 
     var data = await Provider.of<WalletModel>(context, listen: false)
         .readContract("getDoctorData", [address]);
-    // print(data);
+    print(data);
     // print(data[0]);
     if (data[0].toString() != '') {
       var doctorData = await Provider.of<IPFSModel>(context, listen: false)
@@ -74,19 +70,20 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
         doctorName = data[0].toString();
         doctorIpfsHashData = data[1].toString();
         doctorIpfsHash = doctorData!;
+        role = dataRole[0].toString();
       });
     } else {
       setState(() {
         doctorName = data[0];
       });
     }
-    if (dataRole[0]) {
-      setState(() {
-        role = "DOCTOR";
-      });
-    } else {
-      role = "UNVERIFIED";
-    }
+    // if (dataRole[0]) {
+    //   setState(() {
+    //     role = "DOCTOR";
+    //   });
+    // } else {
+    //   role = "UNVERIFIED";
+    // }
   }
 
   @override
@@ -97,8 +94,6 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
   void _launchURL(String _url) async {
     if (!await launch(_url)) throw 'Could not launch $_url';
   }
-
- 
 
   @override
   Widget build(BuildContext context) {
@@ -140,12 +135,10 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                               width: 35,
                               height: 35),
                           title: Text('Role', style: textStyleForName),
-                          // subtitle: Text(
-                          //   role.toString(),
-                          //   style: TextStyle(
-                          //       fontSize: 20,
-                          //       color: Colors.black.withOpacity(0.6)),
-                          // ),
+                          subtitle: Text(
+                            role.toString(),
+                            style: TextStyle(fontSize: 20, color: Colors.grey),
+                          ),
                         ),
                       ],
                     ),
