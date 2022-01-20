@@ -119,39 +119,9 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
         child: Container(
           child: Column(
             children: [
+
               Padding(
-                padding: const EdgeInsets.all(8),
-                child: Card(
-                  borderOnForeground: true,
-                  clipBehavior: Clip.antiAlias,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                        color: Theme.of(context).colorScheme.primary, width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      ListTile(
-                        leading: Image.asset(
-                            "assets/icons/checked-user-male-100.png",
-                            color: Theme.of(context).colorScheme.primary,
-                            width: 35,
-                            height: 35),
-                        title: Text('Role', style: textStyleForName),
-                        subtitle: Text(
-                          role.toString(),
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black.withOpacity(0.6)),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.only(top: 2,left: 8,right: 8,),
                 child: Container(
                   width: double.infinity,
                   height: 500,
@@ -188,12 +158,26 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                               children: <Widget>[
                                 ListTile(
                                   leading: Image.asset(
+                                      "assets/icons/checked-user-male-100.png",
+                                      color: Theme.of(context).colorScheme.primary,
+                                      width: 35,
+                                      height: 35),
+                                  title: Text('Role', style: textStyleForName),
+                                  subtitle: Text(
+                                    role.toString(),
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.black.withOpacity(0.6)),
+                                  ),
+                                ),
+                                ListTile(
+                                  leading: Image.asset(
                                       "assets/icons/pharmacy-shop-100.png",
                                       color:
                                           Theme.of(context).colorScheme.primary,
                                       width: 35,
                                       height: 35),
-                                  title: Text('Pharmacy Name',
+                                  title: Text('Patient Name',
                                       style: textStyleForName),
                                   subtitle: Text(
                                     patientName,
@@ -202,21 +186,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                                         color: Colors.black.withOpacity(0.6)),
                                   ),
                                 ),
-                                ListTile(
-                                  leading: Image.asset(
-                                      "assets/icons/name-100.png",
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      width: 35,
-                                      height: 35),
-                                  title: Text('Owner', style: textStyleForName),
-                                  subtitle: Text(
-                                    patientIpfsHash['patient_name'],
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.black.withOpacity(0.6)),
-                                  ),
-                                ),
+
                                 ListTile(
                                   leading: Image.asset(
                                       "assets/icons/name-100.png",
@@ -344,7 +314,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.only(left: 8,right: 8,top: 5,bottom: 5),
                 child: Card(
                   borderOnForeground: true,
                   clipBehavior: Clip.antiAlias,
@@ -361,7 +331,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                             color: Theme.of(context).primaryColor,
                             width: 25,
                             height: 25),
-                        title: Text('Store or Update Pharmacy on Blockchain',
+                        title: Text('Store or Update Patient on Blockchain',
                             style: Theme.of(context).textTheme.bodyText1),
                         onTap: () {
                           Navigator.push(
@@ -388,7 +358,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.only(left: 8,right: 8,top: 5,bottom: 5),
                 child: Card(
                   borderOnForeground: true,
                   clipBehavior: Clip.antiAlias,
@@ -421,7 +391,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.only(left: 8,right: 8,top: 5,bottom: 5),
                 child: Card(
                   borderOnForeground: true,
                   clipBehavior: Clip.antiAlias,
