@@ -44,12 +44,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 if (value.user?.uid != null)
                   {
                     await Provider.of<WalletModel>(context, listen: false)
-                        .signInWithWallet(value.user?.uid, password)
+                        .signInWithWallet(value.user?.uid, password),
 
+      Navigator.of(context).pushNamed(SplashWelcomeScreen.routeName)
                     // _showErrorDialog("Wallet Has Been Created");
                   }
-              });
-      Navigator.of(context).pushNamed(SplashWelcomeScreen.routeName);
+              }).catchError((onError){
+        _showErrorDialog(onError.toString());
+      });
+
     } catch (error) {
       _showErrorDialog(error.toString());
     }

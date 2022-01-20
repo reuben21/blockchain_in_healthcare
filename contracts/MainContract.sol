@@ -216,18 +216,28 @@ contract MainContract is AccessControl {
     function getPrescriptions(address _walletAddress, uint256 _recordPosition)
         external
         view
-        returns (Prescription memory value, uint256 medicalRecordCount)
+        returns (Prescription memory value)
     {
-        if (
-            hasRole(PATIENT, _walletAddress) ||
-            hasRole(VERIFIED_PATIENT, _walletAddress) ||  hasRole(PHARMACY, _walletAddress)
-        ) {
+        
             return (
-                patientDatabase[_walletAddress].prescriptions[_recordPosition],
+                patientDatabase[_walletAddress].prescriptions[_recordPosition]
+            );
+        
+    }
+
+    function getPrescriptionsCountForPatient(address _walletAddress)
+        external
+        view
+        returns ( uint256 prescriptionsCountForPatient)
+    {
+        
+            return (
+             
                 patientDatabase[_walletAddress].prescriptionCount
             );
-        }
+        
     }
+
 
     function resetPrescriptionHash(
         uint256 index,
@@ -245,6 +255,25 @@ contract MainContract is AccessControl {
 
         return true;
     }
+
+    function setMedicalRecordHashStatus(
+        uint256 index,
+        address _patientWalletAddress,
+        address _doctorWalletAddress,
+        string memory _medicalRecordHash
+    ) external returns (bool status) {
+        if (
+            hasRole(DOCTOR, _doctorWalletAddress) ||
+            hasRole(VERIFIED_DOCTOR, _doctorWalletAddress)
+        ) {
+            patientDatabase[_patientWalletAddress]
+                .medicalRecords[index]
+                .patientRecordHash = _medicalRecordHash;
+        }
+
+        return true;
+    }
+
 
     function setMedicalRecordVerificationStatus(
         uint256 index,
@@ -267,17 +296,25 @@ contract MainContract is AccessControl {
     function getMedicalRecord(address _walletAddress, uint256 _recordPosition)
         external
         view
-        returns (MedicalRecord memory value, uint256 medicalRecordCount)
+        returns (MedicalRecord memory value)
     {
-        if (
-            hasRole(PATIENT, _walletAddress) ||
-            hasRole(VERIFIED_PATIENT, _walletAddress)
-        ) {
+        
             return (
-                patientDatabase[_walletAddress].medicalRecords[_recordPosition],
+                patientDatabase[_walletAddress].medicalRecords[_recordPosition]
+            );
+        
+    }
+
+    function getMedicalRecordCountForPatient(address _walletAddress)
+        external
+        view
+        returns ( uint256 medicalRecordCount)
+    {
+        
+            return (
                 patientDatabase[_walletAddress].medicalRecordCount
             );
-        }
+        
     }
 
     function storePatient(
