@@ -13,7 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:web3dart/credentials.dart';
 
 class PatientStoreDetails extends StatefulWidget {
-  static const routeName = '/pharmacy-store-details';
+  static const routeName = '/patient-store-details';
 
   final String? patientName;
   final String? patientHospitalHash;
@@ -407,8 +407,14 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
       Credentials credentials) async {
     var transactionHash =
         await Provider.of<PharmacyModel>(context, listen: false).writeContract(
-            "storePharmacy",
-            [patientName, ipfsHash, walletAddress],
+            "storePatient",
+            [
+              patientName,
+              ipfsHash,
+              walletAddress,
+              walletAddress,
+              walletAddress
+            ],
             credentials);
 
     var firebaseStatus =

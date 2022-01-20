@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:bic_android_web_support/screens/screen_patient/patient_details.dart';
+import 'package:bic_android_web_support/screens/screen_pharmacy/patient_medical_record.dart';
 
 import '../../helpers/keys.dart' as keys;
 import 'package:bic_android_web_support/providers/ipfs.dart';
@@ -37,17 +38,17 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
     patientName = '';
     patientIpfsHashData = '';
     patientIpfsHash = {
-      "pharmacy_name": "",
-      "pharmacy_owner_name": "",
-      "pharmacy_address": "",
-      "pharmacy_year_origin": "",
-      "pharmacy_phone_no": "",
+      "patient_name": "",
+      "patient_hospital_hash": "",
+      "patient_address": "",
+      "patient_age": "",
+      "patient_phone_no": "",
     };
-    fetchPharmacyData();
+    fetchPatientData();
     super.initState();
   }
 
-  Future<void> fetchPharmacyData() async {
+  Future<void> fetchPatientData() async {
     Credentials credentialsNew;
     EthereumAddress address;
 
@@ -56,34 +57,33 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
     address = await credentialsNew.extractAddress();
 
     var dataRole = await Provider.of<WalletModel>(context, listen: false)
-        .readContract("hasRole", [
-      hexToBytes(
-          "0x444f43544f520000000000000000000000000000000000000000000000000000"),
-      address
-    ]);
+        .readContract("getRoleForUser", [address]);
     print("Role Status -" + dataRole.toString());
 
+    // print("Role Status -" + dataRole.toString());
+
     var data = await Provider.of<WalletModel>(context, listen: false)
-        .readContract("getPharmacyData", [address]);
-    // print(data);
+        .readContract("retrievePatientData", [address]);
+    print(data);
     // print(data[0]);
     if (data[0].toString() != '') {
-      var pharmacyData = await Provider.of<IPFSModel>(context, listen: false)
+      var PatientData = await Provider.of<IPFSModel>(context, listen: false)
           .receiveData(data[1]);
-      print(pharmacyData);
+      print(PatientData);
       setState(() {
         patientName = data[0].toString();
         patientIpfsHashData = data[1].toString();
-        patientIpfsHash = pharmacyData!;
+        patientIpfsHash = PatientData!;
       });
     } else {
       setState(() {
         patientName = data[0];
       });
     }
-    if (dataRole[0]) {
+
+    if (dataRole[0] != '') {
       setState(() {
-        role = "PHARMACY";
+        role = dataRole[0].toString();
       });
     } else {
       role = "UNVERIFIED";
@@ -112,7 +112,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
         backgroundColor: Theme.of(context).colorScheme.primary,
         elevation: 0,
         automaticallyImplyLeading: false,
-        title: const Text("Pharmacy Record"),
+        title: const Text("Patient Record"),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -154,7 +154,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                 child: Container(
                   width: double.infinity,
                   height: 500,
-                  child: patientIpfsHash['pharmacy_owner_name'] == ''
+                  child: patientIpfsHash['patient_name'] == ''
                       ? Card(
                           borderOnForeground: true,
                           clipBehavior: Clip.antiAlias,
@@ -209,7 +209,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                                     height: 35),
                                 title: Text('Owner', style: textStyleForName),
                                 subtitle: Text(
-                                  patientIpfsHash['pharmacy_owner_name'],
+                                  patientIpfsHash['patient_name'],
                                   style: TextStyle(
                                       fontSize: 20,
                                       color: Colors.black.withOpacity(0.6)),
@@ -224,7 +224,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                                     height: 35),
                                 title: Text('Address', style: textStyleForName),
                                 subtitle: Text(
-                                  patientIpfsHash['pharmacy_address'],
+                                  patientIpfsHash['patient_address'],
                                   style: TextStyle(
                                       fontSize: 20,
                                       color: Colors.black.withOpacity(0.6)),
@@ -242,7 +242,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                                   style: textStyleForName,
                                 ),
                                 subtitle: Text(
-                                  patientIpfsHash['pharmacy_year_origin'],
+                                  patientIpfsHash['patient_age'],
                                   style: TextStyle(
                                       fontSize: 20,
                                       color: Colors.black.withOpacity(0.6)),
@@ -258,7 +258,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                                 title:
                                     Text('Phone No', style: textStyleForName),
                                 subtitle: Text(
-                                  patientIpfsHash['pharmacy_phone_no'],
+                                  patientIpfsHash['patient_phone_no'],
                                   style: TextStyle(
                                       fontSize: 20,
                                       color: Colors.black.withOpacity(0.6)),
@@ -332,16 +332,90 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => PatientStoreDetails(
-                                patientName: patientIpfsHash['pharmacy_name'],
+                                patientName: patientIpfsHash['patient_name'],
                                 patientHospitalHash:
-                                    patientIpfsHash['pharmacy_owner_name'],
+                                    patientIpfsHash['patient_hospital_hash'],
                                 patientAddress:
-                                    patientIpfsHash['pharmacy_address'],
-                                patientAge:
-                                    patientIpfsHash['pharmacy_year_origin'],
+                                    patientIpfsHash['patient_address'],
+                                patientAge: patientIpfsHash['patient_age'],
                                 patientPhoneNo:
-                                    patientIpfsHash['pharmacy_phone_no'],
+                                    patientIpfsHash['patient_phone_no'],
                               ),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: Card(
+                  borderOnForeground: true,
+                  clipBehavior: Clip.antiAlias,
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                        color: Theme.of(context).colorScheme.primary, width: 2),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      ListTile(
+                        trailing: Image.asset("assets/icons/forward-100.png",
+                            color: Theme.of(context).primaryColor,
+                            width: 25,
+                            height: 25),
+                        title: Text('View Medical Records',
+                            style: Theme.of(context).textTheme.bodyText1),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PatientStoreDetails(
+                                patientName: patientIpfsHash['patient_name'],
+                                patientHospitalHash:
+                                    patientIpfsHash['patient_hospital_hash'],
+                                patientAddress:
+                                    patientIpfsHash['patient_address'],
+                                patientAge: patientIpfsHash['patient_age'],
+                                patientPhoneNo:
+                                    patientIpfsHash['patient_phone_no'],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: Card(
+                  borderOnForeground: true,
+                  clipBehavior: Clip.antiAlias,
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                        color: Theme.of(context).colorScheme.primary, width: 2),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      ListTile(
+                        trailing: Image.asset("assets/icons/forward-100.png",
+                            color: Theme.of(context).primaryColor,
+                            width: 25,
+                            height: 25),
+                        title: Text('Store Medical Records',
+                            style: Theme.of(context).textTheme.bodyText1),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PatientMedicalRecords(),
                             ),
                           );
                         },
