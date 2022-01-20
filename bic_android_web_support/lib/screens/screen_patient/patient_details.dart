@@ -1,20 +1,424 @@
+import 'package:bic_android_web_support/databases/wallet_shared_preferences.dart';
+import 'package:bic_android_web_support/providers/gas_estimation.dart';
 import 'package:bic_android_web_support/providers/ipfs.dart';
+import 'package:bic_android_web_support/providers/provider_firebase/model_firebase.dart';
+import 'package:bic_android_web_support/providers/provider_pharmacy/model_pharmacy.dart';
+import 'package:bic_android_web_support/screens/Tabs/tabs_screen.dart';
 import 'package:bic_android_web_support/screens/screens_auth/background.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:provider/provider.dart';
+import 'package:web3dart/credentials.dart';
 
-class PatientDetails extends StatefulWidget {
-  static const routeName = '/patientDetail';
-  const PatientDetails({Key? key}) : super(key: key);
+class PatientStoreDetails extends StatefulWidget {
+  static const routeName = '/pharmacy-store-details';
+
+  final String? patientName;
+  final String? patientHospitalHash;
+  final String? patientAddress;
+  final String? patientAge;
+  final String? patientPhoneNo;
+
+  const PatientStoreDetails({
+    required this.patientName,
+    required this.patientHospitalHash,
+    required this.patientAddress,
+    required this.patientAge,
+    required this.patientPhoneNo,
+  });
 
   @override
-  _PatientDetailsState createState() => _PatientDetailsState();
+  _PatientStoreDetailsState createState() => _PatientStoreDetailsState();
 }
 
-class _PatientDetailsState extends State<PatientDetails> {
+class _PatientStoreDetailsState extends State<PatientStoreDetails> {
   final _formKey = GlobalKey<FormBuilderState>();
+
+  String walletAdd = '';
+
+  @override
+  void initState() {
+    getWalletFromDatabase();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+    super.initState();
+  }
+
+  Future<void> getWalletFromDatabase() async {
+    var dbResponse = await WalletSharedPreference.getWalletDetails();
+    walletAdd = dbResponse!['walletAddress'].toString();
+    setState(() {
+      walletAdd;
+    });
+  }
+
+  Future<void> estimateGasFunction(String patientName, String ipfsHash,
+      EthereumAddress walletAddress, Credentials credentials) async {
+    var gasEstimation =
+        await Provider.of<GasEstimationModel>(context, listen: false)
+            .estimateGasForContractFunction(walletAddress, "storePatient", [
+      patientName,
+      ipfsHash,
+      walletAddress,
+      walletAddress,
+      walletAddress
+    ]);
+    print(gasEstimation);
+
+    return showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        insetPadding: EdgeInsets.all(15),
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+        title: Text(
+          "Confirmation Screen",
+          style: Theme.of(context).textTheme.bodyText1,
+        ),
+        content: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          // color: Theme.of(context).colorScheme.secondary,
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Center(
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Container(
+                    height: 90,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Theme.of(context).colorScheme.primary,
+                            Colors.purpleAccent.withOpacity(0.9),
+                            // Colors.lightBlueAccent,
+                          ]),
+                      borderRadius: BorderRadius.circular(9),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 65,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [
+                                    Theme.of(context).colorScheme.primary,
+                                    Colors.purpleAccent.withOpacity(0.9),
+                                    // Colors.lightBlueAccent,
+                                  ]),
+                              borderRadius: BorderRadius.circular(9),
+                            ),
+                            child: ListTile(
+                              leading: Image.asset("assets/icons/wallet.png",
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                  width: 35,
+                                  height: 35),
+                              title: Text('From Wallet Address',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
+                                  )),
+                              subtitle: Text(
+                                walletAddress.hex.toString(),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                ),
+                              ),
+                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.all(10.0),
+                            //   child: Text(
+                            //     widget.address,style: TextStyle(fontSize: 20),
+                            //   ),
+                            // ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Container(
+                    height: 90,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Colors.purpleAccent.withOpacity(0.9),
+                            Theme.of(context).colorScheme.primary,
+
+                            // Colors.lightBlueAccent,
+                          ]),
+                      borderRadius: BorderRadius.circular(9),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 65,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [
+                                    Colors.purpleAccent.withOpacity(0.9),
+                                    Theme.of(context).colorScheme.primary,
+
+                                    // Colors.lightBlueAccent,
+                                  ]),
+                              borderRadius: BorderRadius.circular(9),
+                            ),
+                            child: ListTile(
+                              trailing: Image.asset("assets/icons/wallet.png",
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                  width: 35,
+                                  height: 35),
+                              title: Text('To Wallet Address',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
+                                  )),
+                              subtitle: Text(
+                                gasEstimation['contractAddress'].toString(),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                ),
+                              ),
+                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.all(10.0),
+                            //   child: Text(
+                            //     widget.address,style: TextStyle(fontSize: 20),
+                            //   ),
+                            // ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(
+                            fit: FlexFit.loose,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "Ether Amount: ",
+                                style: Theme.of(context).textTheme.bodyText1,
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                          ),
+                          Flexible(
+                            fit: FlexFit.loose,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                gasEstimation['actualAmountInWei'].toString(),
+                                style: Theme.of(context).textTheme.bodyText1,
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      // Expanded(child: Divider()),
+                      Row(children: <Widget>[
+                        Expanded(child: Divider()),
+                      ]),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(
+                            fit: FlexFit.loose,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "Gas Estimate: ",
+                                style: Theme.of(context).textTheme.bodyText1,
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                          ),
+                          Flexible(
+                            fit: FlexFit.loose,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                gasEstimation['gasEstimate'].toString() +
+                                    " units",
+                                style: Theme.of(context).textTheme.bodyText1,
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(children: <Widget>[
+                        Expanded(child: Divider()),
+                      ]),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(
+                            fit: FlexFit.loose,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "Gas Price: ",
+                                style: Theme.of(context).textTheme.bodyText1,
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                          ),
+                          Flexible(
+                            fit: FlexFit.loose,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                gasEstimation['gasPrice'].toString() + " Wei",
+                                style: Theme.of(context).textTheme.bodyText1,
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(children: <Widget>[
+                        Expanded(
+                          child: Divider(
+                              // thickness: 2,
+                              // color: Colors.grey,
+                              ),
+                        ),
+                      ]),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(
+                            fit: FlexFit.loose,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "(Approx.) Total Ether Amount: ",
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w700),
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                          ),
+                          Flexible(
+                            fit: FlexFit.loose,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                gasEstimation['totalAmount'].toString() +
+                                    " ETH",
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500),
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(children: <Widget>[
+                        Expanded(child: Divider()),
+                      ]),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                    ],
+                  ),
+                  FloatingActionButton.extended(
+                    heroTag: "confirmPay",
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    foregroundColor: Theme.of(context).colorScheme.secondary,
+                    onPressed: () async {
+                      executeTransaction(patientName, ipfsHash, walletAddress,
+                          walletAddress, walletAddress, credentials);
+                    },
+                    icon: const Icon(Icons.add_circle_outline_outlined),
+                    label: const Text('Confirm Pay'),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+        actions: <Widget>[
+          // ElevatedButton(
+          //   onPressed: () {
+          //     Navigator.of(ctx).pop();
+          //   },
+          //   child: const Text("okay"),
+          // ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> executeTransaction(
+      String patientName,
+      String ipfsHash,
+      EthereumAddress walletAddress,
+      walletAddress1,
+      walletAddress2,
+      Credentials credentials) async {
+    var transactionHash =
+        await Provider.of<PharmacyModel>(context, listen: false).writeContract(
+            "storePharmacy",
+            [patientName, ipfsHash, walletAddress],
+            credentials);
+
+    var firebaseStatus =
+        await Provider.of<FirebaseModel>(context, listen: false)
+            .storeTransaction(transactionHash);
+
+    if (firebaseStatus) {
+      Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
+    }
+  }
 
   Widget formBuilderTextFieldWidget(
       TextInputType inputTextType,
@@ -81,9 +485,10 @@ class _PatientDetailsState extends State<PatientDetails> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Patient Detail',
+                          'Pharmacy Detail',
                           style: Theme.of(context).textTheme.headline1,
                         ),
+
                         // SizedBox(height: size.height * 0.03),
                         FormBuilder(
                           key: _formKey,
@@ -107,14 +512,67 @@ class _PatientDetailsState extends State<PatientDetails> {
                                   const SizedBox(
                                     height: 10,
                                   ),
-
+                                  Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Container(
+                                      height: 50,
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                            begin: Alignment.topLeft,
+                                            end: Alignment.bottomRight,
+                                            colors: [
+                                              Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                              Colors.purpleAccent
+                                                  .withOpacity(0.9),
+                                              // Colors.lightBlueAccent,
+                                            ]),
+                                        borderRadius: BorderRadius.circular(9),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Text(
+                                          "Wallet Address: " + walletAdd,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                   Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
                                           TextInputType.text,
-                                          'Ankita Tripathi',
-                                          'name',
-                                          'Full Name',
+                                          widget.patientName.toString() == ''
+                                              ? 'Ankita Tripathi'
+                                              : widget.patientName.toString(),
+                                          'patient_name',
+                                          'Patient Name',
+                                          Image.asset(
+                                              "assets/icons/pharmacy-shop-100.png",
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                              scale: 4,
+                                              width: 15,
+                                              height: 15),
+                                          false,
+                                          [
+                                            FormBuilderValidators.required(
+                                                context),
+                                          ])),
+                                  Padding(
+                                      padding: const EdgeInsets.all(15),
+                                      child: formBuilderTextFieldWidget(
+                                          TextInputType.text,
+                                          widget.patientHospitalHash
+                                                      .toString() ==
+                                                  ''
+                                              ? 'Hospital Hash'
+                                              : widget.patientHospitalHash
+                                                  .toString(),
+                                          'patient_hospital_hash',
+                                          'Hospital Hash',
                                           Image.asset(
                                               "assets/icons/name-100.png",
                                               color: Theme.of(context)
@@ -131,12 +589,15 @@ class _PatientDetailsState extends State<PatientDetails> {
                                   Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
-                                          TextInputType.number,
-                                          '40',
-                                          'age',
-                                          'Age',
+                                          TextInputType.streetAddress,
+                                          widget.patientAddress.toString() == ''
+                                              ? 'Shop No 3, Happy Home Apartment, near J B Khot School, Mahavir Nagar, Borivali West, Mumbai, Maharashtra'
+                                              : widget.patientAddress
+                                                  .toString(),
+                                          'patient_address',
+                                          'Patient Address',
                                           Image.asset(
-                                              "assets/icons/at-sign-100.png",
+                                              "assets/icons/address-100.png",
                                               color: Theme.of(context)
                                                   .colorScheme
                                                   .primary,
@@ -151,12 +612,14 @@ class _PatientDetailsState extends State<PatientDetails> {
                                   Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
-                                          TextInputType.streetAddress,
-                                          'skldfjf',
-                                          'address',
-                                          'Address',
+                                          TextInputType.number,
+                                          widget.patientAge.toString() == ''
+                                              ? "22"
+                                              : widget.patientAge.toString(),
+                                          'patient_age',
+                                          'Patient Age',
                                           Image.asset(
-                                              "assets/icons/key-100.png",
+                                              "assets/icons/year-view-100.png",
                                               color: Theme.of(context)
                                                   .colorScheme
                                                   .primary,
@@ -168,65 +631,113 @@ class _PatientDetailsState extends State<PatientDetails> {
                                             FormBuilderValidators.required(
                                                 context),
                                           ])),
+
                                   Padding(
-                                    padding: const EdgeInsets.all(15),
-                                    child: FormBuilderDropdown(
-                                      initialValue: 'Female',
-                                      name: 'gender',
-                                      decoration: InputDecoration(
-                                        labelText: "Gender",
-                                        prefixIcon: Image.asset(
-                                            "assets/icons/user-100.png",
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primary,
-                                            scale: 4,
-                                            width: 15,
-                                            height: 15),
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(25.0),
-                                        ),
-                                        labelStyle: const TextStyle(
-                                          color: Color(0xFF6200EE),
-                                        ),
-                                        errorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Color(0xFF6200EE)),
-                                          borderRadius:
-                                              BorderRadius.circular(25.0),
-                                        ),
-                                        focusedErrorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Color(0xFF6200EE)),
-                                          borderRadius:
-                                              BorderRadius.circular(25.0),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Color(0xFF6200EE)),
-                                          borderRadius:
-                                              BorderRadius.circular(25.0),
-                                        ),
-                                      ),
-                                      // initialValue: 'Male',
-
-                                      allowClear: true,
-
-                                      validator: FormBuilderValidators.compose([
-                                        FormBuilderValidators.required(context)
-                                      ]),
-                                      items: [
-                                        'Male',
-                                        'Female',
-                                      ]
-                                          .map((gender) => DropdownMenuItem(
-                                                value: gender,
-                                                child: Text('$gender'),
-                                              ))
-                                          .toList(),
-                                    ),
-                                  ),
+                                      padding: const EdgeInsets.all(15),
+                                      child: formBuilderTextFieldWidget(
+                                          TextInputType.number,
+                                          widget.patientPhoneNo.toString() == ''
+                                              ? "7123456789"
+                                              : widget.patientPhoneNo
+                                                  .toString(),
+                                          'patient_phone_no',
+                                          'Patient Phone Number',
+                                          Image.asset(
+                                              "assets/icons/phone-100.png",
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                              scale: 4,
+                                              width: 15,
+                                              height: 15),
+                                          false,
+                                          [
+                                            FormBuilderValidators.required(
+                                                context),
+                                            FormBuilderValidators.minLength(
+                                                context, 10),
+                                            FormBuilderValidators.maxLength(
+                                                context, 13),
+                                          ])),
+                                  Padding(
+                                      padding: const EdgeInsets.all(15),
+                                      child: formBuilderTextFieldWidget(
+                                          TextInputType.number,
+                                          'Password@123',
+                                          'password',
+                                          'Wallet Password',
+                                          Image.asset(
+                                              "assets/icons/key-100.png",
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                              scale: 4,
+                                              width: 15,
+                                              height: 15),
+                                          true,
+                                          [
+                                            FormBuilderValidators.required(
+                                                context),
+                                          ])),
+                                  // Padding(
+                                  //   padding: const EdgeInsets.all(15),
+                                  //   child: FormBuilderDropdown(
+                                  //     initialValue: 'Female',
+                                  //     name: 'gender',
+                                  //     decoration: InputDecoration(
+                                  //       labelText: "Gender",
+                                  //       prefixIcon: Image.asset(
+                                  //           "assets/icons/user-100.png",
+                                  //           color: Theme.of(context)
+                                  //               .colorScheme
+                                  //               .primary,
+                                  //           scale: 4,
+                                  //           width: 15,
+                                  //           height: 15),
+                                  //       border: OutlineInputBorder(
+                                  //         borderRadius:
+                                  //         BorderRadius.circular(25.0),
+                                  //       ),
+                                  //       labelStyle: const TextStyle(
+                                  //         color: Color(0xFF6200EE),
+                                  //       ),
+                                  //       errorBorder: OutlineInputBorder(
+                                  //         borderSide: BorderSide(
+                                  //             color: Color(0xFF6200EE)),
+                                  //         borderRadius:
+                                  //         BorderRadius.circular(25.0),
+                                  //       ),
+                                  //       focusedErrorBorder: OutlineInputBorder(
+                                  //         borderSide: BorderSide(
+                                  //             color: Color(0xFF6200EE)),
+                                  //         borderRadius:
+                                  //         BorderRadius.circular(25.0),
+                                  //       ),
+                                  //       enabledBorder: OutlineInputBorder(
+                                  //         borderSide: BorderSide(
+                                  //             color: Color(0xFF6200EE)),
+                                  //         borderRadius:
+                                  //         BorderRadius.circular(25.0),
+                                  //       ),
+                                  //     ),
+                                  //     // initialValue: 'Male',
+                                  //
+                                  //     allowClear: true,
+                                  //
+                                  //     validator: FormBuilderValidators.compose([
+                                  //       FormBuilderValidators.required(context)
+                                  //     ]),
+                                  //     items: [
+                                  //       'Male',
+                                  //       'Female',
+                                  //     ]
+                                  //         .map((gender) => DropdownMenuItem(
+                                  //       value: gender,
+                                  //       child: Text('$gender'),
+                                  //     ))
+                                  //         .toList(),
+                                  //   ),
+                                  // ),
                                 ],
                               ),
                             ),
@@ -236,7 +747,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                           height: 50,
                           width: size.width * 0.8,
                           child: FloatingActionButton.extended(
-                            heroTag: "StorePatienDetails",
+                            heroTag: "patientStoreDetailsButton",
                             backgroundColor:
                                 Theme.of(context).colorScheme.primary,
                             foregroundColor:
@@ -250,13 +761,17 @@ class _PatientDetailsState extends State<PatientDetails> {
                                 // _formKey.currentState?.value["gender"];
 
                                 Map<String, dynamic> objText = {
-                                  "firstName":
-                                      _formKey.currentState?.value["name"],
-                                  "age": _formKey.currentState?.value["age"],
-                                  "address":
-                                      _formKey.currentState?.value["address"],
-                                  "gender":
-                                      _formKey.currentState?.value["gender"],
+                                  "patient_name": _formKey
+                                      .currentState?.value["patient_name"],
+                                  "patient_hospital_hash": _formKey.currentState
+                                      ?.value["patient_hospital_hash"],
+                                  "patient_address": _formKey
+                                      .currentState?.value["patient_address"],
+                                  "patient_age": _formKey
+                                      .currentState?.value["patient_age"],
+                                  "patient_phone_no": _formKey
+                                      .currentState?.value["patient_phone_no"],
+                                  "wallet_address": walletAdd,
                                   // "lastName4": ["Coutinho", "Coutinho", "Coutinho"],
                                   // "age": 30
                                 };
@@ -266,6 +781,30 @@ class _PatientDetailsState extends State<PatientDetails> {
                                     .sendData(objText);
                                 print("hashReceived ------" +
                                     hashReceived.toString());
+                                if (hashReceived != null) {
+                                  Credentials credentialsNew;
+                                  EthereumAddress myAddress;
+                                  var dbResponse = await WalletSharedPreference
+                                      .getWalletDetails();
+                                  print(
+                                      _formKey.currentState?.value["password"]);
+                                  Wallet newWallet = Wallet.fromJson(
+                                      dbResponse!['walletEncryptedKey']
+                                          .toString(),
+                                      _formKey.currentState?.value["password"]);
+                                  credentialsNew = newWallet.privateKey;
+                                  myAddress =
+                                      await credentialsNew.extractAddress();
+
+                                  // var hospitalAddress = EthereumAddress.fromHex("  ");
+                                  // var doctorAddress = EthereumAddress.fromHex("  ");
+                                  estimateGasFunction(
+                                      _formKey
+                                          .currentState?.value["patient_name"],
+                                      hashReceived,
+                                      myAddress,
+                                      credentialsNew);
+                                }
                               } else {
                                 print("validation failed");
                               }
