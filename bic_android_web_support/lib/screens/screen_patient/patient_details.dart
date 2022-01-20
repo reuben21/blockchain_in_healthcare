@@ -16,14 +16,16 @@ class PatientStoreDetails extends StatefulWidget {
   static const routeName = '/patient-store-details';
 
   final String? patientName;
-  final String? patientHospitalHash;
+  final String? patientHospitalAddress;
+  final String? patientDoctorAddress;
   final String? patientAddress;
   final String? patientAge;
   final String? patientPhoneNo;
 
   const PatientStoreDetails({
     required this.patientName,
-    required this.patientHospitalHash,
+    required this.patientHospitalAddress,
+    required this.patientDoctorAddress,
     required this.patientAddress,
     required this.patientAge,
     required this.patientPhoneNo,
@@ -571,14 +573,39 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
                                           TextInputType.text,
-                                          widget.patientHospitalHash
+                                          widget.patientHospitalAddress
                                                       .toString() ==
                                                   ''
-                                              ? 'Hospital Hash'
-                                              : widget.patientHospitalHash
+                                              ? '0x9733e7b8a68d2547b8c87a7b0ea8b867c85a5e0d'
+                                              : widget.patientHospitalAddress
                                                   .toString(),
-                                          'patient_hospital_hash',
-                                          'Hospital Hash',
+                                          'patient_hospital_address',
+                                          'Hospital Address',
+                                          Image.asset(
+                                              "assets/icons/name-100.png",
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                              scale: 4,
+                                              width: 15,
+                                              height: 15),
+                                          false,
+                                          [
+                                            FormBuilderValidators.required(
+                                                context),
+                                          ])),
+                                  Padding(
+                                      padding: const EdgeInsets.all(15),
+                                      child: formBuilderTextFieldWidget(
+                                          TextInputType.text,
+                                          widget.patientDoctorAddress
+                                                      .toString() ==
+                                                  ''
+                                              ? '0x6bde22a36daeb9ee6813677dafdf2315f422a1d4'
+                                              : widget.patientDoctorAddress
+                                                  .toString(),
+                                          'patient_doctor_address',
+                                          'Doctor Address',
                                           Image.asset(
                                               "assets/icons/name-100.png",
                                               color: Theme.of(context)
@@ -597,7 +624,7 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                       child: formBuilderTextFieldWidget(
                                           TextInputType.streetAddress,
                                           widget.patientAddress.toString() == ''
-                                              ? 'Shop No 3, Happy Home Apartment, near J B Khot School, Mahavir Nagar, Borivali West, Mumbai, Maharashtra'
+                                              ? 'A-103, Rituraj building,Om sai complex, Bhayandar west'
                                               : widget.patientAddress
                                                   .toString(),
                                           'patient_address',
@@ -769,8 +796,12 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                 Map<String, dynamic> objText = {
                                   "patient_name": _formKey
                                       .currentState?.value["patient_name"],
-                                  "patient_hospital_hash": _formKey.currentState
-                                      ?.value["patient_hospital_hash"],
+                                  "patient_hospital_address": _formKey
+                                      .currentState
+                                      ?.value["patient_hospital_address"],
+                                  "patient_doctor_address": _formKey
+                                      .currentState
+                                      ?.value["patient_doctor_address"],
                                   "patient_address": _formKey
                                       .currentState?.value["patient_address"],
                                   "patient_age": _formKey
