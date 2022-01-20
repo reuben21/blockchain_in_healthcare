@@ -216,7 +216,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   onPressed: () async {
                                     _formKey.currentState?.save();
                                     if (_formKey.currentState?.validate() !=
-                                        null) {
+                                        false) {
                                       _submit(
                                           _formKey
                                               .currentState?.value["emailId"],
