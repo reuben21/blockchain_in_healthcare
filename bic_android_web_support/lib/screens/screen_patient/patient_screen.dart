@@ -182,128 +182,163 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                                 width: 2),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              ListTile(
-                                leading: Image.asset(
-                                    "assets/icons/pharmacy-shop-100.png",
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                    width: 35,
-                                    height: 35),
-                                title: Text('Pharmacy Name',
-                                    style: textStyleForName),
-                                subtitle: Text(
-                                  patientName,
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.black.withOpacity(0.6)),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                ListTile(
+                                  leading: Image.asset(
+                                      "assets/icons/pharmacy-shop-100.png",
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                      width: 35,
+                                      height: 35),
+                                  title: Text('Pharmacy Name',
+                                      style: textStyleForName),
+                                  subtitle: Text(
+                                    patientName,
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.black.withOpacity(0.6)),
+                                  ),
                                 ),
-                              ),
-                              ListTile(
-                                leading: Image.asset(
-                                    "assets/icons/name-100.png",
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                    width: 35,
-                                    height: 35),
-                                title: Text('Owner', style: textStyleForName),
-                                subtitle: Text(
-                                  patientIpfsHash['patient_name'],
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.black.withOpacity(0.6)),
+                                ListTile(
+                                  leading: Image.asset(
+                                      "assets/icons/name-100.png",
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                      width: 35,
+                                      height: 35),
+                                  title: Text('Owner', style: textStyleForName),
+                                  subtitle: Text(
+                                    patientIpfsHash['patient_name'],
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.black.withOpacity(0.6)),
+                                  ),
                                 ),
-                              ),
-                              ListTile(
-                                leading: Image.asset(
-                                    "assets/icons/address-100.png",
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                    width: 35,
-                                    height: 35),
-                                title: Text('Address', style: textStyleForName),
-                                subtitle: Text(
-                                  patientIpfsHash['patient_address'],
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.black.withOpacity(0.6)),
+                                ListTile(
+                                  leading: Image.asset(
+                                      "assets/icons/name-100.png",
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                      width: 35,
+                                      height: 35),
+                                  title: Text('Hospital Address',
+                                      style: textStyleForName),
+                                  subtitle: Text(
+                                    patientIpfsHash['patient_hospital_address'],
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.black.withOpacity(0.6)),
+                                  ),
                                 ),
-                              ),
-                              ListTile(
-                                leading: Image.asset(
-                                    "assets/icons/year-view-100.png",
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                    width: 35,
-                                    height: 35),
-                                title: Text(
-                                  'Year Started',
-                                  style: textStyleForName,
+                                ListTile(
+                                  leading: Image.asset(
+                                      "assets/icons/name-100.png",
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                      width: 35,
+                                      height: 35),
+                                  title: Text('Doctor Address',
+                                      style: textStyleForName),
+                                  subtitle: Text(
+                                    patientIpfsHash['patient_doctor_address'],
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.black.withOpacity(0.6)),
+                                  ),
                                 ),
-                                subtitle: Text(
-                                  patientIpfsHash['patient_age'],
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.black.withOpacity(0.6)),
+                                ListTile(
+                                  leading: Image.asset(
+                                      "assets/icons/address-100.png",
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                      width: 35,
+                                      height: 35),
+                                  title:
+                                      Text('Address', style: textStyleForName),
+                                  subtitle: Text(
+                                    patientIpfsHash['patient_address'],
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.black.withOpacity(0.6)),
+                                  ),
                                 ),
-                              ),
-                              ListTile(
-                                leading: Image.asset(
-                                    "assets/icons/phone-100.png",
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                    width: 35,
-                                    height: 35),
-                                title:
-                                    Text('Phone No', style: textStyleForName),
-                                subtitle: Text(
-                                  patientIpfsHash['patient_phone_no'],
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.black.withOpacity(0.6)),
+                                ListTile(
+                                  leading: Image.asset(
+                                      "assets/icons/year-view-100.png",
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                      width: 35,
+                                      height: 35),
+                                  title: Text(
+                                    'Age',
+                                    style: textStyleForName,
+                                  ),
+                                  subtitle: Text(
+                                    patientIpfsHash['patient_age'],
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.black.withOpacity(0.6)),
+                                  ),
                                 ),
-                              ),
-                              ListTile(
-                                leading: Image.asset(
-                                    "assets/icons/storage-100.png",
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                    width: 35,
-                                    height: 35),
-                                title:
-                                    Text('IPFS Hash', style: textStyleForName),
-                                subtitle: Text(
-                                  patientIpfsHashData,
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black.withOpacity(0.6)),
+                                ListTile(
+                                  leading: Image.asset(
+                                      "assets/icons/phone-100.png",
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                      width: 35,
+                                      height: 35),
+                                  title:
+                                      Text('Phone No', style: textStyleForName),
+                                  subtitle: Text(
+                                    patientIpfsHash['patient_phone_no'],
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.black.withOpacity(0.6)),
+                                  ),
                                 ),
-                                onTap: () {
-                                  String _url =
-                                      "${keys.getIpfsUrlForReceivingData}$patientIpfsHashData";
-                                  _launchURL(_url);
-                                },
-                              ),
-                              // ListTile(
-                              //
-                              //   trailing: Image.asset("assets/icons/forward-100.png",
-                              //       color: Theme.of(context).primaryColor,
-                              //       width: 25,
-                              //       height: 25),
-                              //   title: Text('Store your Pharmacy on Blockchain',
-                              //       style: Theme.of(context).textTheme.bodyText1),
-                              //   onTap: () {
-                              //     Navigator.push(
-                              //       context,
-                              //       MaterialPageRoute(
-                              //         builder: (context) => PharmacyStoreDetails(),
-                              //       ),
-                              //     );
-                              //   },
-                              // ),
-                            ],
+                                ListTile(
+                                  leading: Image.asset(
+                                      "assets/icons/storage-100.png",
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                      width: 35,
+                                      height: 35),
+                                  title: Text('IPFS Hash',
+                                      style: textStyleForName),
+                                  subtitle: Text(
+                                    patientIpfsHashData,
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black.withOpacity(0.6)),
+                                  ),
+                                  onTap: () {
+                                    String _url =
+                                        "${keys.getIpfsUrlForReceivingData}$patientIpfsHashData";
+                                    _launchURL(_url);
+                                  },
+                                ),
+                                // ListTile(
+                                //
+                                //   trailing: Image.asset("assets/icons/forward-100.png",
+                                //       color: Theme.of(context).primaryColor,
+                                //       width: 25,
+                                //       height: 25),
+                                //   title: Text('Store your Pharmacy on Blockchain',
+                                //       style: Theme.of(context).textTheme.bodyText1),
+                                //   onTap: () {
+                                //     Navigator.push(
+                                //       context,
+                                //       MaterialPageRoute(
+                                //         builder: (context) => PharmacyStoreDetails(),
+                                //       ),
+                                //     );
+                                //   },
+                                // ),
+                              ],
+                            ),
                           ),
                         ),
                 ),
@@ -334,8 +369,10 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                             MaterialPageRoute(
                               builder: (context) => PatientStoreDetails(
                                 patientName: patientIpfsHash['patient_name'],
-                                patientHospitalHash:
-                                    patientIpfsHash['patient_hospital_hash'],
+                                patientHospitalAddress:
+                                    patientIpfsHash['patient_hospital_address'],
+                                patientDoctorAddress:
+                                    patientIpfsHash['patient_doctor_address'],
                                 patientAddress:
                                     patientIpfsHash['patient_address'],
                                 patientAge: patientIpfsHash['patient_age'],
@@ -374,7 +411,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => PatientMedicalRecordView(  ),
+                              builder: (context) => PatientMedicalRecordView(),
                             ),
                           );
                         },
