@@ -749,7 +749,7 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                                 Theme.of(context).colorScheme.secondary,
                             onPressed: () async {
                               _formKey.currentState?.save();
-                              if (_formKey.currentState?.validate() != null) {
+                              if (_formKey.currentState?.validate() != false) {
                                 // _formKey.currentState?.value["name"];
                                 // _formKey.currentState?.value["age"];
                                 // _formKey.currentState?.value["address"];

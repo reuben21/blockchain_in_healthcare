@@ -5,6 +5,7 @@ import 'package:bic_android_web_support/providers/gas_estimation.dart';
 import 'package:bic_android_web_support/providers/ipfs.dart';
 import 'package:bic_android_web_support/providers/provider_firebase/model_firebase.dart';
 import 'package:bic_android_web_support/providers/provider_pharmacy/model_pharmacy.dart';
+import 'package:bic_android_web_support/providers/wallet.dart';
 import 'package:bic_android_web_support/screens/Tabs/tabs_screen.dart';
 import 'package:bic_android_web_support/screens/screens_auth/background.dart';
 import 'package:file_picker/file_picker.dart';
@@ -15,17 +16,18 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:provider/provider.dart';
 import 'package:web3dart/credentials.dart';
 
-class PatientMedicalRecords extends StatefulWidget {
+class PatientMedicalRecordView extends StatefulWidget {
   static const routeName = '/patient-medical-records';
 
   @override
-  _PatientMedicalRecordsState createState() => _PatientMedicalRecordsState();
+  _PatientMedicalRecordViewState createState() => _PatientMedicalRecordViewState();
 }
 
-class _PatientMedicalRecordsState extends State<PatientMedicalRecords> {
+class _PatientMedicalRecordViewState extends State<PatientMedicalRecordView> {
   final _formKey = GlobalKey<FormBuilderState>();
 
   String walletAdd = '';
+  String medicalRecordCount = '';
 
   // File file
 
@@ -40,35 +42,38 @@ class _PatientMedicalRecordsState extends State<PatientMedicalRecords> {
       Credentials credentials, EthereumAddress walletAddress) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
 
-    if (result != null) {
-      File file = File(result.files.single.path.toString());
-      var hashReceived =
-          await Provider.of<IPFSModel>(context, listen: false).sendFile(file);
-      print("hashReceived ------" + hashReceived.toString());
-      if (hashReceived.toString().isNotEmpty) {
-        estimateGasFunction(hashReceived, walletAddress, credentials);
-      }
-    } else {
-      // User canceled the picker
-    }
   }
 
   Future<void> getWalletFromDatabase() async {
-    var dbResponse = await WalletSharedPreference.getWalletDetails();
-    walletAdd = dbResponse!['walletAddress'].toString();
+    Credentials credentialsNew;
+    EthereumAddress address;
+
+    credentialsNew =
+        Provider.of<WalletModel>(context, listen: false).walletCredentials;
+    address = await credentialsNew.extractAddress();
+
+
+    var data =
+    await Provider.of<PharmacyModel>(context, listen: false).readContract(
+        "getMedicalRecordCountForPatient",
+        [
+          address
+        ]);
+    print(data);
     setState(() {
-      walletAdd;
+      walletAdd = address.hex.toString();
+      medicalRecordCount = data[0].toString();
     });
   }
 
   Future<void> estimateGasFunction(String medicalRecordHash,
       EthereumAddress walletAddress, Credentials credentials) async {
     var gasEstimation =
-        await Provider.of<GasEstimationModel>(context, listen: false)
-            .estimateGasForContractFunction(
-                walletAddress,
-                "setMedicalRecordByPatient",
-                [medicalRecordHash, walletAddress]);
+    await Provider.of<GasEstimationModel>(context, listen: false)
+        .estimateGasForContractFunction(
+        walletAddress,
+        "setMedicalRecordByPatient",
+        [medicalRecordHash, walletAddress]);
     print(gasEstimation);
 
     return showDialog(
@@ -127,7 +132,7 @@ class _PatientMedicalRecordsState extends State<PatientMedicalRecords> {
                             child: ListTile(
                               leading: Image.asset("assets/icons/wallet.png",
                                   color:
-                                      Theme.of(context).colorScheme.secondary,
+                                  Theme.of(context).colorScheme.secondary,
                                   width: 35,
                                   height: 35),
                               title: Text('From Wallet Address',
@@ -135,14 +140,14 @@ class _PatientMedicalRecordsState extends State<PatientMedicalRecords> {
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                     color:
-                                        Theme.of(context).colorScheme.secondary,
+                                    Theme.of(context).colorScheme.secondary,
                                   )),
                               subtitle: Text(
                                 walletAddress.hex.toString(),
                                 style: TextStyle(
                                   fontSize: 15,
                                   color:
-                                      Theme.of(context).colorScheme.secondary,
+                                  Theme.of(context).colorScheme.secondary,
                                 ),
                               ),
                             ),
@@ -197,7 +202,7 @@ class _PatientMedicalRecordsState extends State<PatientMedicalRecords> {
                             child: ListTile(
                               trailing: Image.asset("assets/icons/wallet.png",
                                   color:
-                                      Theme.of(context).colorScheme.secondary,
+                                  Theme.of(context).colorScheme.secondary,
                                   width: 35,
                                   height: 35),
                               title: Text('To Wallet Address',
@@ -205,14 +210,14 @@ class _PatientMedicalRecordsState extends State<PatientMedicalRecords> {
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                     color:
-                                        Theme.of(context).colorScheme.secondary,
+                                    Theme.of(context).colorScheme.secondary,
                                   )),
                               subtitle: Text(
                                 gasEstimation['contractAddress'].toString(),
                                 style: TextStyle(
                                   fontSize: 15,
                                   color:
-                                      Theme.of(context).colorScheme.secondary,
+                                  Theme.of(context).colorScheme.secondary,
                                 ),
                               ),
                             ),
@@ -325,9 +330,9 @@ class _PatientMedicalRecordsState extends State<PatientMedicalRecords> {
                       Row(children: <Widget>[
                         Expanded(
                           child: Divider(
-                              // thickness: 2,
-                              // color: Colors.grey,
-                              ),
+                            // thickness: 2,
+                            // color: Colors.grey,
+                          ),
                         ),
                       ]),
                       const SizedBox(
@@ -406,17 +411,17 @@ class _PatientMedicalRecordsState extends State<PatientMedicalRecords> {
   Future<void> executeTransaction(String medicalRecordHash,
       EthereumAddress walletAddress, Credentials credentials) async {
     var transactionHash =
-        await Provider.of<PharmacyModel>(context, listen: false).writeContract(
-            "setMedicalRecordByPatient",
-            [
-              medicalRecordHash,
-              walletAddress,
-            ],
-            credentials);
+    await Provider.of<PharmacyModel>(context, listen: false).writeContract(
+        "setMedicalRecordByPatient",
+        [
+          medicalRecordHash,
+          walletAddress,
+        ],
+        credentials);
 
     var firebaseStatus =
-        await Provider.of<FirebaseModel>(context, listen: false)
-            .storeTransaction(transactionHash);
+    await Provider.of<FirebaseModel>(context, listen: false)
+        .storeTransaction(transactionHash);
 
     if (firebaseStatus) {
       Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
@@ -506,7 +511,7 @@ class _PatientMedicalRecordsState extends State<PatientMedicalRecords> {
                               child: ListTile(
                                 leading: Image.asset("assets/icons/wallet.png",
                                     color:
-                                        Theme.of(context).colorScheme.secondary,
+                                    Theme.of(context).colorScheme.secondary,
                                     width: 35,
                                     height: 35),
                                 title: Text('From Wallet Address',
@@ -522,7 +527,7 @@ class _PatientMedicalRecordsState extends State<PatientMedicalRecords> {
                                   style: TextStyle(
                                     fontSize: 15,
                                     color:
-                                        Theme.of(context).colorScheme.secondary,
+                                    Theme.of(context).colorScheme.secondary,
                                   ),
                                 ),
                               ),
@@ -534,6 +539,48 @@ class _PatientMedicalRecordsState extends State<PatientMedicalRecords> {
                               // ),
                             ),
                           ),
+                          SizedBox(
+                            height: 125,
+                            width: 185,
+                            child: Card(
+
+                              clipBehavior: Clip.antiAlias,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                    color: Theme.of(context).colorScheme.primary, width: 2),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      medicalRecordCount,
+                                      style: TextStyle(
+                                          color: Theme.of(context).colorScheme.primary,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  Image.asset("assets/icons/patient-count-100.png",
+                                      color: Theme.of(context).colorScheme.primary,
+                                      width: 50,
+                                      height: 50),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "Patient Medical Record Count",
+                                      style: TextStyle(
+                                          color: Theme.of(context).colorScheme.primary,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                           Padding(
                             padding: const EdgeInsets.all(8),
                             child: Card(
@@ -542,37 +589,14 @@ class _PatientMedicalRecordsState extends State<PatientMedicalRecords> {
                               shape: RoundedRectangleBorder(
                                 side: BorderSide(
                                     color:
-                                        Theme.of(context).colorScheme.primary,
+                                    Theme.of(context).colorScheme.primary,
                                     width: 2),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
-                                  FormBuilder(
-                                      key: _formKey,
-                                      autovalidateMode:
-                                          AutovalidateMode.onUserInteraction,
-                                      child: Padding(
-                                          padding: const EdgeInsets.all(15),
-                                          child: formBuilderTextFieldWidget(
-                                              TextInputType.number,
-                                              'Password@123',
-                                              'password',
-                                              'Wallet Password',
-                                              Image.asset(
-                                                  "assets/icons/key-100.png",
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .primary,
-                                                  scale: 4,
-                                                  width: 15,
-                                                  height: 15),
-                                              true,
-                                              [
-                                                FormBuilderValidators.required(
-                                                    context),
-                                              ]))),
+
                                   ListTile(
                                     trailing: Image.asset(
                                         "assets/icons/forward-100.png",
@@ -590,8 +614,61 @@ class _PatientMedicalRecordsState extends State<PatientMedicalRecords> {
                                         Credentials credentialsNew;
                                         EthereumAddress myAddress;
                                         var dbResponse =
-                                            await WalletSharedPreference
-                                                .getWalletDetails();
+                                        await WalletSharedPreference
+                                            .getWalletDetails();
+                                        print(_formKey
+                                            .currentState?.value["password"]);
+                                        Wallet newWallet = Wallet.fromJson(
+                                            dbResponse!['walletEncryptedKey']
+                                                .toString(),
+                                            _formKey.currentState
+                                                ?.value["password"]);
+                                        credentialsNew = newWallet.privateKey;
+                                        myAddress = await credentialsNew
+                                            .extractAddress();
+                                        uploadImage(credentialsNew, myAddress);
+                                      }
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Card(
+                              borderOnForeground: true,
+                              clipBehavior: Clip.antiAlias,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                    color:
+                                    Theme.of(context).colorScheme.primary,
+                                    width: 2),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+
+                                  ListTile(
+                                    trailing: Image.asset(
+                                        "assets/icons/forward-100.png",
+                                        color: Theme.of(context).primaryColor,
+                                        width: 25,
+                                        height: 25),
+                                    title: Text('Upload Medical Record',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1),
+                                    onTap: () async {
+                                      _formKey.currentState?.save();
+                                      if (_formKey.currentState?.validate() !=
+                                          false) {
+                                        Credentials credentialsNew;
+                                        EthereumAddress myAddress;
+                                        var dbResponse =
+                                        await WalletSharedPreference
+                                            .getWalletDetails();
                                         print(_formKey
                                             .currentState?.value["password"]);
                                         Wallet newWallet = Wallet.fromJson(

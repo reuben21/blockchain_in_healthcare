@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:bic_android_web_support/screens/screen_patient/patient_details.dart';
 import 'package:bic_android_web_support/screens/screen_patient/patient_medical_record.dart';
+import 'package:bic_android_web_support/screens/screen_patient/patient_medical_record_view.dart';
 
 import '../../helpers/keys.dart' as keys;
 import 'package:bic_android_web_support/providers/ipfs.dart';
@@ -373,16 +374,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => PatientStoreDetails(
-                                patientName: patientIpfsHash['patient_name'],
-                                patientHospitalHash:
-                                    patientIpfsHash['patient_hospital_hash'],
-                                patientAddress:
-                                    patientIpfsHash['patient_address'],
-                                patientAge: patientIpfsHash['patient_age'],
-                                patientPhoneNo:
-                                    patientIpfsHash['patient_phone_no'],
-                              ),
+                              builder: (context) => PatientMedicalRecordView(  ),
                             ),
                           );
                         },
