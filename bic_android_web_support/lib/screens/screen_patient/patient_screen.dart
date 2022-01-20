@@ -219,6 +219,38 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                                 ),
                                 ListTile(
                                   leading: Image.asset(
+                                      "assets/icons/name-100.png",
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                      width: 35,
+                                      height: 35),
+                                  title: Text('Hospital Address',
+                                      style: textStyleForName),
+                                  subtitle: Text(
+                                    patientIpfsHash['patient_hospital_address'],
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.black.withOpacity(0.6)),
+                                  ),
+                                ),
+                                ListTile(
+                                  leading: Image.asset(
+                                      "assets/icons/name-100.png",
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                      width: 35,
+                                      height: 35),
+                                  title: Text('Doctor Address',
+                                      style: textStyleForName),
+                                  subtitle: Text(
+                                    patientIpfsHash['patient_doctor_address'],
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.black.withOpacity(0.6)),
+                                  ),
+                                ),
+                                ListTile(
+                                  leading: Image.asset(
                                       "assets/icons/address-100.png",
                                       color:
                                           Theme.of(context).colorScheme.primary,
