@@ -43,8 +43,23 @@ class _PatientMedicalRecordsState extends State<PatientMedicalRecords> {
       var hashReceived =
           await Provider.of<IPFSModel>(context, listen: false).sendFile(file);
       print("hashReceived ------" + hashReceived.toString());
+      if (hashReceived != null) {
+        Credentials credentialsNew;
+        EthereumAddress myAddress;
+        var dbResponse = await WalletSharedPreference.getWalletDetails();
+        print(_formKey.currentState?.value["password"]);
+        Wallet newWallet = Wallet.fromJson(
+            dbResponse!['walletEncryptedKey'].toString(),
+            _formKey.currentState?.value["password"]);
+        credentialsNew = newWallet.privateKey;
+        myAddress = await credentialsNew.extractAddress();
+
+        // var hospitalAddress = EthereumAddress.fromHex("  ");
+        // var doctorAddress = EthereumAddress.fromHex("  ");
+        estimateGasFunction(hashReceived, myAddress, credentialsNew);
+      }
     } else {
-      // User canceled the picker
+      print("validation failed");
     }
   }
 
@@ -56,16 +71,14 @@ class _PatientMedicalRecordsState extends State<PatientMedicalRecords> {
     });
   }
 
-  Future<void> estimateGasFunction(String patientName, String ipfsHash,
+  Future<void> estimateGasFunction(String ipfsHash,
       EthereumAddress walletAddress, Credentials credentials) async {
     var gasEstimation =
         await Provider.of<GasEstimationModel>(context, listen: false)
-            .estimateGasForContractFunction(walletAddress, "storePatient", [
-      patientName,
+            .estimateGasForContractFunction(
+                walletAddress, "setMedicalRecordByPatient", [
       ipfsHash,
       walletAddress,
-      walletAddress,
-      walletAddress
     ]);
     print(gasEstimation);
 
@@ -378,8 +391,7 @@ class _PatientMedicalRecordsState extends State<PatientMedicalRecords> {
                     backgroundColor: Theme.of(context).colorScheme.primary,
                     foregroundColor: Theme.of(context).colorScheme.secondary,
                     onPressed: () async {
-                      executeTransaction(patientName, ipfsHash, walletAddress,
-                          walletAddress, walletAddress, credentials);
+                      executeTransaction(ipfsHash, walletAddress, credentials);
                     },
                     icon: const Icon(Icons.add_circle_outline_outlined),
                     label: const Text('Confirm Pay'),
@@ -401,22 +413,14 @@ class _PatientMedicalRecordsState extends State<PatientMedicalRecords> {
     );
   }
 
-  Future<void> executeTransaction(
-      String patientName,
-      String ipfsHash,
-      EthereumAddress walletAddress,
-      walletAddress1,
-      walletAddress2,
-      Credentials credentials) async {
+  Future<void> executeTransaction(String ipfsHash,
+      EthereumAddress walletAddress, Credentials credentials) async {
     var transactionHash =
         await Provider.of<PharmacyModel>(context, listen: false).writeContract(
-            "storePatient",
+            "setMedicalRecordByPatient",
             [
-              patientName,
               ipfsHash,
               walletAddress,
-              walletAddress,
-              walletAddress
             ],
             credentials);
 
