@@ -273,7 +273,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                                       width: 35,
                                       height: 35),
                                   title: Text(
-                                    'Year Started',
+                                    'Age',
                                     style: textStyleForName,
                                   ),
                                   subtitle: Text(
