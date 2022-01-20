@@ -55,16 +55,21 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
     });
   }
 
-  Future<void> estimateGasFunction(String patientName, String ipfsHash,
-      EthereumAddress walletAddress, Credentials credentials) async {
+  Future<void> estimateGasFunction(
+      String patientName,
+      String ipfsHash,
+      EthereumAddress hospitalAddress,
+      EthereumAddress doctorAddress,
+      EthereumAddress walletAddress,
+      Credentials credentials) async {
     var gasEstimation =
         await Provider.of<GasEstimationModel>(context, listen: false)
             .estimateGasForContractFunction(walletAddress, "storePatient", [
       patientName,
       ipfsHash,
+      hospitalAddress,
+      doctorAddress,
       walletAddress,
-      walletAddress,
-      walletAddress
     ]);
     print(gasEstimation);
 
@@ -403,9 +408,9 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
   Future<void> executeTransaction(
       String patientName,
       String ipfsHash,
+      EthereumAddress hospitalAddress,
+      EthereumAddress doctorAddress,
       EthereumAddress walletAddress,
-      walletAddress1,
-      walletAddress2,
       Credentials credentials) async {
     var transactionHash =
         await Provider.of<PharmacyModel>(context, listen: false).writeContract(
@@ -413,8 +418,8 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
             [
               patientName,
               ipfsHash,
-              walletAddress,
-              walletAddress,
+              hospitalAddress,
+              doctorAddress,
               walletAddress
             ],
             credentials);
@@ -833,12 +838,18 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                   myAddress =
                                       await credentialsNew.extractAddress();
 
-                                  // var hospitalAddress = EthereumAddress.fromHex("  ");
-                                  // var doctorAddress = EthereumAddress.fromHex("  ");
+                                  var hospitalAddress = EthereumAddress.fromHex(
+                                      _formKey.currentState
+                                          ?.value["patient_hospital_address"]);
+                                  var doctorAddress = EthereumAddress.fromHex(
+                                      _formKey.currentState
+                                          ?.value["patient_doctor_address"]);
                                   estimateGasFunction(
                                       _formKey
                                           .currentState?.value["patient_name"],
                                       hashReceived,
+                                      hospitalAddress,
+                                      doctorAddress,
                                       myAddress,
                                       credentialsNew);
                                 }
