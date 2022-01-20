@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:bic_android_web_support/screens/screen_patient/patient_details.dart';
-import 'package:bic_android_web_support/screens/screen_pharmacy/patient_medical_record.dart';
+import 'package:bic_android_web_support/screens/screen_patient/patient_medical_record.dart';
 
 import '../../helpers/keys.dart' as keys;
 import 'package:bic_android_web_support/providers/ipfs.dart';
