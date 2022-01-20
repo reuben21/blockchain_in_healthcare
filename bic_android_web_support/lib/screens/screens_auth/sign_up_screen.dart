@@ -334,7 +334,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 Theme.of(context).colorScheme.secondary,
                             onPressed: () async {
                               _formKey.currentState?.save();
-                              if (_formKey.currentState?.validate() != null) {
+                              if (_formKey.currentState?.validate() != false) {
                                 _submit(
                                     _formKey.currentState?.value["name"],
                                     _formKey.currentState?.value["emailId"],

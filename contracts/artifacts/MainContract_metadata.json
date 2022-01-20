@@ -294,7 +294,21 @@
 						"internalType": "struct MainContract.MedicalRecord",
 						"name": "value",
 						"type": "tuple"
-					},
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_walletAddress",
+						"type": "address"
+					}
+				],
+				"name": "getMedicalRecordCountForPatient",
+				"outputs": [
 					{
 						"internalType": "uint256",
 						"name": "medicalRecordCount",
@@ -369,10 +383,24 @@
 						"internalType": "struct MainContract.Prescription",
 						"name": "value",
 						"type": "tuple"
-					},
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_walletAddress",
+						"type": "address"
+					}
+				],
+				"name": "getPrescriptionsCountForPatient",
+				"outputs": [
 					{
 						"internalType": "uint256",
-						"name": "medicalRecordCount",
+						"name": "prescriptionsCountForPatient",
 						"type": "uint256"
 					}
 				],
@@ -824,6 +852,40 @@
 						"type": "address"
 					},
 					{
+						"internalType": "string",
+						"name": "_medicalRecordHash",
+						"type": "string"
+					}
+				],
+				"name": "setMedicalRecordHashStatus",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "status",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "index",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "_patientWalletAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_doctorWalletAddress",
+						"type": "address"
+					},
+					{
 						"internalType": "bool",
 						"name": "_verified",
 						"type": "bool"
@@ -1182,11 +1244,11 @@
 	},
 	"sources": {
 		"MainContract.sol": {
-			"keccak256": "0x3a528de652b97231dc9a7835d0d1b4c591766d05c5600958fbbc4cd3b467680c",
+			"keccak256": "0xb4dd23897bfcfb2ef0d7ca314fb3a3a0f3fd06eb93f71b0952fb0db6e00d559f",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://c3486fafb9a5a30170b3bb1de34f15a233feca655d69db98f7548012e1d7beca",
-				"dweb:/ipfs/QmTWavC9JFVVFv71n8JYFJ8pb8TmbyPnLSur1LB6GYEBbR"
+				"bzz-raw://c9b27ca88f67716cd3ce0e305f87f4feb6dfeb440344e8b45ec0d85be10a7f89",
+				"dweb:/ipfs/QmSzv24h6Gt3AkiwzEFFdKc368EkFHyTfcHnYenvbuBJKa"
 			]
 		},
 		"openzeppelin/contracts/access/AccessControl.sol": {
