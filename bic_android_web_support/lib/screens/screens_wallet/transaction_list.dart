@@ -38,6 +38,7 @@ class _TransactionListState extends State<TransactionList> {
   String dropdownValue = 'Select Account';
   String dropDownCurrentValue = 'Select Account';
   late String scannedAddress;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

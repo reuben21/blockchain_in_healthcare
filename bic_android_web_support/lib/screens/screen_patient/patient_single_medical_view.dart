@@ -7,7 +7,6 @@ import 'package:bic_android_web_support/providers/provider_firebase/model_fireba
 import 'package:bic_android_web_support/providers/provider_pharmacy/model_pharmacy.dart';
 import 'package:bic_android_web_support/providers/wallet.dart';
 import 'package:bic_android_web_support/screens/Tabs/tabs_screen.dart';
-import 'package:bic_android_web_support/screens/screen_patient/patient_single_medical_view.dart';
 import 'package:bic_android_web_support/screens/screens_auth/background.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -16,21 +15,28 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:provider/provider.dart';
 import 'package:web3dart/credentials.dart';
-
-class PatientMedicalRecordView extends StatefulWidget {
+import '../../helpers/keys.dart' as keys;
+class PatientSingleMedicalView extends StatefulWidget {
   static const routeName = '/patient-medical-records';
 
+  int recordNumber;
+  EthereumAddress walletAddress;
+
+  PatientSingleMedicalView(
+      {required this.recordNumber, required this.walletAddress});
+
   @override
-  _PatientMedicalRecordViewState createState() =>
-      _PatientMedicalRecordViewState();
+  _PatientSingleMedicalViewState createState() =>
+      _PatientSingleMedicalViewState();
 }
 
-class _PatientMedicalRecordViewState extends State<PatientMedicalRecordView> {
+class _PatientSingleMedicalViewState extends State<PatientSingleMedicalView> {
   final _formKey = GlobalKey<FormBuilderState>();
 
   String walletAdd = '';
-
+  String medicalRecordHash = '';
   BigInt medicalRecordCount = BigInt.from(0);
+  bool verifiedStatus = false;
 
   // File file
 
@@ -50,11 +56,14 @@ class _PatientMedicalRecordViewState extends State<PatientMedicalRecordView> {
     address = await credentialsNew.extractAddress();
 
     var data = await Provider.of<PharmacyModel>(context, listen: false)
-        .readContract("getMedicalRecordCountForPatient", [address]);
+        .readContract("getMedicalRecord",
+            [widget.walletAddress, BigInt.from(widget.recordNumber)]);
     print(data);
     setState(() {
       walletAdd = address.hex.toString();
-      medicalRecordCount = data[0];
+      medicalRecordCount = data[0][0];
+      medicalRecordHash = data[0][1].toString();
+      verifiedStatus = data[0][2];
     });
   }
 
@@ -469,6 +478,10 @@ class _PatientMedicalRecordViewState extends State<PatientMedicalRecordView> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    var textStyleForName = TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+        color: Theme.of(context).colorScheme.primary);
     return Scaffold(
       // appBar: AppBar(
       //   elevation: 0,
@@ -486,150 +499,51 @@ class _PatientMedicalRecordViewState extends State<PatientMedicalRecordView> {
                       const SizedBox(
                         height: 100,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Container(
-                          height: 65,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                colors: [
-                                  Theme.of(context).colorScheme.primary,
-                                  Colors.purpleAccent.withOpacity(0.9),
-                                  // Colors.lightBlueAccent,
-                                ]),
-                            borderRadius: BorderRadius.circular(9),
-                          ),
-                          child: ListTile(
-                            leading: Image.asset("assets/icons/wallet.png",
-                                color: Theme.of(context).colorScheme.secondary,
-                                width: 35,
-                                height: 35),
-                            title: Text('From Wallet Address',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                )),
-                            subtitle: Text(
-                              walletAdd.toString(),
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Theme.of(context).colorScheme.secondary,
-                              ),
-                            ),
-                          ),
-                          // Padding(
-                          //   padding: const EdgeInsets.all(10.0),
-                          //   child: Text(
-                          //     widget.address,style: TextStyle(fontSize: 20),
-                          //   ),
-                          // ),
+                      Card(
+                        borderOnForeground: true,
+                        clipBehavior: Clip.antiAlias,
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                              color: Theme.of(context).colorScheme.primary,
+                              width: 2),
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                      ),
-                      SizedBox(
-                        height: 125,
-                        width: double.infinity,
-                        child: Card(
-                          clipBehavior: Clip.antiAlias,
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(
-                                color: Theme.of(context).colorScheme.primary,
-                                width: 2),
-                            borderRadius: BorderRadius.circular(10),
+                        child:  ListTile(
+
+                          title:  Text(
+                            "Medical Record ID",
+                            style: textStyleForName,
                           ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  medicalRecordCount.toString(),
-                                  style: TextStyle(
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Image.asset("assets/icons/patient-count-100.png",
-                                  color: Theme.of(context).colorScheme.primary,
-                                  width: 50,
-                                  height: 50),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  "Patient Medical Record Count",
-                                  style: TextStyle(
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ],
+                          subtitle: Text(medicalRecordCount.toString(),
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.red.withOpacity(0.6),fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),
-                      SizedBox(
-                          width: double.infinity,
-                          height: size.height - 400,
-                          child: SingleChildScrollView(
-                            child: ListView.builder(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: medicalRecordCount.toInt(),
-                                itemBuilder:
-                                    (BuildContext context, int position) {
-                                  return Card(
-                                    borderOnForeground: true,
-                                    clipBehavior: Clip.antiAlias,
-                                    shape: RoundedRectangleBorder(
-                                      side: BorderSide(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                          width: 2),
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        ListTile(
-                                          trailing: Image.asset(
-                                              "assets/icons/forward-100.png",
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                              width: 25,
-                                              height: 25),
-                                          title: Text(
-                                              'View Medical Record ${position + 1}',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1),
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    PatientSingleMedicalView(
-                                                  recordNumber: position + 1,
-                                                  walletAddress:
-                                                      EthereumAddress.fromHex(
-                                                          walletAdd),
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                }),
-                          ))
+                      Image.network(
+                          '${keys.getIpfsUrlForReceivingData}${medicalRecordHash}'),
+                      Card(
+                        borderOnForeground: true,
+                        clipBehavior: Clip.antiAlias,
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                              color: Theme.of(context).colorScheme.primary,
+                              width: 2),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child:  ListTile(
+
+                          title: Text(
+                            "Verified Status: ",
+                            style:textStyleForName,
+                          ),
+                          subtitle: Text(verifiedStatus.toString(),
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.red.withOpacity(0.6)),
+                        ),
+                      ),),
                     ],
                   ),
                 ),
