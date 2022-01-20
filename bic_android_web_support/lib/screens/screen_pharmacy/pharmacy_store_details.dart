@@ -250,7 +250,7 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                         ],
                       ),
                       // Expanded(child: Divider()),
-                      Row(children: <Widget>[
+                      Row(children: const <Widget>[
                         Expanded(child: Divider()),
                       ]),
 
@@ -282,7 +282,7 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                           ),
                         ],
                       ),
-                      Row(children: <Widget>[
+                      Row(children: const <Widget>[
                         Expanded(child: Divider()),
                       ]),
                       Row(
@@ -312,7 +312,7 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                           ),
                         ],
                       ),
-                      Row(children: <Widget>[
+                      Row(children: const <Widget>[
                         Expanded(
                           child: Divider(
                               // thickness: 2,
@@ -326,10 +326,10 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Flexible(
+                          const Flexible(
                             fit: FlexFit.loose,
                             child: Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: EdgeInsets.all(8.0),
                               child: Text(
                                 "(Approx.) Total Ether Amount: ",
                                 style: TextStyle(
@@ -347,7 +347,7 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                               child: Text(
                                 gasEstimation['totalAmount'].toString() +
                                     " ETH",
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Colors.grey,
                                     fontSize: 18,
                                     fontWeight: FontWeight.w500),
@@ -357,7 +357,7 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
                           ),
                         ],
                       ),
-                      Row(children: <Widget>[
+                      Row(children: const <Widget>[
                         Expanded(child: Divider()),
                       ]),
                       const SizedBox(
@@ -381,7 +381,7 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
             ),
           ),
         ),
-        actions: <Widget>[
+        actions: const <Widget>[
           // ElevatedButton(
           //   onPressed: () {
           //     Navigator.of(ctx).pop();
