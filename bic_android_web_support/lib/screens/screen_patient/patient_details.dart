@@ -557,7 +557,7 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                       child: formBuilderTextFieldWidget(
                                           TextInputType.text,
                                           widget.patientName.toString() == ''
-                                              ? 'Ankita Tripathi'
+                                              ? 'Patient A'
                                               : widget.patientName.toString(),
                                           'patient_name',
                                           'Patient Name',
@@ -579,8 +579,8 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                       child: formBuilderTextFieldWidget(
                                           TextInputType.text,
                                           widget.patientHospitalAddress
-                                                      .toString() ==
-                                                  ''
+                                                       ==
+                                                  null
                                               ? '0x9733e7b8a68d2547b8c87a7b0ea8b867c85a5e0d'
                                               : widget.patientHospitalAddress
                                                   .toString(),
@@ -604,8 +604,8 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                       child: formBuilderTextFieldWidget(
                                           TextInputType.text,
                                           widget.patientDoctorAddress
-                                                      .toString() ==
-                                                  ''
+                                                       ==
+                                              null
                                               ? '0x6bde22a36daeb9ee6813677dafdf2315f422a1d4'
                                               : widget.patientDoctorAddress
                                                   .toString(),
@@ -781,88 +781,91 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                             ),
                           ),
                         ),
-                        Container(
-                          height: 50,
-                          width: size.width * 0.8,
-                          child: FloatingActionButton.extended(
-                            heroTag: "patientStoreDetailsButton",
-                            backgroundColor:
-                                Theme.of(context).colorScheme.primary,
-                            foregroundColor:
-                                Theme.of(context).colorScheme.secondary,
-                            onPressed: () async {
-                              _formKey.currentState?.save();
-                              if (_formKey.currentState?.validate() != null) {
-                                // _formKey.currentState?.value["name"];
-                                // _formKey.currentState?.value["age"];
-                                // _formKey.currentState?.value["address"];
-                                // _formKey.currentState?.value["gender"];
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 30),
+                          child: Container(
+                            height: 50,
+                            width: size.width * 0.8,
+                            child: FloatingActionButton.extended(
+                              heroTag: "patientStoreDetailsButton",
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.primary,
+                              foregroundColor:
+                                  Theme.of(context).colorScheme.secondary,
+                              onPressed: () async {
+                                _formKey.currentState?.save();
+                                if (_formKey.currentState?.validate() != false) {
+                                  // _formKey.currentState?.value["name"];
+                                  // _formKey.currentState?.value["age"];
+                                  // _formKey.currentState?.value["address"];
+                                  // _formKey.currentState?.value["gender"];
 
-                                Map<String, dynamic> objText = {
-                                  "patient_name": _formKey
-                                      .currentState?.value["patient_name"],
-                                  "patient_hospital_address": _formKey
-                                      .currentState
-                                      ?.value["patient_hospital_address"],
-                                  "patient_doctor_address": _formKey
-                                      .currentState
-                                      ?.value["patient_doctor_address"],
-                                  "patient_address": _formKey
-                                      .currentState?.value["patient_address"],
-                                  "patient_age": _formKey
-                                      .currentState?.value["patient_age"],
-                                  "patient_phone_no": _formKey
-                                      .currentState?.value["patient_phone_no"],
-                                  "wallet_address": walletAdd,
-                                  // "lastName4": ["Coutinho", "Coutinho", "Coutinho"],
-                                  // "age": 30
-                                };
-                                var hashReceived = await Provider.of<IPFSModel>(
-                                        context,
-                                        listen: false)
-                                    .sendData(objText);
-                                print("hashReceived ------" +
-                                    hashReceived.toString());
-                                if (hashReceived != null) {
-                                  Credentials credentialsNew;
-                                  EthereumAddress myAddress;
-                                  var dbResponse = await WalletSharedPreference
-                                      .getWalletDetails();
-                                  print(
-                                      _formKey.currentState?.value["password"]);
-                                  Wallet newWallet = Wallet.fromJson(
-                                      dbResponse!['walletEncryptedKey']
-                                          .toString(),
-                                      _formKey.currentState?.value["password"]);
-                                  credentialsNew = newWallet.privateKey;
-                                  myAddress =
-                                      await credentialsNew.extractAddress();
+                                  Map<String, dynamic> objText = {
+                                    "patient_name": _formKey
+                                        .currentState?.value["patient_name"],
+                                    "patient_hospital_address": _formKey
+                                        .currentState
+                                        ?.value["patient_hospital_address"],
+                                    "patient_doctor_address": _formKey
+                                        .currentState
+                                        ?.value["patient_doctor_address"],
+                                    "patient_address": _formKey
+                                        .currentState?.value["patient_address"],
+                                    "patient_age": _formKey
+                                        .currentState?.value["patient_age"],
+                                    "patient_phone_no": _formKey
+                                        .currentState?.value["patient_phone_no"],
+                                    "wallet_address": walletAdd,
+                                    // "lastName4": ["Coutinho", "Coutinho", "Coutinho"],
+                                    // "age": 30
+                                  };
+                                  var hashReceived = await Provider.of<IPFSModel>(
+                                          context,
+                                          listen: false)
+                                      .sendData(objText);
+                                  print("hashReceived ------" +
+                                      hashReceived.toString());
+                                  if (hashReceived != null) {
+                                    Credentials credentialsNew;
+                                    EthereumAddress myAddress;
+                                    var dbResponse = await WalletSharedPreference
+                                        .getWalletDetails();
+                                    print(
+                                        _formKey.currentState?.value["password"]);
+                                    Wallet newWallet = Wallet.fromJson(
+                                        dbResponse!['walletEncryptedKey']
+                                            .toString(),
+                                        _formKey.currentState?.value["password"]);
+                                    credentialsNew = newWallet.privateKey;
+                                    myAddress =
+                                        await credentialsNew.extractAddress();
 
-                                  var hospitalAddress = EthereumAddress.fromHex(
-                                      _formKey.currentState
-                                          ?.value["patient_hospital_address"]);
-                                  var doctorAddress = EthereumAddress.fromHex(
-                                      _formKey.currentState
-                                          ?.value["patient_doctor_address"]);
-                                  estimateGasFunction(
-                                      _formKey
-                                          .currentState?.value["patient_name"],
-                                      hashReceived,
-                                      hospitalAddress,
-                                      doctorAddress,
-                                      myAddress,
-                                      credentialsNew);
+                                    var hospitalAddress = EthereumAddress.fromHex(
+                                        _formKey.currentState
+                                            ?.value["patient_hospital_address"]);
+                                    var doctorAddress = EthereumAddress.fromHex(
+                                        _formKey.currentState
+                                            ?.value["patient_doctor_address"]);
+                                    estimateGasFunction(
+                                        _formKey
+                                            .currentState?.value["patient_name"],
+                                        hashReceived,
+                                        hospitalAddress,
+                                        doctorAddress,
+                                        myAddress,
+                                        credentialsNew);
+                                  }
+                                } else {
+                                  print("validation failed");
                                 }
-                              } else {
-                                print("validation failed");
-                              }
-                            },
-                            icon: Image.asset("assets/icons/sign_in.png",
-                                color: Theme.of(context).colorScheme.secondary,
-                                width: 25,
-                                fit: BoxFit.fill,
-                                height: 25),
-                            label: const Text('Store Details'),
+                              },
+                              icon: Image.asset("assets/icons/sign_in.png",
+                                  color: Theme.of(context).colorScheme.secondary,
+                                  width: 25,
+                                  fit: BoxFit.fill,
+                                  height: 25),
+                              label: const Text('Store Details'),
+                            ),
                           ),
                         ),
                       ],

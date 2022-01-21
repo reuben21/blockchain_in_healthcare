@@ -534,6 +534,7 @@ class _PatientSingleMedicalViewState extends State<PatientSingleMedicalView> {
                         ),
                         child:  ListTile(
 
+
                           title: Text(
                             "Verified Status: ",
                             style:textStyleForName,
