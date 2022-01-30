@@ -61,6 +61,7 @@ class _DoctorPrescriptionScreenState extends State<DoctorPrescriptionScreen> {
   }
   int _activeCurrentStep = 0;
 
+
   TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController pass = TextEditingController();
@@ -154,11 +155,11 @@ class _DoctorPrescriptionScreenState extends State<DoctorPrescriptionScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text('Name: ${name.text}'),
-                Text('Email: ${email.text}'),
-                Text('Password: ${pass.text}'),
-                Text('Address : ${address.text}'),
-                Text('PinCode : ${pincode.text}'),
+                Text('Name: ${name.text}' ,style:TextStyle(color: Colors.deepPurple, fontSize: 15)),
+                Text('Email: ${email.text}',style:TextStyle(color: Colors.deepPurple, fontSize: 15)),
+                Text('Password: ${pass.text}',style:TextStyle(color: Colors.deepPurple, fontSize: 15)),
+                Text('Address : ${address.text}',style:TextStyle(color: Colors.deepPurple, fontSize: 15)),
+                Text('PinCode : ${pincode.text}',style:TextStyle(color: Colors.deepPurple, fontSize: 15)),
               ],
             )))
   ];
@@ -175,8 +176,7 @@ class _DoctorPrescriptionScreenState extends State<DoctorPrescriptionScreen> {
         automaticallyImplyLeading: false,
         title: const Text("Prescription Generation"),
       ),
-      body: SingleChildScrollView(
-        child:
+      body:
                 Center(
                   child: Stepper(
       type: StepperType.horizontal,
@@ -206,8 +206,6 @@ class _DoctorPrescriptionScreenState extends State<DoctorPrescriptionScreen> {
     ),
                 ),
 
-
-        ),
     );
   }
 }
