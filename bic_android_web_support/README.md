@@ -1,4 +1,4 @@
-# bic_android_web_support
+n# bic_android_web_support
 
 A new Flutter project.
 
@@ -35,7 +35,6 @@ Password@123
 
 
 To Save Truffle State and contract deployment
-
 1) `npm install ganache-cli@latest --global`
 
 2)run ` ganache-cli --db="./data/save/" -i="5777" -p="7545" -d --mnemonic="tomorrow better yellow peace relief capable side volcano mechanic long bunker purity" ` 

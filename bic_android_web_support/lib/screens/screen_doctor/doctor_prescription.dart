@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
-
+import 'package:flutter/src/rendering/box.dart';
 import 'package:bic_android_web_support/providers/ipfs.dart';
 import 'package:bic_android_web_support/screens/screen_patient/patient_details.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +51,7 @@ class _DoctorPrescriptionScreenState extends State<DoctorPrescriptionScreen> {
       MsgSignature _msgSignature = sign(messageHash, privateKeyInt);
 
       MsgSignature _msgSignature2 =
-      MsgSignature(_msgSignature.r, _msgSignature.s, _msgSignature.v);
+          MsgSignature(_msgSignature.r, _msgSignature.s, _msgSignature.v);
 
       Uint8List publicKey = privateKeyBytesToPublic(privateKeyInt);
 
@@ -59,6 +59,111 @@ class _DoctorPrescriptionScreenState extends State<DoctorPrescriptionScreen> {
           isValidSignature(messageHash, _msgSignature2, publicKey).toString());
     }
   }
+  int _activeCurrentStep = 0;
+
+  TextEditingController name = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController pass = TextEditingController();
+  TextEditingController address = TextEditingController();
+  TextEditingController pincode = TextEditingController();
+  List<Step> stepList() => [
+    // This is step1 which is called Account.
+    // Here we will fill our personal details
+    Step(
+      state: _activeCurrentStep <= 0 ? StepState.editing : StepState.complete,
+      isActive: _activeCurrentStep >= 0,
+      title: const Text('Prescription'),
+      content: SizedBox(
+        height:500,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextField(
+              controller: name,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Full Name',
+              ),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            TextField(
+              controller: email,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Email',
+              ),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            TextField(
+              controller: pass,
+              obscureText: true,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Password',
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+    // This is Step2 here we will enter our address
+    Step(
+        state:
+        _activeCurrentStep <= 1 ? StepState.editing : StepState.complete,
+        isActive: _activeCurrentStep >= 1,
+        title: const Text('Details'),
+        content: Container(
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 8,
+              ),
+              TextField(
+                controller: address,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Full House Address',
+                ),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              TextField(
+                controller: pincode,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Pin Code',
+                ),
+              ),
+            ],
+          ),
+        )),
+
+    // This is Step3 here we will display all the details
+    // that are entered by the user
+    Step(
+        state: StepState.complete,
+        isActive: _activeCurrentStep >= 2,
+        title: const Text('Confirmation'),
+        content: Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text('Name: ${name.text}'),
+                Text('Email: ${email.text}'),
+                Text('Password: ${pass.text}'),
+                Text('Address : ${address.text}'),
+                Text('PinCode : ${pincode.text}'),
+              ],
+            )))
+  ];
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -68,12 +173,42 @@ class _DoctorPrescriptionScreenState extends State<DoctorPrescriptionScreen> {
         backgroundColor: Theme.of(context).colorScheme.primary,
         elevation: 0,
         automaticallyImplyLeading: false,
-        title: const Text("Doctor Prescription"),
+        title: const Text("Prescription Generation"),
       ),
       body: SingleChildScrollView(
-        child: Container(
-            ),
-      ),
+        child:
+                Center(
+                  child: Stepper(
+      type: StepperType.horizontal,
+    currentStep: _activeCurrentStep,
+    steps: stepList(),
+    onStepContinue: () {
+    if (_activeCurrentStep < (stepList().length - 1)) {
+    setState(() {
+    _activeCurrentStep += 1;
+    });
+    }
+    },
+    onStepCancel: () {
+    if (_activeCurrentStep == 0) {
+    return;
+    }
+    setState(() {
+    _activeCurrentStep -= 1;
+    });
+    },
+    onStepTapped: (int index) {
+    setState(() {
+    _activeCurrentStep = index;
+    });
+    },
+
+    ),
+                ),
+
+
+        ),
     );
   }
 }
+
