@@ -717,65 +717,7 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                             FormBuilderValidators.required(
                                                 context),
                                           ])),
-                                  // Padding(
-                                  //   padding: const EdgeInsets.all(15),
-                                  //   child: FormBuilderDropdown(
-                                  //     initialValue: 'Female',
-                                  //     name: 'gender',
-                                  //     decoration: InputDecoration(
-                                  //       labelText: "Gender",
-                                  //       prefixIcon: Image.asset(
-                                  //           "assets/icons/user-100.png",
-                                  //           color: Theme.of(context)
-                                  //               .colorScheme
-                                  //               .primary,
-                                  //           scale: 4,
-                                  //           width: 15,
-                                  //           height: 15),
-                                  //       border: OutlineInputBorder(
-                                  //         borderRadius:
-                                  //         BorderRadius.circular(25.0),
-                                  //       ),
-                                  //       labelStyle: const TextStyle(
-                                  //         color: Color(0xFF6200EE),
-                                  //       ),
-                                  //       errorBorder: OutlineInputBorder(
-                                  //         borderSide: BorderSide(
-                                  //             color: Color(0xFF6200EE)),
-                                  //         borderRadius:
-                                  //         BorderRadius.circular(25.0),
-                                  //       ),
-                                  //       focusedErrorBorder: OutlineInputBorder(
-                                  //         borderSide: BorderSide(
-                                  //             color: Color(0xFF6200EE)),
-                                  //         borderRadius:
-                                  //         BorderRadius.circular(25.0),
-                                  //       ),
-                                  //       enabledBorder: OutlineInputBorder(
-                                  //         borderSide: BorderSide(
-                                  //             color: Color(0xFF6200EE)),
-                                  //         borderRadius:
-                                  //         BorderRadius.circular(25.0),
-                                  //       ),
-                                  //     ),
-                                  //     // initialValue: 'Male',
-                                  //
-                                  //     allowClear: true,
-                                  //
-                                  //     validator: FormBuilderValidators.compose([
-                                  //       FormBuilderValidators.required(context)
-                                  //     ]),
-                                  //     items: [
-                                  //       'Male',
-                                  //       'Female',
-                                  //     ]
-                                  //         .map((gender) => DropdownMenuItem(
-                                  //       value: gender,
-                                  //       child: Text('$gender'),
-                                  //     ))
-                                  //         .toList(),
-                                  //   ),
-                                  // ),
+
                                 ],
                               ),
                             ),
