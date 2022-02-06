@@ -57,12 +57,12 @@ class _DoctorDetailsState extends State<DoctorDetails> {
       String doctorName,
       String ipfsHash,
       EthereumAddress walletAddress,
-      EthereumAddress walletAddress1,
+      EthereumAddress hospitalAddress,
       Credentials credentials) async {
     var gasEstimation =
         await Provider.of<GasEstimationModel>(context, listen: false)
             .estimateGasForContractFunction(walletAddress, "storeDoctor",
-                [doctorName, ipfsHash, walletAddress, walletAddress]);
+                [doctorName, ipfsHash, hospitalAddress, walletAddress]);
     print(gasEstimation);
 
     return showDialog(
@@ -375,7 +375,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                     foregroundColor: Theme.of(context).colorScheme.secondary,
                     onPressed: () async {
                       executeTransaction(doctorName, ipfsHash, walletAddress,
-                          walletAddress, credentials);
+                          hospitalAddress, credentials);
                     },
                     icon: const Icon(Icons.add_circle_outline_outlined),
                     label: const Text('Confirm Pay'),
@@ -401,11 +401,11 @@ class _DoctorDetailsState extends State<DoctorDetails> {
       String doctorName,
       String ipfsHash,
       EthereumAddress walletAddress,
-      EthereumAddress walletAddress1,
+      EthereumAddress hospitalAddress,
       Credentials credentials) async {
     var transactionHash = await Provider.of<DoctorModel>(context, listen: false)
         .writeContract("storeDoctor",
-            [doctorName, ipfsHash, walletAddress1, walletAddress], credentials);
+            [doctorName, ipfsHash, hospitalAddress, walletAddress], credentials);
 
     var firebaseStatus =
         await Provider.of<FirebaseModel>(context, listen: false)
@@ -512,7 +512,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
                                           TextInputType.text,
-                                          'Ankita Tripathi',
+                                          'Doctor A',
                                           'doctor_name',
                                           'Doctor Name',
                                           Image.asset(
@@ -572,7 +572,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
                                           TextInputType.streetAddress,
-                                          'skldfjf',
+                                          '0x9733e7b8a68d2547b8c87a7b0ea8b867c85a5e0d',
                                           'hospital_address',
                                           'Hospital Wallet Address',
                                           Image.asset(
@@ -716,6 +716,8 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                       .currentState?.value["doctor_age"],
                                   "doctor_address": _formKey
                                       .currentState?.value["doctor_address"],
+                                  "hospital_address": _formKey
+                                      .currentState?.value["hospital_address"],
                                   "doctor_gender": _formKey
                                       .currentState?.value["doctor_gender"],
                                   "doctor_phone_no": _formKey
@@ -746,14 +748,15 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                   myAddress =
                                       await credentialsNew.extractAddress();
 
-                                  // var hospitalAddress = EthereumAddress.fromHex("  ");
+                                  var hospitalAddress = EthereumAddress.fromHex(_formKey
+                                      .currentState?.value["hospital_address"]);
                                   // var doctorAddress = EthereumAddress.fromHex("  ");
                                   estimateGasFunction(
                                       _formKey
                                           .currentState?.value["doctor_name"],
                                       hashReceived,
                                       myAddress,
-                                      myAddress,
+                                      hospitalAddress,
                                       credentialsNew);
                                 }
                               } else {

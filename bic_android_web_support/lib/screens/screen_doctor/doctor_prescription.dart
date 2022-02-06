@@ -27,6 +27,7 @@ class DoctorPrescriptionScreen extends StatefulWidget {
 class _DoctorPrescriptionScreenState extends State<DoctorPrescriptionScreen> {
   final _formPatient = GlobalKey<FormBuilderState>();
   final _formMedicine = GlobalKey<FormBuilderState>();
+  final _formFieldForPassword = GlobalKey<FormBuilderState>();
 
   String walletAdd = '';
   String todayDateTime = DateTime.now().toIso8601String();
@@ -78,11 +79,11 @@ class _DoctorPrescriptionScreenState extends State<DoctorPrescriptionScreen> {
     );
   }
 
-  TextEditingController name = TextEditingController();
-  TextEditingController email = TextEditingController();
-  TextEditingController pass = TextEditingController();
-  TextEditingController address = TextEditingController();
-  TextEditingController pincode = TextEditingController();
+  // TextEditingController name = TextEditingController();
+  // TextEditingController email = TextEditingController();
+  // TextEditingController pass = TextEditingController();
+  // TextEditingController address = TextEditingController();
+  // TextEditingController pincode = TextEditingController();
 
   List<Map<String, dynamic>> medicineList = [];
 
@@ -157,7 +158,7 @@ class _DoctorPrescriptionScreenState extends State<DoctorPrescriptionScreen> {
                                 initialValue: todayDateTime,
                                 obscureText: false,
                                 maxLines: 1,
-                                name: 'password',
+                                name: 'dateTimeToday',
                                 decoration: dynamicInputDecoration(
                                   'Date Time',
                                   Image.asset("assets/icons/key-100.png",
@@ -175,7 +176,7 @@ class _DoctorPrescriptionScreenState extends State<DoctorPrescriptionScreen> {
                           Padding(
                             padding: const EdgeInsets.all(15.0),
                             child: FormBuilderDateTimePicker(
-                              name: 'date',
+                              name: 'validTill',
                               // onChanged: _onChanged,
                               inputType: InputType.date,
                               decoration: dynamicInputDecoration(
@@ -304,17 +305,17 @@ class _DoctorPrescriptionScreenState extends State<DoctorPrescriptionScreen> {
                                     if (_formMedicine.currentState
                                             ?.validate() !=
                                         false) {
-  Map<String, dynamic> objText = {
-    "medicineName": _formMedicine
-        .currentState?.value["medicineName"],
-    "medicineTime": _formMedicine
-        .currentState
-        ?.value["medicineTime"]
-  };
-  medicineList.add(objText);
-  setState(() {
-    medicineList;
-  });
+                                      Map<String, dynamic> objText = {
+                                        "medicineName": _formMedicine
+                                            .currentState
+                                            ?.value["medicineName"],
+                                        "medicineTime": _formMedicine
+                                            .currentState?.value["medicineTime"]
+                                      };
+                                      medicineList.add(objText);
+                                      setState(() {
+                                        medicineList;
+                                      });
                                     }
                                   },
                                   icon: Image.asset("assets/icons/sign_in.png",
@@ -359,7 +360,8 @@ class _DoctorPrescriptionScreenState extends State<DoctorPrescriptionScreen> {
                                             const NeverScrollableScrollPhysics(),
                                         itemBuilder:
                                             (BuildContext context, int index) {
-                                          print(medicineList[index]['medicineName']);
+                                          // print(medicineList[index]
+                                          //     ['medicineName']);
                                           return Container(
                                             height: 50,
                                             child: Row(
@@ -369,18 +371,24 @@ class _DoctorPrescriptionScreenState extends State<DoctorPrescriptionScreen> {
                                                 Container(
                                                   height: 50,
                                                   width: 230,
-
-                                                  child:  Center(
+                                                  child: Center(
                                                       child: Text(
-                                                          "${medicineList[index]['medicineName']}",style: Theme.of(context).textTheme.bodyText1,)),
+                                                    "${medicineList[index]['medicineName']}",
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyText1,
+                                                  )),
                                                 ),
                                                 Container(
                                                   height: 50,
                                                   width: 110,
-
                                                   child: Center(
                                                       child: Text(
-                                                          "${medicineList[index]['medicineTime']}",style: Theme.of(context).textTheme.bodyText1,)),
+                                                    "${medicineList[index]['medicineTime']}",
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyText1,
+                                                  )),
                                                 ),
                                               ],
                                             ),
@@ -413,16 +421,229 @@ class _DoctorPrescriptionScreenState extends State<DoctorPrescriptionScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text('Name: ${name.text}',
-                    style: TextStyle(color: Colors.deepPurple, fontSize: 15)),
-                Text('Email: ${email.text}',
-                    style: TextStyle(color: Colors.deepPurple, fontSize: 15)),
-                Text('Password: ${pass.text}',
-                    style: TextStyle(color: Colors.deepPurple, fontSize: 15)),
-                Text('Address : ${address.text}',
-                    style: TextStyle(color: Colors.deepPurple, fontSize: 15)),
-                Text('PinCode : ${pincode.text}',
-                    style: TextStyle(color: Colors.deepPurple, fontSize: 15)),
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Container(
+                    height: 50,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Theme.of(context).colorScheme.primary,
+                            Colors.purpleAccent.withOpacity(0.9),
+                            // Colors.lightBlueAccent,
+                          ]),
+                      borderRadius: BorderRadius.circular(9),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text(
+                        "Your Wallet Address: " + walletAdd,
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Container(
+                    height: 50,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Theme.of(context).colorScheme.primary,
+                            Colors.purpleAccent.withOpacity(0.9),
+                            // Colors.lightBlueAccent,
+                          ]),
+                      borderRadius: BorderRadius.circular(9),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text(
+                        "Patient Wallet Address: ",
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  height: 300,
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 50,
+                            width: 230,
+                            color: Color(0xFF6200EE),
+                            child: const Center(child: Text('Medicine Name')),
+                          ),
+                          Container(
+                            height: 50,
+                            width: 110,
+                            color: Color(0xFF6200EE),
+                            child: const Center(child: Text('Medicine Time')),
+                          ),
+                        ],
+                      ),
+                      Expanded(
+                        child: ListView.builder(
+                            itemCount: medicineList.length,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (BuildContext context, int index) {
+                              print(medicineList[index]['medicineName']);
+                              return Container(
+                                height: 50,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      height: 50,
+                                      width: 230,
+                                      child: Center(
+                                          child: Text(
+                                        "${medicineList[index]['medicineName']}",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1,
+                                      )),
+                                    ),
+                                    Container(
+                                      height: 50,
+                                      width: 110,
+                                      child: Center(
+                                          child: Text(
+                                        "${medicineList[index]['medicineTime']}",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1,
+                                      )),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }),
+                      ),
+                      FormBuilder(
+                        key: _formFieldForPassword,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        child: Padding(
+                          padding: const EdgeInsets.all(0.0),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: <Widget>[
+                                Padding(
+                                    padding: const EdgeInsets.all(15),
+                                    child: FormBuilderTextField(
+                                      initialValue:
+                                      'Password@123',
+                                      maxLines: 1,
+                                      name: 'password',
+                                      decoration: dynamicInputDecoration(
+                                        'Password',
+                                        Image.asset("assets/icons/at-sign-100.png",
+                                            color:
+                                            Theme.of(context).colorScheme.primary,
+                                            scale: 4,
+                                            width: 15,
+                                            height: 15),
+                                      ),
+                                      // valueTransformer: (text) => num.tryParse(text),
+                                      validator: FormBuilderValidators.compose(
+                                          [FormBuilderValidators.required(context)]),
+                                    )),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 30),
+                  child: Container(
+                    height: 50,
+                    width: 100,
+                    child: FloatingActionButton.extended(
+                      heroTag: "patientStoreDetailsButton",
+                      backgroundColor:
+                      Theme.of(context).colorScheme.primary,
+                      foregroundColor:
+                      Theme.of(context).colorScheme.secondary,
+                      onPressed: () async {
+                        _formPatient.currentState?.save();
+                        _formMedicine.currentState?.save();
+                        _formFieldForPassword.currentState?.save();
+                        if (_formPatient.currentState?.validate() != false) {
+                          // _formKey.currentState?.value["name"];
+                          // _formKey.currentState?.value["age"];
+                          // _formKey.currentState?.value["address"];
+                          // _formKey.currentState?.value["gender"];
+
+                          Map<String, dynamic> objText = {
+                            "patientAddress": _formPatient
+                                .currentState?.value["patientAddress"],
+                            "doctorAddress": walletAdd,
+                            "dateOfPrescription": _formPatient
+                                .currentState
+                                ?.value["dateTimeToday"],
+                            "validTill": _formPatient
+                                .currentState?.value["validTill"].toString(),
+                            "medicineList": medicineList,
+
+                          };
+                          print(objText);
+                          var hashReceived = await Provider.of<IPFSModel>(
+                              context,
+                              listen: false)
+                              .sendData(objText);
+                          print("hashReceived ------" +
+                              hashReceived.toString());
+                          if (hashReceived != null) {
+                            Credentials credentialsNew;
+                            EthereumAddress myAddress;
+                            var dbResponse = await WalletSharedPreference
+                                .getWalletDetails();
+                            print(
+                                _formFieldForPassword.currentState?.value["password"]);
+                            Wallet newWallet = Wallet.fromJson(
+                                dbResponse!['walletEncryptedKey']
+                                    .toString(),
+                                _formFieldForPassword.currentState?.value["password"]);
+                            credentialsNew = newWallet.privateKey;
+                            myAddress =
+                            await credentialsNew.extractAddress();
+
+
+                            // estimateGasFunction(
+                            //     _formKey
+                            //         .currentState?.value["patient_name"],
+                            //     hashReceived,
+                            //     hospitalAddress,
+                            //     doctorAddress,
+                            //     myAddress,
+                            //     credentialsNew);
+                          }
+                        } else {
+                          print("validation failed");
+                        }
+                      },
+                      icon: Image.asset("assets/icons/sign_in.png",
+                          color: Theme.of(context).colorScheme.secondary,
+                          width: 25,
+                          fit: BoxFit.fill,
+                          height: 25),
+                      label: const Text('Store Details'),
+                    ),
+                  ),
+                ),
               ],
             )))
       ];
@@ -442,8 +663,31 @@ class _DoctorPrescriptionScreenState extends State<DoctorPrescriptionScreen> {
           type: StepperType.horizontal,
           currentStep: _activeCurrentStep,
           steps: stepList(),
+          controlsBuilder: (BuildContext context,  ControlsDetails details) {
+            return Padding(
+              padding: const EdgeInsets.only(top: 16.0),
+              child: Row(
+
+                children: <Widget>[
+                  TextButton(
+                    onPressed: details.onStepContinue,
+                    child: const Text('NEXT'),
+                  ),
+
+                ],
+              ),
+            );
+          },
           onStepContinue: () {
             if (_activeCurrentStep < (stepList().length - 1)) {
+              print(_activeCurrentStep);
+              if(_activeCurrentStep == 0 ) {
+                _formPatient.currentState?.save();
+
+                if (_formPatient.currentState?.validate() != false) {
+                    print(_formPatient.currentState?.value['patientAddress']);
+                }
+              }
               setState(() {
                 _activeCurrentStep += 1;
               });
@@ -458,6 +702,7 @@ class _DoctorPrescriptionScreenState extends State<DoctorPrescriptionScreen> {
             });
           },
           onStepTapped: (int index) {
+            print(index);
             setState(() {
               _activeCurrentStep = index;
             });

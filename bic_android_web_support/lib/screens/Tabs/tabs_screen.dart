@@ -11,7 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 
 import '../../screens/medical_records_screen.dart';
-import '../../screens/prescription_screen.dart';
+import '../screen_pharmacy/prescription_screen.dart';
 
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';

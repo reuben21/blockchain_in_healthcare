@@ -148,7 +148,7 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                   padding: const EdgeInsets.all(8),
                   child: Container(
                     width: double.infinity,
-                    height: 500,
+                    height: 530,
                     child: doctorIpfsHash['doctor_name'] == ''
                         ? Card(
                             borderOnForeground: true,
@@ -221,6 +221,22 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                                       Text('Address', style: textStyleForName),
                                   subtitle: Text(
                                     doctorIpfsHash['doctor_address'],
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.black.withOpacity(0.6)),
+                                  ),
+                                ),
+                                ListTile(
+                                  leading: Image.asset(
+                                      "assets/icons/address-100.png",
+                                      color:
+                                      Theme.of(context).colorScheme.primary,
+                                      width: 35,
+                                      height: 35),
+                                  title:
+                                  Text('Hospital Address', style: textStyleForName),
+                                  subtitle: Text(
+                                    doctorIpfsHash['hospital_address'],
                                     style: TextStyle(
                                         fontSize: 20,
                                         color: Colors.black.withOpacity(0.6)),
@@ -336,6 +352,48 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                                   doctorGender: doctorIpfsHash['doctor_gender'],
                                   doctorPhoneNo:
                                       doctorIpfsHash['doctor_phone_no'],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Card(
+                    borderOnForeground: true,
+                    clipBehavior: Clip.antiAlias,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                          color: Theme.of(context).colorScheme.primary,
+                          width: 2),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        ListTile(
+                          trailing: Image.asset("assets/icons/forward-100.png",
+                              color: Theme.of(context).primaryColor,
+                              width: 25,
+                              height: 25),
+                          title: Text('Change Hospital on Blockchain',
+                              style: Theme.of(context).textTheme.bodyText1),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DoctorDetails(
+                                  doctorName: doctorIpfsHash['doctor_name'],
+                                  doctorAge: doctorIpfsHash['doctor_age'],
+                                  doctorAddress:
+                                  doctorIpfsHash['doctor_address'],
+                                  doctorGender: doctorIpfsHash['doctor_gender'],
+                                  doctorPhoneNo:
+                                  doctorIpfsHash['doctor_phone_no'],
                                 ),
                               ),
                             );

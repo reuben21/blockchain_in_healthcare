@@ -24,7 +24,7 @@ import '../providers/patient.dart';
 import '../providers/wallet.dart';
 import '../screens/Tabs/tabs_screen.dart';
 import '../screens/medical_records_screen.dart';
-import '../screens/prescription_screen.dart';
+import 'screens/screen_pharmacy/prescription_screen.dart';
 import 'screens/screens_wallet/transfer_screen.dart';
 import 'screens/screen_unusefull/wallet.dart';
 import 'screens/screen_unusefull/wallet_login.dart';
