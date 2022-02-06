@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:bic_android_web_support/databases/wallet_shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../helpers/keys.dart' as keys;
@@ -16,6 +17,9 @@ import 'package:web3dart/credentials.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
 
+import 'doctor_change_hospital.dart';
+import 'doctor_patient_medical_view.dart';
+
 class DoctorRecordScreen extends StatefulWidget {
   static const routeName = '/doctor-record-screen';
 
@@ -30,6 +34,7 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
   late String doctorName;
   late String doctorIpfsHashData;
   late Map<String, dynamic> doctorIpfsHash;
+  String walletAdd = '';
   @override
   void initState() {
     role = '';
@@ -43,7 +48,16 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
       "doctor_phone_no": "",
     };
     fetchDoctorData();
+    getWalletFromDatabase();
     super.initState();
+  }
+
+  Future<void> getWalletFromDatabase() async {
+    var dbResponse = await WalletSharedPreference.getWalletDetails();
+    walletAdd = dbResponse!['walletAddress'].toString();
+    setState(() {
+      walletAdd;
+    });
   }
 
   Future<void> fetchDoctorData() async {
@@ -386,15 +400,45 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => DoctorDetails(
-                                  doctorName: doctorIpfsHash['doctor_name'],
-                                  doctorAge: doctorIpfsHash['doctor_age'],
-                                  doctorAddress:
-                                  doctorIpfsHash['doctor_address'],
-                                  doctorGender: doctorIpfsHash['doctor_gender'],
-                                  doctorPhoneNo:
-                                  doctorIpfsHash['doctor_phone_no'],
+                                builder: (context) => DoctorChangeHospital(
+
+
+                                  oldHospitalAddress: doctorIpfsHash['hospital_address'], doctorWalletAddress:walletAdd ,
                                 ),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Card(
+                    borderOnForeground: true,
+                    clipBehavior: Clip.antiAlias,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                          color: Theme.of(context).colorScheme.primary,
+                          width: 2),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        ListTile(
+                          trailing: Image.asset("assets/icons/forward-100.png",
+                              color: Theme.of(context).primaryColor,
+                              width: 25,
+                              height: 25),
+                          title: Text('View Medical Record For Patient',
+                              style: Theme.of(context).textTheme.bodyText1),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DoctorPatientMedicalRecordView(),
                               ),
                             );
                           },
