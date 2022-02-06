@@ -7,7 +7,6 @@ import 'package:bic_android_web_support/providers/provider_firebase/model_fireba
 import 'package:bic_android_web_support/providers/provider_pharmacy/model_pharmacy.dart';
 import 'package:bic_android_web_support/providers/wallet.dart';
 import 'package:bic_android_web_support/screens/Tabs/tabs_screen.dart';
-import 'package:bic_android_web_support/screens/screen_patient/patient_single_medical_view.dart';
 import 'package:bic_android_web_support/screens/screens_auth/background.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -16,22 +15,30 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:provider/provider.dart';
 import 'package:web3dart/credentials.dart';
+import '../../helpers/keys.dart' as keys;
 
-import 'doctor_patient_medical_view_single.dart';
-
-class DoctorPatientMedicalRecordView extends StatefulWidget {
+class DoctorPatientMedicalRecordViewSingle extends StatefulWidget {
   static const routeName = '/patient-medical-records';
 
+  int recordNumber;
+  EthereumAddress walletAddress;
+
+  DoctorPatientMedicalRecordViewSingle(
+      {required this.recordNumber, required this.walletAddress});
+
   @override
-  _DoctorPatientMedicalRecordViewState createState() => _DoctorPatientMedicalRecordViewState();
+  _DoctorPatientMedicalRecordViewSingleState createState() =>
+      _DoctorPatientMedicalRecordViewSingleState();
 }
 
-class _DoctorPatientMedicalRecordViewState extends State<DoctorPatientMedicalRecordView> {
+class _DoctorPatientMedicalRecordViewSingleState
+    extends State<DoctorPatientMedicalRecordViewSingle> {
   final _formKey = GlobalKey<FormBuilderState>();
 
   String walletAdd = '';
-  String patientAddress = '';
+  String medicalRecordHash = '';
   BigInt medicalRecordCount = BigInt.from(0);
+  bool verifiedStatus = false;
 
   // File file
 
@@ -42,60 +49,42 @@ class _DoctorPatientMedicalRecordViewState extends State<DoctorPatientMedicalRec
     super.initState();
   }
 
-  Future<void> uploadImage(
-      Credentials credentials, EthereumAddress walletAddress) async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
-
-    if (result != null) {
-      File file = File(result.files.single.path.toString());
-      var hashReceived =
-      await Provider.of<IPFSModel>(context, listen: false).sendFile(file);
-      print("hashReceived ------" + hashReceived.toString());
-      if (hashReceived.toString().isNotEmpty) {
-        estimateGasFunction(hashReceived, walletAddress, credentials);
-      }
-    } else {
-      // User canceled the picker
-    }
-  }
   Future<void> getWalletFromDatabase() async {
     Credentials credentialsNew;
     EthereumAddress address;
 
+    print(widget.walletAddress);
     credentialsNew =
         Provider.of<WalletModel>(context, listen: false).walletCredentials;
     address = await credentialsNew.extractAddress();
 
     var data = await Provider.of<PharmacyModel>(context, listen: false)
-        .readContract("getMedicalRecordCountForPatient", [address]);
+        .readContract("getMedicalRecord",
+            [widget.walletAddress, BigInt.from(widget.recordNumber)]);
     print(data);
     setState(() {
       walletAdd = address.hex.toString();
-      medicalRecordCount = data[0];
+      medicalRecordCount = data[0][0];
+      medicalRecordHash = data[0][1].toString();
+      verifiedStatus = data[0][2];
     });
   }
 
-  Future<void> getMedicalRecordForPatient(EthereumAddress address) async {
-
-
-
-    var data = await Provider.of<PharmacyModel>(context, listen: false)
-        .readContract("getMedicalRecordCountForPatient", [address]);
-    print(data);
-    setState(() {
-      medicalRecordCount = data[0];
-    });
-  }
-
-
-  Future<void> estimateGasFunction(String medicalRecordHash,
-      EthereumAddress walletAddress, Credentials credentials) async {
+  Future<void> estimateGasFunction(
+      int value,
+      EthereumAddress patientAddress,
+      EthereumAddress doctorAddress,
+      bool verifiedStatus,
+      Credentials doctorCredentials) async {
     var gasEstimation =
-    await Provider.of<GasEstimationModel>(context, listen: false)
-        .estimateGasForContractFunction(
-        walletAddress,
-        "setMedicalRecordByPatient",
-        [medicalRecordHash, walletAddress]);
+        await Provider.of<GasEstimationModel>(context, listen: false)
+            .estimateGasForContractFunction(
+                doctorAddress, "setMedicalRecordVerificationStatus", [
+      BigInt.from(value),
+      patientAddress,
+      doctorAddress,
+      verifiedStatus
+    ]);
     print(gasEstimation);
 
     return showDialog(
@@ -154,7 +143,7 @@ class _DoctorPatientMedicalRecordViewState extends State<DoctorPatientMedicalRec
                             child: ListTile(
                               leading: Image.asset("assets/icons/wallet.png",
                                   color:
-                                  Theme.of(context).colorScheme.secondary,
+                                      Theme.of(context).colorScheme.secondary,
                                   width: 35,
                                   height: 35),
                               title: Text('From Wallet Address',
@@ -162,14 +151,14 @@ class _DoctorPatientMedicalRecordViewState extends State<DoctorPatientMedicalRec
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                     color:
-                                    Theme.of(context).colorScheme.secondary,
+                                        Theme.of(context).colorScheme.secondary,
                                   )),
                               subtitle: Text(
-                                walletAddress.hex.toString(),
+                                doctorAddress.hex.toString(),
                                 style: TextStyle(
                                   fontSize: 15,
                                   color:
-                                  Theme.of(context).colorScheme.secondary,
+                                      Theme.of(context).colorScheme.secondary,
                                 ),
                               ),
                             ),
@@ -224,7 +213,7 @@ class _DoctorPatientMedicalRecordViewState extends State<DoctorPatientMedicalRec
                             child: ListTile(
                               trailing: Image.asset("assets/icons/wallet.png",
                                   color:
-                                  Theme.of(context).colorScheme.secondary,
+                                      Theme.of(context).colorScheme.secondary,
                                   width: 35,
                                   height: 35),
                               title: Text('To Wallet Address',
@@ -232,14 +221,14 @@ class _DoctorPatientMedicalRecordViewState extends State<DoctorPatientMedicalRec
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                     color:
-                                    Theme.of(context).colorScheme.secondary,
+                                        Theme.of(context).colorScheme.secondary,
                                   )),
                               subtitle: Text(
                                 gasEstimation['contractAddress'].toString(),
                                 style: TextStyle(
                                   fontSize: 15,
                                   color:
-                                  Theme.of(context).colorScheme.secondary,
+                                      Theme.of(context).colorScheme.secondary,
                                 ),
                               ),
                             ),
@@ -352,9 +341,9 @@ class _DoctorPatientMedicalRecordViewState extends State<DoctorPatientMedicalRec
                       Row(children: <Widget>[
                         Expanded(
                           child: Divider(
-                            // thickness: 2,
-                            // color: Colors.grey,
-                          ),
+                              // thickness: 2,
+                              // color: Colors.grey,
+                              ),
                         ),
                       ]),
                       const SizedBox(
@@ -407,8 +396,8 @@ class _DoctorPatientMedicalRecordViewState extends State<DoctorPatientMedicalRec
                     backgroundColor: Theme.of(context).colorScheme.primary,
                     foregroundColor: Theme.of(context).colorScheme.secondary,
                     onPressed: () async {
-                      executeTransaction(
-                          medicalRecordHash, walletAddress, credentials);
+                      executeTransaction(value, patientAddress, doctorAddress,
+                          verifiedStatus, doctorCredentials);
                     },
                     icon: const Icon(Icons.add_circle_outline_outlined),
                     label: const Text('Confirm Pay'),
@@ -430,20 +419,21 @@ class _DoctorPatientMedicalRecordViewState extends State<DoctorPatientMedicalRec
     );
   }
 
-  Future<void> executeTransaction(String medicalRecordHash,
-      EthereumAddress walletAddress, Credentials credentials) async {
+  Future<void> executeTransaction(
+      int value,
+      EthereumAddress patientAddress,
+      EthereumAddress doctorAddress,
+      bool verifiedStatus,
+      Credentials doctorCredentials) async {
     var transactionHash =
-    await Provider.of<PharmacyModel>(context, listen: false).writeContract(
-        "setMedicalRecordByPatient",
-        [
-          medicalRecordHash,
-          walletAddress,
-        ],
-        credentials);
+        await Provider.of<PharmacyModel>(context, listen: false).writeContract(
+            "setMedicalRecordVerificationStatus",
+            [BigInt.from(value), patientAddress, doctorAddress, verifiedStatus],
+            doctorCredentials);
 
     var firebaseStatus =
-    await Provider.of<FirebaseModel>(context, listen: false)
-        .storeTransaction(transactionHash);
+        await Provider.of<FirebaseModel>(context, listen: false)
+            .storeTransaction(transactionHash);
 
     if (firebaseStatus) {
       Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
@@ -499,6 +489,10 @@ class _DoctorPatientMedicalRecordViewState extends State<DoctorPatientMedicalRec
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    var textStyleForName = TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+        color: Theme.of(context).colorScheme.primary);
     return Scaffold(
       // appBar: AppBar(
       //   elevation: 0,
@@ -510,209 +504,77 @@ class _DoctorPatientMedicalRecordViewState extends State<DoctorPatientMedicalRec
             children: [
               SingleChildScrollView(
                 child: Background(
-                  child: SingleChildScrollView(
-                    child: Container(
-                      child: Column(
-                        children: [
-
-                          Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: Card(
-                              borderOnForeground: true,
-                              clipBehavior: Clip.antiAlias,
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                    color:
-                                    Theme.of(context).colorScheme.primary,
-                                    width: 2),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Column(
-
-                                children: <Widget>[
-                                  FormBuilder(
-                                      key: _formKey,
-                                      autovalidateMode:
-                                      AutovalidateMode.onUserInteraction,
-                                      child: Column(
-                                        children: [
-                                          Padding(
-                                              padding: const EdgeInsets.all(15),
-                                              child: formBuilderTextFieldWidget(
-                                                  TextInputType.number,
-                                                  '0x1072f3b15da7fecfce1120d605d299f185d0fe1b',
-                                                  'patient_address',
-                                                  'Patient Address',
-                                                  Image.asset(
-                                                      "assets/icons/key-100.png",
-                                                      color: Theme.of(context)
-                                                          .colorScheme
-                                                          .primary,
-                                                      scale: 4,
-                                                      width: 15,
-                                                      height: 15),
-                                                  false,
-                                                  [
-                                                    FormBuilderValidators.required(
-                                                        context),
-                                                  ])),
-
-                                        ],
-                                      )),
-                                  ListTile(
-                                    trailing: Image.asset(
-                                        "assets/icons/forward-100.png",
-                                        color: Theme.of(context).primaryColor,
-                                        width: 25,
-                                        height: 25),
-                                    title: Text('View Medical Record',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1),
-                                    onTap: () async {
-                                      _formKey.currentState?.save();
-                                      if (_formKey.currentState?.validate() !=
-                                          false) {
-                                        // Credentials credentialsNew;
-                                        // EthereumAddress myAddress;
-                                        // var dbResponse =
-                                        // await WalletSharedPreference
-                                        //     .getWalletDetails();
-                                        print(_formKey
-                                            .currentState?.value["patient_address"]);
-                                        // Wallet newWallet = Wallet.fromJson(
-                                        //     dbResponse!['walletEncryptedKey']
-                                        //         .toString(),
-                                        //     _formKey.currentState
-                                        //         ?.value["password"]);
-                                        // credentialsNew = newWallet.privateKey;
-                                        // myAddress = await credentialsNew
-                                        //     .extractAddress();
-                                        // uploadImage(credentialsNew, myAddress);
-                                        patientAddress = _formKey
-                                            .currentState?.value["patient_address"];
-                                        setState(() {
-                                          patientAddress;
-                                        });
-                                        getMedicalRecordForPatient(EthereumAddress.fromHex(_formKey
-                                            .currentState?.value["patient_address"]));
-
-                                      }
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: SizedBox(
-                              height: 125,
-                              width: double.infinity,
-                              child: Card(
-                                clipBehavior: Clip.antiAlias,
-                                shape: RoundedRectangleBorder(
-                                  side: BorderSide(
-                                      color: Theme.of(context).colorScheme.primary,
-                                      width: 2),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        medicalRecordCount.toString(),
-                                        style: TextStyle(
-                                            color:
-                                            Theme.of(context).colorScheme.primary,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                    Image.asset("assets/icons/patient-count-100.png",
-                                        color: Theme.of(context).colorScheme.primary,
-                                        width: 50,
-                                        height: 50),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        "Patient Medical Record Count",
-                                        style: TextStyle(
-                                            color:
-                                            Theme.of(context).colorScheme.primary,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: SizedBox(
-                                width: double.infinity,
-                                height: size.height - 400,
-                                child: SingleChildScrollView(
-                                  child: ListView.builder(
-                                      shrinkWrap: true,
-                                      physics: const NeverScrollableScrollPhysics(),
-                                      itemCount: medicalRecordCount.toInt(),
-                                      itemBuilder:
-                                          (BuildContext context, int position) {
-                                        return Card(
-                                          borderOnForeground: true,
-                                          clipBehavior: Clip.antiAlias,
-                                          shape: RoundedRectangleBorder(
-                                            side: BorderSide(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .primary,
-                                                width: 2),
-                                            borderRadius: BorderRadius.circular(10),
-                                          ),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: <Widget>[
-                                              ListTile(
-                                                trailing: Image.asset(
-                                                    "assets/icons/forward-100.png",
-                                                    color: Theme.of(context)
-                                                        .primaryColor,
-                                                    width: 25,
-                                                    height: 25),
-                                                title: Text(
-                                                    'View Medical Record ${position + 1}',
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyText1),
-                                                onTap: () {
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          DoctorPatientMedicalRecordViewSingle(
-                                                            recordNumber: position + 1,
-                                                            walletAddress:
-                                                            EthereumAddress.fromHex(
-                                                                patientAddress),
-                                                          ),
-                                                    ),
-                                                  );
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                        );
-                                      }),
-                                )),
-                          )
-                        ],
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: 100,
                       ),
-                    ),
+                      Card(
+                        borderOnForeground: true,
+                        clipBehavior: Clip.antiAlias,
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                              color: Theme.of(context).colorScheme.primary,
+                              width: 2),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: ListTile(
+                          title: Text(
+                            "Medical Record ID",
+                            style: textStyleForName,
+                          ),
+                          subtitle: Text(
+                            medicalRecordCount.toString(),
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.red.withOpacity(0.6),
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                      Image.network(
+                          '${keys.getIpfsUrlForReceivingData}${medicalRecordHash}'),
+                      Card(
+                        borderOnForeground: true,
+                        clipBehavior: Clip.antiAlias,
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                              color: Theme.of(context).colorScheme.primary,
+                              width: 2),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: ListTile(
+                          title: Text(
+                            "Verified Status: ",
+                            style: textStyleForName,
+                          ),
+                          subtitle: Text(
+                            verifiedStatus.toString(),
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.red.withOpacity(0.6)),
+                          ),
+                        ),
+                      ),
+                      FloatingActionButton.extended(
+                        heroTag: "confirmPay",
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        foregroundColor: Theme.of(context).colorScheme.secondary,
+                        onPressed: () async {
+                          Credentials doctorCredentials;
+                          EthereumAddress doctorAddress;
+
+                          print(widget.walletAddress);
+                          doctorCredentials =
+                              Provider.of<WalletModel>(context, listen: false).walletCredentials;
+                          doctorAddress = await doctorCredentials.extractAddress();
+                              estimateGasFunction(widget.recordNumber, widget.walletAddress, doctorAddress, true, doctorCredentials);
+                        },
+                        icon: const Icon(Icons.add_circle_outline_outlined),
+                        label: const Text('Accept'),
+                      )
+                    ],
                   ),
                 ),
               ),
