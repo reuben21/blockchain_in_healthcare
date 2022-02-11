@@ -557,7 +557,7 @@ class _DoctorPatientMedicalRecordViewSingleState
                           ),
                         ),
                       ),
-                      FloatingActionButton.extended(
+                     verifiedStatus ?SizedBox()  : FloatingActionButton.extended(
                         heroTag: "confirmPay",
                         backgroundColor: Theme.of(context).colorScheme.primary,
                         foregroundColor: Theme.of(context).colorScheme.secondary,
@@ -569,10 +569,10 @@ class _DoctorPatientMedicalRecordViewSingleState
                           doctorCredentials =
                               Provider.of<WalletModel>(context, listen: false).walletCredentials;
                           doctorAddress = await doctorCredentials.extractAddress();
-                              estimateGasFunction(widget.recordNumber, widget.walletAddress, doctorAddress, true, doctorCredentials);
+                          estimateGasFunction(widget.recordNumber, widget.walletAddress, doctorAddress, true, doctorCredentials);
                         },
                         icon: const Icon(Icons.add_circle_outline_outlined),
-                        label: const Text('Accept'),
+                        label: const Text('Approve'),
                       )
                     ],
                   ),

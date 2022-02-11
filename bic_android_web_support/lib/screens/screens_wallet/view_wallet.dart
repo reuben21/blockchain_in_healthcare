@@ -197,7 +197,7 @@ class _WalletViewState extends State<WalletView> {
                     Column(
                       children: [
                         const SizedBox(
-                          height: kIsWeb ? 10 : 50,
+                          height: kIsWeb ? 1 : 0,
                         ),
                         Padding(
                           padding: const EdgeInsets.all(10),
@@ -213,7 +213,7 @@ class _WalletViewState extends State<WalletView> {
                                     Colors.purpleAccent.withOpacity(0.9),
                                     // Colors.lightBlueAccent,
                                   ]),
-                              borderRadius: BorderRadius.circular(9),
+                              borderRadius: BorderRadius.circular(26),
                             ),
                             child: Column(
                               // crossAxisAlignment: CrossAxisAlignment.start,
