@@ -12,7 +12,7 @@ import 'package:web3dart/credentials.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
 
-import 'grant_role_screen.dart';
+import 'grant_access_to_doctor_screen.dart';
 
 class HospitalAccessControl extends StatefulWidget {
   static const routeName = '/hospital-access-control-screen';
@@ -94,7 +94,7 @@ class _HospitalAccessControlState extends State<HospitalAccessControl> {
                             color: Theme.of(context).primaryColor,
                             width: 25,
                             height: 25),
-                        title: Text('Grant Role',
+                        title: Text('Grant Access To Doctor',
                             style: Theme.of(context).textTheme.bodyText1),
                         onTap: () {
 

@@ -10,6 +10,7 @@ import 'package:bic_android_web_support/screens/Tabs/tabs_screen.dart';
 import 'package:bic_android_web_support/screens/screen_patient/patient_single_medical_view.dart';
 import 'package:bic_android_web_support/screens/screens_auth/background.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -26,6 +27,7 @@ class PatientMedicalRecordView extends StatefulWidget {
 }
 
 class _PatientMedicalRecordViewState extends State<PatientMedicalRecordView> {
+
   final _formKey = GlobalKey<FormBuilderState>();
 
   String walletAdd = '';

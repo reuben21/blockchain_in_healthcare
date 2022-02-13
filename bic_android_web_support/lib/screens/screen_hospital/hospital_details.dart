@@ -6,6 +6,7 @@ import 'package:bic_android_web_support/providers/provider_firebase/model_fireba
 import 'package:bic_android_web_support/providers/wallet.dart';
 import 'package:bic_android_web_support/screens/Tabs/tabs_screen.dart';
 import 'package:bic_android_web_support/screens/screens_auth/background.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -22,6 +23,8 @@ class HospitalDetailScreen extends StatefulWidget {
 }
 
 class _HospitalDetailScreenState extends State<HospitalDetailScreen> {
+  FirebaseAuth auth = FirebaseAuth.instance;
+
   final _formKey = GlobalKey<FormBuilderState>();
   String walletAdd = '';
 
@@ -37,11 +40,12 @@ class _HospitalDetailScreenState extends State<HospitalDetailScreen> {
       String hospitalName,
       String ipfsHash,
       EthereumAddress walletAddress,
+      String customRoleId,
       Credentials credentials) async {
     var gasEstimation =
     await Provider.of<GasEstimationModel>(context, listen: false)
         .estimateGasForContractFunction(walletAddress, "storeHospital",
-        [hospitalName, ipfsHash, walletAddress]);
+        [hospitalName, ipfsHash, walletAddress,customRoleId]);
     print(gasEstimation);
 
     return showDialog(
@@ -353,7 +357,7 @@ class _HospitalDetailScreenState extends State<HospitalDetailScreen> {
                     backgroundColor: Theme.of(context).colorScheme.primary,
                     foregroundColor: Theme.of(context).colorScheme.secondary,
                     onPressed: () async {
-                      executeTransaction(hospitalName, ipfsHash, walletAddress,
+                      executeTransaction(hospitalName, ipfsHash, walletAddress,customRoleId,
                            credentials);
                     },
                     icon: const Icon(Icons.add_circle_outline_outlined),
@@ -380,10 +384,11 @@ class _HospitalDetailScreenState extends State<HospitalDetailScreen> {
       String hospitalName,
       String ipfsHash,
       EthereumAddress walletAddress,
+      String customRoleId,
       Credentials credentials) async {
     var transactionHash = await Provider.of<WalletModel>(context, listen: false)
         .writeContract("storeHospital",
-        [hospitalName, ipfsHash, walletAddress], credentials);
+        [hospitalName, ipfsHash, walletAddress,customRoleId], credentials);
 
     var firebaseStatus =
     await Provider.of<FirebaseModel>(context, listen: false)
@@ -397,7 +402,7 @@ class _HospitalDetailScreenState extends State<HospitalDetailScreen> {
 
   Widget formBuilderTextFieldWidget(
       TextInputType inputTextType,
-      String initialValue,
+      String? initialValue,
       String fieldName,
       String labelText,
       Image icon,
@@ -491,7 +496,7 @@ class _HospitalDetailScreenState extends State<HospitalDetailScreen> {
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
                                           TextInputType.text,
-                                          'Hospital',
+                                          'Hospital A',
                                           'hospitalName',
                                           'Hospital Name',
                                           Image.asset(
@@ -511,7 +516,7 @@ class _HospitalDetailScreenState extends State<HospitalDetailScreen> {
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
                                           TextInputType.number,
-                                          '40',
+                                          '2008',
                                           'origin',
                                           'Year of Origin',
                                           Image.asset(
@@ -531,9 +536,29 @@ class _HospitalDetailScreenState extends State<HospitalDetailScreen> {
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
                                           TextInputType.streetAddress,
-                                          'skldfjf',
+                                          'Daftary Rd , Malad East , Mumbai , India.',
                                           'address',
                                           'Address',
+                                          Image.asset(
+                                              "assets/icons/key-100.png",
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                              scale: 4,
+                                              width: 15,
+                                              height: 15),
+                                          false,
+                                          [
+                                            FormBuilderValidators.required(
+                                                context),
+                                          ])),
+                                  Padding(
+                                      padding: const EdgeInsets.all(15),
+                                      child: formBuilderTextFieldWidget(
+                                          TextInputType.streetAddress,
+                                          auth.currentUser?.uid.toString(),
+                                          'custom_role_id',
+                                          'Custom Role ID',
                                           Image.asset(
                                               "assets/icons/key-100.png",
                                               color: Theme.of(context)
@@ -642,11 +667,12 @@ class _HospitalDetailScreenState extends State<HospitalDetailScreen> {
                                 credentialsNew = newWallet.privateKey;
                                 myAddress =
                                 await credentialsNew.extractAddress();
+
                                 estimateGasFunction(
                                     _formKey
                                         .currentState?.value["hospitalName"],
                                     hashReceived,
-                                    myAddress,
+                                    myAddress,_formKey.currentState?.value["custom_role_id"],
                                     credentialsNew);
                               } else {
                                 print("validation failed");

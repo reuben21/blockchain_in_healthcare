@@ -32,28 +32,28 @@ String get rpcUrlWebSocket {
 
 String get getIpfsUrl {
   if(kIsWeb) {
-    return "http://127.0.0.1:5001";
+    return "https://ipfs.infura.io:5001";
   }
   else if(Platform.isWindows) {
-    return "http://127.0.0.1:5001";
+    return "https://ipfs.infura.io:5001";
   } else if (Platform.isAndroid) {
-    return  "http://10.0.2.2:5001";
+    return  "https://ipfs.infura.io:5001";
   }
 
-  return "http://127.0.0.1:5001";
+  return "https://ipfs.infura.io:5001";
 }
 
 String get getIpfsUrlForReceivingData {
   if(kIsWeb) {
-    return "http://127.0.0.1:8080/ipfs/";
+    return "https://ipfs.infura.io:5001/api/v0/cat?arg=";
   }
   else if(Platform.isWindows) {
-    return "http://127.0.0.1:8080/ipfs/";
+    return "https://ipfs.infura.io:5001/api/v0/cat?arg=";
   } else if (Platform.isAndroid) {
-    return  "http://10.0.2.2:8080/ipfs/";
+    return "https://ipfs.infura.io:5001/api/v0/cat?arg=";
   }
 
-  return "http://127.0.0.1:8080/ipfs/";
+  return "https://ipfs.infura.io:5001/api/v0/cat?arg=";
 }
 
 

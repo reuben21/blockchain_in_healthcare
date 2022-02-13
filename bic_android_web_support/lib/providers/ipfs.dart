@@ -26,11 +26,13 @@ class IPFSModel with ChangeNotifier {
       // print(hash);
 
       var request = http.MultipartRequest(
-          "POST", Uri.parse('${keys.getIpfsUrl}/api/v0/add'));
+          "POST", Uri.parse('${keys.getIpfsUrl}/api/v0/add')
+
+      );
       var encodedData = json.encode(objText);
 
       print(encodedData);
-
+      request.headers["authorization"]="252s1jgGQEckoYwBoYkVlVhyRwK:4936ba4af9a292af7eebdee4e02b6f8d";
       request.fields['Data'] = encodedData;
       http.Response response =
       await http.Response.fromStream(await request.send());

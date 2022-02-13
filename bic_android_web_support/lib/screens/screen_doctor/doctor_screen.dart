@@ -68,22 +68,25 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
         Provider.of<WalletModel>(context, listen: false).walletCredentials;
     address = await credentialsNew.extractAddress();
     print(address);
-    var dataRole = await Provider.of<WalletModel>(context, listen: false)
-        .readContract("getRoleForUser", [address]);
-    print("Role Status -" + dataRole.toString());
 
     var data = await Provider.of<WalletModel>(context, listen: false)
         .readContract("getDoctorData", [address]);
+
     print(data);
     // print(data[0]);
-    if (data[0].toString() != '') {
+
+    if (data[1].toString() != '') {
       var doctorData = await Provider.of<IPFSModel>(context, listen: false)
           .receiveData(data[1]);
       print(doctorData);
+      var dataRole = await Provider.of<WalletModel>(context, listen: false)
+          .readContract("getRoleForDoctors", [EthereumAddress.fromHex(doctorData!['hospital_address']),address]);
+      print("Role Status -" + dataRole.toString());
+
       setState(() {
         doctorName = data[0].toString();
         doctorIpfsHashData = data[1].toString();
-        doctorIpfsHash = doctorData!;
+        doctorIpfsHash = doctorData;
         role = dataRole[0].toString();
       });
     } else {
@@ -203,7 +206,7 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                                   title: Text('Doctor Name',
                                       style: textStyleForName),
                                   subtitle: Text(
-                                    doctorName,
+                                    doctorIpfsHash['doctor_name'] ,
                                     style: TextStyle(
                                         fontSize: 20,
                                         color: Colors.black.withOpacity(0.6)),

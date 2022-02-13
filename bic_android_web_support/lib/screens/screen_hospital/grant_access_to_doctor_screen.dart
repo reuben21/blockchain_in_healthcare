@@ -6,6 +6,7 @@ import 'package:bic_android_web_support/providers/provider_firebase/model_fireba
 import 'package:bic_android_web_support/providers/wallet.dart';
 import 'package:bic_android_web_support/screens/Tabs/tabs_screen.dart';
 import 'package:bic_android_web_support/screens/screens_auth/background.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -22,6 +23,7 @@ class GrantRoleScreen extends StatefulWidget {
 }
 
 class _GrantRoleScreenState extends State<GrantRoleScreen> {
+  FirebaseAuth auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormBuilderState>();
   String walletAdd = '';
 
@@ -34,14 +36,13 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
   }
 
   Future<void> estimateGasFunction(
-      String functionName,
-      EthereumAddress userAddess,
-      EthereumAddress walletAddress,
-      Credentials credentials) async {
+      EthereumAddress walletAddress) async {
+    Credentials hospitalCredentials = await Provider.of<WalletModel>(context, listen: false).walletCredentials;
+    EthereumAddress hospitalAddress = await hospitalCredentials.extractAddress();
     var gasEstimation =
     await Provider.of<GasEstimationModel>(context, listen: false)
-        .estimateGasForContractFunction(walletAddress, functionName,
-        [  walletAddress,userAddess]);
+        .estimateGasForContractFunction(hospitalAddress, "grantRoleFromHospital",
+        [hospitalAddress, walletAddress,auth.currentUser?.uid.toString()]);
     print(gasEstimation);
 
 
@@ -354,8 +355,8 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
                     backgroundColor: Theme.of(context).colorScheme.primary,
                     foregroundColor: Theme.of(context).colorScheme.secondary,
                     onPressed: () async {
-                      executeTransaction(functionName, userAddess, walletAddress,
-                          credentials);
+                      executeTransaction(hospitalAddress,walletAddress,
+                          hospitalCredentials);
                     },
                     icon: const Icon(Icons.add_circle_outline_outlined),
                     label: const Text('Confirm Pay'),
@@ -378,13 +379,12 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
   }
 
   Future<void> executeTransaction(
-      String functionName,
-      EthereumAddress userAddress,
+      EthereumAddress hospitalAddress,
       EthereumAddress walletAddress,
       Credentials credentials) async {
     var transactionHash = await Provider.of<WalletModel>(context, listen: false)
-        .writeContract(functionName,
-        [  walletAddress,userAddress],credentials);
+        .writeContract("grantRoleFromHospital",
+        [ hospitalAddress, walletAddress,auth.currentUser?.uid],credentials);
 
     var firebaseStatus =
     await Provider.of<FirebaseModel>(context, listen: false)
@@ -461,7 +461,7 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Grant Role',
+                          'Grant Role \nTo\nDoctor',
                           style: Theme.of(context).textTheme.headline1,
                         ),
                         // SizedBox(height: size.height * 0.03),
@@ -494,7 +494,7 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
                                           TextInputType.streetAddress,
-                                          '0x1072f3b15da7fecfce1120d605d299f185d0fe1b',
+                                          '0x6bde22a36daeb9ee6813677dafdf2315f422a1d4',
                                           'walletAddress',
                                           'Wallet Address',
                                           Image.asset(
@@ -510,64 +510,64 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
                                             FormBuilderValidators.required(
                                                 context),
                                           ])),
-                                  Padding(
-                                    padding: const EdgeInsets.all(15),
-                                    child: FormBuilderDropdown(
-                                      name: 'role',
-                                      decoration: InputDecoration(
-                                        labelText: "Role To Grant",
-                                        prefixIcon: Image.asset(
-                                            "assets/icons/user-100.png",
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primary,
-                                            scale: 4,
-                                            width: 15,
-                                            height: 15),
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                          BorderRadius.circular(25.0),
-                                        ),
-                                        labelStyle: const TextStyle(
-                                          color: Color(0xFF6200EE),
-                                        ),
-                                        errorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Color(0xFF6200EE)),
-                                          borderRadius:
-                                          BorderRadius.circular(25.0),
-                                        ),
-                                        focusedErrorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Color(0xFF6200EE)),
-                                          borderRadius:
-                                          BorderRadius.circular(25.0),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Color(0xFF6200EE)),
-                                          borderRadius:
-                                          BorderRadius.circular(25.0),
-                                        ),
-                                      ),
-                                      // initialValue: 'Male',
-
-                                      allowClear: true,
-
-                                      validator: FormBuilderValidators.compose([
-                                        FormBuilderValidators.required(context)
-                                      ]),
-                                      items: [
-                                        'VERIFIED_PATIENT',
-                                        'VERIFIED_DOCTOR',
-                                      ]
-                                          .map((role) => DropdownMenuItem(
-                                        value: role,
-                                        child: Text('$role'),
-                                      ))
-                                          .toList(),
-                                    ),
-                                  ),
+                                  // Padding(
+                                  //   padding: const EdgeInsets.all(15),
+                                  //   child: FormBuilderDropdown(
+                                  //     name: 'role',
+                                  //     decoration: InputDecoration(
+                                  //       labelText: "Role To Grant",
+                                  //       prefixIcon: Image.asset(
+                                  //           "assets/icons/user-100.png",
+                                  //           color: Theme.of(context)
+                                  //               .colorScheme
+                                  //               .primary,
+                                  //           scale: 4,
+                                  //           width: 15,
+                                  //           height: 15),
+                                  //       border: OutlineInputBorder(
+                                  //         borderRadius:
+                                  //         BorderRadius.circular(25.0),
+                                  //       ),
+                                  //       labelStyle: const TextStyle(
+                                  //         color: Color(0xFF6200EE),
+                                  //       ),
+                                  //       errorBorder: OutlineInputBorder(
+                                  //         borderSide: BorderSide(
+                                  //             color: Color(0xFF6200EE)),
+                                  //         borderRadius:
+                                  //         BorderRadius.circular(25.0),
+                                  //       ),
+                                  //       focusedErrorBorder: OutlineInputBorder(
+                                  //         borderSide: BorderSide(
+                                  //             color: Color(0xFF6200EE)),
+                                  //         borderRadius:
+                                  //         BorderRadius.circular(25.0),
+                                  //       ),
+                                  //       enabledBorder: OutlineInputBorder(
+                                  //         borderSide: BorderSide(
+                                  //             color: Color(0xFF6200EE)),
+                                  //         borderRadius:
+                                  //         BorderRadius.circular(25.0),
+                                  //       ),
+                                  //     ),
+                                  //     // initialValue: 'Male',
+                                  //
+                                  //     allowClear: true,
+                                  //
+                                  //     validator: FormBuilderValidators.compose([
+                                  //       FormBuilderValidators.required(context)
+                                  //     ]),
+                                  //     items: [
+                                  //       'VERIFIED_PATIENT',
+                                  //       'VERIFIED_DOCTOR',
+                                  //     ]
+                                  //         .map((role) => DropdownMenuItem(
+                                  //       value: role,
+                                  //       child: Text('$role'),
+                                  //     ))
+                                  //         .toList(),
+                                  //   ),
+                                  // ),
                                   Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
@@ -611,13 +611,8 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
                                 // _formKey.currentState?.value["address"];
                                 // _formKey.currentState?.value["gender"];
                                 // _formKey.currentState?.value["password"]
-                                String role =_formKey.currentState?.value["role"];
-                                String address = _formKey.currentState?.value["walletAddress"];
-                                Map<String, dynamic> objText = {
-                                  "role":role,
-                                  "walletAddress": _formKey.currentState?.value["walletAddress"],
 
-                                };
+                                String doctorAddress = _formKey.currentState?.value["walletAddress"];
 
                                 Credentials credentialsNew;
                                 EthereumAddress myAddress;
@@ -634,15 +629,13 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
                                 myAddress =
                                 await credentialsNew.extractAddress();
                                 print(myAddress.hex);
-                                if(role=='VERIFIED_PATIENT'){
-                                  estimateGasFunction('grantRoleVerifiedPatient',EthereumAddress.fromHex(address),
-                                      myAddress,
-                                      credentialsNew);
-                                }else {
-                                  estimateGasFunction('grantRoleVerifiedDoctor',EthereumAddress.fromHex(address),
-                                      myAddress,
-                                      credentialsNew);
-                                }
+
+                                  estimateGasFunction(
+                                      EthereumAddress.fromHex(doctorAddress),
+                                      );
+                                  // executeTransaction(myAddress, EthereumAddress.fromHex(doctorAddress), credentialsNew);
+
+
 
                               } else {
                                 print("validation failed");
@@ -653,7 +646,7 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
                                 width: 25,
                                 fit: BoxFit.fill,
                                 height: 25),
-                            label: const Text('Store Details'),
+                            label: const Text('Grant Access'),
                           ),
                         ),
                       ],
