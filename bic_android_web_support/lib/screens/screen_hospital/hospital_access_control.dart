@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:bic_android_web_support/providers/ipfs.dart';
+import 'package:bic_android_web_support/screens/screen_hospital/grant_access_to_patient_screen.dart';
 import 'package:bic_android_web_support/screens/screen_patient/patient_details.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -107,6 +108,43 @@ class _HospitalAccessControlState extends State<HospitalAccessControl> {
                           );
                         },
                       ),
+
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: Card(
+                  borderOnForeground: true,
+                  clipBehavior: Clip.antiAlias,
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                        color: Theme.of(context).colorScheme.primary, width: 2),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      ListTile(
+                        trailing: Image.asset("assets/icons/forward-100.png",
+                            color: Theme.of(context).primaryColor,
+                            width: 25,
+                            height: 25),
+                        title: Text('Grant Access To Patient',
+                            style: Theme.of(context).textTheme.bodyText1),
+                        onTap: () {
+
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => GrantRoleScreenPatient(),
+                            ),
+                          );
+                        },
+                      ),
+
                     ],
                   ),
                 ),

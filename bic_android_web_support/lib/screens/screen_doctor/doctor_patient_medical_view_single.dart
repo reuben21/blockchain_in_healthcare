@@ -22,9 +22,10 @@ class DoctorPatientMedicalRecordViewSingle extends StatefulWidget {
 
   int recordNumber;
   EthereumAddress walletAddress;
+  EthereumAddress hospitalAddress;
 
   DoctorPatientMedicalRecordViewSingle(
-      {required this.recordNumber, required this.walletAddress});
+      {required this.recordNumber,required this.hospitalAddress, required this.walletAddress});
 
   @override
   _DoctorPatientMedicalRecordViewSingleState createState() =>
@@ -82,6 +83,7 @@ class _DoctorPatientMedicalRecordViewSingleState
                 doctorAddress, "setMedicalRecordVerificationStatus", [
       BigInt.from(value),
       patientAddress,
+      widget.hospitalAddress,
       doctorAddress,
       verifiedStatus
     ]);
@@ -428,7 +430,7 @@ class _DoctorPatientMedicalRecordViewSingleState
     var transactionHash =
         await Provider.of<PharmacyModel>(context, listen: false).writeContract(
             "setMedicalRecordVerificationStatus",
-            [BigInt.from(value), patientAddress, doctorAddress, verifiedStatus],
+            [BigInt.from(value), patientAddress,widget.hospitalAddress, doctorAddress, verifiedStatus],
             doctorCredentials);
 
     var firebaseStatus =

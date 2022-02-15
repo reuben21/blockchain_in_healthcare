@@ -154,7 +154,7 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                           title: Text('Role', style: textStyleForName),
                           subtitle: Text(
                             role.toString(),
-                            style: TextStyle(fontSize: 20, color: Colors.grey),
+                            style: TextStyle(fontSize: 18, color: Colors.black),
                           ),
                         ),
                       ],
@@ -441,7 +441,7 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => DoctorPatientMedicalRecordView(),
+                                builder: (context) => DoctorPatientMedicalRecordView(hospitalAddress:doctorIpfsHash['hospital_address']),
                               ),
                             );
                           },
