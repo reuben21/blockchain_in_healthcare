@@ -9,7 +9,6 @@ bytes32 constant PATIENT = "PATIENT";
 bytes32 constant VERIFIED_PATIENT = "VERIFIED_PATIENT";
 
 bytes32 constant DOCTOR = "DOCTOR";
-bytes32 constant VERIFIED_DOCTOR = "VERIFIED_DOCTOR";
 
 bytes32 constant PHARMACY = "PHARMACY";
 
@@ -86,10 +85,10 @@ contract MainContract is AccessControlEnumerable {
         view
         returns (string memory role)
     {
-        if (hasRole(PATIENT, _walletAddress)) {
-            return "PATIENT";
-        } else if (hasRole(VERIFIED_PATIENT, _walletAddress)) {
+        if (hasRole(VERIFIED_PATIENT, _walletAddress)) {
             return "VERIFIED_PATIENT";
+        } else if (hasRole(PATIENT, _walletAddress)) {
+            return "PATIENT";
         } else if (hasRole(DEFAULT_ADMIN_ROLE, _walletAddress)) {
             return "DEFAULT_ADMIN_ROLE";
         } else if (hasRole(PHARMACY, _walletAddress)) {
@@ -111,8 +110,6 @@ contract MainContract is AccessControlEnumerable {
             )
         ) {
             return "ACCESS GRANTED BY HOSPITAL";
-        } else if (hasRole(VERIFIED_DOCTOR, _walletAddress)) {
-            return "VERIFIED_DOCTOR";
         } else if (hasRole(DOCTOR, _walletAddress)) {
             return "DOCTOR";
         } else {
@@ -506,14 +503,16 @@ contract MainContract is AccessControlEnumerable {
             string memory name,
             string memory doctorDetails,
             address walletAddress,
-            uint256 patientCount
+            uint256 patientCount,
+            address hospitalAddress
         )
     {
         return (
             doctorDatabase[_doctorAddress].name,
             doctorDatabase[_doctorAddress].personalDetails,
             _doctorAddress,
-            doctorDatabase[_doctorAddress].patientCount.current()
+            doctorDatabase[_doctorAddress].patientCount.current(),
+            doctorDatabase[_doctorAddress].hospitalAddress
         );
     }
 

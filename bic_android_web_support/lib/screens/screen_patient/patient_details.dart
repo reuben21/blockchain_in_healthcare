@@ -497,9 +497,12 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          'Pharmacy Detail',
-                          style: Theme.of(context).textTheme.headline1,
+                        Padding(
+                          padding: const EdgeInsets.only(top: 50),
+                          child: Text(
+                            'Patient Detail Form',
+                            style: Theme.of(context).textTheme.headline1,
+                          ),
                         ),
 
                         // SizedBox(height: size.height * 0.03),

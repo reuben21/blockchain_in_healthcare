@@ -233,6 +233,11 @@
 						"internalType": "uint256",
 						"name": "patientCount",
 						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "hospitalAddress",
+						"type": "address"
 					}
 				],
 				"stateMutability": "view",
@@ -1333,11 +1338,11 @@
 	},
 	"sources": {
 		"contracts/MainContract.sol": {
-			"keccak256": "0xf2caaad187d44dda4c7db0e8be0d8bc690641f656844d0dd6e7e2361c79b6cba",
+			"keccak256": "0x917670d215598f718168dfa2ab7f04a6dc9f8abe456de806d32f309c87da33a1",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://956fa76002f31c07055c99d9934f654df5875d8fc16954c30d842fbd9de6e979",
-				"dweb:/ipfs/QmVD84vc64ihmeuoCtstC78pHkFqPAjkiSKT1r4pF1CMyJ"
+				"bzz-raw://70629d612e85d5a56507a79c69941d12aef3eec3e88c7d9c53bda6382ee3d6ae",
+				"dweb:/ipfs/QmPLQimdcqsrYoitYXpPNj7izpjuXjBiqptgtayDajSjDW"
 			]
 		},
 		"contracts/openzeppelin/contracts/access/AccessControl.sol": {

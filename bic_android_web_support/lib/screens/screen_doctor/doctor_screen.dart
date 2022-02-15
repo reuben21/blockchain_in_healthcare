@@ -131,41 +131,12 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
           child: Container(
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Card(
-                    borderOnForeground: true,
-                    clipBehavior: Clip.antiAlias,
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                          color: Theme.of(context).colorScheme.primary,
-                          width: 2),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        ListTile(
-                          leading: Image.asset(
-                              "assets/icons/checked-user-male-100.png",
-                              color: Theme.of(context).colorScheme.primary,
-                              width: 35,
-                              height: 35),
-                          title: Text('Role', style: textStyleForName),
-                          subtitle: Text(
-                            role.toString(),
-                            style: TextStyle(fontSize: 18, color: Colors.black),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+
                 Padding(
                   padding: const EdgeInsets.all(8),
                   child: Container(
                     width: double.infinity,
-                    height: 530,
+                    height: 590,
                     child: doctorIpfsHash['doctor_name'] == ''
                         ? Card(
                             borderOnForeground: true,
@@ -196,6 +167,18 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
+                                ListTile(
+                                  leading: Image.asset(
+                                      "assets/icons/checked-user-male-100.png",
+                                      color: Theme.of(context).colorScheme.primary,
+                                      width: 35,
+                                      height: 35),
+                                  title: Text('Role', style: textStyleForName),
+                                  subtitle: Text(
+                                    role.toString(),
+                                    style: TextStyle(fontSize: 18, color: Colors.black),
+                                  ),
+                                ),
                                 ListTile(
                                   leading: Image.asset(
                                       "assets/icons/pharmacy-shop-100.png",
