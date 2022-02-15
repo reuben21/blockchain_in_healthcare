@@ -261,7 +261,7 @@ contract MainContract is AccessControlEnumerable {
         return true;
     }
 
-    function setMedicalRecordHashStatus(
+    function updatedMedicalRecordHashByDoctor(
         uint256 index,
         address _patientWalletAddress,
         address _hospitalAddress,

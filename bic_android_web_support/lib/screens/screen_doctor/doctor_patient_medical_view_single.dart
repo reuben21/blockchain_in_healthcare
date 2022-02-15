@@ -468,7 +468,7 @@ class _DoctorPatientMedicalRecordViewSingleState
     var gasEstimation =
     await Provider.of<GasEstimationModel>(context, listen: false)
         .estimateGasForContractFunction(
-        doctorAddress, "setMedicalRecordHashStatus", [
+        doctorAddress, "updatedMedicalRecordHashByDoctor", [
       BigInt.from(value),
       patientAddress,
       widget.hospitalAddress,
@@ -816,7 +816,7 @@ class _DoctorPatientMedicalRecordViewSingleState
       Credentials doctorCredentials) async {
     var transactionHash =
     await Provider.of<PharmacyModel>(context, listen: false).writeContract(
-        "setMedicalRecordHashStatus",
+        "updatedMedicalRecordHashByDoctor",
         [ BigInt.from(value),
           patientAddress,
           widget.hospitalAddress,
