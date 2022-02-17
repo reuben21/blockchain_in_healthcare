@@ -3,6 +3,7 @@ import 'package:bic_android_web_support/providers/gas_estimation.dart';
 import 'package:bic_android_web_support/providers/ipfs.dart';
 import 'package:bic_android_web_support/providers/provider_firebase/model_firebase.dart';
 import 'package:bic_android_web_support/providers/provider_pharmacy/model_pharmacy.dart';
+import 'package:bic_android_web_support/providers/wallet.dart';
 import 'package:bic_android_web_support/screens/Tabs/tabs_screen.dart';
 import 'package:bic_android_web_support/screens/screens_auth/background.dart';
 import 'package:flutter/material.dart';
@@ -413,7 +414,7 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
       EthereumAddress walletAddress,
       Credentials credentials) async {
     var transactionHash =
-        await Provider.of<PharmacyModel>(context, listen: false).writeContract(
+        await Provider.of<WalletModel>(context, listen: false).writeContract(
             "storePatient",
             [
               patientName,

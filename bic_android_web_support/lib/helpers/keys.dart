@@ -16,6 +16,19 @@ String get rpcUrl {
   return "http://127.0.0.1:7545";
 }
 
+// String get rpcUrl {
+//   if(kIsWeb) {
+//     return "https://speedy-nodes-nyc.moralis.io/ed3a6ddb4a2ff94731b9c5fd/polygon/mumbai";
+//   }
+//   else if(Platform.isWindows) {
+//     return "https://speedy-nodes-nyc.moralis.io/ed3a6ddb4a2ff94731b9c5fd/polygon/mumbai";
+//   } else if (Platform.isAndroid) {
+//     return  "https://speedy-nodes-nyc.moralis.io/ed3a6ddb4a2ff94731b9c5fd/polygon/mumbai";
+//   }
+//
+//   return "https://speedy-nodes-nyc.moralis.io/ed3a6ddb4a2ff94731b9c5fd/polygon/mumbai";
+// }
+
 String get rpcUrlWebSocket {
   if(kIsWeb) {
     return "ws://127.0.0.1:7545";

@@ -31,6 +31,8 @@ class GasEstimationModel with ChangeNotifier {
 
     contractAddress =
         EthereumAddress.fromHex(abiJson['networks']['5777']['address']);
+    // contractAddress =
+    //     EthereumAddress.fromHex("0x2a0aedc35ec7a49e612ad7e73b766c260050d044");
     final contract = DeployedContract(
         ContractAbi.fromJson(abi, "MainContract"), contractAddress);
     print("MainContract Contract Address:- " + contract.address.toString());

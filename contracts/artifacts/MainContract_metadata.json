@@ -1323,7 +1323,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"contracts/MainContract.sol": "MainContract"
+			"MainContract.sol": "MainContract"
 		},
 		"evmVersion": "london",
 		"libraries": {},
@@ -1337,15 +1337,15 @@
 		"remappings": []
 	},
 	"sources": {
-		"contracts/MainContract.sol": {
-			"keccak256": "0x122c2916c77221755388b513f6b4cea1621104300e4fc4f56b9300b140d0640f",
+		"MainContract.sol": {
+			"keccak256": "0x7f3c5888bc55d25b5edebfddd27ccd7832a800dfbcdfbad0e4776c589c76226b",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://33b8bbd60e39f01f67fd50b257297efce85422b2ba258932b7c43436861e535e",
-				"dweb:/ipfs/QmcEyMuMFBKwCFadCDbkBvRzxuoXoU4RDKT5p7Ba1YWKwf"
+				"bzz-raw://6e2b7f654a196b768e41357e4250f1bb7f560e60f47cc479eac4be2468777990",
+				"dweb:/ipfs/QmVhbotUSHobPHFwufgvDgYAfnMwvjzwGYTmooXmcCkTD2"
 			]
 		},
-		"contracts/openzeppelin/contracts/access/AccessControl.sol": {
+		"openzeppelin/contracts/access/AccessControl.sol": {
 			"keccak256": "0x35d84dee0e5df7484d904340c5e1de9df6bd3a05fdff27f86549e0e6acf80d33",
 			"license": "MIT",
 			"urls": [
@@ -1353,7 +1353,7 @@
 				"dweb:/ipfs/Qma79tQ2WZkn4vc5YyiGnrmexE8rrGE2YzsJ8sy4rshf1P"
 			]
 		},
-		"contracts/openzeppelin/contracts/access/AccessControlEnumerable.sol": {
+		"openzeppelin/contracts/access/AccessControlEnumerable.sol": {
 			"keccak256": "0x554cb255533db25701d0bf40ab82862daf20e60ab068f6544051c1814a325bfe",
 			"license": "MIT",
 			"urls": [
@@ -1361,7 +1361,7 @@
 				"dweb:/ipfs/QmSkRqkPoMj9aofk3gJAx8LLGYun4XqdJkiRAydDaweQkn"
 			]
 		},
-		"contracts/openzeppelin/contracts/access/IAccessControl.sol": {
+		"openzeppelin/contracts/access/IAccessControl.sol": {
 			"keccak256": "0x0b56404e790f707db5050025dc791c21b785797824efaaf28e6613444408ac0b",
 			"license": "MIT",
 			"urls": [
@@ -1369,7 +1369,7 @@
 				"dweb:/ipfs/QmXhJJ2FzxHZNtGXoif5QwBv1SCEgh866AxuUzUFCuHmSF"
 			]
 		},
-		"contracts/openzeppelin/contracts/access/IAccessControlEnumerable.sol": {
+		"openzeppelin/contracts/access/IAccessControlEnumerable.sol": {
 			"keccak256": "0x806cc5a67c785703de4860098eb715dbc80af228b8c2dfaf4d17ee7ef7c4d0d1",
 			"license": "MIT",
 			"urls": [
@@ -1377,7 +1377,7 @@
 				"dweb:/ipfs/QmeuoGikK8eGhSgNFTzKtpxmkTaKXS94NTktKTAs42ZxPT"
 			]
 		},
-		"contracts/openzeppelin/contracts/utils/Context.sol": {
+		"openzeppelin/contracts/utils/Context.sol": {
 			"keccak256": "0x81d5fc973a522c8909d60be6a201869d46aa47b030b8813f60616404628c2b94",
 			"license": "MIT",
 			"urls": [
@@ -1385,7 +1385,7 @@
 				"dweb:/ipfs/QmRkhUYUUgRZ2QYJjmtQct2ubyYwS3bdUMhbuFYM12VfYn"
 			]
 		},
-		"contracts/openzeppelin/contracts/utils/Counters.sol": {
+		"openzeppelin/contracts/utils/Counters.sol": {
 			"keccak256": "0x45f2d503ebecf25ea4b038d02a7ed96898bd197bec585d0ba3560bfb4b509a82",
 			"license": "MIT",
 			"urls": [
@@ -1393,7 +1393,7 @@
 				"dweb:/ipfs/QmbQVT9fpAxMQ492735rZzUK2e73ayqdZz2fGPgey8jCVR"
 			]
 		},
-		"contracts/openzeppelin/contracts/utils/Strings.sol": {
+		"openzeppelin/contracts/utils/Strings.sol": {
 			"keccak256": "0x43bd1a72719f3bea01b14183c87341cc9247e9f885071a0f9792e9e50bcd1d7c",
 			"license": "MIT",
 			"urls": [
@@ -1401,7 +1401,7 @@
 				"dweb:/ipfs/QmXBVDNQNpkmoW8RPxZ7nSNQNcxFb2bqtVFDe2mE53RKRb"
 			]
 		},
-		"contracts/openzeppelin/contracts/utils/introspection/ERC165.sol": {
+		"openzeppelin/contracts/utils/introspection/ERC165.sol": {
 			"keccak256": "0x3d3fe7b1901114d50828f5c77ba7f09a2a6a65223620c837364d31b60e5982ac",
 			"license": "MIT",
 			"urls": [
@@ -1409,7 +1409,7 @@
 				"dweb:/ipfs/QmWq8SxNw4q6n1B8i9sFZVaodB6wrcyBPsKPWMsaUyCECH"
 			]
 		},
-		"contracts/openzeppelin/contracts/utils/introspection/IERC165.sol": {
+		"openzeppelin/contracts/utils/introspection/IERC165.sol": {
 			"keccak256": "0x540685d7ece3faa56f38253270ff11b18e63949fb8659c408123b1874674492e",
 			"license": "MIT",
 			"urls": [
@@ -1417,7 +1417,7 @@
 				"dweb:/ipfs/QmVHocBeANMkq4TzVM7q9At5NSg1TEpT9D9vgJ5dGcvcPN"
 			]
 		},
-		"contracts/openzeppelin/contracts/utils/structs/EnumerableSet.sol": {
+		"openzeppelin/contracts/utils/structs/EnumerableSet.sol": {
 			"keccak256": "0x167887ace98631d1029b623dc3d13f987820fb4c53c73b9aa80dfb48bf9f97ef",
 			"license": "MIT",
 			"urls": [

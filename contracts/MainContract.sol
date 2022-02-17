@@ -124,29 +124,25 @@ contract MainContract is AccessControlEnumerable {
         string memory _medicalRecordHash,
         address _walletAddress
     ) external returns (bool status) {
-        if (hasRole(VERIFIED_PATIENT, _walletAddress)) {
-            patientDatabase[_walletAddress].medicalRecordCount++;
+        require(
+            hasRole(VERIFIED_PATIENT, _walletAddress),
+            "ROLE NOT GRANTED, REQUEST HOSPITAL"
+        );
+        patientDatabase[_walletAddress].medicalRecordCount++;
 
-            patientDatabase[_walletAddress]
-                .medicalRecordCount = patientDatabase[_walletAddress]
-                .medicalRecordCount;
+        patientDatabase[_walletAddress].medicalRecordCount = patientDatabase[
+            _walletAddress
+        ].medicalRecordCount;
 
-            patientDatabase[_walletAddress]
-                .medicalRecords[
-                    patientDatabase[_walletAddress].medicalRecordCount
-                ]
-                .index = patientDatabase[_walletAddress].medicalRecordCount;
-            patientDatabase[_walletAddress]
-                .medicalRecords[
-                    patientDatabase[_walletAddress].medicalRecordCount
-                ]
-                .patientRecordHash = _medicalRecordHash;
-            patientDatabase[_walletAddress]
-                .medicalRecords[
-                    patientDatabase[_walletAddress].medicalRecordCount
-                ]
-                .verified = false;
-        }
+        patientDatabase[_walletAddress]
+            .medicalRecords[patientDatabase[_walletAddress].medicalRecordCount]
+            .index = patientDatabase[_walletAddress].medicalRecordCount;
+        patientDatabase[_walletAddress]
+            .medicalRecords[patientDatabase[_walletAddress].medicalRecordCount]
+            .patientRecordHash = _medicalRecordHash;
+        patientDatabase[_walletAddress]
+            .medicalRecords[patientDatabase[_walletAddress].medicalRecordCount]
+            .verified = false;
 
         return true;
     }
@@ -157,35 +153,29 @@ contract MainContract is AccessControlEnumerable {
         address _hospitalAddress,
         address _doctorWalletAddress
     ) external returns (bool status) {
-        if (
+        require(
             hasRole(
                 hospitalDatabase[_hospitalAddress].customRoleDoctor,
                 _doctorWalletAddress
-            )
-        ) {
-            patientDatabase[_walletAddress].medicalRecordCount++;
+            ),
+            "ROLE NOT GRANTED, REQUEST HOSPITAL"
+        );
+        patientDatabase[_walletAddress].medicalRecordCount++;
 
-            patientDatabase[_walletAddress]
-                .medicalRecordCount = patientDatabase[_walletAddress]
-                .medicalRecordCount;
+        patientDatabase[_walletAddress].medicalRecordCount = patientDatabase[
+            _walletAddress
+        ].medicalRecordCount;
 
-            patientDatabase[_walletAddress]
-                .medicalRecords[
-                    patientDatabase[_walletAddress].medicalRecordCount
-                ]
-                .index = patientDatabase[_walletAddress].medicalRecordCount;
+        patientDatabase[_walletAddress]
+            .medicalRecords[patientDatabase[_walletAddress].medicalRecordCount]
+            .index = patientDatabase[_walletAddress].medicalRecordCount;
 
-            patientDatabase[_walletAddress]
-                .medicalRecords[
-                    patientDatabase[_walletAddress].medicalRecordCount
-                ]
-                .patientRecordHash = _medicalRecordHash;
-            patientDatabase[_walletAddress]
-                .medicalRecords[
-                    patientDatabase[_walletAddress].medicalRecordCount
-                ]
-                .verified = true;
-        }
+        patientDatabase[_walletAddress]
+            .medicalRecords[patientDatabase[_walletAddress].medicalRecordCount]
+            .patientRecordHash = _medicalRecordHash;
+        patientDatabase[_walletAddress]
+            .medicalRecords[patientDatabase[_walletAddress].medicalRecordCount]
+            .verified = true;
 
         return true;
     }
@@ -196,36 +186,30 @@ contract MainContract is AccessControlEnumerable {
         address _walletAddress,
         address _doctorWalletAddress
     ) external returns (bool status) {
-        if (
+        require(
             hasRole(
                 hospitalDatabase[_hospitalAddress].customRoleDoctor,
                 _doctorWalletAddress
-            )
-        ) {
-            patientDatabase[_walletAddress].prescriptionCount++;
+            ),
+            "ROLE NOT GRANTED, REQUEST HOSPITAL"
+        );
+        patientDatabase[_walletAddress].prescriptionCount++;
 
-            patientDatabase[_walletAddress].prescriptionCount = patientDatabase[
-                _walletAddress
-            ].prescriptionCount;
+        patientDatabase[_walletAddress].prescriptionCount = patientDatabase[
+            _walletAddress
+        ].prescriptionCount;
 
-            patientDatabase[_walletAddress]
-                .prescriptions[
-                    patientDatabase[_walletAddress].prescriptionCount
-                ]
-                .index = patientDatabase[_walletAddress].prescriptionCount;
+        patientDatabase[_walletAddress]
+            .prescriptions[patientDatabase[_walletAddress].prescriptionCount]
+            .index = patientDatabase[_walletAddress].prescriptionCount;
 
-            patientDatabase[_walletAddress]
-                .prescriptions[
-                    patientDatabase[_walletAddress].prescriptionCount
-                ]
-                .prescriptionHash = _prescriptionRecordHash;
+        patientDatabase[_walletAddress]
+            .prescriptions[patientDatabase[_walletAddress].prescriptionCount]
+            .prescriptionHash = _prescriptionRecordHash;
 
-            patientDatabase[_walletAddress]
-                .prescriptions[
-                    patientDatabase[_walletAddress].prescriptionCount
-                ]
-                .verified = true;
-        }
+        patientDatabase[_walletAddress]
+            .prescriptions[patientDatabase[_walletAddress].prescriptionCount]
+            .verified = true;
 
         return true;
     }
@@ -252,11 +236,13 @@ contract MainContract is AccessControlEnumerable {
         address _pharmacyWalletAddress,
         string memory _medicalRecordHash
     ) external returns (bool status) {
-        if (hasRole(PHARMACY, _pharmacyWalletAddress)) {
-            patientDatabase[_patientWalletAddress]
-                .prescriptions[index]
-                .prescriptionHash = _medicalRecordHash;
-        }
+        require(
+            hasRole(PHARMACY, _pharmacyWalletAddress),
+            "ROLE NOT GRANTED, REQUEST HOSPITAL"
+        );
+        patientDatabase[_patientWalletAddress]
+            .prescriptions[index]
+            .prescriptionHash = _medicalRecordHash;
 
         return true;
     }
@@ -268,16 +254,16 @@ contract MainContract is AccessControlEnumerable {
         address _doctorWalletAddress,
         string memory _medicalRecordHash
     ) external returns (bool status) {
-        if (
+        require(
             hasRole(
                 hospitalDatabase[_hospitalAddress].customRoleDoctor,
                 _doctorWalletAddress
-            )
-        ) {
-            patientDatabase[_patientWalletAddress]
-                .medicalRecords[index]
-                .patientRecordHash = _medicalRecordHash;
-        }
+            ),
+            "ROLE NOT GRANTED, REQUEST HOSPITAL"
+        );
+        patientDatabase[_patientWalletAddress]
+            .medicalRecords[index]
+            .patientRecordHash = _medicalRecordHash;
 
         return true;
     }
@@ -289,16 +275,16 @@ contract MainContract is AccessControlEnumerable {
         address _doctorWalletAddress,
         bool _verified
     ) external returns (bool status) {
-        if (
+        require(
             hasRole(
                 hospitalDatabase[_hospitalAddress].customRoleDoctor,
                 _doctorWalletAddress
-            )
-        ) {
-            patientDatabase[_patientWalletAddress]
-                .medicalRecords[index]
-                .verified = _verified;
-        }
+            ),
+            "ROLE NOT GRANTED, REQUEST HOSPITAL"
+        );
+        patientDatabase[_patientWalletAddress]
+            .medicalRecords[index]
+            .verified = _verified;
 
         return true;
     }
@@ -325,12 +311,12 @@ contract MainContract is AccessControlEnumerable {
         string memory _personalDetails,
         address _walletAddress
     ) external returns (bool status) {
-        if (
+        require(
             hasRole(PATIENT, _walletAddress) ||
-            hasRole(VERIFIED_PATIENT, _walletAddress)
-        ) {
-            patientDatabase[_walletAddress].personalDetails = _personalDetails;
-        }
+                hasRole(VERIFIED_PATIENT, _walletAddress),
+            "ROLE NOT GRANTED, REQUEST HOSPITAL"
+        );
+        patientDatabase[_walletAddress].personalDetails = _personalDetails;
 
         return true;
     }
@@ -373,17 +359,13 @@ contract MainContract is AccessControlEnumerable {
         address _newHospitalAddress,
         address _walletAddress
     ) external returns (bool status) {
-        if (hasRole(VERIFIED_PATIENT, _walletAddress)) {
-            hospitalDatabase[_previousHospitalAddress]
-                .patientInHospital
-                .decrement();
+        require(hasRole(VERIFIED_PATIENT, _walletAddress));
+        hospitalDatabase[_previousHospitalAddress].patientInHospital.decrement();
 
-            patientDatabase[_walletAddress]
-                .hospitalAddress = _newHospitalAddress;
+        patientDatabase[_walletAddress].hospitalAddress = _newHospitalAddress;
 
-            hospitalDatabase[_newHospitalAddress].patientInHospital.increment();
-            return true;
-        }
+        hospitalDatabase[_newHospitalAddress].patientInHospital.increment();
+        return true;
     }
 
     function changeDoctorForPatient(
@@ -391,14 +373,14 @@ contract MainContract is AccessControlEnumerable {
         address _newDoctorAddress,
         address _walletAddress
     ) external returns (bool status) {
-        if (hasRole(VERIFIED_PATIENT, _walletAddress)) {
+        require((hasRole(VERIFIED_PATIENT, _walletAddress));
             doctorDatabase[_previousDoctorAddress].patientCount.decrement();
 
             patientDatabase[_walletAddress].doctorAddress = _newDoctorAddress;
 
             doctorDatabase[_newDoctorAddress].patientCount.increment();
             return true;
-        }
+        
     }
 
     function retrievePatientCount()
@@ -474,12 +456,13 @@ contract MainContract is AccessControlEnumerable {
         address _newHospitalAddress,
         address _walletAddress
     ) external returns (bool status) {
-        if (
+        require (
             hasRole(
                 hospitalDatabase[_previousHospitalAddress].customRoleDoctor,
                 _walletAddress
-            )
-        ) {
+            ),
+            "ROLE NOT GRANTED, REQUEST HOSPITAL"
+        );
             hospitalDatabase[_previousHospitalAddress]
                 .doctorInHospital
                 .decrement();
@@ -487,9 +470,9 @@ contract MainContract is AccessControlEnumerable {
                 .hospitalAddress = _newHospitalAddress;
             hospitalDatabase[_newHospitalAddress].doctorInHospital.increment();
             return true;
-        } else {
-            return false;
-        }
+        
+          
+        
     }
 
     function retrieveDoctorCount() external view returns (uint256 doctorCount) {
@@ -544,7 +527,8 @@ contract MainContract is AccessControlEnumerable {
         string memory _personalDetails,
         address _walletAddress
     ) external returns (bool status) {
-        require(hasRole(PHARMACY, _walletAddress));
+        require(hasRole(PHARMACY, _walletAddress),
+            "ROLE NOT GRANTED, REQUEST HOSPITAL");
         pharmacyDatabase[_walletAddress].personalDetails = _personalDetails;
         return true;
     }
@@ -566,7 +550,8 @@ contract MainContract is AccessControlEnumerable {
             address walletAddress
         )
     {
-        require(hasRole(PHARMACY, _walletAddress));
+        require(hasRole(PHARMACY, _walletAddress),
+            "ROLE NOT GRANTED, REQUEST HOSPITAL");
 
         return (
             pharmacyDatabase[_walletAddress].name,
@@ -608,13 +593,11 @@ contract MainContract is AccessControlEnumerable {
         address _walletAddress,
         string memory _customRole
     ) external returns (bool status) {
-        if (hasRole(DEFAULT_ADMIN_ROLE, hospitalAddress)) {
+        require (hasRole(DEFAULT_ADMIN_ROLE, hospitalAddress),
+            "ROLE NOT GRANTED, REQUEST HOSPITAL");
             bytes32 customRole = this.convertRoleFromStringToBytes(_customRole);
             grantRole(customRole, _walletAddress);
-        } else {
-            return false;
-        }
-        return true;
+       
     }
 
     function revokeRoleFromHospital(
@@ -623,12 +606,10 @@ contract MainContract is AccessControlEnumerable {
         string memory _customRole
     ) external returns (bool status) {
         bytes32 customRole = this.convertRoleFromStringToBytes(_customRole);
-        if (hasRole(DEFAULT_ADMIN_ROLE, hospitalAddress)) {
+        require(hasRole(DEFAULT_ADMIN_ROLE, hospitalAddress),
+            "ROLE NOT GRANTED, REQUEST HOSPITAL");
             revokeRole(customRole, _walletAddress);
-        } else {
-            return false;
-        }
-        return true;
+      
     }
 
     //updated function

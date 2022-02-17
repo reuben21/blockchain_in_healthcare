@@ -667,7 +667,7 @@ class _HospitalDetailScreenState extends State<HospitalDetailScreen> {
                                 credentialsNew = newWallet.privateKey;
                                 myAddress =
                                 await credentialsNew.extractAddress();
-
+                                print(myAddress.hex);
                                 estimateGasFunction(
                                     _formKey
                                         .currentState?.value["hospitalName"],
