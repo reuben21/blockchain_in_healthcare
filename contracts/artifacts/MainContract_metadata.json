@@ -501,49 +501,6 @@
 						"type": "bytes32"
 					},
 					{
-						"internalType": "uint256",
-						"name": "index",
-						"type": "uint256"
-					}
-				],
-				"name": "getRoleMember",
-				"outputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "bytes32",
-						"name": "role",
-						"type": "bytes32"
-					}
-				],
-				"name": "getRoleMemberCount",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "bytes32",
-						"name": "role",
-						"type": "bytes32"
-					},
-					{
 						"internalType": "address",
 						"name": "account",
 						"type": "address"
@@ -573,13 +530,7 @@
 					}
 				],
 				"name": "grantRoleFromHospital",
-				"outputs": [
-					{
-						"internalType": "bool",
-						"name": "status",
-						"type": "bool"
-					}
-				],
+				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
 			},
@@ -848,13 +799,7 @@
 					}
 				],
 				"name": "revokeRoleFromHospital",
-				"outputs": [
-					{
-						"internalType": "bool",
-						"name": "status",
-						"type": "bool"
-					}
-				],
+				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
 			},
@@ -1291,12 +1236,6 @@
 				"getRoleAdmin(bytes32)": {
 					"details": "Returns the admin role that controls `role`. See {grantRole} and {revokeRole}. To change a role's admin, use {_setRoleAdmin}."
 				},
-				"getRoleMember(bytes32,uint256)": {
-					"details": "Returns one of the accounts that have `role`. `index` must be a value between 0 and {getRoleMemberCount}, non-inclusive. Role bearers are not sorted in any particular way, and their ordering may change at any point. WARNING: When using {getRoleMember} and {getRoleMemberCount}, make sure you perform all queries on the same block. See the following https://forum.openzeppelin.com/t/iterating-over-elements-on-enumerableset-in-openzeppelin-contracts/2296[forum post] for more information."
-				},
-				"getRoleMemberCount(bytes32)": {
-					"details": "Returns the number of accounts that have `role`. Can be used together with {getRoleMember} to enumerate all bearers of a role."
-				},
 				"grantRole(bytes32,address)": {
 					"details": "Grants `role` to `account`. If `account` had not been already granted `role`, emits a {RoleGranted} event. Requirements: - the caller must have ``role``'s admin role."
 				},
@@ -1323,7 +1262,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"MainContract.sol": "MainContract"
+			"contracts/MainContract.sol": "MainContract"
 		},
 		"evmVersion": "london",
 		"libraries": {},
@@ -1337,15 +1276,15 @@
 		"remappings": []
 	},
 	"sources": {
-		"MainContract.sol": {
-			"keccak256": "0x7f3c5888bc55d25b5edebfddd27ccd7832a800dfbcdfbad0e4776c589c76226b",
+		"contracts/MainContract.sol": {
+			"keccak256": "0xc156cde87d34038eb35ef612e9174e46050cb3a1fd9f47945189304b5a3e06f0",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://6e2b7f654a196b768e41357e4250f1bb7f560e60f47cc479eac4be2468777990",
-				"dweb:/ipfs/QmVhbotUSHobPHFwufgvDgYAfnMwvjzwGYTmooXmcCkTD2"
+				"bzz-raw://e27f22124cf6a8653727071daa50bc4d5a037e046cba4e620cc9323c266fe8c5",
+				"dweb:/ipfs/QmZkmKV9aZad2pwm4ZZwcB6wYZcCWYCsnSFaKCiHbUMbqJ"
 			]
 		},
-		"openzeppelin/contracts/access/AccessControl.sol": {
+		"contracts/openzeppelin/contracts/access/AccessControl.sol": {
 			"keccak256": "0x35d84dee0e5df7484d904340c5e1de9df6bd3a05fdff27f86549e0e6acf80d33",
 			"license": "MIT",
 			"urls": [
@@ -1353,15 +1292,7 @@
 				"dweb:/ipfs/Qma79tQ2WZkn4vc5YyiGnrmexE8rrGE2YzsJ8sy4rshf1P"
 			]
 		},
-		"openzeppelin/contracts/access/AccessControlEnumerable.sol": {
-			"keccak256": "0x554cb255533db25701d0bf40ab82862daf20e60ab068f6544051c1814a325bfe",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://b3df9d6b62ec5096dd4ba5a0503a046dc774fbe92e9c1ec466c4dee18dd7dc05",
-				"dweb:/ipfs/QmSkRqkPoMj9aofk3gJAx8LLGYun4XqdJkiRAydDaweQkn"
-			]
-		},
-		"openzeppelin/contracts/access/IAccessControl.sol": {
+		"contracts/openzeppelin/contracts/access/IAccessControl.sol": {
 			"keccak256": "0x0b56404e790f707db5050025dc791c21b785797824efaaf28e6613444408ac0b",
 			"license": "MIT",
 			"urls": [
@@ -1369,15 +1300,7 @@
 				"dweb:/ipfs/QmXhJJ2FzxHZNtGXoif5QwBv1SCEgh866AxuUzUFCuHmSF"
 			]
 		},
-		"openzeppelin/contracts/access/IAccessControlEnumerable.sol": {
-			"keccak256": "0x806cc5a67c785703de4860098eb715dbc80af228b8c2dfaf4d17ee7ef7c4d0d1",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://c200c036fa58f1f9a53ac543a4d357f372c3186b2accedafb0962ed973cf22d5",
-				"dweb:/ipfs/QmeuoGikK8eGhSgNFTzKtpxmkTaKXS94NTktKTAs42ZxPT"
-			]
-		},
-		"openzeppelin/contracts/utils/Context.sol": {
+		"contracts/openzeppelin/contracts/utils/Context.sol": {
 			"keccak256": "0x81d5fc973a522c8909d60be6a201869d46aa47b030b8813f60616404628c2b94",
 			"license": "MIT",
 			"urls": [
@@ -1385,7 +1308,7 @@
 				"dweb:/ipfs/QmRkhUYUUgRZ2QYJjmtQct2ubyYwS3bdUMhbuFYM12VfYn"
 			]
 		},
-		"openzeppelin/contracts/utils/Counters.sol": {
+		"contracts/openzeppelin/contracts/utils/Counters.sol": {
 			"keccak256": "0x45f2d503ebecf25ea4b038d02a7ed96898bd197bec585d0ba3560bfb4b509a82",
 			"license": "MIT",
 			"urls": [
@@ -1393,7 +1316,7 @@
 				"dweb:/ipfs/QmbQVT9fpAxMQ492735rZzUK2e73ayqdZz2fGPgey8jCVR"
 			]
 		},
-		"openzeppelin/contracts/utils/Strings.sol": {
+		"contracts/openzeppelin/contracts/utils/Strings.sol": {
 			"keccak256": "0x43bd1a72719f3bea01b14183c87341cc9247e9f885071a0f9792e9e50bcd1d7c",
 			"license": "MIT",
 			"urls": [
@@ -1401,7 +1324,7 @@
 				"dweb:/ipfs/QmXBVDNQNpkmoW8RPxZ7nSNQNcxFb2bqtVFDe2mE53RKRb"
 			]
 		},
-		"openzeppelin/contracts/utils/introspection/ERC165.sol": {
+		"contracts/openzeppelin/contracts/utils/introspection/ERC165.sol": {
 			"keccak256": "0x3d3fe7b1901114d50828f5c77ba7f09a2a6a65223620c837364d31b60e5982ac",
 			"license": "MIT",
 			"urls": [
@@ -1409,20 +1332,12 @@
 				"dweb:/ipfs/QmWq8SxNw4q6n1B8i9sFZVaodB6wrcyBPsKPWMsaUyCECH"
 			]
 		},
-		"openzeppelin/contracts/utils/introspection/IERC165.sol": {
+		"contracts/openzeppelin/contracts/utils/introspection/IERC165.sol": {
 			"keccak256": "0x540685d7ece3faa56f38253270ff11b18e63949fb8659c408123b1874674492e",
 			"license": "MIT",
 			"urls": [
 				"bzz-raw://5474839e19e2571c52eae3aab1dc6e6edf2b20bbba9895f59db6594a2678a3d5",
 				"dweb:/ipfs/QmVHocBeANMkq4TzVM7q9At5NSg1TEpT9D9vgJ5dGcvcPN"
-			]
-		},
-		"openzeppelin/contracts/utils/structs/EnumerableSet.sol": {
-			"keccak256": "0x167887ace98631d1029b623dc3d13f987820fb4c53c73b9aa80dfb48bf9f97ef",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://17652963bcd247afc125f0b37752ac6e34ea3a94cdbd20e0cd6da3595ef141d7",
-				"dweb:/ipfs/QmanQSxEothsCHEsyTA4ZMXP9BJ8ss3DuaU4yVGHb9VkPg"
 			]
 		}
 	},

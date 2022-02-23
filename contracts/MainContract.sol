@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 //SPDX-License-Identifier: MIT
 
 import "./openzeppelin/contracts/utils/Counters.sol";
-import "./openzeppelin/contracts/access/AccessControlEnumerable.sol";
+import "./openzeppelin/contracts/access/AccessControl.sol";
 
 bytes32 constant PATIENT = "PATIENT";
 bytes32 constant VERIFIED_PATIENT = "VERIFIED_PATIENT";
@@ -14,7 +14,7 @@ bytes32 constant PHARMACY = "PHARMACY";
 
 bytes32 constant HOSPITAL_ADMIN = "HOSPITAL_ADMIN";
 
-contract MainContract is AccessControlEnumerable {
+contract MainContract is AccessControl {
     using Counters for Counters.Counter;
 
     struct MedicalRecord {
@@ -373,7 +373,7 @@ contract MainContract is AccessControlEnumerable {
         address _newDoctorAddress,
         address _walletAddress
     ) external returns (bool status) {
-        require((hasRole(VERIFIED_PATIENT, _walletAddress));
+        require(hasRole(VERIFIED_PATIENT, _walletAddress));
             doctorDatabase[_previousDoctorAddress].patientCount.decrement();
 
             patientDatabase[_walletAddress].doctorAddress = _newDoctorAddress;
@@ -592,7 +592,7 @@ contract MainContract is AccessControlEnumerable {
         address hospitalAddress,
         address _walletAddress,
         string memory _customRole
-    ) external returns (bool status) {
+    ) external  {
         require (hasRole(DEFAULT_ADMIN_ROLE, hospitalAddress),
             "ROLE NOT GRANTED, REQUEST HOSPITAL");
             bytes32 customRole = this.convertRoleFromStringToBytes(_customRole);
@@ -604,7 +604,7 @@ contract MainContract is AccessControlEnumerable {
         address hospitalAddress,
         address _walletAddress,
         string memory _customRole
-    ) external returns (bool status) {
+    ) external {
         bytes32 customRole = this.convertRoleFromStringToBytes(_customRole);
         require(hasRole(DEFAULT_ADMIN_ROLE, hospitalAddress),
             "ROLE NOT GRANTED, REQUEST HOSPITAL");
