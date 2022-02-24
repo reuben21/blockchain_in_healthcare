@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'dart:io';
 
 import 'package:bic_android_web_support/databases/wallet_shared_preferences.dart';
 import 'package:bic_android_web_support/screens/screens_auth/background.dart';
@@ -29,29 +29,84 @@ class _TransferScreenState extends State<TransferScreen> {
   final _formKey = GlobalKey<FormBuilderState>();
 
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  late Barcode result;
-  late QRViewController controller;
+  late Barcode? result;
+  late QRViewController? controller;
 
   late String dropDownCurrentValue;
   late String scannedAddress;
+  late String receiverAddress;
+
+  // In order to get hot reload to work we need to pause the camera if the platform
+  // is android, or resume the camera if the platform is iOS.
+  @override
+  void reassemble() {
+    super.reassemble();
+    if (Platform.isAndroid) {
+      controller!.pauseCamera();
+    }
+    controller!.resumeCamera();
+  }
 
   @override
   void initState() {
+    receiverAddress= "";
     super.initState();
   }
 
   @override
   void dispose() {
+    controller?.dispose();
     super.dispose();
   }
 
+  Widget _buildQrView(BuildContext context) {
+    // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
+    var scanArea = (MediaQuery.of(context).size.width < 400 ||
+        MediaQuery.of(context).size.height < 400)
+        ? 150.0
+        : 300.0;
+    // To ensure the Scanner view is properly sizes after rotation
+    // we need to listen for Flutter SizeChanged notification and update controller
+    return QRView(
+      key: qrKey,
+      onQRViewCreated: _onQRViewCreated,
+      overlay: QrScannerOverlayShape(
+          borderColor: Colors.red,
+          borderRadius: 10,
+          borderLength: 30,
+          borderWidth: 10,
+          cutOutSize: scanArea),
+      onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
+    );
+  }
+
+
   void _onQRViewCreated(QRViewController controller) {
-    this.controller = controller;
+    setState(() {
+      this.controller = controller;
+    });
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         result = scanData;
       });
+      if(scanData.code.toString().startsWith("ethereum:")) {
+        print(scanData.code.toString().substring(8));
+        receiverAddress = scanData.code.toString().substring(8);
+        setState(() {
+
+        });
+      }
+      
     });
+  }
+
+  void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
+    print('${DateTime.now().toIso8601String()}_onPermissionSet $p');
+    if (!p) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('no Permission')),
+      );
+    }
   }
 
   void _showErrorDialog(String message) {
@@ -70,13 +125,25 @@ class _TransferScreenState extends State<TransferScreen> {
             ));
   }
 
-  Widget formBuilderTextFieldWidget(String fieldName, String labelText,
-      Image icon, bool obscure, List<FormFieldValidator> validators) {
+  Widget formBuilderTextFieldWidget(
+      TextInputType inputTextType,
+      String initialValue,
+      String fieldName,
+      String labelText,
+      Image icon,
+      bool obscure,
+      List<FormFieldValidator> validators) {
     return FormBuilderTextField(
+      keyboardType: inputTextType,
+      initialValue: initialValue,
       obscureText: obscure,
       maxLines: 1,
       name: fieldName,
+      // allowClear:
+      // color:Colors.grey,
+
       decoration: InputDecoration(
+        // helperText: 'hello',
         labelText: labelText,
         prefixIcon: icon,
         border: OutlineInputBorder(
@@ -103,7 +170,6 @@ class _TransferScreenState extends State<TransferScreen> {
       validator: FormBuilderValidators.compose(validators),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -190,6 +256,7 @@ class _TransferScreenState extends State<TransferScreen> {
                         icon: const Icon(Icons.qr_code_scanner),
                         onPressed: () {
                           // do something
+                          // _buildQrView(context);
                           showDialog(
                             context: context,
                             builder: (ctx) => AlertDialog(
@@ -212,22 +279,22 @@ class _TransferScreenState extends State<TransferScreen> {
                                         onQRViewCreated: _onQRViewCreated,
                                       ),
                                     ),
-                                    Text((result != null)
-                                        ? "Ethereum Address: " +
-                                            result.code.toString()
-                                        : "Scan for Address"),
+                                    // Text((result?.code.toString() != null)
+                                    //     ? "Ethereum Address: " +
+                                    //        result!.code.toString()
+                                    //     : "Scan for Address"),
                                   ],
                                 ),
                               ),
                               actions: <Widget>[
-                                ElevatedButton(
-                                  onPressed: () async {
-                                    setState(() {
-                                      scannedAddress = result.code.toString();
-                                    });
-                                  },
-                                  child: Text("GET"),
-                                ),
+                                // ElevatedButton(
+                                //   onPressed: () async {
+                                //     // setState(() {
+                                //     //   scannedAddress = result!.code.toString();
+                                //     // });
+                                //   },
+                                //   child: Text("GET"),
+                                // ),
                                 ElevatedButton(
                                   onPressed: () async {},
                                   child: Text("okay"),
@@ -247,6 +314,9 @@ class _TransferScreenState extends State<TransferScreen> {
                                 Padding(
                                   padding: const EdgeInsets.all(5),
                                   child: formBuilderTextFieldWidget(
+                                      TextInputType.text,
+                                      receiverAddress,
+
                                       "address",
                                       "Receiver address",
                                       Image.asset(
@@ -265,6 +335,8 @@ class _TransferScreenState extends State<TransferScreen> {
                                 Padding(
                                   padding: const EdgeInsets.all(5),
                                   child: formBuilderTextFieldWidget(
+                                      TextInputType.text,
+                                      "5.0",
                                       "amount",
                                       "Amount ",
                                       Image.asset("assets/icons/pay-100.png",
@@ -282,6 +354,8 @@ class _TransferScreenState extends State<TransferScreen> {
                                 Padding(
                                   padding: const EdgeInsets.all(5),
                                   child: formBuilderTextFieldWidget(
+                                      TextInputType.text,
+                                      "Password@123",
                                       "password",
                                       "Password",
                                       Image.asset("assets/icons/key-100.png",
