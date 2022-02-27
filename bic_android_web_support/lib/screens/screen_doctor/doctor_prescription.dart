@@ -1026,12 +1026,12 @@ class _DoctorPrescriptionScreenState extends State<DoctorPrescriptionScreen> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        title: const Text("Prescription Generation"),
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Theme.of(context).colorScheme.primary,
+      //   elevation: 0,
+      //   automaticallyImplyLeading: false,
+      //   title: const Text("Prescription Generation"),
+      // ),
       body: Center(
         child: Stepper(
           type: StepperType.horizontal,

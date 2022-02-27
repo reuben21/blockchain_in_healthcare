@@ -86,13 +86,13 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
           .receiveData(data[1]);
       print(doctorData);
       var dataRole = await Provider.of<WalletModel>(context, listen: false)
-          .readContract("getRoleForDoctors", [EthereumAddress.fromHex(doctorData!['hospital_address']),address]);
+          .readContract("getRoleForDoctors", [data[4],address]);
       print("Role Status -" + dataRole.toString());
 
       setState(() {
         doctorName = data[0].toString();
         doctorIpfsHashData = data[1].toString();
-        doctorIpfsHash = doctorData;
+        doctorIpfsHash = doctorData!;
         role = dataRole[0].toString();
       });
     } else {
