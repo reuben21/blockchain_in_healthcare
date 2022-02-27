@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:bic_android_web_support/databases/wallet_shared_preferences.dart';
+import 'package:bic_android_web_support/providers/provider_doctor/model_doctor.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../helpers/keys.dart' as keys;
@@ -35,6 +36,7 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
   late String doctorIpfsHashData;
   late Map<String, dynamic> doctorIpfsHash;
   String walletAdd = '';
+
   @override
   void initState() {
     role = '';
@@ -60,6 +62,8 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
     });
   }
 
+
+
   Future<void> fetchDoctorData() async {
     Credentials credentialsNew;
     EthereumAddress address;
@@ -76,6 +80,8 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
     // print(data[0]);
 
     if (data[1].toString() != '') {
+      var doctorProvider = await Provider.of<DoctorModel>(context, listen: false)
+          .setDoctorData(data[4],data[2]);
       var doctorData = await Provider.of<IPFSModel>(context, listen: false)
           .receiveData(data[1]);
       print(doctorData);
