@@ -16,14 +16,22 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 String get rpcUrl {
   if (kIsWeb) {
+
     return "HTTP://10.0.2.2:7545";
   } else if (Platform.isWindows) {
     return "http://10.0.2.2:7545";
   } else if (Platform.isAndroid) {
     return "http://10.0.2.2:7545";
   }
+  //   return "HTTP://192.168.0.100:7545";
+  // } else if (Platform.isWindows) {
+  //   return "HTTP://192.168.0.100:7545";
+  // } else if (Platform.isAndroid) {
+  //   return "HTTP://192.168.0.100:7545";
 
-  return "HTTP://192.168.137.1:7545";
+  // }
+
+  return "HTTP://192.168.0.100:7545";
 }
 
 // String get rpcUrl {

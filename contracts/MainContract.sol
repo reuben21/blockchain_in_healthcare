@@ -26,7 +26,7 @@ contract MainContract is AccessControl {
     struct Prescription {
         uint256 index;
         string prescriptionHash;
-        bool verified;
+        uint256 prescriptionExpiryDateTime;
     }
 
     struct patientRecord {
@@ -70,12 +70,17 @@ contract MainContract is AccessControl {
     Counters.Counter hospitalCounter;
     Counters.Counter pharmacyCounter;
 
+    //: PATIENT DATABASE
+    mapping(address => patientRecord) patientDatabase;
+    //: DOCTOR DATABASE
+    mapping(address => doctorRecord) doctorDatabase;
+    //: PHARMACY DATABASE
+    mapping(address => pharmacyRecord) pharmacyDatabase;
+    //: HOSPITAL DATABASE
+    mapping(address => hospitalRecord) hospitalDatabase;
+
     //: Constructor
     constructor() {
-        _setRoleAdmin(HOSPITAL_ADMIN, HOSPITAL_ADMIN);
-        _setRoleAdmin(DOCTOR, HOSPITAL_ADMIN);
-        _setRoleAdmin(PATIENT, HOSPITAL_ADMIN);
-
         // default role of contract deployer
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
     }
@@ -117,17 +122,11 @@ contract MainContract is AccessControl {
         }
     }
 
-    //: PATIENT DATABASE
-    mapping(address => patientRecord) patientDatabase;
-
     function setMedicalRecordByPatient(
         string memory _medicalRecordHash,
         address _walletAddress
     ) external returns (bool status) {
-        require(
-            hasRole(VERIFIED_PATIENT, _walletAddress),
-            "ROLE NOT GRANTED, REQUEST HOSPITAL"
-        );
+        require(hasRole(VERIFIED_PATIENT, _walletAddress), "RNG");
         patientDatabase[_walletAddress].medicalRecordCount++;
 
         patientDatabase[_walletAddress].medicalRecordCount = patientDatabase[
@@ -158,7 +157,7 @@ contract MainContract is AccessControl {
                 hospitalDatabase[_hospitalAddress].customRoleDoctor,
                 _doctorWalletAddress
             ),
-            "ROLE NOT GRANTED, REQUEST HOSPITAL"
+            "RNG"
         );
         patientDatabase[_walletAddress].medicalRecordCount++;
 
@@ -184,14 +183,14 @@ contract MainContract is AccessControl {
         string memory _prescriptionRecordHash,
         address _hospitalAddress,
         address _walletAddress,
-        address _doctorWalletAddress
+        uint256 _prescriptionExpiryDateTime
     ) external returns (bool status) {
         require(
             hasRole(
                 hospitalDatabase[_hospitalAddress].customRoleDoctor,
-                _doctorWalletAddress
+                _walletAddress
             ),
-            "ROLE NOT GRANTED, REQUEST HOSPITAL"
+            "RNG"
         );
         patientDatabase[_walletAddress].prescriptionCount++;
 
@@ -209,7 +208,42 @@ contract MainContract is AccessControl {
 
         patientDatabase[_walletAddress]
             .prescriptions[patientDatabase[_walletAddress].prescriptionCount]
-            .verified = true;
+            .prescriptionExpiryDateTime = _prescriptionExpiryDateTime;
+
+        return true;
+    }
+
+    function resetPrescriptionRecordExpiryByDoctor(
+        address _hospitalAddress,
+        address _walletAddress,
+        address _doctorWalletAddress,
+        uint256 _prescriptionExpiryDateTime
+    ) external returns (bool status) {
+        require(
+            hasRole(
+                hospitalDatabase[_hospitalAddress].customRoleDoctor,
+                _doctorWalletAddress
+            ),
+            "RNG"
+        );
+
+        patientDatabase[_walletAddress]
+            .prescriptions[patientDatabase[_walletAddress].prescriptionCount]
+            .prescriptionExpiryDateTime = _prescriptionExpiryDateTime;
+
+        return true;
+    }
+
+    function resetPrescriptionRecordExpiryByPharmacy(
+        address _walletAddress,
+        address _pharmacyWalletAddress,
+        uint256 _prescriptionExpiryDateTime
+    ) external returns (bool status) {
+        require(hasRole(PHARMACY, _pharmacyWalletAddress), "RNG");
+
+        patientDatabase[_walletAddress]
+            .prescriptions[patientDatabase[_walletAddress].prescriptionCount]
+            .prescriptionExpiryDateTime = _prescriptionExpiryDateTime;
 
         return true;
     }
@@ -236,10 +270,7 @@ contract MainContract is AccessControl {
         address _pharmacyWalletAddress,
         string memory _medicalRecordHash
     ) external returns (bool status) {
-        require(
-            hasRole(PHARMACY, _pharmacyWalletAddress),
-            "ROLE NOT GRANTED, REQUEST HOSPITAL"
-        );
+        require(hasRole(PHARMACY, _pharmacyWalletAddress), "RNG");
         patientDatabase[_patientWalletAddress]
             .prescriptions[index]
             .prescriptionHash = _medicalRecordHash;
@@ -259,7 +290,7 @@ contract MainContract is AccessControl {
                 hospitalDatabase[_hospitalAddress].customRoleDoctor,
                 _doctorWalletAddress
             ),
-            "ROLE NOT GRANTED, REQUEST HOSPITAL"
+            "RNG"
         );
         patientDatabase[_patientWalletAddress]
             .medicalRecords[index]
@@ -280,7 +311,7 @@ contract MainContract is AccessControl {
                 hospitalDatabase[_hospitalAddress].customRoleDoctor,
                 _doctorWalletAddress
             ),
-            "ROLE NOT GRANTED, REQUEST HOSPITAL"
+            "RNG"
         );
         patientDatabase[_patientWalletAddress]
             .medicalRecords[index]
@@ -314,10 +345,9 @@ contract MainContract is AccessControl {
         require(
             hasRole(PATIENT, _walletAddress) ||
                 hasRole(VERIFIED_PATIENT, _walletAddress),
-            "ROLE NOT GRANTED, REQUEST HOSPITAL"
+            "RNG"
         );
         patientDatabase[_walletAddress].personalDetails = _personalDetails;
-
         return true;
     }
 
@@ -344,9 +374,7 @@ contract MainContract is AccessControl {
             patientDatabase[_walletAddress].hospitalAddress = _hospitalAddress;
             patientDatabase[_walletAddress].walletAddress = _walletAddress;
             patientDatabase[_walletAddress].doctorAddress = _doctorAddress;
-
             doctorDatabase[_doctorAddress].patientCount.increment();
-
             hospitalDatabase[_hospitalAddress].patientInHospital.increment();
             patientCounter.increment();
         }
@@ -374,13 +402,12 @@ contract MainContract is AccessControl {
         address _walletAddress
     ) external returns (bool status) {
         require(hasRole(VERIFIED_PATIENT, _walletAddress));
-            doctorDatabase[_previousDoctorAddress].patientCount.decrement();
+        doctorDatabase[_previousDoctorAddress].patientCount.decrement();
 
-            patientDatabase[_walletAddress].doctorAddress = _newDoctorAddress;
+        patientDatabase[_walletAddress].doctorAddress = _newDoctorAddress;
 
-            doctorDatabase[_newDoctorAddress].patientCount.increment();
-            return true;
-        
+        doctorDatabase[_newDoctorAddress].patientCount.increment();
+        return true;
     }
 
     function retrievePatientCount()
@@ -398,19 +425,16 @@ contract MainContract is AccessControl {
             string memory name,
             string memory personalDetails,
             address hospitalAddress,
-            address walletAddress
+            address doctorAddress
         )
     {
         return (
             patientDatabase[_walletAddress].name,
             patientDatabase[_walletAddress].personalDetails,
             patientDatabase[_walletAddress].hospitalAddress,
-            _walletAddress
+            patientDatabase[_walletAddress].doctorAddress
         );
     }
-
-    //: DOCTOR DATABASE
-    mapping(address => doctorRecord) doctorDatabase;
 
     function storeDoctor(
         string memory name,
@@ -456,23 +480,17 @@ contract MainContract is AccessControl {
         address _newHospitalAddress,
         address _walletAddress
     ) external returns (bool status) {
-        require (
+        require(
             hasRole(
                 hospitalDatabase[_previousHospitalAddress].customRoleDoctor,
                 _walletAddress
             ),
-            "ROLE NOT GRANTED, REQUEST HOSPITAL"
+            "RNG"
         );
-            hospitalDatabase[_previousHospitalAddress]
-                .doctorInHospital
-                .decrement();
-            doctorDatabase[_walletAddress]
-                .hospitalAddress = _newHospitalAddress;
-            hospitalDatabase[_newHospitalAddress].doctorInHospital.increment();
-            return true;
-        
-          
-        
+        hospitalDatabase[_previousHospitalAddress].doctorInHospital.decrement();
+        doctorDatabase[_walletAddress].hospitalAddress = _newHospitalAddress;
+        hospitalDatabase[_newHospitalAddress].doctorInHospital.increment();
+        return true;
     }
 
     function retrieveDoctorCount() external view returns (uint256 doctorCount) {
@@ -499,9 +517,6 @@ contract MainContract is AccessControl {
         );
     }
 
-    //: Pharmacy DATABASE
-    mapping(address => pharmacyRecord) pharmacyDatabase;
-
     function storePharmacy(
         string memory name,
         string memory _personalDetails,
@@ -527,8 +542,7 @@ contract MainContract is AccessControl {
         string memory _personalDetails,
         address _walletAddress
     ) external returns (bool status) {
-        require(hasRole(PHARMACY, _walletAddress),
-            "ROLE NOT GRANTED, REQUEST HOSPITAL");
+        require(hasRole(PHARMACY, _walletAddress), "RNG");
         pharmacyDatabase[_walletAddress].personalDetails = _personalDetails;
         return true;
     }
@@ -550,8 +564,7 @@ contract MainContract is AccessControl {
             address walletAddress
         )
     {
-        require(hasRole(PHARMACY, _walletAddress),
-            "ROLE NOT GRANTED, REQUEST HOSPITAL");
+        require(hasRole(PHARMACY, _walletAddress), "RNG");
 
         return (
             pharmacyDatabase[_walletAddress].name,
@@ -559,9 +572,6 @@ contract MainContract is AccessControl {
             _walletAddress
         );
     }
-
-    //: HOSPITAL DATABASE
-    mapping(address => hospitalRecord) hospitalDatabase;
 
     function storeHospital(
         string memory _name,
@@ -592,12 +602,10 @@ contract MainContract is AccessControl {
         address hospitalAddress,
         address _walletAddress,
         string memory _customRole
-    ) external  {
-        require (hasRole(DEFAULT_ADMIN_ROLE, hospitalAddress),
-            "ROLE NOT GRANTED, REQUEST HOSPITAL");
-            bytes32 customRole = this.convertRoleFromStringToBytes(_customRole);
-            grantRole(customRole, _walletAddress);
-       
+    ) external {
+        require(hasRole(DEFAULT_ADMIN_ROLE, hospitalAddress), "RNG");
+        bytes32 customRole = this.convertRoleFromStringToBytes(_customRole);
+        grantRole(customRole, _walletAddress);
     }
 
     function revokeRoleFromHospital(
@@ -606,10 +614,8 @@ contract MainContract is AccessControl {
         string memory _customRole
     ) external {
         bytes32 customRole = this.convertRoleFromStringToBytes(_customRole);
-        require(hasRole(DEFAULT_ADMIN_ROLE, hospitalAddress),
-            "ROLE NOT GRANTED, REQUEST HOSPITAL");
-            revokeRole(customRole, _walletAddress);
-      
+        require(hasRole(DEFAULT_ADMIN_ROLE, hospitalAddress), "RNG");
+        revokeRole(customRole, _walletAddress);
     }
 
     //updated function
