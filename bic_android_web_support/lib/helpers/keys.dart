@@ -3,27 +3,31 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 // String get rpcUrl {
 //   if(kIsWeb) {
-//     return "http://127.0.0.1:7545";
+//     return "http://10.0.2.2:7545
+// ";
 //   }
 //   else if(Platform.isWindows) {
-//   return "http://127.0.0.1:7545";
+//   return "http://10.0.2.2:7545
+// ";
 //   } else if (Platform.isAndroid) {
-//     return  "http://10.0.2.2:7545";
+//     return  "http://10.0.2.2:7545
+// ";
 //   }
 //
-//   return "http://127.0.0.1:7545";
+//   return "http://10.0.2.2:7545
+// ";
 // }
 
 String get rpcUrl {
   if (kIsWeb) {
-    return "HTTP://192.168.137.1:7545";
+    return "http://10.0.2.2:7545";
   } else if (Platform.isWindows) {
-    return "HTTP://192.168.137.1:7545";
+    return "http://10.0.2.2:7545";
   } else if (Platform.isAndroid) {
-    return "HTTP://192.168.137.1:7545";
+    return "http://10.0.2.2:7545";
   }
 
-  return "HTTP://192.168.137.1:7545";
+  return "http://10.0.2.2:7545";
 }
 
 // String get rpcUrl {
@@ -41,38 +45,38 @@ String get rpcUrl {
 
 String get rpcUrlWebSocket {
   if (kIsWeb) {
-    return "ws://127.0.0.1:7545";
+    return "ws://10.0.2.2:7545";
   } else if (Platform.isWindows) {
-    return "ws://127.0.0.1:7545";
+    return "ws://10.0.2.2:7545";
   } else if (Platform.isAndroid) {
     return "ws://10.0.2.2:7545";
   }
 
-  return "http://127.0.0.1:7545";
+  return "http://10.0.2.2:7545";
 }
 
 String get getIpfsUrl {
   if (kIsWeb) {
-    return "https://ipfs.infura.io:5001";
+    return "http://10.0.2.2:5001";
   } else if (Platform.isWindows) {
-    return "https://ipfs.infura.io:5001";
+    return "http://10.0.2.2:5001";
   } else if (Platform.isAndroid) {
-    return "https://ipfs.infura.io:5001";
+    return "http://10.0.2.2:5001";
   }
 
-  return "https://ipfs.infura.io:5001";
+  return "http://10.0.2.2:5001";
 }
 
 String get getIpfsUrlForReceivingData {
   if (kIsWeb) {
-    return "https://ipfs.infura.io:5001/api/v0/cat?arg=";
+    return "http://10.0.2.2:8080/ipfs/";
   } else if (Platform.isWindows) {
-    return "https://ipfs.infura.io:5001/api/v0/cat?arg=";
+    return "http://10.0.2.2:8080/ipfs/";
   } else if (Platform.isAndroid) {
-    return "https://ipfs.infura.io:5001/api/v0/cat?arg=";
+    return "http://10.0.2.2:8080/ipfs/";
   }
 
-  return "https://ipfs.infura.io:5001/api/v0/cat?arg=";
+  return "http://10.0.2.2:8080/ipfs/";
 }
 
 String databaseUrl =
