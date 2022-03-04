@@ -3,8 +3,9 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <excludeFolder url="file://$MODULE_DIR$/bic_android_web_support/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/bic_android_web_support/build" />
+      <excludeFolder url="file://$MODULE_DIR$/bic_android_web_support/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/bic_android_web_support/.pub" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

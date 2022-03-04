@@ -13,66 +13,25 @@ import '../../helpers/http_exception.dart' as exception;
 import 'package:web3dart/web3dart.dart';
 
 class DoctorModel with ChangeNotifier {
-  late Web3Client _client;
-  final String _rpcUrl = keys.rpcUrl;
 
-  DoctorModel() {
-    initiateSetup();
+  late EthereumAddress _doctorHospitalAddress;
+  late EthereumAddress _doctorAddress;
+
+
+  EthereumAddress get doctorHospitalAddress {
+    return _doctorHospitalAddress;
   }
 
-  Future<void> initiateSetup() async {
-    _client = Web3Client(_rpcUrl, Client());
-    getDeployedContract();
+  EthereumAddress get doctorAddress {
+    return _doctorAddress;
   }
 
-  Future<DeployedContract> getDeployedContract() async {
-    String abi;
-    EthereumAddress contractAddress;
+  Future<void> setDoctorData( EthereumAddress    doctorHospitalAddress,EthereumAddress doctorAddress) async {
+    _doctorHospitalAddress = doctorHospitalAddress;
+    _doctorAddress = doctorAddress;
 
-    String abiString =
-        await rootBundle.loadString('assets/abis/MainContract.json');
-    var abiJson = jsonDecode(abiString);
-    abi = jsonEncode(abiJson['abi']);
-
-    contractAddress =
-        EthereumAddress.fromHex(abiJson['networks']['5777']['address']);
-    final contract = DeployedContract(
-        ContractAbi.fromJson(abi, "MainContract"), contractAddress);
-    print("MainContract Contract Address:- " + contract.address.toString());
-
-    return contract;
   }
 
-  Future<List<dynamic>> readContract(
-    String functionName,
-    List<dynamic> functionArgs,
-  ) async {
-    final contract = await getDeployedContract();
-    var queryResult = await _client.call(
-      contract: contract,
-      function: contract.function(functionName),
-      params: functionArgs,
-    );
 
-    return queryResult;
-  }
 
-  Future<String> writeContract(String functionName, List<dynamic> functionArgs,
-      Credentials credentials) async {
-    final contract = await getDeployedContract();
-    String transactionHash = await _client.sendTransaction(
-      credentials,
-      Transaction.callContract(
-        contract: contract,
-        function: contract.function(functionName),
-        parameters: functionArgs,
-      ),
-    );
-    return transactionHash;
-  }
-
-  Future<void> storeDoctorEstimate(
-      String ipfsHash, Credentials credentials) async {
-    // String txHash = writeContract(functio)
-  }
 }

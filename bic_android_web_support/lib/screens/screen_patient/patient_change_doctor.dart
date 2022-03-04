@@ -3,6 +3,7 @@ import 'package:bic_android_web_support/providers/gas_estimation.dart';
 import 'package:bic_android_web_support/providers/ipfs.dart';
 import 'package:bic_android_web_support/providers/provider_doctor/model_doctor.dart';
 import 'package:bic_android_web_support/providers/provider_firebase/model_firebase.dart';
+import 'package:bic_android_web_support/providers/wallet.dart';
 import 'package:bic_android_web_support/screens/Tabs/tabs_screen.dart';
 import 'package:bic_android_web_support/screens/screens_auth/background.dart';
 import 'package:flutter/material.dart';
@@ -396,7 +397,7 @@ class _PatientChangeDoctorState extends State<PatientChangeDoctor> {
       EthereumAddress newHospitalAddress,
       EthereumAddress walletAddress,
       Credentials credentials) async {
-    var transactionHash = await Provider.of<DoctorModel>(context, listen: false)
+    var transactionHash = await Provider.of<WalletModel>(context, listen: false)
         .writeContract("changeHospitalForDoctor",
         [oldHospitalAddress, newHospitalAddress, walletAddress], credentials);
 
