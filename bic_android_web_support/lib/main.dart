@@ -15,6 +15,7 @@ import 'package:bic_android_web_support/screens/screens_auth/sign_up_screen.dart
 import 'package:bic_android_web_support/screens/screens_wallet/confirmation_screen.dart';
 import 'package:bic_android_web_support/screens/screens_wallet/transaction_list.dart';
 import 'package:bic_android_web_support/screens/screens_wallet/view_wallet.dart';
+import 'package:bic_android_web_support/screens/splash_screen.dart';
 import 'package:bic_android_web_support/screens/splash_welcome_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:web3dart/credentials.dart';
@@ -34,6 +35,7 @@ import 'package:form_builder_validators/localization/l10n.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/date_symbol_data_local.dart';
+
 // ignore_for_file: prefer_const_constructors
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -148,7 +150,7 @@ class MyApp extends StatelessWidget {
           // home: WalletScreen(),
           routes: {
             // '/': (ctx) => Ipfs_screen(),
-            '/': (ctx) => SignUpScreen(),
+            '/': (ctx) => SplashScreen(),
             // '/': (ctx) => WalletView(),
             // '/': (ctx) => Ipfs_screen(),
             // DoctorDetails.routeName: (ctx) => DoctorDetails(),

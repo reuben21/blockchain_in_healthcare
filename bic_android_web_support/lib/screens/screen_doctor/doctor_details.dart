@@ -59,12 +59,18 @@ class _DoctorDetailsState extends State<DoctorDetails> {
       String ipfsHash,
       EthereumAddress walletAddress,
       EthereumAddress hospitalAddress,
-      Credentials credentials) async {
+      Credentials credentials,
+      String doctorsHospitalAddress) async {
     var gasEstimation =
         await Provider.of<GasEstimationModel>(context, listen: false)
             .estimateGasForContractFunction(walletAddress, "storeDoctor",
                 [doctorName, ipfsHash, hospitalAddress, walletAddress]);
     print(gasEstimation);
+    var hospitalDetails =
+        await Provider.of<FirebaseModel>(context, listen: false)
+            .checkIfUserIsPresent(doctorsHospitalAddress);
+
+    print(hospitalDetails);
 
     return showDialog(
       context: context,
@@ -376,7 +382,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                     foregroundColor: Theme.of(context).colorScheme.secondary,
                     onPressed: () async {
                       executeTransaction(doctorName, ipfsHash, walletAddress,
-                          hospitalAddress, credentials);
+                          hospitalAddress, credentials, hospitalDetails);
                     },
                     icon: const Icon(Icons.add_circle_outline_outlined),
                     label: const Text('Confirm Pay'),
@@ -403,17 +409,27 @@ class _DoctorDetailsState extends State<DoctorDetails> {
       String ipfsHash,
       EthereumAddress walletAddress,
       EthereumAddress hospitalAddress,
-      Credentials credentials) async {
-    var transactionHash = await Provider.of<WalletModel>(context, listen: false)
-        .writeContract("storeDoctor",
-            [doctorName, ipfsHash, hospitalAddress, walletAddress], credentials);
+      Credentials credentials,
+      String hospitalFirebaseId) async {
+    var status = await Provider.of<FirebaseModel>(context, listen: false)
+        .storeUserStatus();
+    if (status) {
+      var transactionHash =
+          await Provider.of<WalletModel>(context, listen: false).writeContract(
+              "storeDoctor",
+              [doctorName, ipfsHash, hospitalAddress, walletAddress],
+              credentials);
 
-    var firebaseStatus =
-        await Provider.of<FirebaseModel>(context, listen: false)
-            .storeTransaction(transactionHash);
+      var hospitalRequest =
+          await Provider.of<FirebaseModel>(context, listen: false)
+              .sendHospitalRequest(hospitalFirebaseId, walletAddress.hex);
+      var firebaseStatus =
+          await Provider.of<FirebaseModel>(context, listen: false)
+              .storeTransaction(transactionHash);
 
-    if (firebaseStatus) {
-      Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
+      if (firebaseStatus) {
+        Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
+      }
     }
   }
 
@@ -749,8 +765,9 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                   myAddress =
                                       await credentialsNew.extractAddress();
 
-                                  var hospitalAddress = EthereumAddress.fromHex(_formKey
-                                      .currentState?.value["hospital_address"]);
+                                  var hospitalAddress = EthereumAddress.fromHex(
+                                      _formKey.currentState
+                                          ?.value["hospital_address"]);
                                   // var doctorAddress = EthereumAddress.fromHex("  ");
                                   estimateGasFunction(
                                       _formKey
@@ -758,7 +775,9 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                       hashReceived,
                                       myAddress,
                                       hospitalAddress,
-                                      credentialsNew);
+                                      credentialsNew,
+                                      _formKey.currentState
+                                          ?.value["hospital_address"]);
                                 }
                               } else {
                                 print("validation failed");

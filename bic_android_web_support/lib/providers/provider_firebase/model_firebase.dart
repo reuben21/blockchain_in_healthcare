@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 import 'dart:math';
+import 'package:bic_android_web_support/databases/wallet_shared_preferences.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart' as firestore;
@@ -15,11 +18,10 @@ import 'package:web3dart/web3dart.dart';
 class FirebaseModel with ChangeNotifier {
   FirebaseAuth auth = FirebaseAuth.instance;
   firestore.CollectionReference userFirestore =
-  firestore.FirebaseFirestore.instance.collection('users');
+      firestore.FirebaseFirestore.instance.collection('users');
 
   late Web3Client _client;
   final String _rpcUrl = keys.rpcUrl;
-
 
   FirebaseModel() {
     initiateSetup();
@@ -35,7 +37,7 @@ class FirebaseModel with ChangeNotifier {
     EthereumAddress contractAddress;
 
     String abiString =
-    await rootBundle.loadString('assets/abis/MainContract.json');
+        await rootBundle.loadString('assets/abis/MainContract.json');
     var abiJson = jsonDecode(abiString);
     abi = jsonEncode(abiJson['abi']);
 
@@ -48,65 +50,54 @@ class FirebaseModel with ChangeNotifier {
     return contract;
   }
 
-
   Future<bool> storeTransaction(String transactionHash) async {
     try {
-
       TransactionInformation tx =
-      await _client.getTransactionByHash(transactionHash);
+          await _client.getTransactionByHash(transactionHash);
 
       TransactionReceipt? txReceipt =
-      await _client.getTransactionReceipt(transactionHash);
+          await _client.getTransactionReceipt(transactionHash);
 
       var gasPrice = await _client.getGasPrice();
-      if(txReceipt?.cumulativeGasUsed != null) {
-
+      if (txReceipt?.cumulativeGasUsed != null) {
         String? culma = txReceipt?.cumulativeGasUsed.toString();
-        var gasCostEstimation = BigInt.parse(culma.toString()) * gasPrice.getInWei;
+        var gasCostEstimation =
+            BigInt.parse(culma.toString()) * gasPrice.getInWei;
         var gasAmountInWei = EtherAmount.fromUnitAndValue(
             EtherUnit.wei, gasCostEstimation.toString());
 
         var actualAmountInWei =
-        EtherAmount.fromUnitAndValue(EtherUnit.ether, tx.value.getInEther);
+            EtherAmount.fromUnitAndValue(EtherUnit.ether, tx.value.getInEther);
 
-        var totalAmount = (gasAmountInWei.getInWei + actualAmountInWei.getInWei) /
-            BigInt.from(1000000000000000000);
+        var totalAmount =
+            (gasAmountInWei.getInWei + actualAmountInWei.getInWei) /
+                BigInt.from(1000000000000000000);
 
-        Map<String,String?> data = {
+        Map<String, String?> data = {
           "from": tx.from.hex.toString(),
           "to": tx.to?.hex.toString(),
           "value": tx.value.getInWei.toString(),
           "status": txReceipt?.status.toString(),
           "blockNumber": txReceipt?.blockNumber.blockNum.toString(),
           "contractAddress": txReceipt?.contractAddress?.hex.toString(),
-          "cumulativeGasUsed":txReceipt?.cumulativeGasUsed.toString(),
+          "cumulativeGasUsed": txReceipt?.cumulativeGasUsed.toString(),
           "gasUsed": txReceipt?.gasUsed.toString(),
           "transactionHash": transactionHash,
-          "date": "${DateTime
-              .now()
-              .year
-              .toString()}-${DateTime
-              .now()
-              .month
-              .toString()}-${DateTime
-              .now()
-              .day
-              .toString()}",
+          "date":
+              "${DateTime.now().year.toString()}-${DateTime.now().month.toString()}-${DateTime.now().day.toString()}",
           "dateTime": DateTime.now().toIso8601String(),
-          "totalAmountInEther":totalAmount.toString()
-
+          "totalAmountInEther": totalAmount.toString()
         };
 
-
         if (auth.currentUser?.uid.toString() != null) {
-          userFirestore.doc(auth.currentUser?.uid.toString()).collection(
-              "transactions").doc().set(data);
+          userFirestore
+              .doc(auth.currentUser?.uid.toString())
+              .collection("transactions")
+              .doc()
+              .set(data);
           print(data);
         }
       }
-
-
-
 
       if (tx.hash.isNotEmpty) {
         return true;
@@ -126,7 +117,78 @@ class FirebaseModel with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<bool> storeUserStatus() async {
+    try {
+      Map<String, bool?> data = {"storeHospital": true};
+      if (auth.currentUser?.uid.toString() != null) {
+        userFirestore.doc(auth.currentUser?.uid.toString()).update(data);
+        return true;
+      }
+      return false;
+    } on SocketException {
+      throw exception.HttpException("No Internet connection 😑");
+    } on HttpException {
+      throw exception.HttpException("Couldn't find the post 😱");
+    } on FormatException {
+      throw exception.HttpException("Bad response format 👎");
+    } catch (error) {
+      throw exception.HttpException(error.toString());
+    }
+  }
 
+  Future<String> checkIfUserIsPresent(String walletAddressOfUser) async {
+    try {
+      Map<String, bool?> data = {"storeHospital": true};
+      if (auth.currentUser?.uid.toString() != null) {
+        var hospitalId;
+        var querySnapshot = await FirebaseFirestore.instance
+            .collection('users')
+            .where('walletAddress', isEqualTo: walletAddressOfUser)
+            .get();
 
+        for (var doc in querySnapshot.docs) {
+          // Getting data directly
 
+          hospitalId = doc.id;
+        }
+        return hospitalId;
+      }
+      return "";
+    } on SocketException {
+      throw exception.HttpException("No Internet connection 😑");
+    } on HttpException {
+      throw exception.HttpException("Couldn't find the post 😱");
+    } on FormatException {
+      throw exception.HttpException("Bad response format 👎");
+    } catch (error) {
+      throw exception.HttpException(error.toString());
+    }
+  }
+
+  Future<bool> sendHospitalRequest(
+      String hospitalFirebaseId, String doctorAddress) async {
+    String? userType = await WalletSharedPreference.getUserType();
+    try {
+      Map<String, dynamic?> data = {
+        "address": doctorAddress,
+        "userType": userType,
+        "granted": false
+      };
+      if (auth.currentUser?.uid.toString() != null) {
+        userFirestore
+            .doc(hospitalFirebaseId)
+            .collection("AccessControl")
+            .add(data);
+      }
+      return true;
+    } on SocketException {
+      throw exception.HttpException("No Internet connection 😑");
+    } on HttpException {
+      throw exception.HttpException("Couldn't find the post 😱");
+    } on FormatException {
+      throw exception.HttpException("Bad response format 👎");
+    } catch (error) {
+      throw exception.HttpException(error.toString());
+    }
+  }
 }
