@@ -1,9 +1,9 @@
 # Blockchain in Healthcare
 
-# Flutter Version 2.8.1 
-# Null Safety is on https://dart.dev/null-safety/migration-guide
+### Flutter Version 2.8.1 
+### Null Safety is on https://dart.dev/null-safety/migration-guide
 
-# In the root directory of this repo
+## In the root directory of this repo
 a) Download:
 1. Node Version 16 and above
 2. Android Studio
