@@ -4,20 +4,20 @@
 ### Null Safety is on https://dart.dev/null-safety/migration-guide
 
 ## In the root directory of this repo
-a) Download:
+a) Download and Install:
 1. Node Version 16 and above
 2. Android Studio
 3. Visual Studio 2019(Visual Studio Community 2019 (version 16.11)) and select Desktop Development with C++
-
-b) Installation:
-1. Run `npm install -g truffle`
-2. Run `npm install -g ganache cli`.
+4. Ganache: https://trufflesuite.com/ganache/index.html download for windows
+5. IPFS Desktop: https://docs.ipfs.io/install/ipfs-desktop/ downlaod for windows
+6. Run `npm install -g truffle`
 
 
 
 https://user-images.githubusercontent.com/49688611/147677483-5cd09c3b-d56a-47ba-a123-3e6b9bb2591c.mp4
 
 
+## How to run the setup
 
 
 c) Run `truffle develop` : (Check Videos Directly)
@@ -46,16 +46,10 @@ https://user-images.githubusercontent.com/49688611/147718320-74467e8d-a63d-47e3-
 
 
 
-## In the backend folder
-
-1. Run `npm install` only once
-2. Run `npm start` everytime to run the server
-
-## Open the frontend folder in Android Studio
+## Open the "bic_android_web_support" in Android Studio
 
 1. Run the Flutter App
-2. It will start on create_wallet.dart file and then go to wallet_view.dart
-3. wallet.dart is different from wallet_view.dart
+
 
 ## Current Status
 
