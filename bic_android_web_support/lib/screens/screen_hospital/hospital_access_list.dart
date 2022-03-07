@@ -102,7 +102,7 @@ class _HospitalAccessListState extends State<HospitalAccessList> {
                                             .textTheme
                                             .bodyText1),
                                     onTap: () {
-                                      documents![position]['userType'] ==
+                                      documents[position]['userType'] ==
                                               "Patient"
                                           ? Navigator.push(
                                               context,
