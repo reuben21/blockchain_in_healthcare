@@ -38,16 +38,7 @@ https://user-images.githubusercontent.com/49688611/156950990-474bb062-f213-4bc0-
 
 
 
-https://user-images.
-githubusercontent.com/49688611/147718684-f1112a92-8c28-4613-b5b2-5cbe754ea7e7.mp4
 
-
-
-### After this restart IDE Then follow next video
-
-
-
-https://user-images.githubusercontent.com/49688611/147716201-345649a8-64ea-44ba-8409-f9acfae807b0.mp4
 
 ## Next is Setting up Meta Mask
 
