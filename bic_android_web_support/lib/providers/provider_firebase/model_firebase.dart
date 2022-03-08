@@ -191,4 +191,31 @@ class FirebaseModel with ChangeNotifier {
       throw exception.HttpException(error.toString());
     }
   }
+
+  Future<bool> addPatientToDoctorList(
+      String doctorFirebaseId, String walletAddress,patientName) async {
+
+
+    try {
+      Map<String, dynamic?> data = {
+        "address": walletAddress,
+        "patientName": patientName
+      };
+      if (auth.currentUser?.uid.toString() != null) {
+        userFirestore
+            .doc(doctorFirebaseId)
+            .collection("PatientList")
+            .add(data);
+      }
+      return true;
+    } on SocketException {
+      throw exception.HttpException("No Internet connection 😑");
+    } on HttpException {
+      throw exception.HttpException("Couldn't find the post 😱");
+    } on FormatException {
+      throw exception.HttpException("Bad response format 👎");
+    } catch (error) {
+      throw exception.HttpException(error.toString());
+    }
+  }
 }

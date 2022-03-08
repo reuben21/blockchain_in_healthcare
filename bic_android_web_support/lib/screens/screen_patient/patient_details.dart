@@ -76,6 +76,9 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
     var hospitalDetails =
         await Provider.of<FirebaseModel>(context, listen: false)
             .checkIfUserIsPresent(hospitalAddress.hex);
+    var doctorDetails =
+    await Provider.of<FirebaseModel>(context, listen: false)
+        .checkIfUserIsPresent(hospitalAddress.hex);
 
     print(hospitalDetails);
     return showDialog(
@@ -329,7 +332,7 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                           ),
                         ],
                       ),
-                      Row(children: <Widget>[
+                      Row(children: const <Widget>[
                         Expanded(
                           child: Divider(
                               // thickness: 2,
@@ -343,10 +346,10 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Flexible(
+                          const Flexible(
                             fit: FlexFit.loose,
                             child: Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: EdgeInsets.all(8.0),
                               child: Text(
                                 "(Approx.) Total Ether Amount: ",
                                 style: TextStyle(
@@ -364,7 +367,7 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                               child: Text(
                                 gasEstimation['totalAmount'].toString() +
                                     " ETH",
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Colors.grey,
                                     fontSize: 18,
                                     fontWeight: FontWeight.w500),
@@ -374,7 +377,7 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                           ),
                         ],
                       ),
-                      Row(children: <Widget>[
+                      Row(children: const <Widget>[
                         Expanded(child: Divider()),
                       ]),
                       const SizedBox(
@@ -394,7 +397,7 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                           walletAddress,
                           walletAddress,
                           credentials,
-                          hospitalDetails);
+                          hospitalDetails,doctorDetails);
                     },
                     icon: const Icon(Icons.add_circle_outline_outlined),
                     label: const Text('Confirm Pay'),
@@ -423,9 +426,11 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
       EthereumAddress doctorAddress,
       EthereumAddress walletAddress,
       Credentials credentials,
-      String hospitalFirebaseId) async {
+      String hospitalFirebaseId,String doctorFirebaseId) async {
     var status = await Provider.of<FirebaseModel>(context, listen: false)
         .storeUserStatus();
+
+
     if (status) {
       var transactionHash =
           await Provider.of<WalletModel>(context, listen: false).writeContract(
@@ -438,10 +443,13 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                 walletAddress
               ],
               credentials);
+
       var hospitalRequest =
           await Provider.of<FirebaseModel>(context, listen: false)
               .sendHospitalRequest(hospitalFirebaseId, walletAddress.hex);
-
+      var addToDoctorList =
+      await Provider.of<FirebaseModel>(context, listen: false)
+          .addPatientToDoctorList(doctorFirebaseId, walletAddress.hex,patientName);
       var firebaseStatus =
           await Provider.of<FirebaseModel>(context, listen: false)
               .storeTransaction(transactionHash);
