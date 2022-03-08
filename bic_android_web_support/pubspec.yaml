@@ -70,6 +70,7 @@ dependencies:
   web_socket_channel: ^2.1.0
 
   pdf: ^3.7.1
+  barcode_widget: ^2.0.2
   dropdown_search: ^2.0.1
 
 
