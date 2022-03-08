@@ -3,18 +3,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:bic_android_web_support/providers/wallet.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-import '../../providers/wallet.dart';
-import '../screens_wallet/transfer_screen.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:provider/provider.dart';
-import 'package:qr_flutter/qr_flutter.dart';
-import 'package:velocity_x/velocity_x.dart';
-import 'package:web3dart/web3dart.dart';
 import '../../helpers/http_exception.dart' as exception;
 import '../../helpers/keys.dart' as keys;
 import 'grant_access_to_doctor_screen.dart';

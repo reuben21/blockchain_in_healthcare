@@ -172,7 +172,7 @@ class _TransferScreenState extends State<TransferScreen> {
   }
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Background(

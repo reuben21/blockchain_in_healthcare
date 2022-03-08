@@ -52,7 +52,7 @@ class _SplashWelcomeScreenState extends State<SplashWelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    // TODO: implement build
+
     return Scaffold(
 
       body: SingleChildScrollView(
@@ -67,11 +67,11 @@ class _SplashWelcomeScreenState extends State<SplashWelcomeScreen> {
                 ),
                 SizedBox(height: size.height * 0.03),
                 Text(
-                  'Welcome Back !',
+                  'Please Wait !',
                   style: Theme.of(context).textTheme.headline1,
                 ),
                 status ? Text(
-                  'Your Data has been loaded',
+                  'As We Load Your Data',
                   style: Theme.of(context).textTheme.bodyText1,
                 ) :Text(
                   'We are Loading your Data',

@@ -6,6 +6,7 @@ import 'package:bic_android_web_support/screens/screens_wallet/transaction_list.
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:http/http.dart';
+import 'package:pdf/widgets.dart' as BarcodeComponent;
 import 'package:web3dart/web3dart.dart';
 import 'package:bic_android_web_support/providers/wallet.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,11 +19,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:provider/provider.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:web3dart/web3dart.dart';
 import '../../helpers/http_exception.dart' as exception;
 import '../../helpers/keys.dart' as keys;
+import 'package:barcode/barcode.dart';
 
 class WalletView extends StatefulWidget {
   static const routeName = '/view-wallet';
@@ -145,9 +146,7 @@ class _WalletViewState extends State<WalletView> {
 
   @override
   Future<void> didChangeDependencies() async {
-    // TODO: implement didChangeDependencies
-
-    super.didChangeDependencies();
+      super.didChangeDependencies();
   }
 
   Future<void> getWalletFromDatabase() async {
@@ -417,16 +416,14 @@ class _WalletViewState extends State<WalletView> {
                                                   child: Center(
                                                     child: Column(
                                                       children: [
-                                                        QrImage(
-                                                          data: walletAdd ==
-                                                                  "Select Account"
-                                                              ? ""
-                                                              : "ethereum:" +
-                                                                  walletAdd,
-                                                          version:
-                                                              QrVersions.auto,
-                                                          size: 200.0,
-                                                        ),
+                                                      // TODO: GENERATE BARCODE COMPONENT
+                                                  //       BarcodeComponent.BarcodeWidget(
+                                                  //       barcode:  Barcode.qrCode(),
+                                                  //   data: "Hello World",
+                                                  //   width: 300,
+                                                  //   height: 300,
+                                                  // ),
+
                                                         Text(walletAdd)
                                                       ],
                                                     ),

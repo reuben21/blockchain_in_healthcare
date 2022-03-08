@@ -45,7 +45,7 @@ class _ConfirmationScreenState extends State<ConfirmationScreen> {
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
+
 
     super.didChangeDependencies();
   }
@@ -84,7 +84,7 @@ class _ConfirmationScreenState extends State<ConfirmationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+
     return Scaffold(
         body: Padding(
       padding: const EdgeInsets.only(top: 20),

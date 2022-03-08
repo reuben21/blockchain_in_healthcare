@@ -120,7 +120,7 @@ class _WalletScreenState extends State<WalletScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+
     return Scaffold(
       body: Container(
         color: Theme.of(context).colorScheme.primary,

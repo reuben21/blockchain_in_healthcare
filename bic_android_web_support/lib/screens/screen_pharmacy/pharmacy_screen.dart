@@ -98,7 +98,7 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+
     var textStyleForName = TextStyle(
         fontSize: 15,
         fontWeight: FontWeight.bold,

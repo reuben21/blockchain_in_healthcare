@@ -30,7 +30,7 @@ class _WalletLoginState extends State<WalletLogin> {
 
   void _submit(String password,String address) async {
     try {
-      // TODO: WALLET CREATION
+
       await Provider.of<WalletModel>(context, listen: false)
           .signInWithWallet(address,password);
 
@@ -64,7 +64,7 @@ class _WalletLoginState extends State<WalletLogin> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: SingleChildScrollView(

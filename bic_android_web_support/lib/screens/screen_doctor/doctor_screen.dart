@@ -124,7 +124,7 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
         fontSize: 15,
         fontWeight: FontWeight.bold,
         color: Theme.of(context).colorScheme.primary);
-    // TODO: implement build
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,

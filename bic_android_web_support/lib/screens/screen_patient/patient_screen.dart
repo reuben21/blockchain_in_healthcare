@@ -102,7 +102,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+
     var textStyleForName = TextStyle(
         fontSize: 15,
         fontWeight: FontWeight.bold,

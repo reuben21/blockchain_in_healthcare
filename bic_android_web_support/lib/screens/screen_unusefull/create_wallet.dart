@@ -37,7 +37,7 @@ class _CreateWalletState extends State<CreateWallet> {
 
   void _submit(String fullName,String userId,String password) async {
     try {
-      // TODO: WALLET CREATION
+
       // await Provider.of<WalletModel>(context, listen: false)
       //     .createWalletInternally(fullName,userId,password);
       //
@@ -70,7 +70,7 @@ class _CreateWalletState extends State<CreateWallet> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+
     return Scaffold(
 
       backgroundColor: Theme.of(context).backgroundColor,
