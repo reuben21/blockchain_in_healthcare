@@ -1,15 +1,17 @@
 import 'dart:io';
 
 import 'package:bic_android_web_support/databases/wallet_shared_preferences.dart';
+import 'package:bic_android_web_support/screens/Widgets/WalletAddressInputFile.dart';
 import 'package:bic_android_web_support/screens/screens_auth/background.dart';
 import 'package:bic_android_web_support/screens/screens_wallet/confirmation_screen.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 import '../../providers/wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:provider/provider.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
+
 import 'package:web3dart/credentials.dart';
 
 class TransferScreen extends StatefulWidget {
@@ -29,85 +31,37 @@ class _TransferScreenState extends State<TransferScreen> {
   final _formKey = GlobalKey<FormBuilderState>();
 
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  late Barcode? result;
-  late QRViewController? controller;
 
   late String dropDownCurrentValue;
   late String scannedAddress;
-  late String receiverAddress;
+
+
+  final TextEditingController receiverAddress = TextEditingController.fromValue(TextEditingValue.empty);
 
   // In order to get hot reload to work we need to pause the camera if the platform
   // is android, or resume the camera if the platform is iOS.
   @override
   void reassemble() {
     super.reassemble();
-    if (Platform.isAndroid) {
-      controller!.pauseCamera();
-    }
-    controller!.resumeCamera();
+
   }
 
   @override
   void initState() {
-    receiverAddress= "";
+
     super.initState();
   }
 
   @override
   void dispose() {
-    controller?.dispose();
     super.dispose();
   }
 
-  Widget _buildQrView(BuildContext context) {
-    // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
-    var scanArea = (MediaQuery.of(context).size.width < 400 ||
-        MediaQuery.of(context).size.height < 400)
-        ? 150.0
-        : 300.0;
-    // To ensure the Scanner view is properly sizes after rotation
-    // we need to listen for Flutter SizeChanged notification and update controller
-    return QRView(
-      key: qrKey,
-      onQRViewCreated: _onQRViewCreated,
-      overlay: QrScannerOverlayShape(
-          borderColor: Colors.red,
-          borderRadius: 10,
-          borderLength: 30,
-          borderWidth: 10,
-          cutOutSize: scanArea),
-      onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
-    );
-  }
 
 
-  void _onQRViewCreated(QRViewController controller) {
-    setState(() {
-      this.controller = controller;
-    });
-    controller.scannedDataStream.listen((scanData) {
-      setState(() {
-        result = scanData;
-      });
-      if(scanData.code.toString().startsWith("ethereum:")) {
-        print(scanData.code.toString().substring(8));
-        receiverAddress = scanData.code.toString().substring(8);
-        setState(() {
 
-        });
-      }
-      
-    });
-  }
 
-  void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
-    print('${DateTime.now().toIso8601String()}_onPermissionSet $p');
-    if (!p) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('no Permission')),
-      );
-    }
-  }
+
 
   void _showErrorDialog(String message) {
     showDialog(
@@ -124,6 +78,9 @@ class _TransferScreenState extends State<TransferScreen> {
               ],
             ));
   }
+
+
+
 
   Widget formBuilderTextFieldWidget(
       TextInputType inputTextType,
@@ -252,58 +209,14 @@ class _TransferScreenState extends State<TransferScreen> {
                       // Text((result != null)
                       //     ? "Ethereum Address: " + result.code.toString()
                       //     : "Scan for Address"),
-                      IconButton(
-                        icon: const Icon(Icons.qr_code_scanner),
-                        onPressed: () {
-                          // do something
-                          // _buildQrView(context);
-                          showDialog(
-                            context: context,
-                            builder: (ctx) => AlertDialog(
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.secondary,
-                              title: Text(
-                                "Show the QR Code",
-                                style: Theme.of(context).textTheme.bodyText1,
-                              ),
-                              content: Container(
-                                width: 300,
-                                height: 500,
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      width: 300,
-                                      height: 400,
-                                      child: QRView(
-                                        key: qrKey,
-                                        onQRViewCreated: _onQRViewCreated,
-                                      ),
-                                    ),
-                                    // Text((result?.code.toString() != null)
-                                    //     ? "Ethereum Address: " +
-                                    //        result!.code.toString()
-                                    //     : "Scan for Address"),
-                                  ],
-                                ),
-                              ),
-                              actions: <Widget>[
-                                // ElevatedButton(
-                                //   onPressed: () async {
-                                //     // setState(() {
-                                //     //   scannedAddress = result!.code.toString();
-                                //     // });
-                                //   },
-                                //   child: Text("GET"),
-                                // ),
-                                ElevatedButton(
-                                  onPressed: () async {},
-                                  child: Text("okay"),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
+                      // IconButton(
+                      //   icon: const Icon(Icons.qr_code_scanner),
+                      //   onPressed: () {
+                      //     // do something
+                      //     // _buildQrView(context);
+                      //     scanBarcode();
+                      //   },
+                      // ),
                       Center(
                         child: FormBuilder(
                             key: _formKey,
@@ -312,26 +225,10 @@ class _TransferScreenState extends State<TransferScreen> {
                             child: Column(
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.all(5),
-                                  child: formBuilderTextFieldWidget(
-                                      TextInputType.text,
-                                      receiverAddress,
-
-                                      "address",
-                                      "Receiver address",
-                                      Image.asset(
-                                          "assets/icons/at-sign-100.png",
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                          scale: 4,
-                                          width: 15,
-                                          height: 15),
-                                      false,
-                                      [
-                                        FormBuilderValidators.required(context),
-                                      ]),
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: WalletAddressInputField(controller: receiverAddress,),
                                 ),
+
                                 Padding(
                                   padding: const EdgeInsets.all(5),
                                   child: formBuilderTextFieldWidget(
@@ -398,46 +295,46 @@ class _TransferScreenState extends State<TransferScreen> {
                                             null) {
                                           String amount = _formKey
                                               .currentState?.value["amount"];
-                                          String receiverAddress = _formKey
-                                              .currentState?.value["address"];
+                                          String receiverAddressValue = receiverAddress.text;
                                           String password = _formKey
                                               .currentState?.value["password"];
+                                          print(receiverAddressValue);
                                           // var dbResponse =
                                           // await DBProviderWallet.db.getWalletByWalletAddress(widget.address);
                                           // print(dbResponse);
                                           var dbResponse = await WalletSharedPreference.getWalletDetails();
 
 
-                                          try {
-                                            Credentials credentialsNew;
-                                            EthereumAddress myAddress;
-
-                                          Wallet newWallet = Wallet.fromJson(dbResponse!['walletEncryptedKey'].toString(), password);
-                                          credentialsNew = newWallet.privateKey;
-                                          myAddress = await credentialsNew.extractAddress();
-
-                                          if (true) {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ConfirmationScreen(
-                                                  receiverAddress:
-                                                      receiverAddress,
-                                                  credentials: credentialsNew,
-                                                  amount: amount,
-
-                                                  senderAddress: myAddress.hex,
-                                                ),
-                                              ),
-                                            );
-                                          }
-                                        } catch(error) {
-
-                                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                              content: Text(error.toString()),
-                                            ));
-                                          }
+                                        //   try {
+                                        //     Credentials credentialsNew;
+                                        //     EthereumAddress myAddress;
+                                        //
+                                        //   Wallet newWallet = Wallet.fromJson(dbResponse!['walletEncryptedKey'].toString(), password);
+                                        //   credentialsNew = newWallet.privateKey;
+                                        //   myAddress = await credentialsNew.extractAddress();
+                                        //
+                                        //   if (true) {
+                                        //     Navigator.push(
+                                        //       context,
+                                        //       MaterialPageRoute(
+                                        //         builder: (context) =>
+                                        //             ConfirmationScreen(
+                                        //           receiverAddress:
+                                        //           receiverAddressValue,
+                                        //           credentials: credentialsNew,
+                                        //           amount: amount,
+                                        //
+                                        //           senderAddress: myAddress.hex,
+                                        //         ),
+                                        //       ),
+                                        //     );
+                                        //   }
+                                        // } catch(error) {
+                                        //
+                                        //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                        //       content: Text(error.toString()),
+                                        //     ));
+                                        //   }
 
                                         }
                                       },

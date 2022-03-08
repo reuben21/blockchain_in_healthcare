@@ -71,6 +71,7 @@ dependencies:
 
   pdf: ^3.7.1
   barcode_widget: ^2.0.2
+  flutter_barcode_scanner: ^2.0.0
   dropdown_search: ^2.0.1
 
 
