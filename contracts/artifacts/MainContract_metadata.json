@@ -399,9 +399,9 @@
 								"type": "string"
 							},
 							{
-								"internalType": "uint256",
+								"internalType": "string",
 								"name": "prescriptionExpiryDateTime",
-								"type": "uint256"
+								"type": "string"
 							}
 						],
 						"internalType": "struct MainContract.Prescription",
@@ -579,40 +579,6 @@
 			{
 				"inputs": [
 					{
-						"internalType": "uint256",
-						"name": "index",
-						"type": "uint256"
-					},
-					{
-						"internalType": "address",
-						"name": "_patientWalletAddress",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "_pharmacyWalletAddress",
-						"type": "address"
-					},
-					{
-						"internalType": "string",
-						"name": "_medicalRecordHash",
-						"type": "string"
-					}
-				],
-				"name": "resetPrescriptionHash",
-				"outputs": [
-					{
-						"internalType": "bool",
-						"name": "status",
-						"type": "bool"
-					}
-				],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
 						"internalType": "address",
 						"name": "_hospitalAddress",
 						"type": "address"
@@ -628,9 +594,9 @@
 						"type": "address"
 					},
 					{
-						"internalType": "uint256",
+						"internalType": "string",
 						"name": "_prescriptionExpiryDateTime",
-						"type": "uint256"
+						"type": "string"
 					}
 				],
 				"name": "resetPrescriptionRecordExpiryByDoctor",
@@ -657,9 +623,9 @@
 						"type": "address"
 					},
 					{
-						"internalType": "uint256",
+						"internalType": "string",
 						"name": "_prescriptionExpiryDateTime",
-						"type": "uint256"
+						"type": "string"
 					}
 				],
 				"name": "resetPrescriptionRecordExpiryByPharmacy",
@@ -981,9 +947,9 @@
 						"type": "address"
 					},
 					{
-						"internalType": "uint256",
+						"internalType": "string",
 						"name": "_prescriptionExpiryDateTime",
-						"type": "uint256"
+						"type": "string"
 					}
 				],
 				"name": "setPrescriptionRecordByDoctor",
@@ -1340,11 +1306,11 @@
 	},
 	"sources": {
 		"MainContract.sol": {
-			"keccak256": "0xee6322321fc3a1ce228316cf5be5537bdba51426a3e9a5e4b8c65fa5e2aa008e",
+			"keccak256": "0x6afea99149567f084cdd8ea444d247ad6238d5cb5e5283e5755d71b5eb358817",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://d7f31c82a4911d20b882e51122467c9e297fa4953d313b3b673f452b241111ce",
-				"dweb:/ipfs/QmZxrDHZUfFVbbjNnPrJZLojBPqJWaXNhK2xDC6hEkiqnV"
+				"bzz-raw://5fa9a37a86bca7ebae7bb016bd209da0617120b24287d08ff39ee77f56f640a8",
+				"dweb:/ipfs/QmTUL1sBivJXZSvzGGr7bHMnNJzCx5xufPjyzoZG9abs28"
 			]
 		},
 		"openzeppelin/contracts/access/AccessControl.sol": {

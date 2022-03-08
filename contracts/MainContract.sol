@@ -26,7 +26,7 @@ contract MainContract is AccessControl {
     struct Prescription {
         uint256 index;
         string prescriptionHash;
-        uint256 prescriptionExpiryDateTime;
+        string prescriptionExpiryDateTime;
     }
 
     struct patientRecord {
@@ -183,7 +183,7 @@ contract MainContract is AccessControl {
         string memory _prescriptionRecordHash,
         address _hospitalAddress,
         address _walletAddress,
-        uint256 _prescriptionExpiryDateTime
+        string memory _prescriptionExpiryDateTime
     ) external returns (bool status) {
         require(
             hasRole(
@@ -217,7 +217,7 @@ contract MainContract is AccessControl {
         address _hospitalAddress,
         address _walletAddress,
         address _doctorWalletAddress,
-        uint256 _prescriptionExpiryDateTime
+        string memory _prescriptionExpiryDateTime
     ) external returns (bool status) {
         require(
             hasRole(
@@ -237,7 +237,7 @@ contract MainContract is AccessControl {
     function resetPrescriptionRecordExpiryByPharmacy(
         address _walletAddress,
         address _pharmacyWalletAddress,
-        uint256 _prescriptionExpiryDateTime
+        string memory _prescriptionExpiryDateTime
     ) external returns (bool status) {
         require(hasRole(PHARMACY, _pharmacyWalletAddress), "RNG");
 
@@ -264,19 +264,7 @@ contract MainContract is AccessControl {
         return (patientDatabase[_walletAddress].prescriptionCount);
     }
 
-    function resetPrescriptionHash(
-        uint256 index,
-        address _patientWalletAddress,
-        address _pharmacyWalletAddress,
-        string memory _medicalRecordHash
-    ) external returns (bool status) {
-        require(hasRole(PHARMACY, _pharmacyWalletAddress), "RNG");
-        patientDatabase[_patientWalletAddress]
-            .prescriptions[index]
-            .prescriptionHash = _medicalRecordHash;
 
-        return true;
-    }
 
     function updatedMedicalRecordHashByDoctor(
         uint256 index,
@@ -295,6 +283,9 @@ contract MainContract is AccessControl {
         patientDatabase[_patientWalletAddress]
             .medicalRecords[index]
             .patientRecordHash = _medicalRecordHash;
+        patientDatabase[_patientWalletAddress]
+            .medicalRecords[index]
+            .verified = true;
 
         return true;
     }
@@ -487,8 +478,13 @@ contract MainContract is AccessControl {
             ),
             "RNG"
         );
+        revokeRole(hospitalDatabase[_previousHospitalAddress].customRoleDoctor,
+                _walletAddress);
+
         hospitalDatabase[_previousHospitalAddress].doctorInHospital.decrement();
+
         doctorDatabase[_walletAddress].hospitalAddress = _newHospitalAddress;
+
         hospitalDatabase[_newHospitalAddress].doctorInHospital.increment();
         return true;
     }
