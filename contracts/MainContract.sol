@@ -214,37 +214,18 @@ contract MainContract is AccessControl {
         return true;
     }
 
-    function resetPrescriptionRecordExpiryByDoctor(
-        address _hospitalAddress,
-        address _patientWalletAddress,
-        address _doctorWalletAddress,
-        string memory _prescriptionExpiryDateTime
-    ) external returns (bool status) {
-        require(
-            hasRole(
-                hospitalDatabase[_hospitalAddress].customRoleDoctor,
-                _doctorWalletAddress
-            ),
-            "RNG"
-        );
-
-        patientDatabase[_patientWalletAddress]
-            .prescriptions[patientDatabase[_patientWalletAddress].prescriptionCount]
-            .prescriptionExpiryDateTime = _prescriptionExpiryDateTime;
-
-        return true;
-    }
-
-    function resetPrescriptionRecordExpiryByPharmacy(
+   
+    function resetPrescriptionRecord(
         address _patientWalletAddress,
         address _pharmacyWalletAddress,
-        string memory _prescriptionExpiryDateTime
+        string memory _prescriptionRecordHash,
+        uint256 _prescriptionIndex
     ) external returns (bool status) {
         require(hasRole(PHARMACY, _pharmacyWalletAddress), "RNG");
 
         patientDatabase[_patientWalletAddress]
-            .prescriptions[patientDatabase[_patientWalletAddress].prescriptionCount]
-            .prescriptionExpiryDateTime = _prescriptionExpiryDateTime;
+            .prescriptions[_prescriptionIndex]
+            .prescriptionHash = _prescriptionRecordHash;
 
         return true;
     }
