@@ -630,13 +630,13 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                             myAddress =
                             await credentialsNew.extractAddress();
 
-
+                            EthereumAddress patientAddress = EthereumAddress.fromHex(_formPatient
+                                .currentState?.value["patientAddress"]);
                             estimateGasFunction(
                                 hashReceived,
                                 doctorHospitalAddress,
                                 myAddress,
-                                _formPatient
-                                    .currentState?.value["dateTimeToday"],
+                                patientAddress,
                                 _formPatient
                                     .currentState?.value["validTill"],
                                 credentialsNew);
@@ -662,14 +662,13 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
       String _prescriptionRecordHash,
       EthereumAddress hospitalAddress,
       EthereumAddress doctorAddress,
-
-      String originDateTime,
+      EthereumAddress patientAddress,
       DateTime expiryDateTime,
       Credentials credentials) async {
     var gasEstimation =
     await Provider.of<GasEstimationModel>(context, listen: false)
         .estimateGasForContractFunction(doctorAddress, "setPrescriptionRecordByDoctor",
-        [_prescriptionRecordHash, hospitalAddress, doctorAddress,expiryDateTime.toIso8601String()]);
+        [_prescriptionRecordHash, hospitalAddress, doctorAddress,patientAddress,expiryDateTime.toIso8601String()]);
     print(gasEstimation);
 
     return showDialog(
@@ -981,7 +980,7 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                     backgroundColor: Theme.of(context).colorScheme.primary,
                     foregroundColor: Theme.of(context).colorScheme.secondary,
                     onPressed: () async {
-                      executeTransaction(_prescriptionRecordHash, hospitalAddress, doctorAddress,expiryDateTime.toIso8601String(),credentials);
+                      executeTransaction(_prescriptionRecordHash, hospitalAddress, doctorAddress,patientAddress,expiryDateTime.toIso8601String(),credentials);
                     },
                     icon: const Icon(Icons.add_circle_outline_outlined),
                     label: const Text('Confirm Pay'),
@@ -1007,11 +1006,12 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
       String _prescriptionRecordHash,
       EthereumAddress hospitalAddress,
       EthereumAddress doctorAddress,
+      EthereumAddress patientAddress,
       String expiryDateTime,
       Credentials credentials) async {
     var transactionHash = await Provider.of<WalletModel>(context, listen: false)
         .writeContract("setPrescriptionRecordByDoctor",
-        [_prescriptionRecordHash, hospitalAddress, doctorAddress,expiryDateTime], credentials);
+        [_prescriptionRecordHash, hospitalAddress, doctorAddress,patientAddress,expiryDateTime], credentials);
 
     var firebaseStatus =
     await Provider.of<FirebaseModel>(context, listen: false)
