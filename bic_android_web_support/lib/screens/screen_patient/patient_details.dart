@@ -72,13 +72,14 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
       doctorAddress,
       walletAddress,
     ]);
+
     print(gasEstimation);
     var hospitalDetails =
         await Provider.of<FirebaseModel>(context, listen: false)
             .checkIfUserIsPresent(hospitalAddress.hex);
     var doctorDetails =
     await Provider.of<FirebaseModel>(context, listen: false)
-        .checkIfUserIsPresent(hospitalAddress.hex);
+        .checkIfUserIsPresent(doctorAddress.hex);
 
     print(hospitalDetails);
     return showDialog(
@@ -428,36 +429,48 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
       Credentials credentials,
       String hospitalFirebaseId,String doctorFirebaseId) async {
     var status = await Provider.of<FirebaseModel>(context, listen: false)
-        .storeUserStatus();
+        .storeUserRegistrationStatus(walletAddress.hex);
 
-
-    if (status) {
+    if(status == true) {
       var transactionHash =
-          await Provider.of<WalletModel>(context, listen: false).writeContract(
-              "storePatient",
-              [
-                patientName,
-                ipfsHash,
-                hospitalAddress,
-                doctorAddress,
-                walletAddress
-              ],
-              credentials);
-
+      await Provider.of<WalletModel>(context, listen: false).writeContract(
+          "storePatient",
+          [
+            patientName,
+            ipfsHash,
+            hospitalAddress,
+            doctorAddress,
+            walletAddress
+          ],
+          credentials);
+    } else if(status==false) {
+      var transactionHash =
+      await Provider.of<WalletModel>(context, listen: false).writeContract(
+          "storePatient",
+          [
+            patientName,
+            ipfsHash,
+            hospitalAddress,
+            doctorAddress,
+            walletAddress
+          ],
+          credentials);
       var hospitalRequest =
-          await Provider.of<FirebaseModel>(context, listen: false)
-              .sendHospitalRequest(hospitalFirebaseId, walletAddress.hex);
+      await Provider.of<FirebaseModel>(context, listen: false)
+          .sendHospitalRequest(hospitalFirebaseId, walletAddress.hex);
       var addToDoctorList =
       await Provider.of<FirebaseModel>(context, listen: false)
           .addPatientToDoctorList(doctorFirebaseId, walletAddress.hex,patientName);
       var firebaseStatus =
-          await Provider.of<FirebaseModel>(context, listen: false)
-              .storeTransaction(transactionHash);
+      await Provider.of<FirebaseModel>(context, listen: false)
+          .storeTransaction(transactionHash);
 
       if (firebaseStatus) {
         Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
       }
     }
+
+
   }
 
   Widget formBuilderTextFieldWidget(

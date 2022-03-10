@@ -412,7 +412,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
       Credentials credentials,
       String hospitalFirebaseId) async {
     var status = await Provider.of<FirebaseModel>(context, listen: false)
-        .storeUserStatus();
+        .storeUserRegistrationStatus(walletAddress.hex);
     if (status) {
       var transactionHash =
           await Provider.of<WalletModel>(context, listen: false).writeContract(

@@ -117,12 +117,33 @@ class FirebaseModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> storeUserStatus() async {
+  Future<bool> storeUserRegistrationStatus(String walletAddressOfUser) async {
     try {
-      Map<String, bool?> data = {"storeHospital": true};
+      CollectionReference users = FirebaseFirestore.instance.collection('users');
+
+      Map<String, bool?> data = {"registerOnce": true};
       if (auth.currentUser?.uid.toString() != null) {
-        userFirestore.doc(auth.currentUser?.uid.toString()).update(data);
-        return true;
+        var hospitalId;
+        var querySnapshot = await FirebaseFirestore.instance
+            .collection('users')
+            .where('walletAddress', isEqualTo: walletAddressOfUser)
+            .get();
+
+        for (var doc in querySnapshot.docs) {
+          // Getting data directly
+
+          hospitalId = doc.data();
+
+          if(doc.data()['storeHospital']==true) {
+            return true;
+          } else {
+            userFirestore.doc(auth.currentUser?.uid.toString()).update(data);
+            return false;
+          }
+        }
+
+
+
       }
       return false;
     } on SocketException {
@@ -136,9 +157,10 @@ class FirebaseModel with ChangeNotifier {
     }
   }
 
+
   Future<String> checkIfUserIsPresent(String walletAddressOfUser) async {
     try {
-      Map<String, bool?> data = {"storeHospital": true};
+
       if (auth.currentUser?.uid.toString() != null) {
         var hospitalId;
         var querySnapshot = await FirebaseFirestore.instance
