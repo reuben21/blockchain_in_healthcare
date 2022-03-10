@@ -249,7 +249,8 @@ class WalletModel with ChangeNotifier {
         'userEmail': emailId,
         'walletAddress': newWallet.privateKey.address.hex,
         'walletEncryptedKey': _walletCredentials,
-        'userType': userType
+        'userType': userType,
+        'registerOnce':false
       }).then((value) => {});
 
 

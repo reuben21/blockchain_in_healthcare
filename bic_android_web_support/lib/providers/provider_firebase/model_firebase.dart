@@ -134,9 +134,9 @@ class FirebaseModel with ChangeNotifier {
 
           hospitalId = doc.data();
 
-          if(doc.data()['storeHospital']==true) {
+          if(doc.data()['registerOnce']==true) {
             return true;
-          } else {
+          } else if(doc.data()['registerOnce']==false) {
             userFirestore.doc(auth.currentUser?.uid.toString()).update(data);
             return false;
           }

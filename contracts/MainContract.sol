@@ -183,6 +183,7 @@ contract MainContract is AccessControl {
         string memory _prescriptionRecordHash,
         address _hospitalAddress,
         address _walletAddress,
+        address _patientWalletAddress,
         string memory _prescriptionExpiryDateTime
     ) external returns (bool status) {
         require(
@@ -192,22 +193,22 @@ contract MainContract is AccessControl {
             ),
             "RNG"
         );
-        patientDatabase[_walletAddress].prescriptionCount++;
+        patientDatabase[_patientWalletAddress].prescriptionCount++;
 
-        patientDatabase[_walletAddress].prescriptionCount = patientDatabase[
-            _walletAddress
+        patientDatabase[_patientWalletAddress].prescriptionCount = patientDatabase[
+            _patientWalletAddress
         ].prescriptionCount;
 
-        patientDatabase[_walletAddress]
-            .prescriptions[patientDatabase[_walletAddress].prescriptionCount]
-            .index = patientDatabase[_walletAddress].prescriptionCount;
+        patientDatabase[_patientWalletAddress]
+            .prescriptions[patientDatabase[_patientWalletAddress].prescriptionCount]
+            .index = patientDatabase[_patientWalletAddress].prescriptionCount;
 
-        patientDatabase[_walletAddress]
-            .prescriptions[patientDatabase[_walletAddress].prescriptionCount]
+        patientDatabase[_patientWalletAddress]
+            .prescriptions[patientDatabase[_patientWalletAddress].prescriptionCount]
             .prescriptionHash = _prescriptionRecordHash;
 
-        patientDatabase[_walletAddress]
-            .prescriptions[patientDatabase[_walletAddress].prescriptionCount]
+        patientDatabase[_patientWalletAddress]
+            .prescriptions[patientDatabase[_patientWalletAddress].prescriptionCount]
             .prescriptionExpiryDateTime = _prescriptionExpiryDateTime;
 
         return true;
@@ -215,7 +216,7 @@ contract MainContract is AccessControl {
 
     function resetPrescriptionRecordExpiryByDoctor(
         address _hospitalAddress,
-        address _walletAddress,
+        address _patientWalletAddress,
         address _doctorWalletAddress,
         string memory _prescriptionExpiryDateTime
     ) external returns (bool status) {
@@ -227,41 +228,41 @@ contract MainContract is AccessControl {
             "RNG"
         );
 
-        patientDatabase[_walletAddress]
-            .prescriptions[patientDatabase[_walletAddress].prescriptionCount]
+        patientDatabase[_patientWalletAddress]
+            .prescriptions[patientDatabase[_patientWalletAddress].prescriptionCount]
             .prescriptionExpiryDateTime = _prescriptionExpiryDateTime;
 
         return true;
     }
 
     function resetPrescriptionRecordExpiryByPharmacy(
-        address _walletAddress,
+        address _patientWalletAddress,
         address _pharmacyWalletAddress,
         string memory _prescriptionExpiryDateTime
     ) external returns (bool status) {
         require(hasRole(PHARMACY, _pharmacyWalletAddress), "RNG");
 
-        patientDatabase[_walletAddress]
-            .prescriptions[patientDatabase[_walletAddress].prescriptionCount]
+        patientDatabase[_patientWalletAddress]
+            .prescriptions[patientDatabase[_patientWalletAddress].prescriptionCount]
             .prescriptionExpiryDateTime = _prescriptionExpiryDateTime;
 
         return true;
     }
 
-    function getPrescriptions(address _walletAddress, uint256 _recordPosition)
+    function getPrescriptions(address _patientWalletAddress, uint256 _recordPosition)
         external
         view
         returns (Prescription memory value)
     {
-        return (patientDatabase[_walletAddress].prescriptions[_recordPosition]);
+        return (patientDatabase[_patientWalletAddress].prescriptions[_recordPosition]);
     }
 
-    function getPrescriptionsCountForPatient(address _walletAddress)
+    function getPrescriptionsCountForPatient(address _patientWalletAddress)
         external
         view
         returns (uint256 prescriptionsCountForPatient)
     {
-        return (patientDatabase[_walletAddress].prescriptionCount);
+        return (patientDatabase[_patientWalletAddress].prescriptionCount);
     }
 
 

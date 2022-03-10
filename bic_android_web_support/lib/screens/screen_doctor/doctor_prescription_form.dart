@@ -20,16 +20,16 @@ import 'package:web3dart/credentials.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
 
-class DoctorPrescriptionScreen extends StatefulWidget {
+class DoctorPrescriptionForm extends StatefulWidget {
   static const routeName = '/doctor-prescription-screen';
 
   @override
-  _DoctorPrescriptionScreenState createState() {
-    return _DoctorPrescriptionScreenState();
+  _DoctorPrescriptionFormState createState() {
+    return _DoctorPrescriptionFormState();
   }
 }
 
-class _DoctorPrescriptionScreenState extends State<DoctorPrescriptionScreen> {
+class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
   final _formPatient = GlobalKey<FormBuilderState>();
   final _formMedicine = GlobalKey<FormBuilderState>();
   final _formFieldForPassword = GlobalKey<FormBuilderState>();
@@ -664,12 +664,12 @@ class _DoctorPrescriptionScreenState extends State<DoctorPrescriptionScreen> {
       EthereumAddress doctorAddress,
 
       String originDateTime,
-      String expiryDateTime,
+      DateTime expiryDateTime,
       Credentials credentials) async {
     var gasEstimation =
     await Provider.of<GasEstimationModel>(context, listen: false)
         .estimateGasForContractFunction(doctorAddress, "setPrescriptionRecordByDoctor",
-        [_prescriptionRecordHash, hospitalAddress, doctorAddress,doctorAddress,originDateTime,expiryDateTime]);
+        [_prescriptionRecordHash, hospitalAddress, doctorAddress,expiryDateTime.toIso8601String()]);
     print(gasEstimation);
 
     return showDialog(
@@ -981,8 +981,7 @@ class _DoctorPrescriptionScreenState extends State<DoctorPrescriptionScreen> {
                     backgroundColor: Theme.of(context).colorScheme.primary,
                     foregroundColor: Theme.of(context).colorScheme.secondary,
                     onPressed: () async {
-                      // executeTransaction(oldHospitalAddress,newHospitalAddress, walletAddress,
-                      //     credentials);
+                      executeTransaction(_prescriptionRecordHash, hospitalAddress, doctorAddress,expiryDateTime.toIso8601String(),credentials);
                     },
                     icon: const Icon(Icons.add_circle_outline_outlined),
                     label: const Text('Confirm Pay'),
@@ -1005,13 +1004,14 @@ class _DoctorPrescriptionScreenState extends State<DoctorPrescriptionScreen> {
   }
 
   Future<void> executeTransaction(
-      EthereumAddress oldHospitalAddress,
-      EthereumAddress newHospitalAddress,
-      EthereumAddress walletAddress,
+      String _prescriptionRecordHash,
+      EthereumAddress hospitalAddress,
+      EthereumAddress doctorAddress,
+      String expiryDateTime,
       Credentials credentials) async {
     var transactionHash = await Provider.of<WalletModel>(context, listen: false)
-        .writeContract("changeHospitalForDoctor",
-        [oldHospitalAddress, newHospitalAddress, walletAddress], credentials);
+        .writeContract("setPrescriptionRecordByDoctor",
+        [_prescriptionRecordHash, hospitalAddress, doctorAddress,expiryDateTime], credentials);
 
     var firebaseStatus =
     await Provider.of<FirebaseModel>(context, listen: false)

@@ -1,5 +1,5 @@
 import 'package:bic_android_web_support/databases/wallet_shared_preferences.dart';
-import 'package:bic_android_web_support/screens/screen_doctor/doctor_prescription.dart';
+import 'package:bic_android_web_support/screens/screen_doctor/doctor_prescription_form.dart';
 import 'package:bic_android_web_support/screens/screen_doctor/doctor_screen.dart';
 import 'package:bic_android_web_support/screens/screen_hospital/hospital_access_control.dart';
 import 'package:bic_android_web_support/screens/screen_hospital/hospital_screen.dart';
@@ -11,6 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 
 import '../../screens/medical_records_screen.dart';
+import '../screen_doctor/doctor_prescription_screen.dart';
 import '../screen_pharmacy/prescription_screen.dart';
 
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';

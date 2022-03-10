@@ -49,7 +49,7 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
         Provider.of<WalletModel>(context, listen: false).walletCredentials;
     address = await credentialsNew.extractAddress();
 
-    var data = await Provider.of<PharmacyModel>(context, listen: false)
+    var data = await Provider.of<WalletModel>(context, listen: false)
         .readContract("getPrescriptionsCountForPatient", [address]);
     print(data);
     setState(() {
