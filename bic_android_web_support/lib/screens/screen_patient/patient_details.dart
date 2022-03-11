@@ -627,12 +627,14 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                     padding: const EdgeInsets.all(15),
                                     child: WalletAddressInputField(
                                       controller: hospitalAddress,
+                                      hintText: "Hospital Address",
                                     ),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.all(15),
                                     child: WalletAddressInputField(
                                       controller: doctorAddress,
+                                      hintText: "Doctor Address",
                                     ),
                                   ),
                                   Padding(
