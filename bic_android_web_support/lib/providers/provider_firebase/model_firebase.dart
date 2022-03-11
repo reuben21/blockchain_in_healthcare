@@ -119,7 +119,8 @@ class FirebaseModel with ChangeNotifier {
 
   Future<bool> storeUserRegistrationStatus(String walletAddressOfUser) async {
     try {
-      CollectionReference users = FirebaseFirestore.instance.collection('users');
+      CollectionReference users =
+          FirebaseFirestore.instance.collection('users');
 
       Map<String, bool?> data = {"registerOnce": true};
       if (auth.currentUser?.uid.toString() != null) {
@@ -134,16 +135,13 @@ class FirebaseModel with ChangeNotifier {
 
           hospitalId = doc.data();
 
-          if(doc.data()['registerOnce']==true) {
+          if (doc.data()['registerOnce'] == true) {
             return true;
-          } else if(doc.data()['registerOnce']==false) {
+          } else if (doc.data()['registerOnce'] == false) {
             userFirestore.doc(auth.currentUser?.uid.toString()).update(data);
             return false;
           }
         }
-
-
-
       }
       return false;
     } on SocketException {
@@ -157,10 +155,8 @@ class FirebaseModel with ChangeNotifier {
     }
   }
 
-
   Future<String> checkIfUserIsPresent(String walletAddressOfUser) async {
     try {
-
       if (auth.currentUser?.uid.toString() != null) {
         var hospitalId;
         var querySnapshot = await FirebaseFirestore.instance
@@ -215,19 +211,14 @@ class FirebaseModel with ChangeNotifier {
   }
 
   Future<bool> addPatientToDoctorList(
-      String doctorFirebaseId, String walletAddress,patientName) async {
-
-
+      String doctorFirebaseId, String walletAddress, patientName) async {
     try {
       Map<String, dynamic?> data = {
         "address": walletAddress,
         "patientName": patientName
       };
       if (auth.currentUser?.uid.toString() != null) {
-        userFirestore
-            .doc(doctorFirebaseId)
-            .collection("PatientList")
-            .add(data);
+        userFirestore.doc(doctorFirebaseId).collection("PatientList").add(data);
       }
       return true;
     } on SocketException {
