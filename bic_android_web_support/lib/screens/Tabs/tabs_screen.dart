@@ -12,7 +12,7 @@ import 'package:flutter/services.dart';
 
 import '../../screens/medical_records_screen.dart';
 import '../screen_doctor/doctor_prescription_screen.dart';
-import '../screen_pharmacy/prescription_screen.dart';
+import '../screen_patient/prescription_screen.dart';
 
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
