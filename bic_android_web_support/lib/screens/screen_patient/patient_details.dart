@@ -5,6 +5,7 @@ import 'package:bic_android_web_support/providers/provider_firebase/model_fireba
 import 'package:bic_android_web_support/providers/provider_pharmacy/model_pharmacy.dart';
 import 'package:bic_android_web_support/providers/wallet.dart';
 import 'package:bic_android_web_support/screens/Tabs/tabs_screen.dart';
+import 'package:bic_android_web_support/screens/Widgets/WalletAddressInputFile.dart';
 import 'package:bic_android_web_support/screens/screens_auth/background.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -40,6 +41,11 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
   final _formKey = GlobalKey<FormBuilderState>();
 
   String walletAdd = '';
+  final TextEditingController hospitalAddress =
+      TextEditingController.fromValue(TextEditingValue.empty);
+
+  final TextEditingController doctorAddress =
+      TextEditingController.fromValue(TextEditingValue.empty);
 
   @override
   void initState() {
@@ -77,8 +83,7 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
     var hospitalDetails =
         await Provider.of<FirebaseModel>(context, listen: false)
             .checkIfUserIsPresent(hospitalAddress.hex);
-    var doctorDetails =
-    await Provider.of<FirebaseModel>(context, listen: false)
+    var doctorDetails = await Provider.of<FirebaseModel>(context, listen: false)
         .checkIfUserIsPresent(doctorAddress.hex);
 
     print(hospitalDetails);
@@ -398,7 +403,8 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                           walletAddress,
                           walletAddress,
                           credentials,
-                          hospitalDetails,doctorDetails);
+                          hospitalDetails,
+                          doctorDetails);
                     },
                     icon: const Icon(Icons.add_circle_outline_outlined),
                     label: const Text('Confirm Pay'),
@@ -427,50 +433,50 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
       EthereumAddress doctorAddress,
       EthereumAddress walletAddress,
       Credentials credentials,
-      String hospitalFirebaseId,String doctorFirebaseId) async {
+      String hospitalFirebaseId,
+      String doctorFirebaseId) async {
     var status = await Provider.of<FirebaseModel>(context, listen: false)
         .storeUserRegistrationStatus(walletAddress.hex);
 
-    if(status == true) {
+    if (status == true) {
       var transactionHash =
-      await Provider.of<WalletModel>(context, listen: false).writeContract(
-          "storePatient",
-          [
-            patientName,
-            ipfsHash,
-            hospitalAddress,
-            doctorAddress,
-            walletAddress
-          ],
-          credentials);
-    } else if(status==false) {
+          await Provider.of<WalletModel>(context, listen: false).writeContract(
+              "storePatient",
+              [
+                patientName,
+                ipfsHash,
+                hospitalAddress,
+                doctorAddress,
+                walletAddress
+              ],
+              credentials);
+    } else if (status == false) {
       var transactionHash =
-      await Provider.of<WalletModel>(context, listen: false).writeContract(
-          "storePatient",
-          [
-            patientName,
-            ipfsHash,
-            hospitalAddress,
-            doctorAddress,
-            walletAddress
-          ],
-          credentials);
+          await Provider.of<WalletModel>(context, listen: false).writeContract(
+              "storePatient",
+              [
+                patientName,
+                ipfsHash,
+                hospitalAddress,
+                doctorAddress,
+                walletAddress
+              ],
+              credentials);
       var hospitalRequest =
-      await Provider.of<FirebaseModel>(context, listen: false)
-          .sendHospitalRequest(hospitalFirebaseId, walletAddress.hex);
+          await Provider.of<FirebaseModel>(context, listen: false)
+              .sendHospitalRequest(hospitalFirebaseId, walletAddress.hex);
       var addToDoctorList =
-      await Provider.of<FirebaseModel>(context, listen: false)
-          .addPatientToDoctorList(doctorFirebaseId, walletAddress.hex,patientName);
+          await Provider.of<FirebaseModel>(context, listen: false)
+              .addPatientToDoctorList(
+                  doctorFirebaseId, walletAddress.hex, patientName);
       var firebaseStatus =
-      await Provider.of<FirebaseModel>(context, listen: false)
-          .storeTransaction(transactionHash);
+          await Provider.of<FirebaseModel>(context, listen: false)
+              .storeTransaction(transactionHash);
 
       if (firebaseStatus) {
         Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
       }
     }
-
-
   }
 
   Widget formBuilderTextFieldWidget(
@@ -618,51 +624,19 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                                 context),
                                           ])),
                                   Padding(
-                                      padding: const EdgeInsets.all(15),
-                                      child: formBuilderTextFieldWidget(
-                                          TextInputType.text,
-                                          widget.patientHospitalAddress == null
-                                              ? '0x9733e7b8a68d2547b8c87a7b0ea8b867c85a5e0d'
-                                              : widget.patientHospitalAddress
-                                                  .toString(),
-                                          'patient_hospital_address',
-                                          'Hospital Address',
-                                          Image.asset(
-                                              "assets/icons/name-100.png",
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                              scale: 4,
-                                              width: 15,
-                                              height: 15),
-                                          false,
-                                          [
-                                            FormBuilderValidators.required(
-                                                context),
-                                          ])),
+                                    padding: const EdgeInsets.all(15),
+                                    child: WalletAddressInputField(
+                                      controller: hospitalAddress,
+                                      hintText: "Hospital Address",
+                                    ),
+                                  ),
                                   Padding(
-                                      padding: const EdgeInsets.all(15),
-                                      child: formBuilderTextFieldWidget(
-                                          TextInputType.text,
-                                          widget.patientDoctorAddress == null
-                                              ? '0x6bde22a36daeb9ee6813677dafdf2315f422a1d4'
-                                              : widget.patientDoctorAddress
-                                                  .toString(),
-                                          'patient_doctor_address',
-                                          'Doctor Address',
-                                          Image.asset(
-                                              "assets/icons/name-100.png",
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                              scale: 4,
-                                              width: 15,
-                                              height: 15),
-                                          false,
-                                          [
-                                            FormBuilderValidators.required(
-                                                context),
-                                          ])),
+                                    padding: const EdgeInsets.all(15),
+                                    child: WalletAddressInputField(
+                                      controller: doctorAddress,
+                                      hintText: "Doctor Address",
+                                    ),
+                                  ),
                                   Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
@@ -784,12 +758,10 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                   Map<String, dynamic> objText = {
                                     "patient_name": _formKey
                                         .currentState?.value["patient_name"],
-                                    "patient_hospital_address": _formKey
-                                        .currentState
-                                        ?.value["patient_hospital_address"],
-                                    "patient_doctor_address": _formKey
-                                        .currentState
-                                        ?.value["patient_doctor_address"],
+                                    "patient_hospital_address":
+                                        hospitalAddress.text,
+                                    "patient_doctor_address":
+                                        doctorAddress.text,
                                     "patient_address": _formKey
                                         .currentState?.value["patient_address"],
                                     "patient_age": _formKey

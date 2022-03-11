@@ -35,20 +35,18 @@ class _TransferScreenState extends State<TransferScreen> {
   late String dropDownCurrentValue;
   late String scannedAddress;
 
-
-  final TextEditingController receiverAddress = TextEditingController.fromValue(TextEditingValue.empty);
+  final TextEditingController receiverAddress =
+      TextEditingController.fromValue(TextEditingValue.empty);
 
   // In order to get hot reload to work we need to pause the camera if the platform
   // is android, or resume the camera if the platform is iOS.
   @override
   void reassemble() {
     super.reassemble();
-
   }
 
   @override
   void initState() {
-
     super.initState();
   }
 
@@ -56,12 +54,6 @@ class _TransferScreenState extends State<TransferScreen> {
   void dispose() {
     super.dispose();
   }
-
-
-
-
-
-
 
   void _showErrorDialog(String message) {
     showDialog(
@@ -78,9 +70,6 @@ class _TransferScreenState extends State<TransferScreen> {
               ],
             ));
   }
-
-
-
 
   Widget formBuilderTextFieldWidget(
       TextInputType inputTextType,
@@ -127,9 +116,9 @@ class _TransferScreenState extends State<TransferScreen> {
       validator: FormBuilderValidators.compose(validators),
     );
   }
+
   @override
   Widget build(BuildContext context) {
-
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Background(
@@ -162,7 +151,6 @@ class _TransferScreenState extends State<TransferScreen> {
                         ),
                       ),
 
-
                       const SizedBox(
                         height: 15,
                       ),
@@ -183,20 +171,22 @@ class _TransferScreenState extends State<TransferScreen> {
                           borderRadius: BorderRadius.circular(9),
                         ),
                         child: ListTile(
-                          leading: Image.asset(
-                              "assets/icons/wallet.png",
-                              color:
-                              Theme.of(context).colorScheme.secondary,
+                          leading: Image.asset("assets/icons/wallet.png",
+                              color: Theme.of(context).colorScheme.secondary,
                               width: 35,
                               height: 35),
-                          title: Text('From Wallet Address', style: TextStyle(fontSize: 18,fontWeight:FontWeight.bold,color:
-                          Theme.of(context).colorScheme.secondary,)),
+                          title: Text('From Wallet Address',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).colorScheme.secondary,
+                              )),
                           subtitle: Text(
                             widget.address,
                             style: TextStyle(
-                                fontSize: 15,
-                              color:
-                              Theme.of(context).colorScheme.secondary,),
+                              fontSize: 15,
+                              color: Theme.of(context).colorScheme.secondary,
+                            ),
                           ),
                         ),
                         // Padding(
@@ -226,9 +216,10 @@ class _TransferScreenState extends State<TransferScreen> {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.all(5.0),
-                                  child: WalletAddressInputField(controller: receiverAddress,),
+                                  child: WalletAddressInputField(
+                                    controller: receiverAddress,
+                                  ),
                                 ),
-
                                 Padding(
                                   padding: const EdgeInsets.all(5),
                                   child: formBuilderTextFieldWidget(
@@ -276,7 +267,6 @@ class _TransferScreenState extends State<TransferScreen> {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(25),
                                     child: ElevatedButton.icon(
-
                                       icon: Image.asset(
                                           "assets/icons/money-transfer-100.png",
                                           color: Theme.of(context)
@@ -289,52 +279,53 @@ class _TransferScreenState extends State<TransferScreen> {
                                       //     vertical: 20, horizontal: 40),
                                       // color: Theme.of(context).colorScheme.primary,
                                       onPressed: () async {
-
                                         _formKey.currentState?.save();
                                         if (_formKey.currentState?.validate() !=
                                             null) {
                                           String amount = _formKey
                                               .currentState?.value["amount"];
-                                          String receiverAddressValue = receiverAddress.text;
+                                          String receiverAddressValue =
+                                              receiverAddress.text;
                                           String password = _formKey
                                               .currentState?.value["password"];
                                           print(receiverAddressValue);
                                           // var dbResponse =
                                           // await DBProviderWallet.db.getWalletByWalletAddress(widget.address);
                                           // print(dbResponse);
-                                          var dbResponse = await WalletSharedPreference.getWalletDetails();
+                                          var dbResponse =
+                                              await WalletSharedPreference
+                                                  .getWalletDetails();
 
-
-                                        //   try {
-                                        //     Credentials credentialsNew;
-                                        //     EthereumAddress myAddress;
-                                        //
-                                        //   Wallet newWallet = Wallet.fromJson(dbResponse!['walletEncryptedKey'].toString(), password);
-                                        //   credentialsNew = newWallet.privateKey;
-                                        //   myAddress = await credentialsNew.extractAddress();
-                                        //
-                                        //   if (true) {
-                                        //     Navigator.push(
-                                        //       context,
-                                        //       MaterialPageRoute(
-                                        //         builder: (context) =>
-                                        //             ConfirmationScreen(
-                                        //           receiverAddress:
-                                        //           receiverAddressValue,
-                                        //           credentials: credentialsNew,
-                                        //           amount: amount,
-                                        //
-                                        //           senderAddress: myAddress.hex,
-                                        //         ),
-                                        //       ),
-                                        //     );
-                                        //   }
-                                        // } catch(error) {
-                                        //
-                                        //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                        //       content: Text(error.toString()),
-                                        //     ));
-                                        //   }
+                                          //   try {
+                                          //     Credentials credentialsNew;
+                                          //     EthereumAddress myAddress;
+                                          //
+                                          //   Wallet newWallet = Wallet.fromJson(dbResponse!['walletEncryptedKey'].toString(), password);
+                                          //   credentialsNew = newWallet.privateKey;
+                                          //   myAddress = await credentialsNew.extractAddress();
+                                          //
+                                          //   if (true) {
+                                          //     Navigator.push(
+                                          //       context,
+                                          //       MaterialPageRoute(
+                                          //         builder: (context) =>
+                                          //             ConfirmationScreen(
+                                          //           receiverAddress:
+                                          //           receiverAddressValue,
+                                          //           credentials: credentialsNew,
+                                          //           amount: amount,
+                                          //
+                                          //           senderAddress: myAddress.hex,
+                                          //         ),
+                                          //       ),
+                                          //     );
+                                          //   }
+                                          // } catch(error) {
+                                          //
+                                          //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                          //       content: Text(error.toString()),
+                                          //     ));
+                                          //   }
 
                                         }
                                       },
@@ -344,7 +335,6 @@ class _TransferScreenState extends State<TransferScreen> {
                                     ),
                                   ),
                                 ),
-
                               ],
                             )),
                       ),
