@@ -339,19 +339,19 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                               child: Column(
                                 children: <Widget>[
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    // mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Container(
                                         height: 50,
-                                        width: 230,
-                                        color: Color(0xFF6200EE),
+                                        width: 200,
+                                        color: Theme.of(context).primaryColor,
                                         child: const Center(
                                             child: Text('Medicine Name')),
                                       ),
                                       Container(
                                         height: 50,
-                                        width: 110,
-                                        color: Color(0xFF6200EE),
+                                        width: 130,
+                                        color: Theme.of(context).primaryColor,
                                         child: const Center(
                                             child: Text('Medicine Time')),
                                       ),
@@ -469,9 +469,7 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Text(
-                        "Patient Wallet Address: ${_formPatient
-                            .currentState
-                            ?.value["patientAddress"]}",
+                        "Patient Wallet Address: ${_formPatient.currentState?.value["patientAddress"]}",
                       ),
                     ),
                   ),
@@ -486,13 +484,13 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                           Container(
                             height: 50,
                             width: 230,
-                            color: Color(0xFF6200EE),
+                            color: Theme.of(context).primaryColor,
                             child: const Center(child: Text('Medicine Name')),
                           ),
                           Container(
                             height: 50,
                             width: 110,
-                            color: Color(0xFF6200EE),
+                            color: Theme.of(context).primaryColor,
                             child: const Center(child: Text('Medicine Time')),
                           ),
                         ],
@@ -547,22 +545,24 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                                 Padding(
                                     padding: const EdgeInsets.all(15),
                                     child: FormBuilderTextField(
-                                      initialValue:
-                                      'Password@123',
+                                      initialValue: 'Password@123',
                                       maxLines: 1,
                                       name: 'password',
                                       decoration: dynamicInputDecoration(
                                         'Password',
-                                        Image.asset("assets/icons/at-sign-100.png",
-                                            color:
-                                            Theme.of(context).colorScheme.primary,
+                                        Image.asset(
+                                            "assets/icons/at-sign-100.png",
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
                                             scale: 4,
                                             width: 15,
                                             height: 15),
                                       ),
                                       // valueTransformer: (text) => num.tryParse(text),
-                                      validator: FormBuilderValidators.compose(
-                                          [FormBuilderValidators.required(context)]),
+                                      validator: FormBuilderValidators.compose([
+                                        FormBuilderValidators.required(context)
+                                      ]),
                                     )),
                               ],
                             ),
@@ -572,7 +572,6 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                     ],
                   ),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.only(bottom: 30),
                   child: Container(
@@ -580,10 +579,8 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                     width: 100,
                     child: FloatingActionButton.extended(
                       heroTag: "patientStoreDetailsButton",
-                      backgroundColor:
-                      Theme.of(context).colorScheme.primary,
-                      foregroundColor:
-                      Theme.of(context).colorScheme.secondary,
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      foregroundColor: Theme.of(context).colorScheme.secondary,
                       onPressed: () async {
                         _formPatient.currentState?.save();
                         _formMedicine.currentState?.save();
@@ -593,52 +590,51 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                           // _formKey.currentState?.value["age"];
                           // _formKey.currentState?.value["address"];
                           // _formKey.currentState?.value["gender"];
-                          var doctorHospitalAddress = Provider.of<DoctorModel>(context, listen: false)
-                              .doctorHospitalAddress;
+                          var doctorHospitalAddress =
+                              Provider.of<DoctorModel>(context, listen: false)
+                                  .doctorHospitalAddress;
                           print(doctorHospitalAddress.hex);
                           Map<String, dynamic> objText = {
                             "patientAddress": _formPatient
                                 .currentState?.value["patientAddress"],
                             "doctorAddress": walletAdd,
                             "dateOfPrescription": _formPatient
-                                .currentState
-                                ?.value["dateTimeToday"],
+                                .currentState?.value["dateTimeToday"],
                             "validTill": _formPatient
-                                .currentState?.value["validTill"].toString(),
+                                .currentState?.value["validTill"]
+                                .toString(),
                             "medicineList": medicineList,
-
                           };
                           print(objText);
                           var hashReceived = await Provider.of<IPFSModel>(
-                              context,
-                              listen: false)
+                                  context,
+                                  listen: false)
                               .sendData(objText);
-                          print("hashReceived ------" +
-                              hashReceived.toString());
+                          print(
+                              "hashReceived ------" + hashReceived.toString());
                           if (hashReceived != null) {
                             Credentials credentialsNew;
                             EthereumAddress myAddress;
-                            var dbResponse = await WalletSharedPreference
-                                .getWalletDetails();
-                            print(
-                                _formFieldForPassword.currentState?.value["password"]);
+                            var dbResponse =
+                                await WalletSharedPreference.getWalletDetails();
+                            print(_formFieldForPassword
+                                .currentState?.value["password"]);
                             Wallet newWallet = Wallet.fromJson(
-                                dbResponse!['walletEncryptedKey']
-                                    .toString(),
-                                _formFieldForPassword.currentState?.value["password"]);
+                                dbResponse!['walletEncryptedKey'].toString(),
+                                _formFieldForPassword
+                                    .currentState?.value["password"]);
                             credentialsNew = newWallet.privateKey;
-                            myAddress =
-                            await credentialsNew.extractAddress();
+                            myAddress = await credentialsNew.extractAddress();
 
-                            EthereumAddress patientAddress = EthereumAddress.fromHex(_formPatient
-                                .currentState?.value["patientAddress"]);
+                            EthereumAddress patientAddress =
+                                EthereumAddress.fromHex(_formPatient
+                                    .currentState?.value["patientAddress"]);
                             estimateGasFunction(
                                 hashReceived,
                                 doctorHospitalAddress,
                                 myAddress,
                                 patientAddress,
-                                _formPatient
-                                    .currentState?.value["validTill"],
+                                _formPatient.currentState?.value["validTill"],
                                 credentialsNew);
                           }
                         } else {
@@ -666,9 +662,15 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
       DateTime expiryDateTime,
       Credentials credentials) async {
     var gasEstimation =
-    await Provider.of<GasEstimationModel>(context, listen: false)
-        .estimateGasForContractFunction(doctorAddress, "setPrescriptionRecordByDoctor",
-        [_prescriptionRecordHash, hospitalAddress, doctorAddress,patientAddress,expiryDateTime.toIso8601String()]);
+        await Provider.of<GasEstimationModel>(context, listen: false)
+            .estimateGasForContractFunction(
+                doctorAddress, "setPrescriptionRecordByDoctor", [
+      _prescriptionRecordHash,
+      hospitalAddress,
+      doctorAddress,
+      patientAddress,
+      expiryDateTime.toIso8601String()
+    ]);
     print(gasEstimation);
 
     return showDialog(
@@ -727,7 +729,7 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                             child: ListTile(
                               leading: Image.asset("assets/icons/wallet.png",
                                   color:
-                                  Theme.of(context).colorScheme.secondary,
+                                      Theme.of(context).colorScheme.secondary,
                                   width: 35,
                                   height: 35),
                               title: Text('From Wallet Address',
@@ -735,14 +737,14 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                     color:
-                                    Theme.of(context).colorScheme.secondary,
+                                        Theme.of(context).colorScheme.secondary,
                                   )),
                               subtitle: Text(
                                 doctorAddress.hex.toString(),
                                 style: TextStyle(
                                   fontSize: 15,
                                   color:
-                                  Theme.of(context).colorScheme.secondary,
+                                      Theme.of(context).colorScheme.secondary,
                                 ),
                               ),
                             ),
@@ -797,7 +799,7 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                             child: ListTile(
                               trailing: Image.asset("assets/icons/wallet.png",
                                   color:
-                                  Theme.of(context).colorScheme.secondary,
+                                      Theme.of(context).colorScheme.secondary,
                                   width: 35,
                                   height: 35),
                               title: Text('To Wallet Address',
@@ -805,14 +807,14 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                     color:
-                                    Theme.of(context).colorScheme.secondary,
+                                        Theme.of(context).colorScheme.secondary,
                                   )),
                               subtitle: Text(
                                 gasEstimation['contractAddress'].toString(),
                                 style: TextStyle(
                                   fontSize: 15,
                                   color:
-                                  Theme.of(context).colorScheme.secondary,
+                                      Theme.of(context).colorScheme.secondary,
                                 ),
                               ),
                             ),
@@ -925,9 +927,9 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                       Row(children: <Widget>[
                         Expanded(
                           child: Divider(
-                            // thickness: 2,
-                            // color: Colors.grey,
-                          ),
+                              // thickness: 2,
+                              // color: Colors.grey,
+                              ),
                         ),
                       ]),
                       const SizedBox(
@@ -980,7 +982,13 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                     backgroundColor: Theme.of(context).colorScheme.primary,
                     foregroundColor: Theme.of(context).colorScheme.secondary,
                     onPressed: () async {
-                      executeTransaction(_prescriptionRecordHash, hospitalAddress, doctorAddress,patientAddress,expiryDateTime.toIso8601String(),credentials);
+                      executeTransaction(
+                          _prescriptionRecordHash,
+                          hospitalAddress,
+                          doctorAddress,
+                          patientAddress,
+                          expiryDateTime.toIso8601String(),
+                          credentials);
                     },
                     icon: const Icon(Icons.add_circle_outline_outlined),
                     label: const Text('Confirm Pay'),
@@ -1009,13 +1017,21 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
       EthereumAddress patientAddress,
       String expiryDateTime,
       Credentials credentials) async {
-    var transactionHash = await Provider.of<WalletModel>(context, listen: false)
-        .writeContract("setPrescriptionRecordByDoctor",
-        [_prescriptionRecordHash, hospitalAddress, doctorAddress,patientAddress,expiryDateTime], credentials);
+    var transactionHash =
+        await Provider.of<WalletModel>(context, listen: false).writeContract(
+            "setPrescriptionRecordByDoctor",
+            [
+              _prescriptionRecordHash,
+              hospitalAddress,
+              doctorAddress,
+              patientAddress,
+              expiryDateTime
+            ],
+            credentials);
 
     var firebaseStatus =
-    await Provider.of<FirebaseModel>(context, listen: false)
-        .storeTransaction(transactionHash);
+        await Provider.of<FirebaseModel>(context, listen: false)
+            .storeTransaction(transactionHash);
 
     if (firebaseStatus) {
       Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
@@ -1024,7 +1040,6 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       // appBar: AppBar(
       //   backgroundColor: Theme.of(context).colorScheme.primary,
@@ -1037,17 +1052,15 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
           type: StepperType.horizontal,
           currentStep: _activeCurrentStep,
           steps: stepList(),
-          controlsBuilder: (BuildContext context,  ControlsDetails details) {
+          controlsBuilder: (BuildContext context, ControlsDetails details) {
             return Padding(
               padding: const EdgeInsets.only(top: 16.0),
               child: Row(
-
                 children: <Widget>[
                   TextButton(
                     onPressed: details.onStepContinue,
                     child: const Text('NEXT'),
                   ),
-
                 ],
               ),
             );
@@ -1055,11 +1068,11 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
           onStepContinue: () {
             if (_activeCurrentStep < (stepList().length - 1)) {
               print(_activeCurrentStep);
-              if(_activeCurrentStep == 0 ) {
+              if (_activeCurrentStep == 0) {
                 _formPatient.currentState?.save();
 
                 if (_formPatient.currentState?.validate() != false) {
-                    print(_formPatient.currentState?.value['patientAddress']);
+                  print(_formPatient.currentState?.value['patientAddress']);
                 }
               }
               setState(() {
