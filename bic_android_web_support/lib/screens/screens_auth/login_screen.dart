@@ -110,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             Padding(
                                 padding: const EdgeInsets.all(15),
                                 child: FormBuilderTextField(
-                                  initialValue: 'pharmacy_a@gmail.com',
+                                  initialValue: 'hospital_a@gmail.com',
                                   maxLines: 1,
                                   name: 'emailId',
                                   decoration: InputDecoration(
