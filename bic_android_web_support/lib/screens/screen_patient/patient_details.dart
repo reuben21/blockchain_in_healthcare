@@ -711,25 +711,25 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                                 context, 13),
                                           ])),
                                   Padding(
-                                      padding: const EdgeInsets.all(15),
-                                      child: formBuilderTextFieldWidget(
-                                          TextInputType.number,
-                                          'Password@123',
-                                          'password',
-                                          'Wallet Password',
-                                          Image.asset(
-                                              "assets/icons/key-100.png",
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                              scale: 4,
-                                              width: 15,
-                                              height: 15),
-                                          true,
-                                          [
-                                            FormBuilderValidators.required(
-                                                context),
-                                          ])),
+                                    padding: const EdgeInsets.all(15),
+                                    child: formBuilderTextFieldWidget(
+                                        TextInputType.number,
+                                        'Password@123',
+                                        'password',
+                                        'Wallet Password',
+                                        Image.asset("assets/icons/key-100.png",
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            scale: 4,
+                                            width: 15,
+                                            height: 15),
+                                        true,
+                                        [
+                                          FormBuilderValidators.required(
+                                              context),
+                                        ]),
+                                  ),
                                 ],
                               ),
                             ),
