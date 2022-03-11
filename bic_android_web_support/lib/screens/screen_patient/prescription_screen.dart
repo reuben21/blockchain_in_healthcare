@@ -17,6 +17,8 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:provider/provider.dart';
 import 'package:web3dart/credentials.dart';
 
+import 'patient_prescription_single_screen.dart';
+
 class PrescriptionScreen extends StatefulWidget {
   static const routeName = '/patient-medical-records';
 
@@ -606,7 +608,7 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
                                               width: 25,
                                               height: 25),
                                           title: Text(
-                                              'View Medical Record ${position + 1}',
+                                              'Prescription Record ${position + 1}',
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodyText1),
@@ -615,7 +617,7 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) =>
-                                                    PatientSingleMedicalView(
+                                                    PatientPrescriptionSingleScreen(
                                                       recordNumber: position + 1,
                                                       walletAddress:
                                                       EthereumAddress.fromHex(
