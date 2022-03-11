@@ -5,10 +5,12 @@ import 'package:bic_android_web_support/providers/provider_doctor/model_doctor.d
 import 'package:bic_android_web_support/providers/provider_firebase/model_firebase.dart';
 import 'package:bic_android_web_support/providers/wallet.dart';
 import 'package:bic_android_web_support/screens/Tabs/tabs_screen.dart';
+import 'package:bic_android_web_support/screens/Widgets/WalletAddressInputFile.dart';
 import 'package:bic_android_web_support/screens/screens_auth/background.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:provider/provider.dart';
 import 'package:web3dart/credentials.dart';
@@ -38,6 +40,9 @@ class _DoctorDetailsState extends State<DoctorDetails> {
   final _formKey = GlobalKey<FormBuilderState>();
 
   String walletAdd = '';
+
+  final TextEditingController hospitalAddress =
+      TextEditingController.fromValue(TextEditingValue.empty);
 
   @override
   void initState() {
@@ -586,25 +591,12 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                                 context),
                                           ])),
                                   Padding(
-                                      padding: const EdgeInsets.all(15),
-                                      child: formBuilderTextFieldWidget(
-                                          TextInputType.streetAddress,
-                                          '0x9733e7b8a68d2547b8c87a7b0ea8b867c85a5e0d',
-                                          'hospital_address',
-                                          'Hospital Wallet Address',
-                                          Image.asset(
-                                              "assets/icons/key-100.png",
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                              scale: 4,
-                                              width: 15,
-                                              height: 15),
-                                          false,
-                                          [
-                                            FormBuilderValidators.required(
-                                                context),
-                                          ])),
+                                    padding: const EdgeInsets.all(15),
+                                    child: WalletAddressInputField(
+                                      controller: hospitalAddress,
+                                      hintText: "Hospital Address",
+                                    ),
+                                  ),
                                   Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
@@ -733,8 +725,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                       .currentState?.value["doctor_age"],
                                   "doctor_address": _formKey
                                       .currentState?.value["doctor_address"],
-                                  "hospital_address": _formKey
-                                      .currentState?.value["hospital_address"],
+                                  "hospital_address": hospitalAddress.text,
                                   "doctor_gender": _formKey
                                       .currentState?.value["doctor_gender"],
                                   "doctor_phone_no": _formKey
