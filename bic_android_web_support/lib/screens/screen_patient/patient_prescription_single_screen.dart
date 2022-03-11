@@ -1,4 +1,3 @@
-
 import 'package:bic_android_web_support/providers/gas_estimation.dart';
 import 'package:bic_android_web_support/providers/ipfs.dart';
 import 'package:bic_android_web_support/providers/provider_firebase/model_firebase.dart';
@@ -37,6 +36,7 @@ class _PatientPrescriptionSingleScreenState
   String dateTime = " ";
 
   List<Map<String, dynamic>> medicineList = [];
+
   // File file
 
   @override
@@ -59,25 +59,19 @@ class _PatientPrescriptionSingleScreenState
         .readContract("getPrescriptions",
             [widget.walletAddress, BigInt.from(widget.recordNumber)]);
     // print(data);
-  if (data[0].toString() != '') {
+    if (data[0].toString() != '') {
       var hospitalData = await Provider.of<IPFSModel>(context, listen: false)
           .receiveData(data[0][1].toString());
       // print(hospitalData);
 
       List<Map<String, dynamic>> medicineList1 = [];
 
-      hospitalData!['medicineList'].forEach((value)=>{
-        medicineList1.add(value)
-
-      });
+      hospitalData!['medicineList']
+          .forEach((value) => {medicineList1.add(value)});
       setState(() {
-        medicineList=medicineList1;
+        medicineList = medicineList1;
       });
-
-
-    } else {
-
-    }
+    } else {}
     setState(() {
       walletAdd = address.hex.toString();
       medicalRecordCount = data[0][0];
@@ -471,33 +465,43 @@ class _PatientPrescriptionSingleScreenState
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       const SizedBox(
-                        height: 100,
+                        height: 110,
+                      ),
+                      ListTile(
+                        title: Text(
+                          "Prescription Expiry In",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 25,
+                          ),
+                        ),
                       ),
                       TimerCountdown(
-                          format: CountDownTimerFormat.daysHoursMinutesSeconds,
-                          endTime: DateTime.parse(dateTime.toString()),
-                        timeTextStyle: const TextStyle(
-                          color: Colors.purple,
+                        format: CountDownTimerFormat.daysHoursMinutesSeconds,
+                        endTime: DateTime.parse(dateTime.toString()),
+                        timeTextStyle: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
                           fontWeight: FontWeight.bold,
-                          fontSize: 30,
+                          fontSize: 25,
                         ),
-                        colonsTextStyle: const TextStyle(
-                          color: Colors.blue,
+                        colonsTextStyle: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
                           fontWeight: FontWeight.bold,
-                          fontSize: 30,
+                          fontSize: 25,
                         ),
-                        descriptionTextStyle: const TextStyle(
-                          color: Colors.red,
+                        descriptionTextStyle: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
                           fontSize: 18,
                         ),
                         spacerWidth: 20,
-                        daysDescription: "d",
-                        hoursDescription: "h",
-                        minutesDescription: "m",
-                        secondsDescription: "s",
+                        daysDescription: "Days",
+                        hoursDescription: "Hours",
+                        minutesDescription: "Minutes",
+                        secondsDescription: "Seconds",
                       ),
                       const SizedBox(
-                        height: 100,
+                        height: 50,
                       ),
                       Card(
                         borderOnForeground: true,
@@ -508,85 +512,136 @@ class _PatientPrescriptionSingleScreenState
                               width: 2),
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: ListTile(
-                          title: Text(
-                            "Medical Record ID",
-                            style: textStyleForName,
-                          ),
-                          subtitle: Text(
-                            medicalRecordCount.toString(),
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.red.withOpacity(0.6),
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 300,
                         child: Column(
-                          children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  height: 50,
-                                  width: 230,
-                                  color: Color(0xFF6200EE),
-                                  child: const Center(
-                                      child: Text('Medicine Name')),
-                                ),
-                                Container(
-                                  height: 50,
-                                  width: 110,
-                                  color: Color(0xFF6200EE),
-                                  child: const Center(
-                                      child: Text('Medicine Time')),
-                                ),
-                              ],
+                          children: [
+                            ListTile(
+                              title: Text(
+                                "Prescription Record ID: ${medicalRecordCount.toString()}",
+                                style: textStyleForName,
+                              ),
+                              subtitle: Text(
+                                "Medicine Prescribed: ",
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
-                            Expanded(
-                              child: ListView.builder(
-                                  itemCount: medicineList.length,
-                                  shrinkWrap: true,
-                                  physics:
-                                  const NeverScrollableScrollPhysics(),
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    print(medicineList[index]
-                                        ['medicineName']);
-                                    return Container(
-                                      height: 50,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.center,
-                                        children: [
-                                          Container(
+                            Container(
+                              height: 300,
+                              child: Column(
+                                children: <Widget>[
+                                  Row(
+                                    // mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 25, right: 10),
+                                        child: ClipRRect(
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(16.0)),
+                                          child: Container(
                                             height: 50,
-                                            width: 230,
-                                            child: Center(
-                                                child: Text(
-                                                  "${medicineList[index]['medicineName']}",
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyText1,
-                                                )),
+                                            width: 200,
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            child: const Center(
+                                                child: Text('Medicine Name')),
                                           ),
-                                          Container(
-                                            height: 50,
-                                            width: 110,
-                                            child: Center(
-                                                child: Text(
-                                                  "${medicineList[index]['medicineTime']}",
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyText1,
-                                                )),
-                                          ),
-                                        ],
+                                        ),
                                       ),
-                                    );
-                                  }),
+                                      ClipRRect(
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(16.0)),
+                                        child: Container(
+                                          height: 50,
+                                          width: 130,
+                                          color: Theme.of(context).primaryColor,
+                                          child: const Center(
+                                              child: Text('Medicine Time')),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Expanded(
+                                    child: ListView.builder(
+                                        itemCount: medicineList.length,
+                                        shrinkWrap: true,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          // print(medicineList[index]
+                                          //     ['medicineName']);
+                                          return Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Container(
+                                              height: 50,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 28, top: 2),
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                                  .all(
+                                                              Radius.circular(
+                                                                  16.0)),
+                                                      child: Container(
+                                                        height: 50,
+                                                        width: 180,
+                                                        color: Color.fromRGBO(
+                                                            234, 206, 242, 1),
+                                                        child: Center(
+                                                            child: Text(
+                                                          "${medicineList[index]['medicineName']}",
+                                                          style:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .bodyText1,
+                                                        )),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 5, top: 2),
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                                  .all(
+                                                              Radius.circular(
+                                                                  16.0)),
+                                                      child: Container(
+                                                        height: 50,
+                                                        width: 110,
+                                                        color: Color.fromRGBO(
+                                                            234, 206, 242, 1),
+                                                        child: Center(
+                                                            child: Text(
+                                                          "${medicineList[index]['medicineTime']}",
+                                                          style:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .bodyText1,
+                                                        )),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        }),
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -602,11 +657,15 @@ class _PatientPrescriptionSingleScreenState
                         ),
                         child: ListTile(
                           title: Text(
-                            "Verified Status: ",
+                            "Expiry Date: ",
                             style: textStyleForName,
                           ),
                           subtitle: Text(
-                            dateTime.toString(),
+                            DateTime.parse(dateTime.toString()).day.toString()
+                                +"/"+
+                                DateTime.parse(dateTime.toString()).month.toString()
+                                +"/"
+                                +DateTime.parse(dateTime.toString()).year.toString(),
                             style: TextStyle(
                                 fontSize: 20,
                                 color: Colors.red.withOpacity(0.6)),

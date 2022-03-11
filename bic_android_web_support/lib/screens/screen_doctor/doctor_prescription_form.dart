@@ -341,19 +341,28 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                                   Row(
                                     // mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Container(
-                                        height: 50,
-                                        width: 200,
-                                        color: Theme.of(context).primaryColor,
-                                        child: const Center(
-                                            child: Text('Medicine Name')),
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 10),
+                                        child: ClipRRect(
+                                          borderRadius: const BorderRadius.all(Radius.circular(16.0)),
+                                          child : Container(
+                                            height: 50,
+                                            width: 200,
+                                            color: Theme.of(context).primaryColor,
+                                            child: const Center(
+                                                child: Text('Medicine Name')),
+                                          ),
+                                        ),
                                       ),
-                                      Container(
-                                        height: 50,
-                                        width: 130,
-                                        color: Theme.of(context).primaryColor,
-                                        child: const Center(
-                                            child: Text('Medicine Time')),
+                                      ClipRRect(
+                                        borderRadius: const BorderRadius.all(Radius.circular(16.0)),
+                                        child: Container(
+                                          height: 50,
+                                          width: 130,
+                                          color: Theme.of(context).primaryColor,
+                                          child: const Center(
+                                              child: Text('Medicine Time')),
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -367,35 +376,53 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                                             (BuildContext context, int index) {
                                           // print(medicineList[index]
                                           //     ['medicineName']);
-                                          return Container(
-                                            height: 50,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Container(
-                                                  height: 50,
-                                                  width: 230,
-                                                  child: Center(
-                                                      child: Text(
-                                                    "${medicineList[index]['medicineName']}",
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyText1,
-                                                  )),
-                                                ),
-                                                Container(
-                                                  height: 50,
-                                                  width: 110,
-                                                  child: Center(
-                                                      child: Text(
-                                                    "${medicineList[index]['medicineTime']}",
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyText1,
-                                                  )),
-                                                ),
-                                              ],
+                                          return Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Container(
+                                              height: 50,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(right: 28,top: 2),
+                                                    child: ClipRRect(
+                                                      borderRadius: const BorderRadius.all(Radius.circular(16.0)),
+                                                      child: Container(
+                                                        height: 50,
+                                                        width: 180,
+                                                        color:  Color.fromRGBO(234, 206, 242,1),
+
+                                                        child: Center(
+                                                            child: Text(
+                                                          "${medicineList[index]['medicineName']}",
+                                                          style: Theme.of(context)
+                                                              .textTheme
+                                                              .bodyText1,
+                                                        )),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(right: 5,top: 2),
+                                                    child: ClipRRect(
+                                                      borderRadius: const BorderRadius.all(Radius.circular(16.0)),
+                                                      child : Container(
+                                                        height: 50,
+                                                        width: 110,
+                                                        color:  Color.fromRGBO(234, 206, 242,1),
+                                                        child: Center(
+                                                            child: Text(
+                                                          "${medicineList[index]['medicineTime']}",
+                                                          style: Theme.of(context)
+                                                              .textTheme
+                                                              .bodyText1,
+                                                        )),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           );
                                         }),

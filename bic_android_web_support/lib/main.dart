@@ -105,8 +105,9 @@ class MyApp extends StatelessWidget {
             primaryColor: Color(0xff732eca),
             colorScheme: ColorScheme.fromSwatch().copyWith(
               primary: Color(0xff732eca),
-              secondary: Color(0xFFf5f7ec),
-              primaryVariant: Color(0xa35e10b3),
+              secondary: Color(0xfff5f7ec),
+
+              primaryVariant: Color(0xffEACEF2),
             ),
             backgroundColor: Color(0xFFf5f7ec),
             bottomAppBarColor: Color(0xFFf5f7ec),
