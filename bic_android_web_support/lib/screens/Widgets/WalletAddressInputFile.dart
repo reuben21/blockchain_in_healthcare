@@ -25,15 +25,18 @@ class WalletAddressInputFieldState extends State<WalletAddressInputField> {
   void initState() {
     super.initState();
     widget.controller.addListener(() {
-      setState(() {
-        _showClearButton = widget.controller.text.length > 0;
-      });
+      // setState(() {
+      //   _showClearButton = widget.controller.text.length > 0;
+      // });
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+
+      toolbarOptions:
+      const ToolbarOptions(paste: true, cut: true, selectAll: true, copy: true),
       controller: widget.controller,
 
       decoration: InputDecoration(
@@ -74,9 +77,7 @@ class WalletAddressInputFieldState extends State<WalletAddressInputField> {
   }
 
   Widget? _getClearButton() {
-    if (!_showClearButton) {
-      return null;
-    }
+
 
     return IconButton(
       onPressed: () => scanBarcode(),

@@ -83,7 +83,6 @@ class _DoctorPatientMedicalRecordViewSingleState
                 doctorAddress, "setMedicalRecordVerificationStatus", [
       BigInt.from(value),
       patientAddress,
-      widget.hospitalAddress,
       doctorAddress,
       verifiedStatus
     ]);
@@ -430,7 +429,7 @@ class _DoctorPatientMedicalRecordViewSingleState
     var transactionHash =
         await Provider.of<PharmacyModel>(context, listen: false).writeContract(
             "setMedicalRecordVerificationStatus",
-            [BigInt.from(value), patientAddress,widget.hospitalAddress, doctorAddress, verifiedStatus],
+            [BigInt.from(value), patientAddress, doctorAddress, verifiedStatus],
             doctorCredentials);
 
     var firebaseStatus =
@@ -471,7 +470,6 @@ class _DoctorPatientMedicalRecordViewSingleState
         doctorAddress, "updatedMedicalRecordHashByDoctor", [
       BigInt.from(value),
       patientAddress,
-      widget.hospitalAddress,
       doctorAddress,
       hashReceived
     ]);
@@ -819,7 +817,6 @@ class _DoctorPatientMedicalRecordViewSingleState
         "updatedMedicalRecordHashByDoctor",
         [ BigInt.from(value),
           patientAddress,
-          widget.hospitalAddress,
           doctorAddress,
           hashReceived],
         doctorCredentials);

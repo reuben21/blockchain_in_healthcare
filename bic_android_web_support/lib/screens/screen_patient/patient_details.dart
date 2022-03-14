@@ -399,8 +399,8 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                       executeTransaction(
                           patientName,
                           ipfsHash,
-                          walletAddress,
-                          walletAddress,
+                          hospitalAddress,
+                          doctorAddress,
                           walletAddress,
                           credentials,
                           hospitalDetails,
@@ -450,6 +450,9 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                 walletAddress
               ],
               credentials);
+
+        Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
+
     } else if (status == false) {
       var transactionHash =
           await Provider.of<WalletModel>(context, listen: false).writeContract(

@@ -501,102 +501,138 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                     ),
                   ),
                 ),
-                Container(
-                  height: 300,
-                  child: Column(
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: 50,
-                            width: 230,
-                            color: Theme.of(context).primaryColor,
-                            child: const Center(child: Text('Medicine Name')),
-                          ),
-                          Container(
-                            height: 50,
-                            width: 110,
-                            color: Theme.of(context).primaryColor,
-                            child: const Center(child: Text('Medicine Time')),
-                          ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Container(
+                    height: 300,
+                    child: Column(
+                      children: <Widget>[
+                        Row(
+                          // mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: ClipRRect(
+                                borderRadius: const BorderRadius.all(Radius.circular(16.0)),
+                                child : Container(
+                                  height: 50,
+                                  width: 200,
+                                  color: Theme.of(context).primaryColor,
+                                  child: const Center(
+                                      child: Text('Medicine Name')),
+                                ),
+                              ),
+                            ),
+                            ClipRRect(
+                              borderRadius: const BorderRadius.all(Radius.circular(16.0)),
+                              child: Container(
+                                height: 50,
+                                width: 130,
+                                color: Theme.of(context).primaryColor,
+                                child: const Center(
+                                    child: Text('Medicine Time')),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Expanded(
+                          child: ListView.builder(
+                              itemCount: medicineList.length,
+                              shrinkWrap: true,
+                              physics:
+                              const NeverScrollableScrollPhysics(),
+                              itemBuilder:
+                                  (BuildContext context, int index) {
+                                // print(medicineList[index]
+                                //     ['medicineName']);
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    height: 50,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(right: 28,top: 2),
+                                          child: ClipRRect(
+                                            borderRadius: const BorderRadius.all(Radius.circular(16.0)),
+                                            child: Container(
+                                              height: 50,
+                                              width: 180,
+                                              color:  Color.fromRGBO(234, 206, 242,1),
+
+                                              child: Center(
+                                                  child: Text(
+                                                    "${medicineList[index]['medicineName']}",
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyText1,
+                                                  )),
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(right: 5,top: 2),
+                                          child: ClipRRect(
+                                            borderRadius: const BorderRadius.all(Radius.circular(16.0)),
+                                            child : Container(
+                                              height: 50,
+                                              width: 110,
+                                              color:  Color.fromRGBO(234, 206, 242,1),
+                                              child: Center(
+                                                  child: Text(
+                                                    "${medicineList[index]['medicineTime']}",
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyText1,
+                                                  )),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                FormBuilder(
+                  key: _formFieldForPassword,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  child: Padding(
+                    padding: const EdgeInsets.all(0.0),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: <Widget>[
+                          Padding(
+                              padding: const EdgeInsets.all(15),
+                              child: FormBuilderTextField(
+                                initialValue: 'Password@123',
+                                maxLines: 1,
+                                name: 'password',
+                                decoration: dynamicInputDecoration(
+                                  'Password',
+                                  Image.asset(
+                                      "assets/icons/at-sign-100.png",
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary,
+                                      scale: 4,
+                                      width: 15,
+                                      height: 15),
+                                ),
+                                // valueTransformer: (text) => num.tryParse(text),
+                                validator: FormBuilderValidators.compose([
+                                  FormBuilderValidators.required(context)
+                                ]),
+                              )),
                         ],
                       ),
-                      Expanded(
-                        child: ListView.builder(
-                            itemCount: medicineList.length,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (BuildContext context, int index) {
-                              print(medicineList[index]['medicineName']);
-                              return Container(
-                                height: 50,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      height: 50,
-                                      width: 230,
-                                      child: Center(
-                                          child: Text(
-                                        "${medicineList[index]['medicineName']}",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1,
-                                      )),
-                                    ),
-                                    Container(
-                                      height: 50,
-                                      width: 110,
-                                      child: Center(
-                                          child: Text(
-                                        "${medicineList[index]['medicineTime']}",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1,
-                                      )),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }),
-                      ),
-                      FormBuilder(
-                        key: _formFieldForPassword,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        child: Padding(
-                          padding: const EdgeInsets.all(0.0),
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: <Widget>[
-                                Padding(
-                                    padding: const EdgeInsets.all(15),
-                                    child: FormBuilderTextField(
-                                      initialValue: 'Password@123',
-                                      maxLines: 1,
-                                      name: 'password',
-                                      decoration: dynamicInputDecoration(
-                                        'Password',
-                                        Image.asset(
-                                            "assets/icons/at-sign-100.png",
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primary,
-                                            scale: 4,
-                                            width: 15,
-                                            height: 15),
-                                      ),
-                                      // valueTransformer: (text) => num.tryParse(text),
-                                      validator: FormBuilderValidators.compose([
-                                        FormBuilderValidators.required(context)
-                                      ]),
-                                    )),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
                 Padding(
@@ -693,7 +729,6 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
             .estimateGasForContractFunction(
                 doctorAddress, "setPrescriptionRecordByDoctor", [
       _prescriptionRecordHash,
-      hospitalAddress,
       doctorAddress,
       patientAddress,
       expiryDateTime.toIso8601String()
@@ -1011,7 +1046,6 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                     onPressed: () async {
                       executeTransaction(
                           _prescriptionRecordHash,
-                          hospitalAddress,
                           doctorAddress,
                           patientAddress,
                           expiryDateTime.toIso8601String(),
@@ -1039,7 +1073,6 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
 
   Future<void> executeTransaction(
       String _prescriptionRecordHash,
-      EthereumAddress hospitalAddress,
       EthereumAddress doctorAddress,
       EthereumAddress patientAddress,
       String expiryDateTime,
@@ -1049,7 +1082,6 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
             "setPrescriptionRecordByDoctor",
             [
               _prescriptionRecordHash,
-              hospitalAddress,
               doctorAddress,
               patientAddress,
               expiryDateTime

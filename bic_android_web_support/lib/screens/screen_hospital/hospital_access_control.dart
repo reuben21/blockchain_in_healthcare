@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:bic_android_web_support/providers/ipfs.dart';
 import 'package:bic_android_web_support/screens/screen_hospital/grant_access_to_patient_screen.dart';
+import 'package:bic_android_web_support/screens/screen_hospital/revoke_access_screen.dart';
 import 'package:bic_android_web_support/screens/screen_patient/patient_details.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -172,20 +173,12 @@ class _HospitalAccessControlState extends State<HospitalAccessControl> {
                         onTap: () {
 
 
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => PharmacyStoreDetails(
-                          //       pharmacyName: pharmacyIpfsHash['pharmacy_name'],
-                          //       pharmacyOwnerName:
-                          //       pharmacyIpfsHash['pharmacy_owner_name'],
-                          //       pharmacyAddress:
-                          //       pharmacyIpfsHash['pharmacy_address'],
-                          //       pharmacyYearOrigin: pharmacyIpfsHash['pharmacy_year_origin'],
-                          //       pharmacyPhoneNo: pharmacyIpfsHash['pharmacy_phone_no'],
-                          //     ),
-                          //   ),
-                          // );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => RevokeRoleAccessScreen(),
+                            ),
+                          );
                         },
                       ),
                     ],

@@ -38,12 +38,12 @@ class _HospitalDetailScreenState extends State<HospitalDetailScreen> {
       String hospitalName,
       String ipfsHash,
       EthereumAddress walletAddress,
-      String customRoleId,
+
       Credentials credentials) async {
     var gasEstimation =
         await Provider.of<GasEstimationModel>(context, listen: false)
             .estimateGasForContractFunction(walletAddress, "storeHospital",
-                [hospitalName, ipfsHash, walletAddress, customRoleId]);
+                [hospitalName, ipfsHash, walletAddress]);
     print(gasEstimation);
 
     return showDialog(
@@ -356,7 +356,7 @@ class _HospitalDetailScreenState extends State<HospitalDetailScreen> {
                     foregroundColor: Theme.of(context).colorScheme.secondary,
                     onPressed: () async {
                       executeTransaction(hospitalName, ipfsHash, walletAddress,
-                          customRoleId, credentials);
+                           credentials);
                     },
                     icon: const Icon(Icons.add_circle_outline_outlined),
                     label: const Text('Confirm Pay'),
@@ -382,11 +382,11 @@ class _HospitalDetailScreenState extends State<HospitalDetailScreen> {
       String hospitalName,
       String ipfsHash,
       EthereumAddress walletAddress,
-      String customRoleId,
+
       Credentials credentials) async {
     var transactionHash = await Provider.of<WalletModel>(context, listen: false)
         .writeContract("storeHospital",
-            [hospitalName, ipfsHash, walletAddress, customRoleId], credentials);
+            [hospitalName, ipfsHash, walletAddress], credentials);
 
     var firebaseStatus =
         await Provider.of<FirebaseModel>(context, listen: false)
@@ -549,26 +549,7 @@ class _HospitalDetailScreenState extends State<HospitalDetailScreen> {
                                             FormBuilderValidators.required(
                                                 context),
                                           ])),
-                                  Padding(
-                                      padding: const EdgeInsets.all(15),
-                                      child: formBuilderTextFieldWidget(
-                                          TextInputType.streetAddress,
-                                          auth.currentUser?.uid.toString(),
-                                          'custom_role_id',
-                                          'Custom Role ID',
-                                          Image.asset(
-                                              "assets/icons/key-100.png",
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                              scale: 4,
-                                              width: 15,
-                                              height: 15),
-                                          false,
-                                          [
-                                            FormBuilderValidators.required(
-                                                context),
-                                          ])),
+
                                   Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
@@ -669,8 +650,6 @@ class _HospitalDetailScreenState extends State<HospitalDetailScreen> {
                                         .currentState?.value["hospitalName"],
                                     hashReceived,
                                     myAddress,
-                                    _formKey
-                                        .currentState?.value["custom_role_id"],
                                     credentialsNew);
                               } else {
                                 print("validation failed");

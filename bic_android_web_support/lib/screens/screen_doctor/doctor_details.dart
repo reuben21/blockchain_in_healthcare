@@ -756,19 +756,17 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                   myAddress =
                                       await credentialsNew.extractAddress();
 
-                                  var hospitalAddress = EthereumAddress.fromHex(
-                                      _formKey.currentState
-                                          ?.value["hospital_address"]);
+                                  var hospitalAddressEth = EthereumAddress.fromHex(
+                                      hospitalAddress.text);
                                   // var doctorAddress = EthereumAddress.fromHex("  ");
                                   estimateGasFunction(
                                       _formKey
                                           .currentState?.value["doctor_name"],
                                       hashReceived,
                                       myAddress,
-                                      hospitalAddress,
+                                      hospitalAddressEth,
                                       credentialsNew,
-                                      _formKey.currentState
-                                          ?.value["hospital_address"]);
+                                      hospitalAddressEth.hex);
                                 }
                               } else {
                                 print("validation failed");

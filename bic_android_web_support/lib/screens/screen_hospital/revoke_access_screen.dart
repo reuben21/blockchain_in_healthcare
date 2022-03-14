@@ -13,16 +13,16 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:provider/provider.dart';
 import 'package:web3dart/credentials.dart';
 
-class GrantRoleScreen extends StatefulWidget {
-  static const routeName = '/hospital-detail-screen';
+class RevokeRoleAccessScreen extends StatefulWidget {
+  static const routeName = '/revoke-access-screen';
 
 
 
   @override
-  _GrantRoleScreenState createState() => _GrantRoleScreenState();
+  _RevokeRoleAccessScreenState createState() => _RevokeRoleAccessScreenState();
 }
 
-class _GrantRoleScreenState extends State<GrantRoleScreen> {
+class _RevokeRoleAccessScreenState extends State<RevokeRoleAccessScreen> {
   FirebaseAuth auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormBuilderState>();
   String walletAdd = '';
@@ -41,8 +41,8 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
     EthereumAddress hospitalAddress = await hospitalCredentials.extractAddress();
     var gasEstimation =
     await Provider.of<GasEstimationModel>(context, listen: false)
-        .estimateGasForContractFunction(hospitalAddress, "grantRoleFromHospital",
-        [hospitalAddress, walletAddress,"VERIFIED_DOCTOR"]);
+        .estimateGasForContractFunction(hospitalAddress, "revokeRoleFromHospital",
+        [hospitalAddress, walletAddress,"VERIFIED_PATIENT"]);
     print(gasEstimation);
 
 
@@ -384,7 +384,7 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
       Credentials credentials) async {
     var transactionHash = await Provider.of<WalletModel>(context, listen: false)
         .writeContract("grantRoleFromHospital",
-        [ hospitalAddress, walletAddress,"VERIFIED_DOCTOR"],credentials);
+        [ hospitalAddress, walletAddress,"VERIFIED_PATIENT"],credentials);
 
     var firebaseStatus =
     await Provider.of<FirebaseModel>(context, listen: false)
@@ -461,7 +461,7 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Grant Role \nTo\nDoctor',
+                          'Grant Role \nTo\nPatient',
                           style: Theme.of(context).textTheme.headline1,
                         ),
                         // SizedBox(height: size.height * 0.03),
@@ -494,7 +494,7 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
                                           TextInputType.streetAddress,
-                                          '0x6bde22a36daeb9ee6813677dafdf2315f422a1d4',
+                                          '0x1072f3b15da7fecfce1120d605d299f185d0fe1b',
                                           'walletAddress',
                                           'Wallet Address',
                                           Image.asset(
@@ -598,7 +598,7 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
                           height: 50,
                           width: size.width * 0.8,
                           child: FloatingActionButton.extended(
-                            heroTag: "StoreGrantRoleScreen",
+                            heroTag: "StoreRevokeRoleAccessScreen",
                             backgroundColor:
                             Theme.of(context).colorScheme.primary,
                             foregroundColor:

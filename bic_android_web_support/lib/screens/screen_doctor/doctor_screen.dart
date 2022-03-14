@@ -87,7 +87,7 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
           .receiveData(data[1]);
       print(doctorData);
       var dataRole = await Provider.of<WalletModel>(context, listen: false)
-          .readContract("getRoleForDoctors", [data[4],address]);
+          .readContract("getRoleForDoctors", [address]);
       print("Role Status -" + dataRole.toString());
 
       setState(() {

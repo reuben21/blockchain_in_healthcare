@@ -543,8 +543,8 @@ class _DoctorPatientMedicalRecordViewState extends State<DoctorPatientMedicalRec
                                           Padding(
                                               padding: const EdgeInsets.all(15),
                                               child: formBuilderTextFieldWidget(
-                                                  TextInputType.number,
-                                                  '0x1072f3b15da7fecfce1120d605d299f185d0fe1b',
+                                                  TextInputType.text,
+                                                  '',
                                                   'patient_address',
                                                   'Patient Address',
                                                   Image.asset(
