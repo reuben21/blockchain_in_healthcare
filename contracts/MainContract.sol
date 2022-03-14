@@ -59,8 +59,6 @@ contract MainContract is AccessControl {
         string name;
         string hospitalDetails;
         address walletAddress;
-        bytes32 customRoleDoctor;
-        bytes32 customRolePatient;
         Counters.Counter patientInHospital;
         Counters.Counter doctorInHospital;
     }
@@ -103,17 +101,12 @@ contract MainContract is AccessControl {
         }
     }
 
-    function getRoleForDoctors(address _hospitalAddress, address _walletAddress)
+    function getRoleForDoctors(address _walletAddress)
         external
         view
         returns (string memory role)
     {
-        if (
-            hasRole(
-                hospitalDatabase[_hospitalAddress].customRoleDoctor,
-                _walletAddress
-            )
-        ) {
+        if (hasRole("VERIFIED_DOCTOR", _walletAddress)) {
             return "ACCESS GRANTED BY HOSPITAL";
         } else if (hasRole(DOCTOR, _walletAddress)) {
             return "DOCTOR";
@@ -149,16 +142,9 @@ contract MainContract is AccessControl {
     function setMedicalRecordByDoctor(
         string memory _medicalRecordHash,
         address _walletAddress,
-        address _hospitalAddress,
         address _doctorWalletAddress
     ) external returns (bool status) {
-        require(
-            hasRole(
-                hospitalDatabase[_hospitalAddress].customRoleDoctor,
-                _doctorWalletAddress
-            ),
-            "RNG"
-        );
+        require(hasRole("VERIFIED_DOCTOR", _doctorWalletAddress), "RNG");
         patientDatabase[_walletAddress].medicalRecordCount++;
 
         patientDatabase[_walletAddress].medicalRecordCount = patientDatabase[
@@ -181,40 +167,38 @@ contract MainContract is AccessControl {
 
     function setPrescriptionRecordByDoctor(
         string memory _prescriptionRecordHash,
-        address _hospitalAddress,
         address _walletAddress,
         address _patientWalletAddress,
         string memory _prescriptionExpiryDateTime
     ) external returns (bool status) {
-        require(
-            hasRole(
-                hospitalDatabase[_hospitalAddress].customRoleDoctor,
-                _walletAddress
-            ),
-            "RNG"
-        );
+        require(hasRole("VERIFIED_DOCTOR", _walletAddress), "RNG");
         patientDatabase[_patientWalletAddress].prescriptionCount++;
 
-        patientDatabase[_patientWalletAddress].prescriptionCount = patientDatabase[
-            _patientWalletAddress
-        ].prescriptionCount;
+        patientDatabase[_patientWalletAddress]
+            .prescriptionCount = patientDatabase[_patientWalletAddress]
+            .prescriptionCount;
 
         patientDatabase[_patientWalletAddress]
-            .prescriptions[patientDatabase[_patientWalletAddress].prescriptionCount]
+            .prescriptions[
+                patientDatabase[_patientWalletAddress].prescriptionCount
+            ]
             .index = patientDatabase[_patientWalletAddress].prescriptionCount;
 
         patientDatabase[_patientWalletAddress]
-            .prescriptions[patientDatabase[_patientWalletAddress].prescriptionCount]
+            .prescriptions[
+                patientDatabase[_patientWalletAddress].prescriptionCount
+            ]
             .prescriptionHash = _prescriptionRecordHash;
 
         patientDatabase[_patientWalletAddress]
-            .prescriptions[patientDatabase[_patientWalletAddress].prescriptionCount]
+            .prescriptions[
+                patientDatabase[_patientWalletAddress].prescriptionCount
+            ]
             .prescriptionExpiryDateTime = _prescriptionExpiryDateTime;
 
         return true;
     }
 
-   
     function resetPrescriptionRecord(
         address _patientWalletAddress,
         address _pharmacyWalletAddress,
@@ -230,12 +214,15 @@ contract MainContract is AccessControl {
         return true;
     }
 
-    function getPrescriptions(address _patientWalletAddress, uint256 _recordPosition)
-        external
-        view
-        returns (Prescription memory value)
-    {
-        return (patientDatabase[_patientWalletAddress].prescriptions[_recordPosition]);
+    function getPrescriptions(
+        address _patientWalletAddress,
+        uint256 _recordPosition
+    ) external view returns (Prescription memory value) {
+        return (
+            patientDatabase[_patientWalletAddress].prescriptions[
+                _recordPosition
+            ]
+        );
     }
 
     function getPrescriptionsCountForPatient(address _patientWalletAddress)
@@ -246,22 +233,13 @@ contract MainContract is AccessControl {
         return (patientDatabase[_patientWalletAddress].prescriptionCount);
     }
 
-
-
     function updatedMedicalRecordHashByDoctor(
         uint256 index,
         address _patientWalletAddress,
-        address _hospitalAddress,
         address _doctorWalletAddress,
         string memory _medicalRecordHash
     ) external returns (bool status) {
-        require(
-            hasRole(
-                hospitalDatabase[_hospitalAddress].customRoleDoctor,
-                _doctorWalletAddress
-            ),
-            "RNG"
-        );
+        require(hasRole("VERIFIED_DOCTOR", _doctorWalletAddress), "RNG");
         patientDatabase[_patientWalletAddress]
             .medicalRecords[index]
             .patientRecordHash = _medicalRecordHash;
@@ -275,17 +253,10 @@ contract MainContract is AccessControl {
     function setMedicalRecordVerificationStatus(
         uint256 index,
         address _patientWalletAddress,
-        address _hospitalAddress,
         address _doctorWalletAddress,
         bool _verified
     ) external returns (bool status) {
-        require(
-            hasRole(
-                hospitalDatabase[_hospitalAddress].customRoleDoctor,
-                _doctorWalletAddress
-            ),
-            "RNG"
-        );
+        require(hasRole("VERIFIED_DOCTOR", _doctorWalletAddress), "RNG");
         patientDatabase[_patientWalletAddress]
             .medicalRecords[index]
             .verified = _verified;
@@ -417,10 +388,7 @@ contract MainContract is AccessControl {
     ) external returns (bool status) {
         if (
             hasRole(DOCTOR, _walletAddress) ||
-            hasRole(
-                hospitalDatabase[_hospitalAddress].customRoleDoctor,
-                _walletAddress
-            )
+            hasRole("VERIFIED_DOCTOR", _walletAddress)
         ) {
             this.updateDoctorPersonalDetailHash(
                 _personalDetails,
@@ -453,15 +421,7 @@ contract MainContract is AccessControl {
         address _newHospitalAddress,
         address _walletAddress
     ) external returns (bool status) {
-        require(
-            hasRole(
-                hospitalDatabase[_previousHospitalAddress].customRoleDoctor,
-                _walletAddress
-            ),
-            "RNG"
-        );
-        revokeRole(hospitalDatabase[_previousHospitalAddress].customRoleDoctor,
-                _walletAddress);
+        require(hasRole("VERIFIED_DOCTOR", _walletAddress), "RNG");
 
         hospitalDatabase[_previousHospitalAddress].doctorInHospital.decrement();
 
@@ -554,22 +514,18 @@ contract MainContract is AccessControl {
     function storeHospital(
         string memory _name,
         string memory _hospitalDetails,
-        address _walletAddress,
-        string memory _customRole
+        address _walletAddress
     ) external returns (bool status) {
-        bytes32 customRole = this.convertRoleFromStringToBytes(_customRole);
         if (hasRole(DEFAULT_ADMIN_ROLE, _walletAddress)) {
             this.updateHospitalPersonalDetailHash(
                 _hospitalDetails,
-                _walletAddress,
-                customRole
+                _walletAddress
             );
         } else {
             _setupRole(DEFAULT_ADMIN_ROLE, _walletAddress);
             hospitalDatabase[_walletAddress].name = _name;
             hospitalDatabase[_walletAddress].walletAddress = _walletAddress;
             hospitalDatabase[_walletAddress].hospitalDetails = _hospitalDetails;
-            hospitalDatabase[_walletAddress].customRoleDoctor = customRole;
             hospitalCounter.increment();
         }
 
@@ -599,11 +555,9 @@ contract MainContract is AccessControl {
     //updated function
     function updateHospitalPersonalDetailHash(
         string memory _personalDetails,
-        address _walletAddress,
-        bytes32 _customRole
+        address _walletAddress
     ) external returns (bool status) {
         patientDatabase[_walletAddress].personalDetails = _personalDetails;
-        hospitalDatabase[_walletAddress].customRoleDoctor = _customRole;
 
         return true;
     }
