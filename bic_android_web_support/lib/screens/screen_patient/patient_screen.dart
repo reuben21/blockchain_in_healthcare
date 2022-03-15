@@ -1,7 +1,6 @@
-import 'dart:typed_data';
-
 import 'package:bic_android_web_support/screens/screen_patient/patient_details.dart';
 import 'package:bic_android_web_support/screens/screen_patient/patient_medical_record.dart';
+import 'package:bic_android_web_support/screens/screen_patient/patient_medical_record_creation.dart';
 import 'package:bic_android_web_support/screens/screen_patient/patient_medical_record_view.dart';
 
 import '../../helpers/keys.dart' as keys;
@@ -11,9 +10,6 @@ import 'package:bic_android_web_support/screens/screen_pharmacy/pharmacy_store_d
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:velocity_x/src/extensions/context_ext.dart';
-import 'package:velocity_x/src/extensions/num_ext.dart';
-import 'package:velocity_x/velocity_x.dart';
 import 'package:web3dart/credentials.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
@@ -415,6 +411,39 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => PatientMedicalRecords(),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8,right: 8,top: 5,bottom: 5),
+                child: Card(
+                  borderOnForeground: true,
+                  clipBehavior: Clip.antiAlias,
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                        color: Theme.of(context).colorScheme.primary, width: 2),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      ListTile(
+                        trailing: Image.asset("assets/icons/forward-100.png",
+                            color: Theme.of(context).primaryColor,
+                            width: 25,
+                            height: 25),
+                        title: Text('Create Medical Record',
+                            style: Theme.of(context).textTheme.bodyText1),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PatientMedicalRecordCreation(),
                             ),
                           );
                         },

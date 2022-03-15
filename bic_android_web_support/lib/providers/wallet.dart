@@ -344,6 +344,7 @@ class WalletModel with ChangeNotifier {
           to: EthereumAddress.fromHex(receiverAddress),
           value: EtherAmount.fromUnitAndValue(EtherUnit.ether, amount));
 
+      print(gasEstimate);
       var gasPrice = await _client.getGasPrice();
 
       var gasCostEstimation = gasEstimate * gasPrice.getInWei;

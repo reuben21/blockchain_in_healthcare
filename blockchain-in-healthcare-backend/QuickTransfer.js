@@ -7,7 +7,7 @@ var web3 = new Web3('http://localhost:7545');
 
 // ganache account address
 
-const ganacheWalletAddress = "0x46C92272e5000D9dCAB46A3F384Cc5aa40d38498";
+const ganacheWalletAddress = "0xb912620dccd4838407B2787b26cC91C9e85F9794";
 
 
 // FROM GANACHE TO PATIENT A
