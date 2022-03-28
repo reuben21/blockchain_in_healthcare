@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:web3dart/credentials.dart';
 
-void showDialogBox(BuildContext context,EthereumAddress walletAddress,Map gasEstimation,Future executeTransaction) {
+void showDialogBox(BuildContext context,EthereumAddress walletAddress,Map gasEstimation,VoidCallback executeTransaction) {
 
   showDialog<void>(
       context: context,

@@ -14,6 +14,8 @@ import 'package:web3dart/credentials.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
 
+import '../Widgets/CustomCard.dart';
+
 class PatientRecordScreen extends StatefulWidget {
   static const routeName = '/patient-record-screen';
 
@@ -50,7 +52,9 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
     EthereumAddress address;
 
     credentialsNew =
-        Provider.of<WalletModel>(context, listen: false).walletCredentials;
+        Provider
+            .of<WalletModel>(context, listen: false)
+            .walletCredentials;
     address = await credentialsNew.extractAddress();
 
     var dataRole = await Provider.of<WalletModel>(context, listen: false)
@@ -96,17 +100,24 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
     if (!await launch(_url)) throw 'Could not launch $_url';
   }
 
+
+
   @override
   Widget build(BuildContext context) {
-
     var textStyleForName = TextStyle(
         fontSize: 15,
         fontWeight: FontWeight.bold,
-        color: Theme.of(context).colorScheme.primary);
+        color: Theme
+            .of(context)
+            .colorScheme
+            .primary);
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: Theme
+            .of(context)
+            .colorScheme
+            .primary,
         elevation: 0,
         automaticallyImplyLeading: false,
         title: const Text("Patient Record"),
@@ -117,206 +128,277 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
             children: [
 
               Padding(
-                padding: const EdgeInsets.only(top: 2,left: 8,right: 8,),
+                padding: const EdgeInsets.only(top: 2, left: 8, right: 8,),
                 child: Container(
                   width: double.infinity,
                   height: 500,
                   child: patientIpfsHash['patient_name'] == ''
                       ? Card(
-                          borderOnForeground: true,
-                          clipBehavior: Clip.antiAlias,
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(
-                                color: Theme.of(context).colorScheme.primary,
-                                width: 2),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: const ListTile(
-                            leading: Icon(Icons.arrow_drop_down_circle),
-                            title: Text(
-                              "Not Registered on Blockchain",
-                              style: TextStyle(fontSize: 15),
-                            ),
-                          ),
-                        )
+                    borderOnForeground: true,
+                    clipBehavior: Clip.antiAlias,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                          color: Theme
+                              .of(context)
+                              .colorScheme
+                              .primary,
+                          width: 2),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const ListTile(
+                      leading: Icon(Icons.arrow_drop_down_circle),
+                      title: Text(
+                        "Not Registered on Blockchain",
+                        style: TextStyle(fontSize: 15),
+                      ),
+                    ),
+                  )
                       : Card(
-                          borderOnForeground: true,
-                          clipBehavior: Clip.antiAlias,
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(
-                                color: Theme.of(context).colorScheme.primary,
-                                width: 2),
-                            borderRadius: BorderRadius.circular(10),
+                    borderOnForeground: true,
+                    clipBehavior: Clip.antiAlias,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                          color: Theme
+                              .of(context)
+                              .colorScheme
+                              .primary,
+                          width: 2),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          ListTile(
+                            leading: Image.asset(
+                                "assets/icons/checked-user-male-100.png",
+                                color: Theme
+                                    .of(context)
+                                    .colorScheme
+                                    .primary,
+                                width: 35,
+                                height: 35),
+                            title: Text('Role', style: textStyleForName),
+                            subtitle: Text(
+                              role.toString(),
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.black.withOpacity(0.6)),
+                            ),
                           ),
-                          child: SingleChildScrollView(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                ListTile(
-                                  leading: Image.asset(
-                                      "assets/icons/checked-user-male-100.png",
-                                      color: Theme.of(context).colorScheme.primary,
-                                      width: 35,
-                                      height: 35),
-                                  title: Text('Role', style: textStyleForName),
-                                  subtitle: Text(
-                                    role.toString(),
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.black.withOpacity(0.6)),
-                                  ),
-                                ),
-                                ListTile(
-                                  leading: Image.asset(
-                                      "assets/icons/pharmacy-shop-100.png",
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      width: 35,
-                                      height: 35),
-                                  title: Text('Patient Name',
-                                      style: textStyleForName),
-                                  subtitle: Text(
-                                    patientName,
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.black.withOpacity(0.6)),
-                                  ),
-                                ),
+                          ListTile(
+                            leading: Image.asset(
+                                "assets/icons/pharmacy-shop-100.png",
+                                color:
+                                Theme
+                                    .of(context)
+                                    .colorScheme
+                                    .primary,
+                                width: 35,
+                                height: 35),
+                            title: Text('Patient Name',
+                                style: textStyleForName),
+                            subtitle: Text(
+                              patientName,
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.black.withOpacity(0.6)),
+                            ),
+                          ),
 
-                                ListTile(
-                                  leading: Image.asset(
-                                      "assets/icons/name-100.png",
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      width: 35,
-                                      height: 35),
-                                  title: Text('Hospital Address',
-                                      style: textStyleForName),
-                                  subtitle: Text(
-                                    patientIpfsHash['patient_hospital_address'],
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.black.withOpacity(0.6)),
-                                  ),
-                                ),
-                                ListTile(
-                                  leading: Image.asset(
-                                      "assets/icons/name-100.png",
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      width: 35,
-                                      height: 35),
-                                  title: Text('Doctor Address',
-                                      style: textStyleForName),
-                                  subtitle: Text(
-                                    patientIpfsHash['patient_doctor_address'],
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.black.withOpacity(0.6)),
-                                  ),
-                                ),
-                                ListTile(
-                                  leading: Image.asset(
-                                      "assets/icons/address-100.png",
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      width: 35,
-                                      height: 35),
-                                  title:
-                                      Text('Address', style: textStyleForName),
-                                  subtitle: Text(
-                                    patientIpfsHash['patient_address'],
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.black.withOpacity(0.6)),
-                                  ),
-                                ),
-                                ListTile(
-                                  leading: Image.asset(
-                                      "assets/icons/year-view-100.png",
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      width: 35,
-                                      height: 35),
-                                  title: Text(
-                                    'Age',
-                                    style: textStyleForName,
-                                  ),
-                                  subtitle: Text(
-                                    patientIpfsHash['patient_age'],
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.black.withOpacity(0.6)),
-                                  ),
-                                ),
-                                ListTile(
-                                  leading: Image.asset(
-                                      "assets/icons/phone-100.png",
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      width: 35,
-                                      height: 35),
-                                  title:
-                                      Text('Phone No', style: textStyleForName),
-                                  subtitle: Text(
-                                    patientIpfsHash['patient_phone_no'],
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.black.withOpacity(0.6)),
-                                  ),
-                                ),
-                                ListTile(
-                                  leading: Image.asset(
-                                      "assets/icons/storage-100.png",
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      width: 35,
-                                      height: 35),
-                                  title: Text('IPFS Hash',
-                                      style: textStyleForName),
-                                  subtitle: Text(
-                                    patientIpfsHashData,
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.black.withOpacity(0.6)),
-                                  ),
-                                  onTap: () {
-                                    String _url =
-                                        "${keys.getIpfsUrlForReceivingData}$patientIpfsHashData";
-                                    _launchURL(_url);
-                                  },
-                                ),
-                                // ListTile(
-                                //
-                                //   trailing: Image.asset("assets/icons/forward-100.png",
-                                //       color: Theme.of(context).primaryColor,
-                                //       width: 25,
-                                //       height: 25),
-                                //   title: Text('Store your Pharmacy on Blockchain',
-                                //       style: Theme.of(context).textTheme.bodyText1),
-                                //   onTap: () {
-                                //     Navigator.push(
-                                //       context,
-                                //       MaterialPageRoute(
-                                //         builder: (context) => PharmacyStoreDetails(),
-                                //       ),
-                                //     );
-                                //   },
-                                // ),
-                              ],
+                          ListTile(
+                            leading: Image.asset(
+                                "assets/icons/name-100.png",
+                                color:
+                                Theme
+                                    .of(context)
+                                    .colorScheme
+                                    .primary,
+                                width: 35,
+                                height: 35),
+                            title: Text('Hospital Address',
+                                style: textStyleForName),
+                            subtitle: Text(
+                              patientIpfsHash['patient_hospital_address'],
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.black.withOpacity(0.6)),
                             ),
                           ),
+                          ListTile(
+                            leading: Image.asset(
+                                "assets/icons/name-100.png",
+                                color:
+                                Theme
+                                    .of(context)
+                                    .colorScheme
+                                    .primary,
+                                width: 35,
+                                height: 35),
+                            title: Text('Doctor Address',
+                                style: textStyleForName),
+                            subtitle: Text(
+                              patientIpfsHash['patient_doctor_address'],
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.black.withOpacity(0.6)),
+                            ),
+                          ),
+                          ListTile(
+                            leading: Image.asset(
+                                "assets/icons/address-100.png",
+                                color:
+                                Theme
+                                    .of(context)
+                                    .colorScheme
+                                    .primary,
+                                width: 35,
+                                height: 35),
+                            title:
+                            Text('Address', style: textStyleForName),
+                            subtitle: Text(
+                              patientIpfsHash['patient_address'],
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.black.withOpacity(0.6)),
+                            ),
+                          ),
+                          ListTile(
+                            leading: Image.asset(
+                                "assets/icons/year-view-100.png",
+                                color:
+                                Theme
+                                    .of(context)
+                                    .colorScheme
+                                    .primary,
+                                width: 35,
+                                height: 35),
+                            title: Text(
+                              'Age',
+                              style: textStyleForName,
+                            ),
+                            subtitle: Text(
+                              patientIpfsHash['patient_age'],
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.black.withOpacity(0.6)),
+                            ),
+                          ),
+                          ListTile(
+                            leading: Image.asset(
+                                "assets/icons/phone-100.png",
+                                color:
+                                Theme
+                                    .of(context)
+                                    .colorScheme
+                                    .primary,
+                                width: 35,
+                                height: 35),
+                            title:
+                            Text('Phone No', style: textStyleForName),
+                            subtitle: Text(
+                              patientIpfsHash['patient_phone_no'],
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.black.withOpacity(0.6)),
+                            ),
+                          ),
+                          ListTile(
+                            leading: Image.asset(
+                                "assets/icons/storage-100.png",
+                                color:
+                                Theme
+                                    .of(context)
+                                    .colorScheme
+                                    .primary,
+                                width: 35,
+                                height: 35),
+                            title: Text('IPFS Hash',
+                                style: textStyleForName),
+                            subtitle: Text(
+                              patientIpfsHashData,
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black.withOpacity(0.6)),
+                            ),
+                            onTap: () {
+                              String _url =
+                                  "${keys
+                                  .getIpfsUrlForReceivingData}$patientIpfsHashData";
+                              _launchURL(_url);
+                            },
+                          ),
+                          // ListTile(
+                          //
+                          //   trailing: Image.asset("assets/icons/forward-100.png",
+                          //       color: Theme.of(context).primaryColor,
+                          //       width: 25,
+                          //       height: 25),
+                          //   title: Text('Store your Pharmacy on Blockchain',
+                          //       style: Theme.of(context).textTheme.bodyText1),
+                          //   onTap: () {
+                          //     Navigator.push(
+                          //       context,
+                          //       MaterialPageRoute(
+                          //         builder: (context) => PharmacyStoreDetails(),
+                          //       ),
+                          //     );
+                          //   },
+                          // ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(6.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CustomCard(onPressed: ()=>{ Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            PatientStoreDetails(
+                              patientName: patientIpfsHash['patient_name'],
+                              patientHospitalAddress:
+                              patientIpfsHash['patient_hospital_address'],
+                              patientDoctorAddress:
+                              patientIpfsHash['patient_doctor_address'],
+                              patientAddress:
+                              patientIpfsHash['patient_address'],
+                              patientAge: patientIpfsHash['patient_age'],
+                              patientPhoneNo:
+                              patientIpfsHash['patient_phone_no'],
+                            ),
+                      ),
+                    ) },imageAssetString: "assets/icons/icons8-user-shield-100.png",cardText: 'Store or Update Patient on Blockchain',),
+                    CustomCard(onPressed: ()=> {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PatientMedicalRecordView(),
                         ),
+                      )
+                    },imageAssetString: "assets/icons/icons8-medical-history-100.png",cardText: 'View Medical Records',),
+
+                  ],
                 ),
               ),
+
               Padding(
-                padding: const EdgeInsets.only(left: 8,right: 8,top: 5,bottom: 5),
+                padding: const EdgeInsets.only(
+                    left: 8, right: 8, top: 5, bottom: 5),
                 child: Card(
                   borderOnForeground: true,
                   clipBehavior: Clip.antiAlias,
                   shape: RoundedRectangleBorder(
                     side: BorderSide(
-                        color: Theme.of(context).colorScheme.primary, width: 2),
+                        color: Theme
+                            .of(context)
+                            .colorScheme
+                            .primary, width: 2),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Column(
@@ -324,88 +406,16 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                     children: <Widget>[
                       ListTile(
                         trailing: Image.asset("assets/icons/forward-100.png",
-                            color: Theme.of(context).primaryColor,
-                            width: 25,
-                            height: 25),
-                        title: Text('Store or Update Patient on Blockchain',
-                            style: Theme.of(context).textTheme.bodyText1),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => PatientStoreDetails(
-                                patientName: patientIpfsHash['patient_name'],
-                                patientHospitalAddress:
-                                    patientIpfsHash['patient_hospital_address'],
-                                patientDoctorAddress:
-                                    patientIpfsHash['patient_doctor_address'],
-                                patientAddress:
-                                    patientIpfsHash['patient_address'],
-                                patientAge: patientIpfsHash['patient_age'],
-                                patientPhoneNo:
-                                    patientIpfsHash['patient_phone_no'],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 8,right: 8,top: 5,bottom: 5),
-                child: Card(
-                  borderOnForeground: true,
-                  clipBehavior: Clip.antiAlias,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                        color: Theme.of(context).colorScheme.primary, width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      ListTile(
-                        trailing: Image.asset("assets/icons/forward-100.png",
-                            color: Theme.of(context).primaryColor,
-                            width: 25,
-                            height: 25),
-                        title: Text('View Medical Records',
-                            style: Theme.of(context).textTheme.bodyText1),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => PatientMedicalRecordView(),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 8,right: 8,top: 5,bottom: 5),
-                child: Card(
-                  borderOnForeground: true,
-                  clipBehavior: Clip.antiAlias,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                        color: Theme.of(context).colorScheme.primary, width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      ListTile(
-                        trailing: Image.asset("assets/icons/forward-100.png",
-                            color: Theme.of(context).primaryColor,
+                            color: Theme
+                                .of(context)
+                                .primaryColor,
                             width: 25,
                             height: 25),
                         title: Text('Store Medical Records',
-                            style: Theme.of(context).textTheme.bodyText1),
+                            style: Theme
+                                .of(context)
+                                .textTheme
+                                .bodyText1),
                         onTap: () {
                           Navigator.push(
                             context,
@@ -420,13 +430,17 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8,right: 8,top: 5,bottom: 5),
+                padding: const EdgeInsets.only(
+                    left: 8, right: 8, top: 5, bottom: 5),
                 child: Card(
                   borderOnForeground: true,
                   clipBehavior: Clip.antiAlias,
                   shape: RoundedRectangleBorder(
                     side: BorderSide(
-                        color: Theme.of(context).colorScheme.primary, width: 2),
+                        color: Theme
+                            .of(context)
+                            .colorScheme
+                            .primary, width: 2),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Column(
@@ -434,16 +448,22 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                     children: <Widget>[
                       ListTile(
                         trailing: Image.asset("assets/icons/forward-100.png",
-                            color: Theme.of(context).primaryColor,
+                            color: Theme
+                                .of(context)
+                                .primaryColor,
                             width: 25,
                             height: 25),
                         title: Text('Create Medical Record',
-                            style: Theme.of(context).textTheme.bodyText1),
+                            style: Theme
+                                .of(context)
+                                .textTheme
+                                .bodyText1),
                         onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => PatientMedicalRecordCreation(),
+                              builder: (context) =>
+                                  PatientMedicalRecordCreation(),
                             ),
                           );
                         },
