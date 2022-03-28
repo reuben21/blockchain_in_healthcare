@@ -406,74 +406,7 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Card(
-                    borderOnForeground: true,
-                    clipBehavior: Clip.antiAlias,
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                          color: Theme.of(context).colorScheme.primary,
-                          width: 2),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        ListTile(
-                          trailing: Image.asset("assets/icons/forward-100.png",
-                              color: Theme.of(context).primaryColor,
-                              width: 25,
-                              height: 25),
-                          title: Text('View Medical Record For Patient',
-                              style: Theme.of(context).textTheme.bodyText1),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => DoctorPatientMedicalRecordView(hospitalAddress:doctorIpfsHash['hospital_address']),
-                              ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Card(
-                    borderOnForeground: true,
-                    clipBehavior: Clip.antiAlias,
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                          color: Theme.of(context).colorScheme.primary,
-                          width: 2),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        ListTile(
-                          trailing: Image.asset("assets/icons/forward-100.png",
-                              color: Theme.of(context).primaryColor,
-                              width: 25,
-                              height: 25),
-                          title: Text('View Patient List',
-                              style: Theme.of(context).textTheme.bodyText1),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => DoctorPatientList(),
-                              ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+
               ],
             ),
           ),

@@ -536,10 +536,10 @@ class _PatientSingleMedicalViewState extends State<PatientSingleMedicalView> {
 
 
                           title: Text(
-                            "Verified Status: ",
+                            "Validity Status: ",
                             style:textStyleForName,
                           ),
-                          subtitle: Text(verifiedStatus.toString(),
+                          subtitle: Text(verifiedStatus ? "Verified" : "Unverified",
                             style: TextStyle(
                                 fontSize: 20,
                                 color: Colors.red.withOpacity(0.6)),

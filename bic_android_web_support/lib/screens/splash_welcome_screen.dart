@@ -78,29 +78,32 @@ class _SplashWelcomeScreenState extends State<SplashWelcomeScreen> {
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
                 status ? Container(
-                  child: ElevatedButton.icon(
-                    icon: Image.asset("assets/icons/login-right-100.png",
-                        color: Theme.of(context).colorScheme.secondary,
-                        scale: 1,
-                        width: 25,
-                        height: 25),
-
-                    // padding: EdgeInsets.symmetric(
-                    //     vertical: 20, horizontal: 40),
-                    // color: Theme.of(context).colorScheme.primary,
-                    onPressed: () async {
-                      if (true) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => TabsScreen(),
-                          ),
-                        );
-                      }
-                    },
-                    label:
-                        const Text("Continue", style: TextStyle(color: Colors.white)),
-                  ),
+                  child:
+                  Padding(
+                    padding: const EdgeInsets.only(top: 50),
+                    child: FloatingActionButton.extended(
+                      heroTag: "signUpButtonOnSignUpScreen",
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      foregroundColor: Theme.of(context).colorScheme.secondary,
+                      onPressed:() async {
+                        if (true) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TabsScreen(),
+                            ),
+                          );
+                        }
+                      },
+                      icon: Image.asset("assets/icons/login-right-100.png",
+                          color: Theme.of(context).colorScheme.secondary,
+                          width: 25,
+                          fit: BoxFit.fill,
+                          height: 25),
+                      label: const Text('Continue'),
+                    ),
+                  )
+                 ,
                 ) : Text(
                   'Give us a Second',
                   style: Theme.of(context).textTheme.bodyText1,

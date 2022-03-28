@@ -936,11 +936,11 @@ class _DoctorPatientMedicalRecordViewSingleState
                         ),
                         child: ListTile(
                           title: Text(
-                            "Verified Status: ",
+                            "Validity : ",
                             style: textStyleForName,
                           ),
                           subtitle: Text(
-                            verifiedStatus.toString(),
+                            verifiedStatus ?  "Verified": "Unverified",
                             style: TextStyle(
                                 fontSize: 20,
                                 color: Colors.red.withOpacity(0.6)),

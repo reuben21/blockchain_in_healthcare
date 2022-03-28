@@ -24,6 +24,8 @@ class PatientMedicalRecords extends StatefulWidget {
 
 class _PatientMedicalRecordsState extends State<PatientMedicalRecords> {
   final _formKey = GlobalKey<FormBuilderState>();
+  var file;
+  bool imageSet = false;
 
   String walletAdd = '';
 
@@ -35,13 +37,31 @@ class _PatientMedicalRecordsState extends State<PatientMedicalRecords> {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     super.initState();
   }
-
-  Future<void> uploadImage(
-      Credentials credentials, EthereumAddress walletAddress) async {
+  Future<void> uploadFirstImage(
+      ) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
 
     if (result != null) {
-      File file = File(result.files.single.path.toString());
+      File _file = File(result.files.single.path.toString());
+      setState(() {
+        file = _file;
+        imageSet = true;
+      });
+      // var hashReceived =
+      // await Provider.of<IPFSModel>(context, listen: false).sendFile(file);
+      // print("hashReceived ------" + hashReceived.toString());
+      // if (hashReceived.toString().isNotEmpty) {
+      //   estimateGasFunction(hashReceived, walletAddress, credentials);
+      // }
+    } else {
+      // User canceled the picker
+    }
+  }
+  Future<void> uploadImage(
+      Credentials credentials, EthereumAddress walletAddress) async {
+
+    if (file.isAbsolute != null) {
+
       var hashReceived =
           await Provider.of<IPFSModel>(context, listen: false).sendFile(file);
       print("hashReceived ------" + hashReceived.toString());
@@ -534,7 +554,11 @@ class _PatientMedicalRecordsState extends State<PatientMedicalRecords> {
                               // ),
                             ),
                           ),
-                          Padding(
+                          file == null ? Container() : Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Image.file(file),
+                          ),
+                          imageSet ? Padding(
                             padding: const EdgeInsets.all(8),
                             child: Card(
                               borderOnForeground: true,
@@ -542,7 +566,7 @@ class _PatientMedicalRecordsState extends State<PatientMedicalRecords> {
                               shape: RoundedRectangleBorder(
                                 side: BorderSide(
                                     color:
-                                        Theme.of(context).colorScheme.primary,
+                                    Theme.of(context).colorScheme.primary,
                                     width: 2),
                                 borderRadius: BorderRadius.circular(10),
                               ),
@@ -552,7 +576,7 @@ class _PatientMedicalRecordsState extends State<PatientMedicalRecords> {
                                   FormBuilder(
                                       key: _formKey,
                                       autovalidateMode:
-                                          AutovalidateMode.onUserInteraction,
+                                      AutovalidateMode.onUserInteraction,
                                       child: Padding(
                                           padding: const EdgeInsets.all(15),
                                           child: formBuilderTextFieldWidget(
@@ -590,8 +614,8 @@ class _PatientMedicalRecordsState extends State<PatientMedicalRecords> {
                                         Credentials credentialsNew;
                                         EthereumAddress myAddress;
                                         var dbResponse =
-                                            await WalletSharedPreference
-                                                .getWalletDetails();
+                                        await WalletSharedPreference
+                                            .getWalletDetails();
                                         print(_formKey
                                             .currentState?.value["password"]);
                                         Wallet newWallet = Wallet.fromJson(
@@ -604,6 +628,41 @@ class _PatientMedicalRecordsState extends State<PatientMedicalRecords> {
                                             .extractAddress();
                                         uploadImage(credentialsNew, myAddress);
                                       }
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ): Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Card(
+                              borderOnForeground: true,
+                              clipBehavior: Clip.antiAlias,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                    width: 2),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+
+                                  ListTile(
+                                    trailing: Image.asset(
+                                        "assets/icons/forward-100.png",
+                                        color: Theme.of(context).primaryColor,
+                                        width: 25,
+                                        height: 25),
+                                    title: Text('Upload Image of Medical Record',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1),
+                                    onTap: () async {
+
+                                        uploadFirstImage();
+
                                     },
                                   ),
                                 ],

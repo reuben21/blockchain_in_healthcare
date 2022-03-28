@@ -493,7 +493,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
       // ),
       body: SingleChildScrollView(
         child: Container(
-          height: MediaQuery.of(context).size.height,
+          height: MediaQuery.of(context).size.height+100,
           child: Column(
             children: [
               SingleChildScrollView(

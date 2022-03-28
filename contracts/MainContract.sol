@@ -4,18 +4,23 @@ pragma solidity ^0.8.0;
 
 import "./openzeppelin/contracts/utils/Counters.sol";
 import "./openzeppelin/contracts/access/AccessControl.sol";
+// import "./HospitalToken.sol";
 
 bytes32 constant PATIENT = "PATIENT";
 bytes32 constant VERIFIED_PATIENT = "VERIFIED_PATIENT";
-
 bytes32 constant DOCTOR = "DOCTOR";
-
+bytes32 constant VERIFIED_DOCTOR = "VERIFIED_DOCTOR";
 bytes32 constant PHARMACY = "PHARMACY";
-
 bytes32 constant HOSPITAL_ADMIN = "HOSPITAL_ADMIN";
 
 contract MainContract is AccessControl {
     using Counters for Counters.Counter;
+
+    // IERC20 hospitalToken;
+
+    // function setContractAddresss(IERC20 _token) external {
+    //     hospitalToken = _token;
+    // }
 
     struct MedicalRecord {
         uint256 index;
@@ -171,7 +176,7 @@ contract MainContract is AccessControl {
         address _patientWalletAddress,
         string memory _prescriptionExpiryDateTime
     ) external returns (bool status) {
-        require(hasRole("VERIFIED_DOCTOR", _walletAddress), "RNG");
+        require(hasRole(VERIFIED_DOCTOR, _walletAddress), "RNG");
         patientDatabase[_patientWalletAddress].prescriptionCount++;
 
         patientDatabase[_patientWalletAddress]
@@ -239,7 +244,7 @@ contract MainContract is AccessControl {
         address _doctorWalletAddress,
         string memory _medicalRecordHash
     ) external returns (bool status) {
-        require(hasRole("VERIFIED_DOCTOR", _doctorWalletAddress), "RNG");
+        require(hasRole(VERIFIED_DOCTOR, _doctorWalletAddress), "RNG");
         patientDatabase[_patientWalletAddress]
             .medicalRecords[index]
             .patientRecordHash = _medicalRecordHash;
@@ -256,7 +261,7 @@ contract MainContract is AccessControl {
         address _doctorWalletAddress,
         bool _verified
     ) external returns (bool status) {
-        require(hasRole("VERIFIED_DOCTOR", _doctorWalletAddress), "RNG");
+        require(hasRole(VERIFIED_DOCTOR, _doctorWalletAddress), "RNG");
         patientDatabase[_patientWalletAddress]
             .medicalRecords[index]
             .verified = _verified;
@@ -313,6 +318,7 @@ contract MainContract is AccessControl {
             );
         } else {
             _setupRole(PATIENT, _walletAddress);
+            // hospitalToken.approve(_walletAddress, 100000);
             patientDatabase[_walletAddress].name = _name;
             patientDatabase[_walletAddress].personalDetails = _personalDetails;
             patientDatabase[_walletAddress].hospitalAddress = _hospitalAddress;
@@ -396,6 +402,7 @@ contract MainContract is AccessControl {
             );
         } else {
             _setupRole(DOCTOR, _walletAddress);
+            // hospitalToken.approve(_walletAddress, 100000);
             doctorDatabase[_walletAddress].name = name;
             doctorDatabase[_walletAddress].walletAddress = _walletAddress;
             doctorDatabase[_walletAddress].hospitalAddress = _hospitalAddress;
@@ -467,6 +474,7 @@ contract MainContract is AccessControl {
             );
         } else {
             _setupRole(PHARMACY, _walletAddress);
+            // hospitalToken.approve(_walletAddress, 100000);
             pharmacyDatabase[_walletAddress].name = name;
             pharmacyDatabase[_walletAddress].walletAddress = _walletAddress;
             pharmacyDatabase[_walletAddress].personalDetails = _personalDetails;
@@ -523,6 +531,7 @@ contract MainContract is AccessControl {
             );
         } else {
             _setupRole(DEFAULT_ADMIN_ROLE, _walletAddress);
+            // hospitalToken.approve(_walletAddress, 100000);
             hospitalDatabase[_walletAddress].name = _name;
             hospitalDatabase[_walletAddress].walletAddress = _walletAddress;
             hospitalDatabase[_walletAddress].hospitalDetails = _hospitalDetails;
