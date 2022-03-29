@@ -357,7 +357,10 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                         ),
                       )
                     },
-                    imageAssetString: "assets/icons/icons8-user-shield-100.png",
+                    imageAsset: Image.asset("assets/icons/icons8-user-shield-100.png",
+                        color: Theme.of(context).primaryColor,
+                        width: 20,
+                        height: 20) ,
                     cardText: 'Store or Update Patient on Blockchain',
                   ),
                   CustomCard(
@@ -369,8 +372,11 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                         ),
                       )
                     },
-                    imageAssetString:
-                        "assets/icons/icons8-medical-history-100.png",
+                    imageAsset:
+                    Image.asset("assets/icons/icons8-medical-history-100.png",
+                        color: Theme.of(context).primaryColor,
+                        width: 20,
+                        height: 20) ,
                     cardText: 'View Medical Records',
                   ),
                   CustomCard(
@@ -382,8 +388,11 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                         ),
                       )
                     },
-                    imageAssetString:
-                        "assets/icons/icons8-treatment-100.png",
+                    imageAsset:
+                    Image.asset("assets/icons/icons8-treatment-100.png",
+                        color: Theme.of(context).primaryColor,
+                        width: 20,
+                        height: 20),
                     cardText: 'Store Medical Records',
                   ),
                 ].toList(),

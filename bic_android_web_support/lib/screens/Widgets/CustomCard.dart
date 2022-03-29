@@ -5,12 +5,12 @@ class CustomCard extends StatelessWidget {
 
   final VoidCallback onPressed;
   final String cardText;
-  final String imageAssetString;
+  final Image imageAsset;
 
   const CustomCard({
     required this.onPressed,
-    required this.imageAssetString,
     required this.cardText,
+    required this.imageAsset
   });
 
 
@@ -49,10 +49,7 @@ class CustomCard extends StatelessWidget {
                           color: Theme.of(context).colorScheme.primaryVariant),
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
-                        child: Image.asset(this.imageAssetString,
-                            color: Theme.of(context).primaryColor,
-                            width: 20,
-                            height: 20),
+                        child:imageAsset,
                       ),
                     ),
                   ),

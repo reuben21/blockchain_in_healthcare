@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:bic_android_web_support/databases/wallet_shared_preferences.dart';
 import 'package:bic_android_web_support/providers/provider_doctor/model_doctor.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../helpers/keys.dart' as keys;
@@ -18,6 +19,7 @@ import 'package:web3dart/credentials.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
 
+import '../Widgets/CustomCard.dart';
 import 'doctor_change_hospital.dart';
 import 'doctor_patient_list.dart';
 import 'doctor_patient_medical_view.dart';
@@ -257,7 +259,7 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                                       width: 35,
                                       height: 35),
                                   title: Text(
-                                    'Year Started',
+                                    'Gender',
                                     style: textStyleForName,
                                   ),
                                   subtitle: Text(
@@ -327,85 +329,70 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Card(
-                    borderOnForeground: true,
-                    clipBehavior: Clip.antiAlias,
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                          color: Theme.of(context).colorScheme.primary,
-                          width: 2),
-                      borderRadius: BorderRadius.circular(10),
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: CarouselSlider(
+                    options: CarouselOptions(
+                      height: 180.0,
+
+                      aspectRatio: 16 / 9,
+                      viewportFraction: 0.5,
+                      initialPage: 0,
+                      enableInfiniteScroll: true,
+                      reverse: false,
+                      autoPlay: true,
+                      autoPlayInterval: Duration(seconds: 3),
+                      autoPlayAnimationDuration: Duration(milliseconds: 800),
+                      autoPlayCurve: Curves.fastOutSlowIn,
+                      enlargeCenterPage: true,
+                      scrollDirection: Axis.horizontal,
                     ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        ListTile(
-                          trailing: Image.asset("assets/icons/forward-100.png",
-                              color: Theme.of(context).primaryColor,
-                              width: 25,
-                              height: 25),
-                          title: Text('Store or Update Doctor on Blockchain',
-                              style: Theme.of(context).textTheme.bodyText1),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => DoctorDetails(
-                                  doctorName: doctorIpfsHash['doctor_name'],
-                                  doctorAge: doctorIpfsHash['doctor_age'],
-                                  doctorAddress:
-                                      doctorIpfsHash['doctor_address'],
-                                  doctorGender: doctorIpfsHash['doctor_gender'],
-                                  doctorPhoneNo:
-                                      doctorIpfsHash['doctor_phone_no'],
-                                ),
+                    items: [
+                      CustomCard(
+                        onPressed: () => {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DoctorDetails(
+                                doctorName: doctorIpfsHash['doctor_name'],
+                                doctorAge: doctorIpfsHash['doctor_age'],
+                                doctorAddress:
+                                doctorIpfsHash['doctor_address'],
+                                doctorGender: doctorIpfsHash['doctor_gender'],
+                                doctorPhoneNo:
+                                doctorIpfsHash['doctor_phone_no'],
                               ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
+                            ),
+                          )
+                        },
+                        imageAsset: Image.asset("assets/icons/icons8-medical-doctor-100.png",
+                            color: Theme.of(context).primaryColor,
+                            width: 20,
+                            height: 20),
+                        cardText: 'Store or Update Doctor on Blockchain',
+                      ),
+                      CustomCard(
+                        onPressed: () => {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DoctorChangeHospital(
+                                oldHospitalAddress: doctorIpfsHash['hospital_address'], doctorWalletAddress:walletAdd ,
+                              ),
+                            ),
+                          )
+                        },
+                        imageAsset:
+                        Image.asset("assets/icons/hospital.png",
+                            color: Theme.of(context).primaryColor,
+                            width: 20,
+                            height: 20,fit: BoxFit.contain,alignment: Alignment.center,),
+                        cardText: 'Change Hospital on Blockchain',
+                      ),
+
+                    ].toList(),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Card(
-                    borderOnForeground: true,
-                    clipBehavior: Clip.antiAlias,
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                          color: Theme.of(context).colorScheme.primary,
-                          width: 2),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        ListTile(
-                          trailing: Image.asset("assets/icons/forward-100.png",
-                              color: Theme.of(context).primaryColor,
-                              width: 25,
-                              height: 25),
-                          title: Text('Change Hospital on Blockchain',
-                              style: Theme.of(context).textTheme.bodyText1),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => DoctorChangeHospital(
 
-
-                                  oldHospitalAddress: doctorIpfsHash['hospital_address'], doctorWalletAddress:walletAdd ,
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
 
               ],
             ),
