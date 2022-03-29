@@ -38,26 +38,32 @@ class CustomCard extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  Container(
-                    width: 80,
-                    height: 80,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Theme.of(context).colorScheme.primaryVariant),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Image.asset(this.imageAssetString,
-                          color: Theme.of(context).primaryColor,
-                          width: 20,
-                          height: 20),
+                  SizedBox(width: 10,),
+                  Expanded(
+                    flex: 3,
+                    child: Container(
+                      width: 80,
+                      height: 80,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Theme.of(context).colorScheme.primaryVariant),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Image.asset(this.imageAssetString,
+                            color: Theme.of(context).primaryColor,
+                            width: 20,
+                            height: 20),
+                      ),
                     ),
                   ),
 
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10,left: 10,right: 10),
-                    child: Text(this.cardText, textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 13,color: Theme.of(context).colorScheme.primary,fontWeight: FontWeight.bold)),
-                  ),
+                 Expanded(
+                   child: Container(
+                     child: Text(this.cardText, textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 13,color: Theme.of(context).colorScheme.primary,fontWeight: FontWeight.bold)),
+                   ),
+                 ),
+
 
                   // ListTile(
                   //   trailing: Image.asset("assets/icons/forward-100.png",
