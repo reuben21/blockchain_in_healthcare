@@ -219,34 +219,43 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                     child: Padding(
                       padding: const EdgeInsets.all(0.0),
                       child: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+
                         child: Column(
                           children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Container(
-                                height: 50,
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                      begin: Alignment.topLeft,
-                                      end: Alignment.bottomRight,
-                                      colors: [
-                                        Theme.of(context).colorScheme.primary,
-                                        Colors.purpleAccent.withOpacity(0.9),
-                                        // Colors.lightBlueAccent,
-                                      ]),
-                                  borderRadius: BorderRadius.circular(9),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Text(
-                                    "Your Wallet Address: " + walletAdd,
+
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Container(
+                                      height: 50,
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                            begin: Alignment.topLeft,
+                                            end: Alignment.bottomRight,
+                                            colors: [
+                                              Theme.of(context).colorScheme.primary,
+                                              Colors.purpleAccent.withOpacity(0.9),
+                                              // Colors.lightBlueAccent,
+                                            ]),
+                                        borderRadius: BorderRadius.circular(9),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Text(
+                                          "Your Wallet Address: " + walletAdd,
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
                             Padding(
-                                padding: const EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(5),
                                 child: FormBuilderTextField(
                                   initialValue: 'Medicine 1',
                                   maxLines: 1,
@@ -266,34 +275,64 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                                     FormBuilderValidators.required(context)
                                   ]),
                                 )),
-                            Padding(
-                                padding: const EdgeInsets.all(10),
-                                child: FormBuilderTextField(
-                                  initialValue: '1-0-1',
-                                  maxLines: 1,
-                                  name: 'medicineTime',
-                                  decoration: dynamicInputDecoration(
-                                    'Medicine Time',
-                                    Image.asset("assets/icons/at-sign-100.png",
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                        scale: 4,
-                                        width: 15,
-                                        height: 15),
-                                  ),
-                                  // valueTransformer: (text) => num.tryParse(text),
-                                  validator: FormBuilderValidators.compose([
-                                    FormBuilderValidators.required(context)
-                                  ]),
-                                )),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Padding(
+                                      padding: const EdgeInsets.all(5),
+                                      child: FormBuilderTextField(
+                                        initialValue: '1-0-1',
+                                        maxLines: 1,
+                                        name: 'medicineTime',
+                                        decoration: dynamicInputDecoration(
+                                          'Time',
+                                          Image.asset("assets/icons/at-sign-100.png",
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                              scale: 4,
+                                              width: 15,
+                                              height: 15),
+                                        ),
+                                        // valueTransformer: (text) => num.tryParse(text),
+                                        validator: FormBuilderValidators.compose([
+                                          FormBuilderValidators.required(context)
+                                        ]),
+                                      )),
+                                ),
+                                Expanded(
+                                  child: Padding(
+                                      padding: const EdgeInsets.all(5),
+                                      child: FormBuilderTextField(
+                                        initialValue: '1-0-1',
+                                        maxLines: 1,
+                                        name: 'medicineQuantity',
+                                        decoration: dynamicInputDecoration(
+                                          'Quantity',
+                                          Image.asset("assets/icons/at-sign-100.png",
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                              scale: 4,
+                                              width: 15,
+                                              height: 15),
+                                        ),
+                                        // valueTransformer: (text) => num.tryParse(text),
+                                        validator: FormBuilderValidators.compose([
+                                          FormBuilderValidators.required(context)
+                                        ]),
+                                      )),
+                                ),
+                              ],
+                            ),
+
                             Padding(
                               padding: const EdgeInsets.only(bottom: 30),
                               child: Container(
                                 height: 50,
                                 width: 100,
                                 child: FloatingActionButton.extended(
-                                  heroTag: "patientStoreDetailsButton",
+                                  heroTag: "patientPrescriptionAdd",
                                   backgroundColor:
                                       Theme.of(context).colorScheme.primary,
                                   foregroundColor:
@@ -327,105 +366,105 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                                 ),
                               ),
                             ),
-                            Container(
-                              height: 300,
-                              child: Column(
-                                children: <Widget>[
-                                  Row(
-                                    // mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(right: 10),
-                                        child: ClipRRect(
-                                          borderRadius: const BorderRadius.all(Radius.circular(16.0)),
-                                          child : Container(
-                                            height: 50,
-                                            width: 200,
-                                            color: Theme.of(context).primaryColor,
-                                            child: const Center(
-                                                child: Text('Medicine Name')),
-                                          ),
-                                        ),
-                                      ),
-                                      ClipRRect(
-                                        borderRadius: const BorderRadius.all(Radius.circular(16.0)),
-                                        child: Container(
-                                          height: 50,
-                                          width: 130,
-                                          color: Theme.of(context).primaryColor,
-                                          child: const Center(
-                                              child: Text('Medicine Time')),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Expanded(
-                                    child: ListView.builder(
-                                        itemCount: medicineList.length,
-                                        shrinkWrap: true,
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          // print(medicineList[index]
-                                          //     ['medicineName']);
-                                          return Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Container(
-                                              height: 50,
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(right: 28,top: 2),
-                                                    child: ClipRRect(
-                                                      borderRadius: const BorderRadius.all(Radius.circular(16.0)),
-                                                      child: Container(
-                                                        height: 50,
-                                                        width: 180,
-                                                        color:  Color.fromRGBO(234, 206, 242,1),
-
-                                                        child: Center(
-                                                            child: Text(
-                                                          "${medicineList[index]['medicineName']}",
-                                                          style: Theme.of(context)
-                                                              .textTheme
-                                                              .bodyText1,
-                                                        )),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(right: 5,top: 2),
-                                                    child: ClipRRect(
-                                                      borderRadius: const BorderRadius.all(Radius.circular(16.0)),
-                                                      child : Container(
-                                                        height: 50,
-                                                        width: 110,
-                                                        color:  Color.fromRGBO(234, 206, 242,1),
-                                                        child: Center(
-                                                            child: Text(
-                                                          "${medicineList[index]['medicineTime']}",
-                                                          style: Theme.of(context)
-                                                              .textTheme
-                                                              .bodyText1,
-                                                        )),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          );
-                                        }),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
+                            // Container(
+                            //   height: 300,
+                            //   child: Column(
+                            //     children: <Widget>[
+                            //       Row(
+                            //         // mainAxisAlignment: MainAxisAlignment.center,
+                            //         children: [
+                            //           Padding(
+                            //             padding: const EdgeInsets.only(right: 10),
+                            //             child: ClipRRect(
+                            //               borderRadius: const BorderRadius.all(Radius.circular(16.0)),
+                            //               child : Container(
+                            //                 height: 50,
+                            //                 width: 200,
+                            //                 color: Theme.of(context).primaryColor,
+                            //                 child: const Center(
+                            //                     child: Text('Medicine Name')),
+                            //               ),
+                            //             ),
+                            //           ),
+                            //           ClipRRect(
+                            //             borderRadius: const BorderRadius.all(Radius.circular(16.0)),
+                            //             child: Container(
+                            //               height: 50,
+                            //               width: 130,
+                            //               color: Theme.of(context).primaryColor,
+                            //               child: const Center(
+                            //                   child: Text('Medicine Time')),
+                            //             ),
+                            //           ),
+                            //         ],
+                            //       ),
+                            //       Expanded(
+                            //         child: ListView.builder(
+                            //             itemCount: medicineList.length,
+                            //             shrinkWrap: true,
+                            //             physics:
+                            //                 const NeverScrollableScrollPhysics(),
+                            //             itemBuilder:
+                            //                 (BuildContext context, int index) {
+                            //               // print(medicineList[index]
+                            //               //     ['medicineName']);
+                            //               return Padding(
+                            //                 padding: const EdgeInsets.all(8.0),
+                            //                 child: Container(
+                            //                   height: 50,
+                            //                   child: Row(
+                            //                     mainAxisAlignment:
+                            //                         MainAxisAlignment.center,
+                            //                     children: [
+                            //                       Padding(
+                            //                         padding: const EdgeInsets.only(right: 28,top: 2),
+                            //                         child: ClipRRect(
+                            //                           borderRadius: const BorderRadius.all(Radius.circular(16.0)),
+                            //                           child: Container(
+                            //                             height: 50,
+                            //                             width: 180,
+                            //                             color:  Color.fromRGBO(234, 206, 242,1),
+                            //
+                            //                             child: Center(
+                            //                                 child: Text(
+                            //                               "${medicineList[index]['medicineName']}",
+                            //                               style: Theme.of(context)
+                            //                                   .textTheme
+                            //                                   .bodyText1,
+                            //                             )),
+                            //                           ),
+                            //                         ),
+                            //                       ),
+                            //                       Padding(
+                            //                         padding: const EdgeInsets.only(right: 5,top: 2),
+                            //                         child: ClipRRect(
+                            //                           borderRadius: const BorderRadius.all(Radius.circular(16.0)),
+                            //                           child : Container(
+                            //                             height: 50,
+                            //                             width: 110,
+                            //                             color:  Color.fromRGBO(234, 206, 242,1),
+                            //                             child: Center(
+                            //                                 child: Text(
+                            //                               "${medicineList[index]['medicineTime']}",
+                            //                               style: Theme.of(context)
+                            //                                   .textTheme
+                            //                                   .bodyText1,
+                            //                             )),
+                            //                           ),
+                            //                         ),
+                            //                       ),
+                            //                     ],
+                            //                   ),
+                            //                 ),
+                            //               );
+                            //             }),
+                            //       ),
+                            //     ],
+                            //   ),
+                            // ),
+                            // const SizedBox(
+                            //   height: 20,
+                            // ),
                           ],
                         ),
                       ),
