@@ -127,14 +127,16 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
         fontSize: 15,
         fontWeight: FontWeight.bold,
         color: Theme.of(context).colorScheme.primary);
+    var doctorProvider = Provider.of<DoctorModel>(context, listen: false)
+        .doctorHospitalAddress;
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        title: const Text("Doctor Record"),
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Theme.of(context).colorScheme.primary,
+      //   elevation: 0,
+      //   automaticallyImplyLeading: false,
+      //   title: const Text("Doctor Record"),
+      // ),
       body: SingleChildScrollView(
         child: SingleChildScrollView(
           child: Container(
@@ -145,17 +147,17 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                   padding: const EdgeInsets.all(8),
                   child: Container(
                     width: double.infinity,
-                    height: 590,
+                    height: 520,
                     child: doctorIpfsHash['doctor_name'] == ''
                         ? Card(
-                            borderOnForeground: true,
+                            // borderOnForeground: true,
                             clipBehavior: Clip.antiAlias,
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  width: 2),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
+                            // shape: RoundedRectangleBorder(
+                            //   side: BorderSide(
+                            //       color: Theme.of(context).colorScheme.primary,
+                            //       width: 2),
+                            //   borderRadius: BorderRadius.circular(10),
+                            // ),
                             child: const ListTile(
                               leading: Icon(Icons.arrow_drop_down_circle),
                               title: Text(
@@ -165,14 +167,14 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                             ),
                           )
                         : Card(
-                            borderOnForeground: true,
+                            // borderOnForeground: true,
                             clipBehavior: Clip.antiAlias,
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  width: 2),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
+                            // shape: RoundedRectangleBorder(
+                            //   side: BorderSide(
+                            //       color: Theme.of(context).colorScheme.primary,
+                            //       width: 2),
+                            //   borderRadius: BorderRadius.circular(10),
+                            // ),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
@@ -190,7 +192,7 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                                 ),
                                 ListTile(
                                   leading: Image.asset(
-                                      "assets/icons/pharmacy-shop-100.png",
+                                      "assets/icons/icons8-medical-doctor-100.png",
                                       color:
                                           Theme.of(context).colorScheme.primary,
                                       width: 35,
@@ -204,20 +206,46 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                                         color: Colors.black.withOpacity(0.6)),
                                   ),
                                 ),
-                                ListTile(
-                                  leading: Image.asset(
-                                      "assets/icons/name-100.png",
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      width: 35,
-                                      height: 35),
-                                  title: Text('Owner', style: textStyleForName),
-                                  subtitle: Text(
-                                    doctorIpfsHash['doctor_age'],
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.black.withOpacity(0.6)),
-                                  ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: ListTile(
+                                        leading: Image.asset(
+                                            "assets/icons/icons8-age-100.png",
+                                            color:
+                                                Theme.of(context).colorScheme.primary,
+                                            width: 35,
+                                            height: 35),
+                                        title: Text('Age', style: textStyleForName),
+                                        subtitle: Text(
+                                          doctorIpfsHash['doctor_age'],
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.black.withOpacity(0.6)),
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: ListTile(
+                                        leading: Image.asset(
+                                            "assets/icons/icons8-gender-100.png",
+                                            color:
+                                            Theme.of(context).colorScheme.primary,
+                                            width: 35,
+                                            height: 35),
+                                        title: Text(
+                                          'Gender',
+                                          style: textStyleForName,
+                                        ),
+                                        subtitle: Text(
+                                          doctorIpfsHash['doctor_gender'],
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.black.withOpacity(0.6)),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                                 ListTile(
                                   leading: Image.asset(
@@ -237,7 +265,7 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                                 ),
                                 ListTile(
                                   leading: Image.asset(
-                                      "assets/icons/address-100.png",
+                                      "assets/icons/wallet.png",
                                       color:
                                       Theme.of(context).colorScheme.primary,
                                       width: 35,
@@ -245,30 +273,13 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                                   title:
                                   Text('Hospital Address', style: textStyleForName),
                                   subtitle: Text(
-                                    doctorIpfsHash['hospital_address'],
+                                    doctorIpfsHash['hospital_address'].toString().substring(0,4)+"...."+doctorIpfsHash['hospital_address'].toString().lastChars(4),
                                     style: TextStyle(
                                         fontSize: 20,
                                         color: Colors.black.withOpacity(0.6)),
                                   ),
                                 ),
-                                ListTile(
-                                  leading: Image.asset(
-                                      "assets/icons/year-view-100.png",
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      width: 35,
-                                      height: 35),
-                                  title: Text(
-                                    'Gender',
-                                    style: textStyleForName,
-                                  ),
-                                  subtitle: Text(
-                                    doctorIpfsHash['doctor_gender'],
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.black.withOpacity(0.6)),
-                                  ),
-                                ),
+
                                 ListTile(
                                   leading: Image.asset(
                                       "assets/icons/phone-100.png",
@@ -327,6 +338,14 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                             ),
                           ),
                   ),
+                ),
+                Divider(
+
+                  height: 20,
+                  thickness: 2,
+                  indent: 15,
+                  endIndent: 15,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 20),
@@ -388,7 +407,38 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                             height: 20,fit: BoxFit.contain,alignment: Alignment.center,),
                         cardText: 'Change Hospital on Blockchain',
                       ),
-
+                      CustomCard(
+                        onPressed: () => {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DoctorPatientMedicalRecordView(hospitalAddress:doctorProvider.hex),
+                            ),
+                          )
+                        },
+                        imageAsset:
+                        Image.asset("assets/icons/icons8-medical-history-100.png",
+                          color: Theme.of(context).primaryColor,
+                          width: 20,
+                          height: 20,fit: BoxFit.contain,alignment: Alignment.center,),
+                        cardText: 'View Medical Records for Patients',
+                      ),
+                      CustomCard(
+                        onPressed: () => {
+                        Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                        builder: (context) => DoctorPatientMedicalRecordView(hospitalAddress:doctorProvider.hex),
+                        ),
+                        )
+                        },
+                        imageAsset:
+                        Image.asset("assets/icons/icons8-list-100.png",
+                          color: Theme.of(context).primaryColor,
+                          width: 20,
+                          height: 20,fit: BoxFit.contain,alignment: Alignment.center,),
+                        cardText: 'View Patient List',
+                      ),
                     ].toList(),
                   ),
                 ),
@@ -422,4 +472,9 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
       ),
     );
   }
+
+
+}
+extension E on String {
+  String lastChars(int n) => substring(length - n);
 }

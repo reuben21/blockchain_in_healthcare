@@ -66,12 +66,15 @@ class _SplashWelcomeScreenState extends State<SplashWelcomeScreen> {
                   height: size.height * 0.35,
                 ),
                 SizedBox(height: size.height * 0.03),
-                Text(
+                status ?Text(
+                  'You may Continue !',
+                  style: Theme.of(context).textTheme.headline1,
+                ):Text(
                   'Please Wait !',
                   style: Theme.of(context).textTheme.headline1,
                 ),
                 status ? Text(
-                  'As We Load Your Data',
+                  'We have loaded your Data',
                   style: Theme.of(context).textTheme.bodyText1,
                 ) :Text(
                   'We are Loading your Data',

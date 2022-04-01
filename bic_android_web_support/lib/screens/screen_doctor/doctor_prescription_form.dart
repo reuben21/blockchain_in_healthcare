@@ -51,28 +51,28 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
 
   int _activeCurrentStep = 0;
 
-  InputDecoration dynamicInputDecoration(String labelText, Image icon) {
+  InputDecoration dynamicInputDecoration(String labelText, Image? icon) {
     return InputDecoration(
       // helperText: 'hello',
       labelText: labelText,
       prefixIcon: icon,
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(25.0),
+        borderRadius: BorderRadius.circular(20.0),
       ),
       labelStyle: const TextStyle(
         color: Color(0xFF6200EE),
       ),
       errorBorder: OutlineInputBorder(
         borderSide: BorderSide(color: Color(0xFF6200EE)),
-        borderRadius: BorderRadius.circular(25.0),
+        borderRadius: BorderRadius.circular(20.0),
       ),
       focusedErrorBorder: OutlineInputBorder(
         borderSide: BorderSide(color: Color(0xFF6200EE)),
-        borderRadius: BorderRadius.circular(25.0),
+        borderRadius: BorderRadius.circular(20.0),
       ),
       enabledBorder: OutlineInputBorder(
         borderSide: BorderSide(color: Color(0xFF6200EE)),
-        borderRadius: BorderRadius.circular(25.0),
+        borderRadius: BorderRadius.circular(20.0),
       ),
     );
   }
@@ -220,10 +220,8 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                       padding: const EdgeInsets.all(0.0),
                       child: SingleChildScrollView(
                         scrollDirection: Axis.vertical,
-
                         child: Column(
                           children: <Widget>[
-
                             Row(
                               children: [
                                 Expanded(
@@ -237,8 +235,11 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                                             begin: Alignment.topLeft,
                                             end: Alignment.bottomRight,
                                             colors: [
-                                              Theme.of(context).colorScheme.primary,
-                                              Colors.purpleAccent.withOpacity(0.9),
+                                              Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                              Colors.purpleAccent
+                                                  .withOpacity(0.9),
                                               // Colors.lightBlueAccent,
                                             ]),
                                         borderRadius: BorderRadius.circular(9),
@@ -262,13 +263,7 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                                   name: 'medicineName',
                                   decoration: dynamicInputDecoration(
                                     'Medicine Name',
-                                    Image.asset("assets/icons/at-sign-100.png",
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                        scale: 4,
-                                        width: 15,
-                                        height: 15),
+                                    null,
                                   ),
                                   // valueTransformer: (text) => num.tryParse(text),
                                   validator: FormBuilderValidators.compose([
@@ -278,6 +273,7 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                             Row(
                               children: [
                                 Expanded(
+                                  flex: 2,
                                   child: Padding(
                                       padding: const EdgeInsets.all(5),
                                       child: FormBuilderTextField(
@@ -286,185 +282,254 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                                         name: 'medicineTime',
                                         decoration: dynamicInputDecoration(
                                           'Time',
-                                          Image.asset("assets/icons/at-sign-100.png",
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                              scale: 4,
-                                              width: 15,
-                                              height: 15),
+                                          null,
                                         ),
                                         // valueTransformer: (text) => num.tryParse(text),
-                                        validator: FormBuilderValidators.compose([
-                                          FormBuilderValidators.required(context)
+                                        validator:
+                                            FormBuilderValidators.compose([
+                                          FormBuilderValidators.required(
+                                              context)
                                         ]),
                                       )),
                                 ),
                                 Expanded(
+                                  flex: 2,
                                   child: Padding(
                                       padding: const EdgeInsets.all(5),
                                       child: FormBuilderTextField(
-                                        initialValue: '1-0-1',
+                                        initialValue: '1',
                                         maxLines: 1,
                                         name: 'medicineQuantity',
                                         decoration: dynamicInputDecoration(
                                           'Quantity',
-                                          Image.asset("assets/icons/at-sign-100.png",
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                              scale: 4,
-                                              width: 15,
-                                              height: 15),
+                                          null,
                                         ),
                                         // valueTransformer: (text) => num.tryParse(text),
-                                        validator: FormBuilderValidators.compose([
-                                          FormBuilderValidators.required(context)
+                                        validator:
+                                            FormBuilderValidators.compose([
+                                          FormBuilderValidators.required(
+                                              context)
                                         ]),
                                       )),
                                 ),
+                                Expanded(
+                                  flex: 1,
+                                  child: FloatingActionButton(
+                                    heroTag: "patientPrescriptionAdd",
+                                    backgroundColor:
+                                        Theme.of(context).colorScheme.primary,
+                                    foregroundColor:
+                                        Theme.of(context).colorScheme.secondary,
+                                    onPressed: () async {
+                                      _formMedicine.currentState?.save();
+                                      if (_formMedicine.currentState
+                                              ?.validate() !=
+                                          false) {
+                                        Map<String, dynamic> objText = {
+                                          "medicineName": _formMedicine
+                                              .currentState
+                                              ?.value["medicineName"],
+                                          "medicineTime": _formMedicine
+                                              .currentState
+                                              ?.value["medicineTime"],
+                                          "medicineQuantity": _formMedicine
+                                              .currentState
+                                              ?.value["medicineQuantity"],
+                                        };
+                                        medicineList.add(objText);
+                                        setState(() {
+                                          medicineList;
+                                        });
+                                      }
+                                    },
+                                    child: Image.asset(
+                                        "assets/icons/icons8-add-100.png",
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary,
+                                        width: 25,
+                                        fit: BoxFit.fill,
+                                        height: 25),
+                                  ),
+                                )
                               ],
                             ),
-
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 30),
-                              child: Container(
-                                height: 50,
-                                width: 100,
-                                child: FloatingActionButton.extended(
-                                  heroTag: "patientPrescriptionAdd",
-                                  backgroundColor:
-                                      Theme.of(context).colorScheme.primary,
-                                  foregroundColor:
-                                      Theme.of(context).colorScheme.secondary,
-                                  onPressed: () async {
-                                    _formMedicine.currentState?.save();
-                                    if (_formMedicine.currentState
-                                            ?.validate() !=
-                                        false) {
-                                      Map<String, dynamic> objText = {
-                                        "medicineName": _formMedicine
-                                            .currentState
-                                            ?.value["medicineName"],
-                                        "medicineTime": _formMedicine
-                                            .currentState?.value["medicineTime"]
-                                      };
-                                      medicineList.add(objText);
-                                      setState(() {
-                                        medicineList;
-                                      });
-                                    }
-                                  },
-                                  icon: Image.asset("assets/icons/sign_in.png",
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondary,
-                                      width: 25,
-                                      fit: BoxFit.fill,
-                                      height: 25),
-                                  label: const Text('Add'),
-                                ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Container(
+                              height: 300,
+                              child: Column(
+                                children: <Widget>[
+                                  Row(
+                                    // mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Expanded(
+                                        flex: 3,
+                                        child: ClipRRect(
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(16.0)),
+                                          child: Container(
+                                            height: 50,
+                                            width: 200,
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            child: const Center(
+                                                child: Text('Medicine Name')),
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 2,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(16.0)),
+                                            child: Container(
+                                              height: 50,
+                                              width: 90,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                              child: const Center(
+                                                  child: Text(
+                                                'Medicine Time',
+                                                textAlign: TextAlign.center,
+                                              )),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 2,
+                                        child: ClipRRect(
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(16.0)),
+                                          child: Container(
+                                            height: 50,
+                                            width: 90,
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            child: const Center(
+                                                child: Text(
+                                              'Medicine Quantity',
+                                              textAlign: TextAlign.center,
+                                            )),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Expanded(
+                                    child: ListView.builder(
+                                        itemCount: medicineList.length,
+                                        shrinkWrap: true,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          // print(medicineList[index]
+                                          //     ['medicineName']);
+                                          return Padding(
+                                            padding: const EdgeInsets.all(0.0),
+                                            child: Container(
+                                              height: 50,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Expanded(
+                                                    flex: 3,
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.only(top: 5),
+                                                      child: ClipRRect(
+                                                        borderRadius:
+                                                            const BorderRadius
+                                                                    .all(
+                                                                Radius.circular(
+                                                                    16.0)),
+                                                        child: Container(
+                                                          height: 50,
+                                                          width: 180,
+                                                          color: Color.fromRGBO(
+                                                              234, 206, 242, 1),
+                                                          child: Center(
+                                                              child: Text(
+                                                            "${medicineList[index]['medicineName']}",
+                                                            style:
+                                                                Theme.of(context)
+                                                                    .textTheme
+                                                                    .bodyText1,
+                                                          )),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    flex: 2,
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.only(top: 5,left: 8,right: 10),
+                                                      child: ClipRRect(
+                                                        borderRadius:
+                                                            const BorderRadius
+                                                                    .all(
+                                                                Radius.circular(
+                                                                    16.0)),
+                                                        child: Container(
+                                                          height: 50,
+                                                          width: 110,
+                                                          color: Color.fromRGBO(
+                                                              234, 206, 242, 1),
+                                                          child: Center(
+                                                              child: Text(
+                                                            "${medicineList[index]['medicineTime']}",
+                                                            style:
+                                                                Theme.of(context)
+                                                                    .textTheme
+                                                                    .bodyText1,
+                                                          )),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    flex: 2,
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.only(top: 5,left: 3),
+                                                      child: ClipRRect(
+                                                        borderRadius:
+                                                            const BorderRadius.all(
+                                                                Radius.circular(
+                                                                    16.0)),
+                                                        child: Container(
+                                                          height: 50,
+                                                          width: 110,
+                                                          color: Color.fromRGBO(
+                                                              234, 206, 242, 1),
+                                                          child: Center(
+                                                              child: Text(
+                                                            "${medicineList[index]['medicineQuantity']}",
+                                                            style: Theme.of(context)
+                                                                .textTheme
+                                                                .bodyText1,
+                                                          )),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        }),
+                                  ),
+                                ],
                               ),
                             ),
-                            // Container(
-                            //   height: 300,
-                            //   child: Column(
-                            //     children: <Widget>[
-                            //       Row(
-                            //         // mainAxisAlignment: MainAxisAlignment.center,
-                            //         children: [
-                            //           Padding(
-                            //             padding: const EdgeInsets.only(right: 10),
-                            //             child: ClipRRect(
-                            //               borderRadius: const BorderRadius.all(Radius.circular(16.0)),
-                            //               child : Container(
-                            //                 height: 50,
-                            //                 width: 200,
-                            //                 color: Theme.of(context).primaryColor,
-                            //                 child: const Center(
-                            //                     child: Text('Medicine Name')),
-                            //               ),
-                            //             ),
-                            //           ),
-                            //           ClipRRect(
-                            //             borderRadius: const BorderRadius.all(Radius.circular(16.0)),
-                            //             child: Container(
-                            //               height: 50,
-                            //               width: 130,
-                            //               color: Theme.of(context).primaryColor,
-                            //               child: const Center(
-                            //                   child: Text('Medicine Time')),
-                            //             ),
-                            //           ),
-                            //         ],
-                            //       ),
-                            //       Expanded(
-                            //         child: ListView.builder(
-                            //             itemCount: medicineList.length,
-                            //             shrinkWrap: true,
-                            //             physics:
-                            //                 const NeverScrollableScrollPhysics(),
-                            //             itemBuilder:
-                            //                 (BuildContext context, int index) {
-                            //               // print(medicineList[index]
-                            //               //     ['medicineName']);
-                            //               return Padding(
-                            //                 padding: const EdgeInsets.all(8.0),
-                            //                 child: Container(
-                            //                   height: 50,
-                            //                   child: Row(
-                            //                     mainAxisAlignment:
-                            //                         MainAxisAlignment.center,
-                            //                     children: [
-                            //                       Padding(
-                            //                         padding: const EdgeInsets.only(right: 28,top: 2),
-                            //                         child: ClipRRect(
-                            //                           borderRadius: const BorderRadius.all(Radius.circular(16.0)),
-                            //                           child: Container(
-                            //                             height: 50,
-                            //                             width: 180,
-                            //                             color:  Color.fromRGBO(234, 206, 242,1),
-                            //
-                            //                             child: Center(
-                            //                                 child: Text(
-                            //                               "${medicineList[index]['medicineName']}",
-                            //                               style: Theme.of(context)
-                            //                                   .textTheme
-                            //                                   .bodyText1,
-                            //                             )),
-                            //                           ),
-                            //                         ),
-                            //                       ),
-                            //                       Padding(
-                            //                         padding: const EdgeInsets.only(right: 5,top: 2),
-                            //                         child: ClipRRect(
-                            //                           borderRadius: const BorderRadius.all(Radius.circular(16.0)),
-                            //                           child : Container(
-                            //                             height: 50,
-                            //                             width: 110,
-                            //                             color:  Color.fromRGBO(234, 206, 242,1),
-                            //                             child: Center(
-                            //                                 child: Text(
-                            //                               "${medicineList[index]['medicineTime']}",
-                            //                               style: Theme.of(context)
-                            //                                   .textTheme
-                            //                                   .bodyText1,
-                            //                             )),
-                            //                           ),
-                            //                         ),
-                            //                       ),
-                            //                     ],
-                            //                   ),
-                            //                 ),
-                            //               );
-                            //             }),
-                            //       ),
-                            //     ],
-                            //   ),
-                            // ),
-                            // const SizedBox(
-                            //   height: 20,
-                            // ),
+                            const SizedBox(
+                              height: 20,
+                            ),
                           ],
                         ),
                       ),
@@ -535,34 +600,66 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
-                  child: Container(
+                  child:   Container(
                     height: 300,
                     child: Column(
                       children: <Widget>[
                         Row(
                           // mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 10),
+                            Expanded(
+                              flex: 3,
                               child: ClipRRect(
-                                borderRadius: const BorderRadius.all(Radius.circular(16.0)),
-                                child : Container(
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(16.0)),
+                                child: Container(
                                   height: 50,
                                   width: 200,
-                                  color: Theme.of(context).primaryColor,
+                                  color:
+                                  Theme.of(context).primaryColor,
                                   child: const Center(
                                       child: Text('Medicine Name')),
                                 ),
                               ),
                             ),
-                            ClipRRect(
-                              borderRadius: const BorderRadius.all(Radius.circular(16.0)),
-                              child: Container(
-                                height: 50,
-                                width: 130,
-                                color: Theme.of(context).primaryColor,
-                                child: const Center(
-                                    child: Text('Medicine Time')),
+                            Expanded(
+                              flex: 2,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ClipRRect(
+                                  borderRadius:
+                                  const BorderRadius.all(
+                                      Radius.circular(16.0)),
+                                  child: Container(
+                                    height: 50,
+                                    width: 90,
+                                    color: Theme.of(context)
+                                        .primaryColor,
+                                    child: const Center(
+                                        child: Text(
+                                          'Medicine Time',
+                                          textAlign: TextAlign.center,
+                                        )),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 2,
+                              child: ClipRRect(
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(16.0)),
+                                child: Container(
+                                  height: 50,
+                                  width: 90,
+                                  color:
+                                  Theme.of(context).primaryColor,
+                                  child: const Center(
+                                      child: Text(
+                                        'Medicine Quantity',
+                                        textAlign: TextAlign.center,
+                                      )),
+                                ),
                               ),
                             ),
                           ],
@@ -578,47 +675,89 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                                 // print(medicineList[index]
                                 //     ['medicineName']);
                                 return Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.all(0.0),
                                   child: Container(
                                     height: 50,
                                     child: Row(
                                       mainAxisAlignment:
                                       MainAxisAlignment.center,
                                       children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(right: 28,top: 2),
-                                          child: ClipRRect(
-                                            borderRadius: const BorderRadius.all(Radius.circular(16.0)),
-                                            child: Container(
-                                              height: 50,
-                                              width: 180,
-                                              color:  Color.fromRGBO(234, 206, 242,1),
-
-                                              child: Center(
-                                                  child: Text(
-                                                    "${medicineList[index]['medicineName']}",
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyText1,
-                                                  )),
+                                        Expanded(
+                                          flex: 3,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(top: 5),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                              const BorderRadius
+                                                  .all(
+                                                  Radius.circular(
+                                                      16.0)),
+                                              child: Container(
+                                                height: 50,
+                                                width: 180,
+                                                color: Color.fromRGBO(
+                                                    234, 206, 242, 1),
+                                                child: Center(
+                                                    child: Text(
+                                                      "${medicineList[index]['medicineName']}",
+                                                      style:
+                                                      Theme.of(context)
+                                                          .textTheme
+                                                          .bodyText1,
+                                                    )),
+                                              ),
                                             ),
                                           ),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(right: 5,top: 2),
-                                          child: ClipRRect(
-                                            borderRadius: const BorderRadius.all(Radius.circular(16.0)),
-                                            child : Container(
-                                              height: 50,
-                                              width: 110,
-                                              color:  Color.fromRGBO(234, 206, 242,1),
-                                              child: Center(
-                                                  child: Text(
-                                                    "${medicineList[index]['medicineTime']}",
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyText1,
-                                                  )),
+                                        Expanded(
+                                          flex: 2,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(top: 5,left: 8,right: 10),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                              const BorderRadius
+                                                  .all(
+                                                  Radius.circular(
+                                                      16.0)),
+                                              child: Container(
+                                                height: 50,
+                                                width: 110,
+                                                color: Color.fromRGBO(
+                                                    234, 206, 242, 1),
+                                                child: Center(
+                                                    child: Text(
+                                                      "${medicineList[index]['medicineTime']}",
+                                                      style:
+                                                      Theme.of(context)
+                                                          .textTheme
+                                                          .bodyText1,
+                                                    )),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 2,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(top: 5,left: 3),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                              const BorderRadius.all(
+                                                  Radius.circular(
+                                                      16.0)),
+                                              child: Container(
+                                                height: 50,
+                                                width: 110,
+                                                color: Color.fromRGBO(
+                                                    234, 206, 242, 1),
+                                                child: Center(
+                                                    child: Text(
+                                                      "${medicineList[index]['medicineQuantity']}",
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyText1,
+                                                    )),
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -648,19 +787,16 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                                 name: 'password',
                                 decoration: dynamicInputDecoration(
                                   'Password',
-                                  Image.asset(
-                                      "assets/icons/at-sign-100.png",
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .primary,
+                                  Image.asset("assets/icons/at-sign-100.png",
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
                                       scale: 4,
                                       width: 15,
                                       height: 15),
                                 ),
                                 // valueTransformer: (text) => num.tryParse(text),
-                                validator: FormBuilderValidators.compose([
-                                  FormBuilderValidators.required(context)
-                                ]),
+                                validator: FormBuilderValidators.compose(
+                                    [FormBuilderValidators.required(context)]),
                               )),
                         ],
                       ),
@@ -1109,8 +1245,8 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
       EthereumAddress patientAddress,
       String expiryDateTime,
       Credentials credentials) async {
-    var transactionHash =
-        await Provider.of<WalletModel>(context, listen: false).writeContract(
+    var transactionHash = await Provider.of<WalletModel>(context, listen: false)
+        .writeContract(
             "setPrescriptionRecordByDoctor",
             [
               _prescriptionRecordHash,
