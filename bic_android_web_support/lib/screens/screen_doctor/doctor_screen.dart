@@ -24,6 +24,7 @@ import '../Widgets/CustomCard.dart';
 import 'doctor_change_hospital.dart';
 import 'doctor_patient_list.dart';
 import 'doctor_patient_medical_view.dart';
+import 'doctor_prescription_form.dart';
 
 class DoctorRecordScreen extends StatefulWidget {
   static const routeName = '/doctor-record-screen';
@@ -417,6 +418,22 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                           width: 20,
                           height: 20,fit: BoxFit.contain,alignment: Alignment.center,),
                         cardText: 'View Medical Records for Patients',
+                      ),
+                      CustomCard(
+                        onPressed: () => {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DoctorPrescriptionForm(),
+                            ),
+                          )
+                        },
+                        imageAsset:
+                        Image.asset("assets/icons/icons8-hand-with-a-pill-100.png",
+                          color: Theme.of(context).primaryColor,
+                          width: 20,
+                          height: 20,fit: BoxFit.contain,alignment: Alignment.center,),
+                        cardText: 'Prescribe Medicine',
                       ),
                       CustomCard(
                         onPressed: () => {
