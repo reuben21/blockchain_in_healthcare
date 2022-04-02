@@ -55,9 +55,13 @@ class CustomCard extends StatelessWidget {
                   ),
 
                  Expanded(
+                   flex: 2,
                    child: Container(
-                     child: Text(this.cardText, textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 13,color: Theme.of(context).colorScheme.primary,fontWeight: FontWeight.bold)),
+                     child: Padding(
+                       padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                       child: Text(this.cardText, textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 13,color: Theme.of(context).colorScheme.primary,fontWeight: FontWeight.bold)),
+                     ),
                    ),
                  ),
 

@@ -29,13 +29,13 @@ class TabsScreen extends StatefulWidget {
 }
 
 class _TabsScreenState extends State<TabsScreen> {
-  late List<Map<String, Widget>> screen;
-
-  late List<Map<String, Object>> _pagesPatient = [
-    {'title': 'Record'},
-    {'title': 'Medicine'},
-    {'title': 'Wallet'}
+  List<Map<String, Widget>> screen = [
+    {'page': PatientRecordScreen()},
+    {'page': PrescriptionScreen()},
+    {'page': WalletView()}
   ];
+
+
 
   late final List<Map<String, Widget>> _screensPatient = [
     {'page': PatientRecordScreen()},

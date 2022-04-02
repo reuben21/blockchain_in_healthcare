@@ -429,12 +429,12 @@ class _WalletViewState extends State<WalletView> {
                           width: 185,
                           child: Card(
                             clipBehavior: Clip.antiAlias,
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  width: 2),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
+                            // shape: RoundedRectangleBorder(
+                            //   side: BorderSide(
+                            //       color: Theme.of(context).colorScheme.primary,
+                            //       width: 2),
+                            //   borderRadius: BorderRadius.circular(10),
+                            // ),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
@@ -477,12 +477,12 @@ class _WalletViewState extends State<WalletView> {
                           width: 185,
                           child: Card(
                             clipBehavior: Clip.antiAlias,
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  width: 2),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
+                            // shape: RoundedRectangleBorder(
+                            //   side: BorderSide(
+                            //       color: Theme.of(context).colorScheme.primary,
+                            //       width: 2),
+                            //   borderRadius: BorderRadius.circular(10),
+                            // ),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
@@ -530,12 +530,12 @@ class _WalletViewState extends State<WalletView> {
                           child: Card(
                             // color: Theme.of(context).colorScheme.primary,
                             clipBehavior: Clip.antiAlias,
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  width: 2),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
+                            // shape: RoundedRectangleBorder(
+                            //   side: BorderSide(
+                            //       color: Theme.of(context).colorScheme.primary,
+                            //       width: 2),
+                            //   borderRadius: BorderRadius.circular(10),
+                            // ),
 
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -579,12 +579,12 @@ class _WalletViewState extends State<WalletView> {
                           width: 185,
                           child: Card(
                             clipBehavior: Clip.antiAlias,
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  width: 2),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
+                            // shape: RoundedRectangleBorder(
+                            //   side: BorderSide(
+                            //       color: Theme.of(context).colorScheme.primary,
+                            //       width: 2),
+                            //   borderRadius: BorderRadius.circular(10),
+                            // ),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[

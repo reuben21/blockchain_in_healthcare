@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:bic_android_web_support/screens/screen_hospital/hospital_access_list.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../helpers/keys.dart' as keys;
@@ -16,6 +17,8 @@ import 'package:velocity_x/velocity_x.dart';
 import 'package:web3dart/credentials.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
+
+import '../Widgets/CustomCard.dart';
 
 class HospitalScreen extends StatefulWidget {
   static const routeName = '/hospital-screen';
@@ -33,6 +36,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
   late String doctorCount;
   late String hospitalIpfsHashData;
   late Map<String, dynamic> hospitalIpfsHash;
+
   @override
   void initState() {
     role = '';
@@ -98,12 +102,12 @@ class _HospitalScreenState extends State<HospitalScreen> {
         color: Theme.of(context).colorScheme.primary);
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        title: Center(child: const Text("Hospital Record")),
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Theme.of(context).colorScheme.primary,
+      //   elevation: 0,
+      //   automaticallyImplyLeading: false,
+      //   title: Center(child: const Text("Hospital Record")),
+      // ),
       body: SingleChildScrollView(
         child: SingleChildScrollView(
           child: Column(
@@ -141,11 +145,11 @@ class _HospitalScreenState extends State<HospitalScreen> {
                                 child: Card(
                                   clipBehavior: Clip.antiAlias,
                                   shape: RoundedRectangleBorder(
-                                    side: BorderSide(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                        width: 2),
+                                    // side: BorderSide(
+                                    //     color: Theme.of(context)
+                                    //         .colorScheme
+                                    //         .primary,
+                                    //     width: 2),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Column(
@@ -192,11 +196,11 @@ class _HospitalScreenState extends State<HospitalScreen> {
                                 child: Card(
                                   clipBehavior: Clip.antiAlias,
                                   shape: RoundedRectangleBorder(
-                                    side: BorderSide(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                        width: 2),
+                                    // side: BorderSide(
+                                    //     color: Theme.of(context)
+                                    //         .colorScheme
+                                    //         .primary,
+                                    //     width: 2),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Column(
@@ -239,58 +243,28 @@ class _HospitalScreenState extends State<HospitalScreen> {
                               ),
                             ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: Card(
-                              borderOnForeground: true,
-                              clipBehavior: Clip.antiAlias,
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                    width: 2),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  ListTile(
-                                    leading: Image.asset(
-                                        "assets/icons/checked-user-male-100.png",
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                        width: 35,
-                                        height: 35),
-                                    title:
-                                        Text("Role", style: textStyleForName),
-                                    subtitle: Text(
-                                      role!,
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        color: Colors.black.withOpacity(0.6),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
+                          Divider(
+                            height: 20,
+                            thickness: 2,
+                            indent: 15,
+                            endIndent: 15,
+                            color: Theme.of(context).colorScheme.primary,
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8),
                             child: Container(
                               width: double.infinity,
-                              height: 400,
+                              height: 440,
                               child: hospitalIpfsHash['hospitalName'] == ''
                                   ? Card(
                                       borderOnForeground: true,
                                       clipBehavior: Clip.antiAlias,
                                       shape: RoundedRectangleBorder(
-                                        side: BorderSide(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primary,
-                                            width: 2),
+                                        // side: BorderSide(
+                                        //     color: Theme.of(context)
+                                        //         .colorScheme
+                                        //         .primary,
+                                        //     width: 2),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: const ListTile(
@@ -306,16 +280,35 @@ class _HospitalScreenState extends State<HospitalScreen> {
                                       borderOnForeground: true,
                                       clipBehavior: Clip.antiAlias,
                                       shape: RoundedRectangleBorder(
-                                        side: BorderSide(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primary,
-                                            width: 2),
+                                        // side: BorderSide(
+                                        //     color: Theme.of(context)
+                                        //         .colorScheme
+                                        //         .primary,
+                                        //     width: 2),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: Column(
                                         mainAxisSize: MainAxisSize.min,
                                         children: <Widget>[
+                                          ListTile(
+                                            leading: Image.asset(
+                                                "assets/icons/checked-user-male-100.png",
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary,
+                                                width: 35,
+                                                height: 35),
+                                            title: Text("Role",
+                                                style: textStyleForName),
+                                            subtitle: Text(
+                                              role!,
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                color: Colors.black
+                                                    .withOpacity(0.6),
+                                              ),
+                                            ),
+                                          ),
                                           ListTile(
                                             leading: Image.asset(
                                                 "assets/icons/hospital-count-100.png",
@@ -324,7 +317,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
                                                     .primary,
                                                 width: 35,
                                                 height: 35),
-                                            title: Text('hospital Name',
+                                            title: Text('Hospital Name',
                                                 style: textStyleForName),
                                             subtitle: Text(
                                               hospitalName,
@@ -353,22 +346,6 @@ class _HospitalScreenState extends State<HospitalScreen> {
                                                       .withOpacity(0.6)),
                                             ),
                                           ),
-                                          // ListTile(
-                                          //   leading: Image.asset(
-                                          //       "assets/icons/phone-100.png",
-                                          //       color:
-                                          //       Theme.of(context).colorScheme.primary,
-                                          //       width: 35,
-                                          //       height: 35),
-                                          //   title:
-                                          //   Text('Phone No', style: textStyleForName),
-                                          //   subtitle: Text(
-                                          //     hospitalIpfsHash['hospital_phone_no'],
-                                          //     style: TextStyle(
-                                          //         fontSize: 20,
-                                          //         color: Colors.black.withOpacity(0.6)),
-                                          //   ),
-                                          // ),
 
                                           ListTile(
                                             leading: Image.asset(
@@ -385,7 +362,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
                                                       'hospitalPhoneNo']
                                                   .toString(),
                                               style: TextStyle(
-                                                  fontSize: 20,
+                                                  fontSize: 18,
                                                   color: Colors.black
                                                       .withOpacity(0.6)),
                                             ),
@@ -406,7 +383,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
                                               hospitalIpfsHash['origin']
                                                   .toString(),
                                               style: TextStyle(
-                                                  fontSize: 20,
+                                                  fontSize: 18,
                                                   color: Colors.black
                                                       .withOpacity(0.6)),
                                             ),
@@ -459,79 +436,72 @@ class _HospitalScreenState extends State<HospitalScreen> {
                         ],
                       ),
                     ),
-              Padding(
-                padding: const EdgeInsets.all(8),
-                child: Card(
-                  borderOnForeground: true,
-                  clipBehavior: Clip.antiAlias,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                        color: Theme.of(context).colorScheme.primary, width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      ListTile(
-                        trailing: Image.asset("assets/icons/forward-100.png",
-                            color: Theme.of(context).primaryColor,
-                            width: 25,
-                            height: 25),
-                        title: Text('Store or Update hospital on Blockchain',
-                            style: Theme.of(context).textTheme.bodyText1),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => HospitalDetailScreen(
-                                  // hospitalName: hospitalIpfsHash['hospital_name'],
-                                  // hospitalAge: hospitalIpfsHash['hospital_age'],
-                                  // hospitalAddress:
-                                  // hospitalIpfsHash['hospital_address'],
-                                  // hospitalGender: hospitalIpfsHash['hospital_gender'],
-                                  // hospitalPhoneNo:
-                                  // hospitalIpfsHash['hospital_phone_no'],
-                                  ),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
+              Divider(
+                height: 20,
+                thickness: 2,
+                indent: 15,
+                endIndent: 15,
+                color: Theme.of(context).colorScheme.primary,
               ),
-              Padding(
-                padding: const EdgeInsets.all(8),
-                child: Card(
-                  borderOnForeground: true,
-                  clipBehavior: Clip.antiAlias,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                        color: Theme.of(context).colorScheme.primary, width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      ListTile(
-                        trailing: Image.asset("assets/icons/forward-100.png",
-                            color: Theme.of(context).primaryColor,
-                            width: 25,
-                            height: 25),
-                        title: Text('Users To Approve',
-                            style: Theme.of(context).textTheme.bodyText1),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HospitalAccessList()),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
+              CarouselSlider(
+                options: CarouselOptions(
+                  height: 180.0,
+                  aspectRatio: 16 / 9,
+                  viewportFraction: 0.5,
+                  initialPage: 0,
+                  enableInfiniteScroll: true,
+                  reverse: false,
+                  autoPlay: true,
+                  autoPlayInterval: Duration(seconds: 3),
+                  autoPlayAnimationDuration: Duration(milliseconds: 800),
+                  autoPlayCurve: Curves.fastOutSlowIn,
+                  enlargeCenterPage: true,
+                  scrollDirection: Axis.horizontal,
                 ),
+                items: [
+                  CustomCard(
+                    onPressed: () => {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HospitalDetailScreen(
+                              // hospitalName: hospitalIpfsHash['hospital_name'],
+                              // hospitalAge: hospitalIpfsHash['hospital_age'],
+                              // hospitalAddress:
+                              // hospitalIpfsHash['hospital_address'],
+                              // hospitalGender: hospitalIpfsHash['hospital_gender'],
+                              // hospitalPhoneNo:
+                              // hospitalIpfsHash['hospital_phone_no'],
+                              ),
+                        ),
+                      )
+                    },
+                    imageAsset: Image.asset(
+                        "assets/icons/icons8-hospital-3-100.png",
+                        color: Theme.of(context).primaryColor,
+                        width: 20,
+                        height: 20),
+                    cardText: 'Store or Update Hospital on Blockchain',
+                  ),
+                  CustomCard(
+                    onPressed: () => {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => HospitalAccessList()),
+                      )
+                    },
+                    imageAsset: Image.asset(
+                        "assets/icons/icons8-access-100.png",
+                        color: Theme.of(context).primaryColor,
+                        width: 20,
+                        height: 20),
+                    cardText: 'Users To Approve',
+                  ),
+
+                ].toList(),
               ),
+
             ],
           ),
         ),

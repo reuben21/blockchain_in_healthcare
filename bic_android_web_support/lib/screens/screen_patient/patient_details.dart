@@ -57,8 +57,11 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
   Future<void> getWalletFromDatabase() async {
     var dbResponse = await WalletSharedPreference.getWalletDetails();
     walletAdd = dbResponse!['walletAddress'].toString();
+
     setState(() {
       walletAdd;
+      hospitalAddress.text = widget.patientHospitalAddress!;
+      doctorAddress.text = widget.patientDoctorAddress!;
     });
   }
 
@@ -426,6 +429,7 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
     );
   }
 
+
   Future<void> executeTransaction(
       String patientName,
       String ipfsHash,
@@ -482,6 +486,31 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
     }
   }
 
+  InputDecoration dynamicInputDecoration(String labelText, Image? icon) {
+    return InputDecoration(
+      // helperText: 'hello',
+      labelText: labelText,
+      prefixIcon: icon,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      labelStyle: const TextStyle(
+        color: Color(0xFF6200EE),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Color(0xFF6200EE)),
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Color(0xFF6200EE)),
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Color(0xFF6200EE)),
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+    );
+  }
   Widget formBuilderTextFieldWidget(
       TextInputType inputTextType,
       String initialValue,
@@ -664,28 +693,106 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                                 context),
                                           ])),
                                   Padding(
-                                      padding: const EdgeInsets.all(15),
-                                      child: formBuilderTextFieldWidget(
-                                          TextInputType.number,
-                                          widget.patientAge.toString() == ''
-                                              ? "22"
-                                              : widget.patientAge.toString(),
-                                          'patient_age',
-                                          'Patient Age',
-                                          Image.asset(
-                                              "assets/icons/year-view-100.png",
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                              scale: 4,
-                                              width: 15,
-                                              height: 15),
-                                          false,
-                                          [
-                                            FormBuilderValidators.required(
-                                                context),
-                                          ])),
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: FormBuilderDateTimePicker(
+                                      name: 'dateOfBirth',
+                                      // onChanged: _onChanged,
+                                      inputType: InputType.date,
+                                      decoration: dynamicInputDecoration(
+                                        'Date of Birth',
+                                        Image.asset("assets/icons/key-100.png",
+                                            color:
+                                            Theme.of(context).colorScheme.primary,
+                                            scale: 4,
+                                            width: 15,
+                                            height: 15),
+                                      ),
 
+                                      initialValue: DateTime.now(),
+                                      // enabled: true,
+                                    ),
+                                  ),
+                                  // Padding(
+                                  //     padding: const EdgeInsets.all(15),
+                                  //     child: formBuilderTextFieldWidget(
+                                  //         TextInputType.number,
+                                  //         widget.patientAge.toString() == ''
+                                  //             ? "22"
+                                  //             : widget.patientAge.toString(),
+                                  //         'patient_age',
+                                  //         'Patient Age',
+                                  //         Image.asset(
+                                  //             "assets/icons/year-view-100.png",
+                                  //             color: Theme.of(context)
+                                  //                 .colorScheme
+                                  //                 .primary,
+                                  //             scale: 4,
+                                  //             width: 15,
+                                  //             height: 15),
+                                  //         false,
+                                  //         [
+                                  //           FormBuilderValidators.required(
+                                  //               context),
+                                  //         ])),
+                                  Padding(
+                                    padding: const EdgeInsets.all(15),
+                                    child: FormBuilderDropdown(
+                                      initialValue: 'Female',
+                                      name: 'patient_gender',
+                                      decoration: InputDecoration(
+                                        labelText: "Gender",
+                                        prefixIcon: Image.asset(
+                                            "assets/icons/icons8-gender-100.png",
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            scale: 4,
+                                            width: 15,
+                                            height: 15),
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(25.0),
+                                        ),
+                                        labelStyle: const TextStyle(
+                                          color: Color(0xFF6200EE),
+                                        ),
+                                        errorBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color(0xFF6200EE)),
+                                          borderRadius:
+                                          BorderRadius.circular(25.0),
+                                        ),
+                                        focusedErrorBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color(0xFF6200EE)),
+                                          borderRadius:
+                                          BorderRadius.circular(25.0),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color(0xFF6200EE)),
+                                          borderRadius:
+                                          BorderRadius.circular(25.0),
+                                        ),
+                                      ),
+                                      // initialValue: 'Male',
+
+                                      allowClear: true,
+
+                                      validator: FormBuilderValidators.compose([
+                                        FormBuilderValidators.required(context)
+                                      ]),
+                                      items: [
+                                        'Male',
+                                        'Female',
+                                      ]
+                                          .map((gender) => DropdownMenuItem(
+                                        value: gender,
+                                        child: Text('$gender'),
+                                      ))
+                                          .toList(),
+                                    ),
+                                  ),
                                   Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
@@ -767,11 +874,15 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                         doctorAddress.text,
                                     "patient_address": _formKey
                                         .currentState?.value["patient_address"],
-                                    "patient_age": _formKey
-                                        .currentState?.value["patient_age"],
+                                    "patient_dateOfBirth": _formKey
+                                        .currentState?.value["dateOfBirth"].toString(),
                                     "patient_phone_no": _formKey.currentState
                                         ?.value["patient_phone_no"],
+                                    "patient_gender": _formKey.currentState
+                                        ?.value["patient_gender"],
+
                                     "wallet_address": walletAdd,
+
                                     // "lastName4": ["Coutinho", "Coutinho", "Coutinho"],
                                     // "age": 30
                                   };

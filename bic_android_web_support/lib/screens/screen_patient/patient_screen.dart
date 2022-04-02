@@ -107,12 +107,12 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
         color: Theme.of(context).colorScheme.primary);
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        title: const Text("Patient Record"),
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Theme.of(context).colorScheme.primary,
+      //   elevation: 0,
+      //   automaticallyImplyLeading: false,
+      //   title: const Text("Patient Record"),
+      // ),
       body: SingleChildScrollView(
         child: Container(
           child: Column(
@@ -130,12 +130,12 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                       ? Card(
                           borderOnForeground: true,
                           clipBehavior: Clip.antiAlias,
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(
-                                color: Theme.of(context).colorScheme.primary,
-                                width: 2),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
+                          // shape: RoundedRectangleBorder(
+                          //   side: BorderSide(
+                          //       color: Theme.of(context).colorScheme.primary,
+                          //       width: 2),
+                          //   borderRadius: BorderRadius.circular(10),
+                          // ),
                           child: const ListTile(
                             leading: Icon(Icons.arrow_drop_down_circle),
                             title: Text(
@@ -147,12 +147,12 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                       : Card(
                           borderOnForeground: true,
                           clipBehavior: Clip.antiAlias,
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(
-                                color: Theme.of(context).colorScheme.primary,
-                                width: 2),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
+                          // shape: RoundedRectangleBorder(
+                          //   side: BorderSide(
+                          //       color: Theme.of(context).colorScheme.primary,
+                          //       width: 2),
+                          //   borderRadius: BorderRadius.circular(10),
+                          // ),
                           child: SingleChildScrollView(
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -191,7 +191,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
 
                                 ListTile(
                                   leading: Image.asset(
-                                      "assets/icons/name-100.png",
+                                      "assets/icons/icons8-hospital-3-100.png",
                                       color:
                                           Theme.of(context).colorScheme.primary,
                                       width: 35,
@@ -199,7 +199,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                                   title: Text('Hospital Address',
                                       style: textStyleForName),
                                   subtitle: Text(
-                                    patientIpfsHash['patient_hospital_address'],
+                                    patientIpfsHash['patient_hospital_address'].toString().substring(0,5)+"...."+patientIpfsHash['patient_hospital_address'].toString().lastChars(4),
                                     style: TextStyle(
                                         fontSize: 20,
                                         color: Colors.black.withOpacity(0.6)),
@@ -207,7 +207,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                                 ),
                                 ListTile(
                                   leading: Image.asset(
-                                      "assets/icons/name-100.png",
+                                      "assets/icons/icons8-medical-doctor-100.png",
                                       color:
                                           Theme.of(context).colorScheme.primary,
                                       width: 35,
@@ -215,7 +215,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                                   title: Text('Doctor Address',
                                       style: textStyleForName),
                                   subtitle: Text(
-                                    patientIpfsHash['patient_doctor_address'],
+                                    patientIpfsHash['patient_doctor_address'].toString().substring(0,5)+"...."+patientIpfsHash['patient_doctor_address'].toString().lastChars(4),
                                     style: TextStyle(
                                         fontSize: 20,
                                         color: Colors.black.withOpacity(0.6)),
@@ -237,23 +237,51 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                                         color: Colors.black.withOpacity(0.6)),
                                   ),
                                 ),
-                                ListTile(
-                                  leading: Image.asset(
-                                      "assets/icons/year-view-100.png",
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      width: 35,
-                                      height: 35),
-                                  title: Text(
-                                    'Age',
-                                    style: textStyleForName,
-                                  ),
-                                  subtitle: Text(
-                                    patientIpfsHash['patient_age'],
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.black.withOpacity(0.6)),
-                                  ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: ListTile(
+                                        leading: Image.asset(
+                                            "assets/icons/year-view-100.png",
+                                            color:
+                                                Theme.of(context).colorScheme.primary,
+                                            width: 35,
+                                            height: 35),
+                                        title: Text(
+                                          'Date Of Birth',
+                                          style: textStyleForName,
+                                        ),
+                                        subtitle: Text(
+                                          DateTime.parse(patientIpfsHash['patient_dateOfBirth'].toString()).day.toString()+"-"
+                                              +DateTime.parse(patientIpfsHash['patient_dateOfBirth'].toString()).month.toString()+"-"
+                                              +DateTime.parse(patientIpfsHash['patient_dateOfBirth'].toString()).year.toString(),
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.black.withOpacity(0.6)),
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: ListTile(
+                                        leading: Image.asset(
+                                            "assets/icons/icons8-gender-100.png",
+                                            color:
+                                            Theme.of(context).colorScheme.primary,
+                                            width: 35,
+                                            height: 35),
+                                        title: Text(
+                                          'Gender',
+                                          style: textStyleForName,
+                                        ),
+                                        subtitle: Text(
+                                          patientIpfsHash['patient_gender'].toString(),
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.black.withOpacity(0.6)),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                                 ListTile(
                                   leading: Image.asset(
@@ -315,12 +343,13 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                         ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(6.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [],
-                ),
+              Divider(
+
+                height: 20,
+                thickness: 2,
+                indent: 15,
+                endIndent: 15,
+                color: Theme.of(context).colorScheme.primary,
               ),
               CarouselSlider(
                 options: CarouselOptions(
@@ -465,4 +494,8 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
       ),
     );
   }
+}
+
+extension E on String {
+  String lastChars(int n) => substring(length - n);
 }

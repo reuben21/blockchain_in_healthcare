@@ -783,6 +783,7 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                               padding: const EdgeInsets.all(15),
                               child: FormBuilderTextField(
                                 initialValue: 'Password@123',
+                                obscureText: true,
                                 maxLines: 1,
                                 name: 'password',
                                 decoration: dynamicInputDecoration(
