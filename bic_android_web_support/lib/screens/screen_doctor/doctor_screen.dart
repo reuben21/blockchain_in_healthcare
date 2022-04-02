@@ -24,7 +24,6 @@ import '../Widgets/CustomCard.dart';
 import 'doctor_change_hospital.dart';
 import 'doctor_patient_list.dart';
 import 'doctor_patient_medical_view.dart';
-import 'doctor_prescription_form.dart';
 
 class DoctorRecordScreen extends StatefulWidget {
   static const routeName = '/doctor-record-screen';
@@ -191,7 +190,7 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                                     role.toString(),
                                     style: GoogleFonts.montserrat(
                     color: Colors.black.withOpacity(0.6),
-                    fontSize: 18,
+                    fontSize: 15,
                   ),
                                   ),
                                 ),
@@ -208,7 +207,7 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                                     doctorIpfsHash['doctor_name'] ,
                                     style: GoogleFonts.montserrat(
                     color: Colors.black.withOpacity(0.6),
-                    fontSize: 18,
+                    fontSize: 15,
                   ),
                                   ),
                                 ),
@@ -227,7 +226,7 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                                           doctorIpfsHash['doctor_age'],
                                           style: GoogleFonts.montserrat(
                     color: Colors.black.withOpacity(0.6),
-                    fontSize: 18,
+                    fontSize: 15,
                   ),
                                         ),
                                       ),
@@ -248,7 +247,7 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                                           doctorIpfsHash['doctor_gender'],
                                           style: GoogleFonts.montserrat(
                     color: Colors.black.withOpacity(0.6),
-                    fontSize: 18,
+                    fontSize: 15,
                   ),
                                         ),
                                       ),
@@ -268,7 +267,7 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                                     doctorIpfsHash['doctor_address'],
                                     style: GoogleFonts.montserrat(
                     color: Colors.black.withOpacity(0.6),
-                    fontSize: 18,
+                    fontSize: 15,
                   ),
                                   ),
                                 ),
@@ -285,7 +284,7 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                                     doctorIpfsHash['hospital_address'].toString().substring(0,4)+"...."+doctorIpfsHash['hospital_address'].toString().lastChars(4),
                                     style: GoogleFonts.montserrat(
                     color: Colors.black.withOpacity(0.6),
-                    fontSize: 18,
+                    fontSize: 15,
                   ),
                                   ),
                                 ),
@@ -303,7 +302,7 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                                     doctorIpfsHash['doctor_phone_no'],
                                     style: GoogleFonts.montserrat(
                     color: Colors.black.withOpacity(0.6),
-                    fontSize: 18,
+                    fontSize: 15,
                   ),
                                   ),
                                 ),
@@ -320,7 +319,7 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                                     doctorIpfsHashData,
                                     style: GoogleFonts.montserrat(
                     color: Colors.black.withOpacity(0.6),
-                    fontSize: 18,
+                    fontSize: 15,
                   ),
                                   ),
                                   onTap: () {
@@ -424,7 +423,8 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => DoctorPrescriptionForm(),
+                              builder: (context) => DoctorPatientMedicalRecordView(
+                                  hospitalAddress: doctorProvider.hex),
                             ),
                           )
                         },

@@ -5,7 +5,7 @@ class CustomCardWallet extends StatelessWidget {
 
   final VoidCallback onPressed;
   final String cardText;
-  final Image imageAsset;
+  final Widget imageAsset;
 
   const CustomCardWallet({
     required this.onPressed,
@@ -48,7 +48,7 @@ class CustomCardWallet extends StatelessWidget {
                           shape: BoxShape.circle,
                           color: Theme.of(context).colorScheme.primaryVariant),
                       child: Padding(
-                        padding: const EdgeInsets.all(10.0),
+                        padding: const EdgeInsets.all(15.0),
                         child:imageAsset,
                       ),
                     ),

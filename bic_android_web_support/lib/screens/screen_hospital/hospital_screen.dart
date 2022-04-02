@@ -308,7 +308,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
                                               style: GoogleFonts.montserrat(
                                                 color: Colors.black
                                                     .withOpacity(0.6),
-                                                fontSize: 18,
+                                                fontSize: 15,
                                               ),
                                             ),
                                           ),
@@ -327,7 +327,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
                                               style: GoogleFonts.montserrat(
                                                 color: Colors.black
                                                     .withOpacity(0.6),
-                                                fontSize: 18,
+                                                fontSize: 15,
                                               ),
                                             ),
                                           ),
@@ -346,7 +346,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
                                               style: GoogleFonts.montserrat(
                                                 color: Colors.black
                                                     .withOpacity(0.6),
-                                                fontSize: 18,
+                                                fontSize: 15,
                                               ),
                                             ),
                                           ),
@@ -373,7 +373,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
                                                         GoogleFonts.montserrat(
                                                       color: Colors.black
                                                           .withOpacity(0.6),
-                                                      fontSize: 18,
+                                                      fontSize: 15,
                                                     ),
                                                   ),
                                                 ),
@@ -420,7 +420,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
                                               style: GoogleFonts.montserrat(
                                                 color: Colors.black
                                                     .withOpacity(0.6),
-                                                fontSize: 18,
+                                                fontSize: 15,
                                               ),
                                             ),
                                             onTap: () {

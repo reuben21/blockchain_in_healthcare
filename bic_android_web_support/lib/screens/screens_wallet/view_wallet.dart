@@ -451,8 +451,8 @@ class _WalletViewState extends State<WalletView> {
                               "assets/icons/hospital-count-100.png",
                               color:
                               Theme.of(context).colorScheme.primary,
-                              width: 50,
-                              height: 50)),
+                              width: 25,
+                              height: 25)),
                         ),
                         Expanded(
                           child: CustomCardWallet(onPressed: (){}, cardText: "Pharmacy Count: ${countForEntities[3].toString()} ", imageAsset: Image.asset(
@@ -485,11 +485,8 @@ class _WalletViewState extends State<WalletView> {
                     children: <Widget>[
                       ListTile(
 
-                  leading: Image.asset("assets/icons/icons8-transaction-100.png",
-                      color: Theme.of(context).primaryColor,
-                      width: 25,
-                      height: 25),
-                        trailing: Image.asset("assets/icons/forward-100.png",
+
+                        trailing: Image.asset("assets/icons/icons8-transaction-100.png",
                             color: Theme.of(context).primaryColor,
                             width: 25,
                             height: 25),
@@ -524,11 +521,8 @@ class _WalletViewState extends State<WalletView> {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       ListTile(
-                        leading:Image.asset("assets/icons/icons8-logout-100.png",
-                            color: Theme.of(context).primaryColor,
-                            width: 25,
-                            height: 25) ,
-                        trailing: Image.asset("assets/icons/forward-100.png",
+
+                        trailing: Image.asset("assets/icons/icons8-logout-100.png",
                             color: Theme.of(context).primaryColor,
                             width: 25,
                             height: 25),

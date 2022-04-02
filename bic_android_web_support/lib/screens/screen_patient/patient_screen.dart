@@ -2,6 +2,7 @@ import 'package:bic_android_web_support/screens/screen_patient/patient_details.d
 import 'package:bic_android_web_support/screens/screen_patient/patient_medical_record.dart';
 import 'package:bic_android_web_support/screens/screen_patient/patient_medical_record_creation.dart';
 import 'package:bic_android_web_support/screens/screen_patient/patient_medical_record_view.dart';
+import 'package:bic_android_web_support/screens/screen_patient/prescription_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -178,7 +179,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                                       role.toString(),
                                       style: GoogleFonts.montserrat(
                     color: Colors.black.withOpacity(0.6),
-                    fontSize: 18,
+                    fontSize: 15,
                   ),
                                     ),
                                   ),
@@ -195,7 +196,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                                       patientName,
                                       style: GoogleFonts.montserrat(
                     color: Colors.black.withOpacity(0.6),
-                    fontSize: 18,
+                    fontSize: 15,
                   ),
                                     ),
                                   ),
@@ -213,7 +214,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                                       patientIpfsHash['patient_hospital_address'].toString().substring(0,5)+"...."+patientIpfsHash['patient_hospital_address'].toString().lastChars(4),
                                       style: GoogleFonts.montserrat(
                     color: Colors.black.withOpacity(0.6),
-                    fontSize: 18,
+                    fontSize: 15,
                   ),
                                     ),
                                   ),
@@ -230,7 +231,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                                       patientIpfsHash['patient_doctor_address'].toString().substring(0,5)+"...."+patientIpfsHash['patient_doctor_address'].toString().lastChars(4),
                                       style: GoogleFonts.montserrat(
                     color: Colors.black.withOpacity(0.6),
-                    fontSize: 18,
+                    fontSize: 15,
                   ),
                                     ),
                                   ),
@@ -247,7 +248,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                                       patientIpfsHash['patient_address'],
                                       style: GoogleFonts.montserrat(
                     color: Colors.black.withOpacity(0.6),
-                    fontSize: 18,
+                    fontSize: 15,
                   ),
                                     ),
                                   ),
@@ -271,7 +272,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                                                 +DateTime.parse(patientIpfsHash['patient_dateOfBirth'].toString()).year.toString(),
                                             style: GoogleFonts.montserrat(
                     color: Colors.black.withOpacity(0.6),
-                    fontSize: 18,
+                    fontSize: 15,
                   ),
                                           ),
                                         ),
@@ -292,7 +293,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                                             patientIpfsHash['patient_gender'].toString(),
                                             style: GoogleFonts.montserrat(
                     color: Colors.black.withOpacity(0.6),
-                    fontSize: 18,
+                    fontSize: 15,
                   ),
                                           ),
                                         ),
@@ -312,7 +313,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                                       patientIpfsHash['patient_phone_no'],
                                       style: GoogleFonts.montserrat(
                     color: Colors.black.withOpacity(0.6),
-                    fontSize: 18,
+                    fontSize: 15,
                   ),
                                     ),
                                   ),
@@ -329,7 +330,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                                       patientIpfsHashData,
                                       style: GoogleFonts.montserrat(
                     color: Colors.black.withOpacity(0.6),
-                    fontSize: 18,
+                    fontSize: 15,
                   ),
                                     ),
                                     onTap: () {
@@ -419,7 +420,22 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                         height: 20) ,
                     cardText: 'View Medical Records',
                   ),
-
+                  CustomCard(
+                    onPressed: () => {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PrescriptionScreen(),
+                        ),
+                      )
+                    },
+                    imageAsset:
+                    Image.asset("assets/icons/icons8-file-prescription-100.png",
+                        color: Theme.of(context).primaryColor,
+                        width: 20,
+                        height: 20) ,
+                    cardText: 'View Prescriptions',
+                  ),
                 ].toList(),
               ),
               // SizedBox(

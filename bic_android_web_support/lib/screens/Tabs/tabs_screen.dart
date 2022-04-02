@@ -110,7 +110,7 @@ class _TabsScreenState extends State<TabsScreen> {
       // ),
       body: screen[_selectPageIndex]['page'],
       bottomNavigationBar: BottomNavyBar(
-        // backgroundColor: Theme.of(context).bottomAppBarColor,
+        backgroundColor: Theme.of(context).colorScheme.primaryVariant,
         // unselectedItemColor: Colors.white,
 
         showElevation: true,
@@ -121,13 +121,13 @@ class _TabsScreenState extends State<TabsScreen> {
           BottomNavyBarItem(
               activeColor: Theme.of(context).primaryColor,
               icon: Image.asset(
-                "assets/icons/medical_history.png",
+                "assets/icons/icons8-home-100.png",
                 color: Theme.of(context).primaryColor,
                 width: 32,
                 height: 32,
               ),
               title: Text(
-                'Record',
+                'Home',
                 style: TextStyle(color: Theme.of(context).primaryColor),
               )),
           BottomNavyBarItem(
