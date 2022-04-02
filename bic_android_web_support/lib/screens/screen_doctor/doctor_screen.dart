@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:bic_android_web_support/databases/wallet_shared_preferences.dart';
 import 'package:bic_android_web_support/providers/provider_doctor/model_doctor.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../helpers/keys.dart' as keys;
@@ -152,12 +153,12 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                         ? Card(
                             // borderOnForeground: true,
                             clipBehavior: Clip.antiAlias,
-                            // shape: RoundedRectangleBorder(
-                            //   side: BorderSide(
-                            //       color: Theme.of(context).colorScheme.primary,
-                            //       width: 2),
-                            //   borderRadius: BorderRadius.circular(10),
-                            // ),
+                            shape: RoundedRectangleBorder(
+                              // side: BorderSide(
+                              //     color: Theme.of(context).colorScheme.primary,
+                              //     width: 2),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                             child: const ListTile(
                               leading: Icon(Icons.arrow_drop_down_circle),
                               title: Text(
@@ -169,12 +170,12 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                         : Card(
                             // borderOnForeground: true,
                             clipBehavior: Clip.antiAlias,
-                            // shape: RoundedRectangleBorder(
-                            //   side: BorderSide(
-                            //       color: Theme.of(context).colorScheme.primary,
-                            //       width: 2),
-                            //   borderRadius: BorderRadius.circular(10),
-                            // ),
+                            shape: RoundedRectangleBorder(
+                              // side: BorderSide(
+                              //     color: Theme.of(context).colorScheme.primary,
+                              //     width: 2),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
@@ -187,7 +188,10 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                                   title: Text('Role', style: textStyleForName),
                                   subtitle: Text(
                                     role.toString(),
-                                    style: TextStyle(fontSize: 18, color: Colors.black),
+                                    style: GoogleFonts.montserrat(
+                    color: Colors.black.withOpacity(0.6),
+                    fontSize: 18,
+                  ),
                                   ),
                                 ),
                                 ListTile(
@@ -201,9 +205,10 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                                       style: textStyleForName),
                                   subtitle: Text(
                                     doctorIpfsHash['doctor_name'] ,
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.black.withOpacity(0.6)),
+                                    style: GoogleFonts.montserrat(
+                    color: Colors.black.withOpacity(0.6),
+                    fontSize: 18,
+                  ),
                                   ),
                                 ),
                                 Row(
@@ -219,9 +224,10 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                                         title: Text('Age', style: textStyleForName),
                                         subtitle: Text(
                                           doctorIpfsHash['doctor_age'],
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              color: Colors.black.withOpacity(0.6)),
+                                          style: GoogleFonts.montserrat(
+                    color: Colors.black.withOpacity(0.6),
+                    fontSize: 18,
+                  ),
                                         ),
                                       ),
                                     ),
@@ -239,9 +245,10 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                                         ),
                                         subtitle: Text(
                                           doctorIpfsHash['doctor_gender'],
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              color: Colors.black.withOpacity(0.6)),
+                                          style: GoogleFonts.montserrat(
+                    color: Colors.black.withOpacity(0.6),
+                    fontSize: 18,
+                  ),
                                         ),
                                       ),
                                     ),
@@ -258,9 +265,10 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                                       Text('Address', style: textStyleForName),
                                   subtitle: Text(
                                     doctorIpfsHash['doctor_address'],
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.black.withOpacity(0.6)),
+                                    style: GoogleFonts.montserrat(
+                    color: Colors.black.withOpacity(0.6),
+                    fontSize: 18,
+                  ),
                                   ),
                                 ),
                                 ListTile(
@@ -274,9 +282,10 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                                   Text('Hospital Address', style: textStyleForName),
                                   subtitle: Text(
                                     doctorIpfsHash['hospital_address'].toString().substring(0,4)+"...."+doctorIpfsHash['hospital_address'].toString().lastChars(4),
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.black.withOpacity(0.6)),
+                                    style: GoogleFonts.montserrat(
+                    color: Colors.black.withOpacity(0.6),
+                    fontSize: 18,
+                  ),
                                   ),
                                 ),
 
@@ -291,9 +300,10 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                                       Text('Phone No', style: textStyleForName),
                                   subtitle: Text(
                                     doctorIpfsHash['doctor_phone_no'],
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.black.withOpacity(0.6)),
+                                    style: GoogleFonts.montserrat(
+                    color: Colors.black.withOpacity(0.6),
+                    fontSize: 18,
+                  ),
                                   ),
                                 ),
                                 ListTile(
@@ -307,9 +317,10 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                                       style: textStyleForName),
                                   subtitle: Text(
                                     doctorIpfsHashData,
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.black.withOpacity(0.6)),
+                                    style: GoogleFonts.montserrat(
+                    color: Colors.black.withOpacity(0.6),
+                    fontSize: 18,
+                  ),
                                   ),
                                   onTap: () {
                                     String _url =
@@ -317,36 +328,20 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                                     _launchURL(_url);
                                   },
                                 ),
-                                // ListTile(
-                                //
-                                //   trailing: Image.asset("assets/icons/forward-100.png",
-                                //       color: Theme.of(context).primaryColor,
-                                //       width: 25,
-                                //       height: 25),
-                                //   title: Text('Store your Pharmacy on Blockchain',
-                                //       style: Theme.of(context).textTheme.bodyText1),
-                                //   onTap: () {
-                                //     Navigator.push(
-                                //       context,
-                                //       MaterialPageRoute(
-                                //         builder: (context) => PharmacyStoreDetails(),
-                                //       ),
-                                //     );
-                                //   },
-                                // ),
+                               
                               ],
                             ),
                           ),
                   ),
                 ),
-                Divider(
-
-                  height: 20,
-                  thickness: 2,
-                  indent: 15,
-                  endIndent: 15,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
+                // Divider(
+                //
+                //   height: 20,
+                //   thickness: 2,
+                //   indent: 15,
+                //   endIndent: 15,
+                //   color: Theme.of(context).colorScheme.primary,
+                // ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 20),
                   child: CarouselSlider(
@@ -428,9 +423,10 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                         Navigator.push(
                         context,
                         MaterialPageRoute(
-                        builder: (context) => DoctorPatientMedicalRecordView(hospitalAddress:doctorProvider.hex),
-                        ),
-                        )
+                        builder: (context) => DoctorPatientMedicalRecordView(
+                                      hospitalAddress: doctorProvider.hex),
+                            ),
+                          )
                         },
                         imageAsset:
                         Image.asset("assets/icons/icons8-list-100.png",
@@ -448,27 +444,7 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
             ),
           ),
         ),
-        // child: Container(
-        //   child: FloatingActionButton.extended(
-        //     heroTag: "PatientDetails",
-        //     backgroundColor: Theme.of(context).colorScheme.primary,
-        //     foregroundColor: Theme.of(context).colorScheme.secondary,
-        //     onPressed: () async {
-        //       Navigator.push(
-        //         context,
-        //         MaterialPageRoute(
-        //           builder: (context) => DoctorDetails(),
-        //         ),
-        //       );
-        //     },
-        //     icon: Image.asset("assets/icons/sign_in.png",
-        //         color: Theme.of(context).colorScheme.secondary,
-        //         width: 25,
-        //         fit: BoxFit.fill,
-        //         height: 25),
-        //     label: const Text('Log In'),
-        //   ),
-        // ),
+       
       ),
     );
   }

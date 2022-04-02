@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bic_android_web_support/databases/wallet_shared_preferences.dart';
 import 'package:bic_android_web_support/providers/credentials.dart';
 import 'package:bic_android_web_support/providers/crypto_api.dart';
@@ -43,12 +45,13 @@ Future<void> main() async {
   await Firebase.initializeApp();
 
   await WalletSharedPreference.init();
-
+  ErrorWidget.builder = (FlutterErrorDetails details) => Container();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   late Credentials credentials;
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -106,7 +109,6 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSwatch().copyWith(
               primary: Color(0xff732eca),
               secondary: Color(0xfff5f7ec),
-
               primaryVariant: Color(0xffEACEF2),
             ),
             backgroundColor: Color(0xFFf5f7ec),
@@ -115,7 +117,7 @@ class MyApp extends StatelessWidget {
                   bodyText1: TextStyle(
                       color: Color(0xff732eca),
                       fontSize: 16,
-                      fontFamily: 'Handlee'),
+                      fontFamily: 'Mons'),
                   bodyText2: TextStyle(
                     color: Color(0xFFf5f7ec),
                     fontFamily: 'Handlee',

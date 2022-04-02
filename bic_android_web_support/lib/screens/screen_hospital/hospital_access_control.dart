@@ -14,7 +14,7 @@ import 'package:web3dart/credentials.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
 
-import 'grant_access_to_doctor_screen.dart';
+import 'grant_access_screen.dart';
 
 class HospitalAccessControl extends StatefulWidget {
   static const routeName = '/hospital-access-control-screen';

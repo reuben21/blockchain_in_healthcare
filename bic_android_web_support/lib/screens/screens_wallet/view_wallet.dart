@@ -1,5 +1,7 @@
 import 'package:bic_android_web_support/databases/wallet_shared_preferences.dart';
 import 'package:bic_android_web_support/providers/crypto_api.dart';
+import 'package:bic_android_web_support/screens/Widgets/CustomCard.dart';
+import 'package:bic_android_web_support/screens/Widgets/CustomCardWallet.dart';
 import 'package:bic_android_web_support/screens/screens_wallet/transaction_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -240,14 +242,15 @@ class _WalletViewState extends State<WalletView> {
                               ),
                             ),
                             Card(
+
                                 borderOnForeground: true,
                                 clipBehavior: Clip.antiAlias,
                                 shape: RoundedRectangleBorder(
-                                  side: BorderSide(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondary,
-                                      width: 1),
+                                  // side: BorderSide(
+                                  //     color: Theme.of(context)
+                                  //         .colorScheme
+                                  //         .secondary,
+                                  //     width: 1),
                                   borderRadius: BorderRadius.circular(5),
                                 ),
                                 color: Colors.red.withOpacity(0),
@@ -422,225 +425,70 @@ class _WalletViewState extends State<WalletView> {
                 child: Column(
                   children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        SizedBox(
-                          height: 125,
-                          width: 185,
-                          child: Card(
-                            clipBehavior: Clip.antiAlias,
-                            // shape: RoundedRectangleBorder(
-                            //   side: BorderSide(
-                            //       color: Theme.of(context).colorScheme.primary,
-                            //       width: 2),
-                            //   borderRadius: BorderRadius.circular(10),
-                            // ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    countForEntities[0].toString(),
-                                    style: TextStyle(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                Image.asset(
-                                    "assets/icons/patient-count-100.png",
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                    width: 50,
-                                    height: 50),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    "Patient Count",
-                                    style: TextStyle(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                        Expanded(
+                          child: CustomCardWallet(onPressed: (){}, cardText: "Patient Count: ${countForEntities[0].toString()} ", imageAsset: Image.asset(
+                              "assets/icons/patient-count-100.png",
+                              color:
+                              Theme.of(context).colorScheme.primary,
+                              width: 50,
+                              height: 50)),
                         ),
-                        SizedBox(
-                          height: 125,
-                          width: 185,
-                          child: Card(
-                            clipBehavior: Clip.antiAlias,
-                            // shape: RoundedRectangleBorder(
-                            //   side: BorderSide(
-                            //       color: Theme.of(context).colorScheme.primary,
-                            //       width: 2),
-                            //   borderRadius: BorderRadius.circular(10),
-                            // ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    countForEntities[1].toString(),
-                                    style: TextStyle(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                Image.asset("assets/icons/doctor-count-100.png",
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                    width: 50,
-                                    height: 50),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    "Doctor Count",
-                                    style: TextStyle(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                        Expanded(
+                          child: CustomCardWallet(onPressed: (){}, cardText: "Doctor Count: ${countForEntities[1].toString()} ", imageAsset: Image.asset(
+                              "assets/icons/doctor-count-100.png",
+                              color:
+                              Theme.of(context).colorScheme.primary,
+                              width: 50,
+                              height: 50)),
                         ),
                       ],
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        SizedBox(
-                          height: 125,
-                          width: 185,
-                          child: Card(
-                            // color: Theme.of(context).colorScheme.primary,
-                            clipBehavior: Clip.antiAlias,
-                            // shape: RoundedRectangleBorder(
-                            //   side: BorderSide(
-                            //       color: Theme.of(context).colorScheme.primary,
-                            //       width: 2),
-                            //   borderRadius: BorderRadius.circular(10),
-                            // ),
-
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    countForEntities[2].toString(),
-                                    style: TextStyle(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                Image.asset(
-                                    "assets/icons/hospital-count-100.png",
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                    width: 50,
-                                    height: 50),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    "Hospital Count",
-                                    style: TextStyle(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                        Expanded(
+                          child: CustomCardWallet(onPressed: (){}, cardText: "Hospital Count: ${countForEntities[2].toString()} ", imageAsset: Image.asset(
+                              "assets/icons/hospital-count-100.png",
+                              color:
+                              Theme.of(context).colorScheme.primary,
+                              width: 50,
+                              height: 50)),
                         ),
-                        SizedBox(
-                          height: 125,
-                          width: 185,
-                          child: Card(
-                            clipBehavior: Clip.antiAlias,
-                            // shape: RoundedRectangleBorder(
-                            //   side: BorderSide(
-                            //       color: Theme.of(context).colorScheme.primary,
-                            //       width: 2),
-                            //   borderRadius: BorderRadius.circular(10),
-                            // ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    countForEntities[3].toString(),
-                                    style: TextStyle(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                Image.asset(
-                                    "assets/icons/pharmacy-count-100.png",
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                    width: 50,
-                                    height: 50),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    "Pharmacy Count",
-                                    style: TextStyle(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                        Expanded(
+                          child: CustomCardWallet(onPressed: (){}, cardText: "Pharmacy Count: ${countForEntities[3].toString()} ", imageAsset: Image.asset(
+                              "assets/icons/pharmacy-count-100.png",
+                              color:
+                              Theme.of(context).colorScheme.primary,
+                              width: 50,
+                              height: 50)),
                         ),
                       ],
                     ),
+
                   ],
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8),
                 child: Card(
+                  elevation: 4,
+                  // shadowColor: Theme.of(context).colorScheme.primary,
                   borderOnForeground: true,
                   clipBehavior: Clip.antiAlias,
                   shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                        color: Theme.of(context).colorScheme.primary, width: 2),
+                    // side: BorderSide(
+                    //     color: Theme.of(context).colorScheme.primary, width: 2),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       ListTile(
+
+                  leading: Image.asset("assets/icons/icons8-transaction-100.png",
+                      color: Theme.of(context).primaryColor,
+                      width: 25,
+                      height: 25),
                         trailing: Image.asset("assets/icons/forward-100.png",
                             color: Theme.of(context).primaryColor,
                             width: 25,
@@ -663,17 +511,23 @@ class _WalletViewState extends State<WalletView> {
               Padding(
                 padding: const EdgeInsets.all(8),
                 child: Card(
+                  elevation: 4,
+                  // shadowColor: Theme.of(context).colorScheme.primary,
                   borderOnForeground: true,
                   clipBehavior: Clip.antiAlias,
                   shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                        color: Theme.of(context).colorScheme.primary, width: 2),
+                    // side: BorderSide(
+                    //     color: Theme.of(context).colorScheme.primary, width: 2),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       ListTile(
+                        leading:Image.asset("assets/icons/icons8-logout-100.png",
+                            color: Theme.of(context).primaryColor,
+                            width: 25,
+                            height: 25) ,
                         trailing: Image.asset("assets/icons/forward-100.png",
                             color: Theme.of(context).primaryColor,
                             width: 25,

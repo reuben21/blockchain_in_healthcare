@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../helpers/http_exception.dart' as exception;
 import '../../helpers/keys.dart' as keys;
-import 'grant_access_to_doctor_screen.dart';
+import 'grant_access_screen.dart';
 
 class HospitalAccessList extends StatefulWidget {
   static const routeName = '/hospital-access-list';

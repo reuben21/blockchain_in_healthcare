@@ -1,13 +1,13 @@
 
 import 'package:flutter/material.dart';
 
-class CustomCard extends StatelessWidget {
+class CustomCardWallet extends StatelessWidget {
 
   final VoidCallback onPressed;
   final String cardText;
   final Image imageAsset;
 
-  const CustomCard({
+  const CustomCardWallet({
     required this.onPressed,
     required this.cardText,
     required this.imageAsset
@@ -26,13 +26,11 @@ class CustomCard extends StatelessWidget {
           onTap: onPressed,
           child: Card(
             elevation: 4,
-            // shadowColor: Theme.of(context).colorScheme.primary,
-
             borderOnForeground: true,
             clipBehavior: Clip.antiAlias,
             shape: RoundedRectangleBorder(
-              side: BorderSide(
-                  color: Theme.of(context).colorScheme.primary, width: 2),
+              // side: BorderSide(
+              //     color: Theme.of(context).colorScheme.primary, width: 2),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Padding(

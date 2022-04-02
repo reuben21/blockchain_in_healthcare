@@ -36,13 +36,13 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
   }
 
   Future<void> estimateGasFunction(
-      EthereumAddress walletAddress) async {
+      EthereumAddress walletAddress,String role) async {
     Credentials hospitalCredentials = await Provider.of<WalletModel>(context, listen: false).walletCredentials;
     EthereumAddress hospitalAddress = await hospitalCredentials.extractAddress();
     var gasEstimation =
     await Provider.of<GasEstimationModel>(context, listen: false)
         .estimateGasForContractFunction(hospitalAddress, "grantRoleFromHospital",
-        [hospitalAddress, walletAddress,"VERIFIED_DOCTOR"]);
+        [hospitalAddress, walletAddress,role]);
     print(gasEstimation);
 
 
@@ -355,7 +355,7 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
                     backgroundColor: Theme.of(context).colorScheme.primary,
                     foregroundColor: Theme.of(context).colorScheme.secondary,
                     onPressed: () async {
-                      executeTransaction(hospitalAddress,walletAddress,
+                      executeTransaction(hospitalAddress,walletAddress,role,
                           hospitalCredentials);
                     },
                     icon: const Icon(Icons.add_circle_outline_outlined),
@@ -380,11 +380,11 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
 
   Future<void> executeTransaction(
       EthereumAddress hospitalAddress,
-      EthereumAddress walletAddress,
+      EthereumAddress walletAddress,String role,
       Credentials credentials) async {
     var transactionHash = await Provider.of<WalletModel>(context, listen: false)
         .writeContract("grantRoleFromHospital",
-        [ hospitalAddress, walletAddress,"VERIFIED_DOCTOR"],credentials);
+        [ hospitalAddress, walletAddress,role],credentials);
 
     var firebaseStatus =
     await Provider.of<FirebaseModel>(context, listen: false)
@@ -461,7 +461,7 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Grant Role \nTo\nDoctor',
+                          'Grant Role',
                           style: Theme.of(context).textTheme.headline1,
                         ),
                         // SizedBox(height: size.height * 0.03),
@@ -487,7 +487,67 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
                                   const SizedBox(
                                     height: 10,
                                   ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(15),
+                                    child: FormBuilderDropdown(
+                                      initialValue: 'VERIFIED_PATIENT',
+                                      name: 'role',
+                                      decoration: InputDecoration(
+                                        labelText: "Select Role",
+                                        prefixIcon: Image.asset(
+                                            "assets/icons/user-100.png",
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            scale: 4,
+                                            width: 15,
+                                            height: 15),
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(25.0),
+                                        ),
+                                        labelStyle: const TextStyle(
+                                          color: Color(0xFF6200EE),
+                                        ),
+                                        errorBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color(0xFF6200EE)),
+                                          borderRadius:
+                                          BorderRadius.circular(25.0),
+                                        ),
+                                        focusedErrorBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color(0xFF6200EE)),
+                                          borderRadius:
+                                          BorderRadius.circular(25.0),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color(0xFF6200EE)),
+                                          borderRadius:
+                                          BorderRadius.circular(25.0),
+                                        ),
+                                      ),
+                                      // initialValue: 'Male',
 
+                                      allowClear: true,
+
+                                      validator: FormBuilderValidators.compose([
+                                        FormBuilderValidators.required(context)
+                                      ]),
+                                      items: [
+                                        'VERIFIED_PATIENT',
+                                        'VERIFIED_DOCTOR',
+                                        'PATIENT',
+                                        'DOCTOR'
+                                      ]
+                                          .map((gender) => DropdownMenuItem(
+                                        value: gender,
+                                        child: Text('$gender'),
+                                      ))
+                                          .toList(),
+                                    ),
+                                  ),
 
 
                                   Padding(
@@ -498,7 +558,7 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
                                           'walletAddress',
                                           'Wallet Address',
                                           Image.asset(
-                                              "assets/icons/key-100.png",
+                                              "assets/icons/wallet.png",
                                               color: Theme.of(context)
                                                   .colorScheme
                                                   .primary,
@@ -510,64 +570,7 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
                                             FormBuilderValidators.required(
                                                 context),
                                           ])),
-                                  // Padding(
-                                  //   padding: const EdgeInsets.all(15),
-                                  //   child: FormBuilderDropdown(
-                                  //     name: 'role',
-                                  //     decoration: InputDecoration(
-                                  //       labelText: "Role To Grant",
-                                  //       prefixIcon: Image.asset(
-                                  //           "assets/icons/user-100.png",
-                                  //           color: Theme.of(context)
-                                  //               .colorScheme
-                                  //               .primary,
-                                  //           scale: 4,
-                                  //           width: 15,
-                                  //           height: 15),
-                                  //       border: OutlineInputBorder(
-                                  //         borderRadius:
-                                  //         BorderRadius.circular(25.0),
-                                  //       ),
-                                  //       labelStyle: const TextStyle(
-                                  //         color: Color(0xFF6200EE),
-                                  //       ),
-                                  //       errorBorder: OutlineInputBorder(
-                                  //         borderSide: BorderSide(
-                                  //             color: Color(0xFF6200EE)),
-                                  //         borderRadius:
-                                  //         BorderRadius.circular(25.0),
-                                  //       ),
-                                  //       focusedErrorBorder: OutlineInputBorder(
-                                  //         borderSide: BorderSide(
-                                  //             color: Color(0xFF6200EE)),
-                                  //         borderRadius:
-                                  //         BorderRadius.circular(25.0),
-                                  //       ),
-                                  //       enabledBorder: OutlineInputBorder(
-                                  //         borderSide: BorderSide(
-                                  //             color: Color(0xFF6200EE)),
-                                  //         borderRadius:
-                                  //         BorderRadius.circular(25.0),
-                                  //       ),
-                                  //     ),
-                                  //     // initialValue: 'Male',
-                                  //
-                                  //     allowClear: true,
-                                  //
-                                  //     validator: FormBuilderValidators.compose([
-                                  //       FormBuilderValidators.required(context)
-                                  //     ]),
-                                  //     items: [
-                                  //       'VERIFIED_PATIENT',
-                                  //       'VERIFIED_DOCTOR',
-                                  //     ]
-                                  //         .map((role) => DropdownMenuItem(
-                                  //       value: role,
-                                  //       child: Text('$role'),
-                                  //     ))
-                                  //         .toList(),
-                                  //   ),
-                                  // ),
+
                                   Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
@@ -631,7 +634,7 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
                                 print(myAddress.hex);
 
                                   estimateGasFunction(
-                                      EthereumAddress.fromHex(doctorAddress),
+                                      EthereumAddress.fromHex(doctorAddress),_formKey.currentState?.value["role"]
                                       );
                                   // executeTransaction(myAddress, EthereumAddress.fromHex(doctorAddress), credentialsNew);
 

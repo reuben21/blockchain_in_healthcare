@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:bic_android_web_support/screens/screen_hospital/hospital_access_list.dart';
+import 'package:bic_android_web_support/screens/screen_hospital/revoke_access_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../helpers/keys.dart' as keys;
@@ -19,6 +21,7 @@ import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
 
 import '../Widgets/CustomCard.dart';
+import 'grant_access_screen.dart';
 
 class HospitalScreen extends StatefulWidget {
   static const routeName = '/hospital-screen';
@@ -243,18 +246,18 @@ class _HospitalScreenState extends State<HospitalScreen> {
                               ),
                             ],
                           ),
-                          Divider(
-                            height: 20,
-                            thickness: 2,
-                            indent: 15,
-                            endIndent: 15,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
+                          // Divider(
+                          //   height: 20,
+                          //   thickness: 2,
+                          //   indent: 15,
+                          //   endIndent: 15,
+                          //   color: Theme.of(context).colorScheme.primary,
+                          // ),
                           Padding(
-                            padding: const EdgeInsets.all(8),
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
                             child: Container(
                               width: double.infinity,
-                              height: 440,
+                              height: 380,
                               child: hospitalIpfsHash['hospitalName'] == ''
                                   ? Card(
                                       borderOnForeground: true,
@@ -302,10 +305,10 @@ class _HospitalScreenState extends State<HospitalScreen> {
                                                 style: textStyleForName),
                                             subtitle: Text(
                                               role!,
-                                              style: TextStyle(
-                                                fontSize: 18,
+                                              style: GoogleFonts.montserrat(
                                                 color: Colors.black
                                                     .withOpacity(0.6),
+                                                fontSize: 18,
                                               ),
                                             ),
                                           ),
@@ -321,13 +324,13 @@ class _HospitalScreenState extends State<HospitalScreen> {
                                                 style: textStyleForName),
                                             subtitle: Text(
                                               hospitalName,
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  color: Colors.black
-                                                      .withOpacity(0.6)),
+                                              style: GoogleFonts.montserrat(
+                                                color: Colors.black
+                                                    .withOpacity(0.6),
+                                                fontSize: 18,
+                                              ),
                                             ),
                                           ),
-
                                           ListTile(
                                             leading: Image.asset(
                                                 "assets/icons/address-100.png",
@@ -340,53 +343,67 @@ class _HospitalScreenState extends State<HospitalScreen> {
                                                 style: textStyleForName),
                                             subtitle: Text(
                                               hospitalIpfsHash['address'],
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  color: Colors.black
-                                                      .withOpacity(0.6)),
+                                              style: GoogleFonts.montserrat(
+                                                color: Colors.black
+                                                    .withOpacity(0.6),
+                                                fontSize: 18,
+                                              ),
                                             ),
                                           ),
-
-                                          ListTile(
-                                            leading: Image.asset(
-                                                "assets/icons/phone-100.png",
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .primary,
-                                                width: 35,
-                                                height: 35),
-                                            title: Text('Phone No',
-                                                style: textStyleForName),
-                                            subtitle: Text(
-                                              hospitalIpfsHash[
-                                                      'hospitalPhoneNo']
-                                                  .toString(),
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.black
-                                                      .withOpacity(0.6)),
-                                            ),
-                                          ),
-                                          ListTile(
-                                            leading: Image.asset(
-                                                "assets/icons/year-view-100.png",
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .primary,
-                                                width: 35,
-                                                height: 35),
-                                            title: Text(
-                                              'Year Started',
-                                              style: textStyleForName,
-                                            ),
-                                            subtitle: Text(
-                                              hospitalIpfsHash['origin']
-                                                  .toString(),
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.black
-                                                      .withOpacity(0.6)),
-                                            ),
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                flex: 3,
+                                                child: ListTile(
+                                                  leading: Image.asset(
+                                                      "assets/icons/year-view-100.png",
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .primary,
+                                                      width: 35,
+                                                      height: 35),
+                                                  title: Text(
+                                                    'Origin',
+                                                    style: textStyleForName,
+                                                  ),
+                                                  subtitle: Text(
+                                                    hospitalIpfsHash['origin']
+                                                        .toString(),
+                                                    style:
+                                                        GoogleFonts.montserrat(
+                                                      color: Colors.black
+                                                          .withOpacity(0.6),
+                                                      fontSize: 18,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Expanded(
+                                                flex: 4,
+                                                child: ListTile(
+                                                  leading: Image.asset(
+                                                      "assets/icons/phone-100.png",
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .primary,
+                                                      width: 35,
+                                                      height: 35),
+                                                  title: Text('Phone No',
+                                                      style: textStyleForName),
+                                                  subtitle: Text(
+                                                    hospitalIpfsHash[
+                                                            'hospitalPhoneNo']
+                                                        .toString(),
+                                                    style:
+                                                        GoogleFonts.montserrat(
+                                                      color: Colors.black
+                                                          .withOpacity(0.6),
+                                                      fontSize: 18,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                           ListTile(
                                             leading: Image.asset(
@@ -400,10 +417,11 @@ class _HospitalScreenState extends State<HospitalScreen> {
                                                 style: textStyleForName),
                                             subtitle: Text(
                                               hospitalIpfsHashData,
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  color: Colors.black
-                                                      .withOpacity(0.6)),
+                                              style: GoogleFonts.montserrat(
+                                                color: Colors.black
+                                                    .withOpacity(0.6),
+                                                fontSize: 18,
+                                              ),
                                             ),
                                             onTap: () {
                                               String _url =
@@ -411,23 +429,6 @@ class _HospitalScreenState extends State<HospitalScreen> {
                                               _launchURL(_url);
                                             },
                                           ),
-                                          // ListTile(
-                                          //
-                                          //   trailing: Image.asset("assets/icons/forward-100.png",
-                                          //       color: Theme.of(context).primaryColor,
-                                          //       width: 25,
-                                          //       height: 25),
-                                          //   title: Text('Store your Pharmacy on Blockchain',
-                                          //       style: Theme.of(context).textTheme.bodyText1),
-                                          //   onTap: () {
-                                          //     Navigator.push(
-                                          //       context,
-                                          //       MaterialPageRoute(
-                                          //         builder: (context) => PharmacyStoreDetails(),
-                                          //       ),
-                                          //     );
-                                          //   },
-                                          // ),
                                         ],
                                       ),
                                     ),
@@ -436,13 +437,17 @@ class _HospitalScreenState extends State<HospitalScreen> {
                         ],
                       ),
                     ),
-              Divider(
+              // Divider(
+              //   height: 20,
+              //   thickness: 2,
+              //   indent: 15,
+              //   endIndent: 15,
+              //   color: Theme.of(context).colorScheme.primary,
+              // ),
+              SizedBox(
                 height: 20,
-                thickness: 2,
-                indent: 15,
-                endIndent: 15,
-                color: Theme.of(context).colorScheme.primary,
               ),
+
               CarouselSlider(
                 options: CarouselOptions(
                   height: 180.0,
@@ -492,16 +497,45 @@ class _HospitalScreenState extends State<HospitalScreen> {
                       )
                     },
                     imageAsset: Image.asset(
-                        "assets/icons/icons8-access-100.png",
+                        "assets/icons/icons8-tasklist-100.png",
                         color: Theme.of(context).primaryColor,
                         width: 20,
                         height: 20),
                     cardText: 'Users To Approve',
                   ),
-
+                  CustomCard(
+                    onPressed: () => {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => GrantRoleScreen(),
+                        ),
+                      )
+                    },
+                    imageAsset: Image.asset(
+                        "assets/icons/icons8-access-100.png",
+                        color: Theme.of(context).primaryColor,
+                        width: 20,
+                        height: 20),
+                    cardText: 'Grant Access',
+                  ),
+                  CustomCard(
+                    onPressed: () => {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => RevokeRoleAccessScreen()),
+                      )
+                    },
+                    imageAsset: Image.asset(
+                        "assets/icons/icons8-no-access-100.png",
+                        color: Theme.of(context).primaryColor,
+                        width: 20,
+                        height: 20),
+                    cardText: 'Revoke Access',
+                  ),
                 ].toList(),
               ),
-
             ],
           ),
         ),

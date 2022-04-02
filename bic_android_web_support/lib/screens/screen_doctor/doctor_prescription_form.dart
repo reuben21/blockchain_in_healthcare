@@ -16,6 +16,7 @@ import 'package:web3dart/web3dart.dart';
 class DoctorPrescriptionForm extends StatefulWidget {
   static const routeName = '/doctor-prescription-screen';
 
+
   @override
   _DoctorPrescriptionFormState createState() {
     return _DoctorPrescriptionFormState();
@@ -834,7 +835,7 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                                 .currentState?.value["dateTimeToday"],
                             "validTill": _formPatient
                                 .currentState?.value["validTill"]
-                                .toString(),
+                            .toIso8601String(),
                             "medicineList": medicineList,
                           };
                           print(objText);

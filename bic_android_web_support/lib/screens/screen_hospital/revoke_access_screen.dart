@@ -36,13 +36,13 @@ class _RevokeRoleAccessScreenState extends State<RevokeRoleAccessScreen> {
   }
 
   Future<void> estimateGasFunction(
-      EthereumAddress walletAddress) async {
+      EthereumAddress walletAddress,String role) async {
     Credentials hospitalCredentials = await Provider.of<WalletModel>(context, listen: false).walletCredentials;
     EthereumAddress hospitalAddress = await hospitalCredentials.extractAddress();
     var gasEstimation =
     await Provider.of<GasEstimationModel>(context, listen: false)
         .estimateGasForContractFunction(hospitalAddress, "revokeRoleFromHospital",
-        [hospitalAddress, walletAddress,"VERIFIED_PATIENT"]);
+        [hospitalAddress, walletAddress,role]);
     print(gasEstimation);
 
 
@@ -355,7 +355,7 @@ class _RevokeRoleAccessScreenState extends State<RevokeRoleAccessScreen> {
                     backgroundColor: Theme.of(context).colorScheme.primary,
                     foregroundColor: Theme.of(context).colorScheme.secondary,
                     onPressed: () async {
-                      executeTransaction(hospitalAddress,walletAddress,
+                      executeTransaction(hospitalAddress,walletAddress,role,
                           hospitalCredentials);
                     },
                     icon: const Icon(Icons.add_circle_outline_outlined),
@@ -381,10 +381,11 @@ class _RevokeRoleAccessScreenState extends State<RevokeRoleAccessScreen> {
   Future<void> executeTransaction(
       EthereumAddress hospitalAddress,
       EthereumAddress walletAddress,
+      String role,
       Credentials credentials) async {
     var transactionHash = await Provider.of<WalletModel>(context, listen: false)
-        .writeContract("grantRoleFromHospital",
-        [ hospitalAddress, walletAddress,"VERIFIED_PATIENT"],credentials);
+        .writeContract("revokeRoleFromHospital",
+        [ hospitalAddress, walletAddress,role],credentials);
 
     var firebaseStatus =
     await Provider.of<FirebaseModel>(context, listen: false)
@@ -442,6 +443,7 @@ class _RevokeRoleAccessScreenState extends State<RevokeRoleAccessScreen> {
     );
   }
 
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -461,7 +463,7 @@ class _RevokeRoleAccessScreenState extends State<RevokeRoleAccessScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Grant Role \nTo\nPatient',
+                          'Revoke Role',
                           style: Theme.of(context).textTheme.headline1,
                         ),
                         // SizedBox(height: size.height * 0.03),
@@ -487,18 +489,78 @@ class _RevokeRoleAccessScreenState extends State<RevokeRoleAccessScreen> {
                                   const SizedBox(
                                     height: 10,
                                   ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(15),
+                                    child: FormBuilderDropdown(
+                                      initialValue: 'VERIFIED_PATIENT',
+                                      name: 'role',
+                                      decoration: InputDecoration(
+                                        labelText: "Select Role",
+                                        prefixIcon: Image.asset(
+                                            "assets/icons/user-100.png",
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            scale: 4,
+                                            width: 15,
+                                            height: 15),
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(25.0),
+                                        ),
+                                        labelStyle: const TextStyle(
+                                          color: Color(0xFF6200EE),
+                                        ),
+                                        errorBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color(0xFF6200EE)),
+                                          borderRadius:
+                                          BorderRadius.circular(25.0),
+                                        ),
+                                        focusedErrorBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color(0xFF6200EE)),
+                                          borderRadius:
+                                          BorderRadius.circular(25.0),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color(0xFF6200EE)),
+                                          borderRadius:
+                                          BorderRadius.circular(25.0),
+                                        ),
+                                      ),
+                                      // initialValue: 'Male',
 
+                                      allowClear: true,
+
+                                      validator: FormBuilderValidators.compose([
+                                        FormBuilderValidators.required(context)
+                                      ]),
+                                      items: [
+                                        'VERIFIED_PATIENT',
+                                        'VERIFIED_DOCTOR',
+                                        'PATIENT',
+                                        'DOCTOR'
+                                      ]
+                                          .map((gender) => DropdownMenuItem(
+                                        value: gender,
+                                        child: Text('$gender'),
+                                      ))
+                                          .toList(),
+                                    ),
+                                  ),
 
 
                                   Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
                                           TextInputType.streetAddress,
-                                          '0x1072f3b15da7fecfce1120d605d299f185d0fe1b',
+                                          '0x6bde22a36daeb9ee6813677dafdf2315f422a1d4',
                                           'walletAddress',
                                           'Wallet Address',
                                           Image.asset(
-                                              "assets/icons/key-100.png",
+                                              "assets/icons/wallet.png",
                                               color: Theme.of(context)
                                                   .colorScheme
                                                   .primary,
@@ -510,64 +572,7 @@ class _RevokeRoleAccessScreenState extends State<RevokeRoleAccessScreen> {
                                             FormBuilderValidators.required(
                                                 context),
                                           ])),
-                                  // Padding(
-                                  //   padding: const EdgeInsets.all(15),
-                                  //   child: FormBuilderDropdown(
-                                  //     name: 'role',
-                                  //     decoration: InputDecoration(
-                                  //       labelText: "Role To Grant",
-                                  //       prefixIcon: Image.asset(
-                                  //           "assets/icons/user-100.png",
-                                  //           color: Theme.of(context)
-                                  //               .colorScheme
-                                  //               .primary,
-                                  //           scale: 4,
-                                  //           width: 15,
-                                  //           height: 15),
-                                  //       border: OutlineInputBorder(
-                                  //         borderRadius:
-                                  //         BorderRadius.circular(25.0),
-                                  //       ),
-                                  //       labelStyle: const TextStyle(
-                                  //         color: Color(0xFF6200EE),
-                                  //       ),
-                                  //       errorBorder: OutlineInputBorder(
-                                  //         borderSide: BorderSide(
-                                  //             color: Color(0xFF6200EE)),
-                                  //         borderRadius:
-                                  //         BorderRadius.circular(25.0),
-                                  //       ),
-                                  //       focusedErrorBorder: OutlineInputBorder(
-                                  //         borderSide: BorderSide(
-                                  //             color: Color(0xFF6200EE)),
-                                  //         borderRadius:
-                                  //         BorderRadius.circular(25.0),
-                                  //       ),
-                                  //       enabledBorder: OutlineInputBorder(
-                                  //         borderSide: BorderSide(
-                                  //             color: Color(0xFF6200EE)),
-                                  //         borderRadius:
-                                  //         BorderRadius.circular(25.0),
-                                  //       ),
-                                  //     ),
-                                  //     // initialValue: 'Male',
-                                  //
-                                  //     allowClear: true,
-                                  //
-                                  //     validator: FormBuilderValidators.compose([
-                                  //       FormBuilderValidators.required(context)
-                                  //     ]),
-                                  //     items: [
-                                  //       'VERIFIED_PATIENT',
-                                  //       'VERIFIED_DOCTOR',
-                                  //     ]
-                                  //         .map((role) => DropdownMenuItem(
-                                  //       value: role,
-                                  //       child: Text('$role'),
-                                  //     ))
-                                  //         .toList(),
-                                  //   ),
-                                  // ),
+
                                   Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
@@ -598,7 +603,7 @@ class _RevokeRoleAccessScreenState extends State<RevokeRoleAccessScreen> {
                           height: 50,
                           width: size.width * 0.8,
                           child: FloatingActionButton.extended(
-                            heroTag: "StoreRevokeRoleAccessScreen",
+                            heroTag: "StoreGrantRoleScreen",
                             backgroundColor:
                             Theme.of(context).colorScheme.primary,
                             foregroundColor:
@@ -630,10 +635,10 @@ class _RevokeRoleAccessScreenState extends State<RevokeRoleAccessScreen> {
                                 await credentialsNew.extractAddress();
                                 print(myAddress.hex);
 
-                                  estimateGasFunction(
-                                      EthereumAddress.fromHex(doctorAddress),
-                                      );
-                                  // executeTransaction(myAddress, EthereumAddress.fromHex(doctorAddress), credentialsNew);
+                                estimateGasFunction(
+                                    EthereumAddress.fromHex(doctorAddress),_formKey.currentState?.value["role"]
+                                );
+                                // executeTransaction(myAddress, EthereumAddress.fromHex(doctorAddress), credentialsNew);
 
 
 
@@ -646,7 +651,7 @@ class _RevokeRoleAccessScreenState extends State<RevokeRoleAccessScreen> {
                                 width: 25,
                                 fit: BoxFit.fill,
                                 height: 25),
-                            label: const Text('Grant Access'),
+                            label: const Text('Revoke Access'),
                           ),
                         ),
                       ],

@@ -3,6 +3,7 @@ import 'package:bic_android_web_support/screens/screen_patient/patient_medical_r
 import 'package:bic_android_web_support/screens/screen_patient/patient_medical_record_creation.dart';
 import 'package:bic_android_web_support/screens/screen_patient/patient_medical_record_view.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../helpers/keys.dart' as keys;
 import 'package:bic_android_web_support/providers/ipfs.dart';
@@ -31,6 +32,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
   late String patientName;
   late String patientIpfsHashData;
   late Map<String, dynamic> patientIpfsHash;
+  final ScrollController _controller = ScrollController();
 
   @override
   void initState() {
@@ -47,6 +49,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
     fetchPatientData();
     super.initState();
   }
+
 
   Future<void> fetchPatientData() async {
     Credentials credentialsNew;
@@ -102,10 +105,14 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
   @override
   Widget build(BuildContext context) {
     var textStyleForName = TextStyle(
-        fontSize: 15,
+        fontSize: 15, 
         fontWeight: FontWeight.bold,
         color: Theme.of(context).colorScheme.primary);
 
+    var textStyleGoogleFont = GoogleFonts.montserrat(
+      color: Colors.black.withOpacity(0.6),
+      fontSize: 18,
+    );        
     return Scaffold(
       // appBar: AppBar(
       //   backgroundColor: Theme.of(context).colorScheme.primary,
@@ -125,7 +132,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                 ),
                 child: Container(
                   width: double.infinity,
-                  height: 500,
+                  height: 525,
                   child: patientIpfsHash['patient_name'] == ''
                       ? Card(
                           borderOnForeground: true,
@@ -153,204 +160,192 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                           //       width: 2),
                           //   borderRadius: BorderRadius.circular(10),
                           // ),
-                          child: SingleChildScrollView(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                ListTile(
-                                  leading: Image.asset(
-                                      "assets/icons/checked-user-male-100.png",
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      width: 35,
-                                      height: 35),
-                                  title: Text('Role', style: textStyleForName),
-                                  subtitle: Text(
-                                    role.toString(),
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.black.withOpacity(0.6)),
-                                  ),
-                                ),
-                                ListTile(
-                                  leading: Image.asset(
-                                      "assets/icons/pharmacy-shop-100.png",
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      width: 35,
-                                      height: 35),
-                                  title: Text('Patient Name',
-                                      style: textStyleForName),
-                                  subtitle: Text(
-                                    patientName,
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.black.withOpacity(0.6)),
-                                  ),
-                                ),
-
-                                ListTile(
-                                  leading: Image.asset(
-                                      "assets/icons/icons8-hospital-3-100.png",
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      width: 35,
-                                      height: 35),
-                                  title: Text('Hospital Address',
-                                      style: textStyleForName),
-                                  subtitle: Text(
-                                    patientIpfsHash['patient_hospital_address'].toString().substring(0,5)+"...."+patientIpfsHash['patient_hospital_address'].toString().lastChars(4),
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.black.withOpacity(0.6)),
-                                  ),
-                                ),
-                                ListTile(
-                                  leading: Image.asset(
-                                      "assets/icons/icons8-medical-doctor-100.png",
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      width: 35,
-                                      height: 35),
-                                  title: Text('Doctor Address',
-                                      style: textStyleForName),
-                                  subtitle: Text(
-                                    patientIpfsHash['patient_doctor_address'].toString().substring(0,5)+"...."+patientIpfsHash['patient_doctor_address'].toString().lastChars(4),
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.black.withOpacity(0.6)),
-                                  ),
-                                ),
-                                ListTile(
-                                  leading: Image.asset(
-                                      "assets/icons/address-100.png",
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      width: 35,
-                                      height: 35),
-                                  title:
-                                      Text('Address', style: textStyleForName),
-                                  subtitle: Text(
-                                    patientIpfsHash['patient_address'],
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.black.withOpacity(0.6)),
-                                  ),
-                                ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: ListTile(
-                                        leading: Image.asset(
-                                            "assets/icons/year-view-100.png",
-                                            color:
-                                                Theme.of(context).colorScheme.primary,
-                                            width: 35,
-                                            height: 35),
-                                        title: Text(
-                                          'Date Of Birth',
-                                          style: textStyleForName,
-                                        ),
-                                        subtitle: Text(
-                                          DateTime.parse(patientIpfsHash['patient_dateOfBirth'].toString()).day.toString()+"-"
-                                              +DateTime.parse(patientIpfsHash['patient_dateOfBirth'].toString()).month.toString()+"-"
-                                              +DateTime.parse(patientIpfsHash['patient_dateOfBirth'].toString()).year.toString(),
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              color: Colors.black.withOpacity(0.6)),
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: ListTile(
-                                        leading: Image.asset(
-                                            "assets/icons/icons8-gender-100.png",
-                                            color:
+                          child:  Scrollbar( isAlwaysShown: true,
+                            controller: _controller,
+                            child: SingleChildScrollView(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  ListTile(
+                                    leading: Image.asset(
+                                        "assets/icons/checked-user-male-100.png",
+                                        color:
                                             Theme.of(context).colorScheme.primary,
-                                            width: 35,
-                                            height: 35),
-                                        title: Text(
-                                          'Gender',
-                                          style: textStyleForName,
-                                        ),
-                                        subtitle: Text(
-                                          patientIpfsHash['patient_gender'].toString(),
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              color: Colors.black.withOpacity(0.6)),
+                                        width: 35,
+                                        height: 35),
+                                    title: Text('Role', style: textStyleForName),
+                                    subtitle: Text(
+                                      role.toString(),
+                                      style: GoogleFonts.montserrat(
+                    color: Colors.black.withOpacity(0.6),
+                    fontSize: 18,
+                  ),
+                                    ),
+                                  ),
+                                  ListTile(
+                                    leading: Image.asset(
+                                        "assets/icons/pharmacy-shop-100.png",
+                                        color:
+                                            Theme.of(context).colorScheme.primary,
+                                        width: 35,
+                                        height: 35),
+                                    title: Text('Patient Name',
+                                        style: textStyleForName),
+                                    subtitle: Text(
+                                      patientName,
+                                      style: GoogleFonts.montserrat(
+                    color: Colors.black.withOpacity(0.6),
+                    fontSize: 18,
+                  ),
+                                    ),
+                                  ),
+
+                                  ListTile(
+                                    leading: Image.asset(
+                                        "assets/icons/icons8-hospital-3-100.png",
+                                        color:
+                                            Theme.of(context).colorScheme.primary,
+                                        width: 35,
+                                        height: 35),
+                                    title: Text('Hospital Address',
+                                        style: textStyleForName),
+                                    subtitle: Text(
+                                      patientIpfsHash['patient_hospital_address'].toString().substring(0,5)+"...."+patientIpfsHash['patient_hospital_address'].toString().lastChars(4),
+                                      style: GoogleFonts.montserrat(
+                    color: Colors.black.withOpacity(0.6),
+                    fontSize: 18,
+                  ),
+                                    ),
+                                  ),
+                                  ListTile(
+                                    leading: Image.asset(
+                                        "assets/icons/icons8-medical-doctor-100.png",
+                                        color:
+                                            Theme.of(context).colorScheme.primary,
+                                        width: 35,
+                                        height: 35),
+                                    title: Text('Doctor Address',
+                                        style: textStyleForName),
+                                    subtitle: Text(
+                                      patientIpfsHash['patient_doctor_address'].toString().substring(0,5)+"...."+patientIpfsHash['patient_doctor_address'].toString().lastChars(4),
+                                      style: GoogleFonts.montserrat(
+                    color: Colors.black.withOpacity(0.6),
+                    fontSize: 18,
+                  ),
+                                    ),
+                                  ),
+                                  ListTile(
+                                    leading: Image.asset(
+                                        "assets/icons/address-100.png",
+                                        color:
+                                            Theme.of(context).colorScheme.primary,
+                                        width: 35,
+                                        height: 35),
+                                    title:
+                                        Text('Address', style: textStyleForName),
+                                    subtitle: Text(
+                                      patientIpfsHash['patient_address'],
+                                      style: GoogleFonts.montserrat(
+                    color: Colors.black.withOpacity(0.6),
+                    fontSize: 18,
+                  ),
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: ListTile(
+                                          leading: Image.asset(
+                                              "assets/icons/year-view-100.png",
+                                              color:
+                                                  Theme.of(context).colorScheme.primary,
+                                              width: 35,
+                                              height: 35),
+                                          title: Text(
+                                            'Date Of Birth',
+                                            style: textStyleForName,
+                                          ),
+                                          subtitle: Text(
+                                            DateTime.parse(patientIpfsHash['patient_dateOfBirth'].toString()).day.toString()+"-"
+                                                +DateTime.parse(patientIpfsHash['patient_dateOfBirth'].toString()).month.toString()+"-"
+                                                +DateTime.parse(patientIpfsHash['patient_dateOfBirth'].toString()).year.toString(),
+                                            style: GoogleFonts.montserrat(
+                    color: Colors.black.withOpacity(0.6),
+                    fontSize: 18,
+                  ),
+                                          ),
                                         ),
                                       ),
+                                      Expanded(
+                                        child: ListTile(
+                                          leading: Image.asset(
+                                              "assets/icons/icons8-gender-100.png",
+                                              color:
+                                              Theme.of(context).colorScheme.primary,
+                                              width: 35,
+                                              height: 35),
+                                          title: Text(
+                                            'Gender',
+                                            style: textStyleForName,
+                                          ),
+                                          subtitle: Text(
+                                            patientIpfsHash['patient_gender'].toString(),
+                                            style: GoogleFonts.montserrat(
+                    color: Colors.black.withOpacity(0.6),
+                    fontSize: 18,
+                  ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  ListTile(
+                                    leading: Image.asset(
+                                        "assets/icons/phone-100.png",
+                                        color:
+                                            Theme.of(context).colorScheme.primary,
+                                        width: 35,
+                                        height: 35),
+                                    title:
+                                        Text('Phone No', style: textStyleForName),
+                                    subtitle: Text(
+                                      patientIpfsHash['patient_phone_no'],
+                                      style: GoogleFonts.montserrat(
+                    color: Colors.black.withOpacity(0.6),
+                    fontSize: 18,
+                  ),
                                     ),
-                                  ],
-                                ),
-                                ListTile(
-                                  leading: Image.asset(
-                                      "assets/icons/phone-100.png",
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      width: 35,
-                                      height: 35),
-                                  title:
-                                      Text('Phone No', style: textStyleForName),
-                                  subtitle: Text(
-                                    patientIpfsHash['patient_phone_no'],
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.black.withOpacity(0.6)),
                                   ),
-                                ),
-                                ListTile(
-                                  leading: Image.asset(
-                                      "assets/icons/storage-100.png",
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      width: 35,
-                                      height: 35),
-                                  title: Text('IPFS Hash',
-                                      style: textStyleForName),
-                                  subtitle: Text(
-                                    patientIpfsHashData,
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.black.withOpacity(0.6)),
+                                  ListTile(
+                                    leading: Image.asset(
+                                        "assets/icons/storage-100.png",
+                                        color:
+                                            Theme.of(context).colorScheme.primary,
+                                        width: 35,
+                                        height: 35),
+                                    title: Text('IPFS Hash',
+                                        style: textStyleForName),
+                                    subtitle: Text(
+                                      patientIpfsHashData,
+                                      style: GoogleFonts.montserrat(
+                    color: Colors.black.withOpacity(0.6),
+                    fontSize: 18,
+                  ),
+                                    ),
+                                    onTap: () {
+                                      String _url =
+                                          "${keys.getIpfsUrlForReceivingData}$patientIpfsHashData";
+                                      _launchURL(_url);
+                                    },
                                   ),
-                                  onTap: () {
-                                    String _url =
-                                        "${keys.getIpfsUrlForReceivingData}$patientIpfsHashData";
-                                    _launchURL(_url);
-                                  },
-                                ),
-                                // ListTile(
-                                //
-                                //   trailing: Image.asset("assets/icons/forward-100.png",
-                                //       color: Theme.of(context).primaryColor,
-                                //       width: 25,
-                                //       height: 25),
-                                //   title: Text('Store your Pharmacy on Blockchain',
-                                //       style: Theme.of(context).textTheme.bodyText1),
-                                //   onTap: () {
-                                //     Navigator.push(
-                                //       context,
-                                //       MaterialPageRoute(
-                                //         builder: (context) => PharmacyStoreDetails(),
-                                //       ),
-                                //     );
-                                //   },
-                                // ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
                 ),
-              ),
-              Divider(
+              ),SizedBox(height: 10,),
 
-                height: 20,
-                thickness: 2,
-                indent: 15,
-                endIndent: 15,
-                color: Theme.of(context).colorScheme.primary,
-              ),
               CarouselSlider(
                 options: CarouselOptions(
                   height: 180.0,
@@ -397,22 +392,6 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => PatientMedicalRecordView(),
-                        ),
-                      )
-                    },
-                    imageAsset:
-                    Image.asset("assets/icons/icons8-medical-history-100.png",
-                        color: Theme.of(context).primaryColor,
-                        width: 20,
-                        height: 20) ,
-                    cardText: 'View Medical Records',
-                  ),
-                  CustomCard(
-                    onPressed: () => {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
                           builder: (context) => PatientMedicalRecords(),
                         ),
                       )
@@ -424,70 +403,95 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                         height: 20),
                     cardText: 'Store Medical Records',
                   ),
+                  CustomCard(
+                    onPressed: () => {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PatientMedicalRecordView(),
+                        ),
+                      )
+                    },
+                    imageAsset:
+                    Image.asset("assets/icons/icons8-medical-history-100.png",
+                        color: Theme.of(context).primaryColor,
+                        width: 20,
+                        height: 20) ,
+                    cardText: 'View Medical Records',
+                  ),
+
                 ].toList(),
               ),
-              // Padding(
-              //   padding:
-              //       const EdgeInsets.only(left: 8, right: 8, top: 5, bottom: 5),
-              //   child: Card(
-              //     borderOnForeground: true,
-              //     clipBehavior: Clip.antiAlias,
-              //     shape: RoundedRectangleBorder(
-              //       side: BorderSide(
-              //           color: Theme.of(context).colorScheme.primary, width: 2),
-              //       borderRadius: BorderRadius.circular(10),
-              //     ),
-              //     child: Column(
-              //       mainAxisSize: MainAxisSize.min,
-              //       children: <Widget>[
-              //         ListTile(
-              //           trailing: Image.asset("assets/icons/forward-100.png",
-              //               color: Theme.of(context).primaryColor,
-              //               width: 25,
-              //               height: 25),
-              //           title: Text('Store Medical Records',
-              //               style: Theme.of(context).textTheme.bodyText1),
-              //           onTap: () {},
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
-              // Padding(
-              //   padding:
-              //       const EdgeInsets.only(left: 8, right: 8, top: 5, bottom: 5),
-              //   child: Card(
-              //     borderOnForeground: true,
-              //     clipBehavior: Clip.antiAlias,
-              //     shape: RoundedRectangleBorder(
-              //       side: BorderSide(
-              //           color: Theme.of(context).colorScheme.primary, width: 2),
-              //       borderRadius: BorderRadius.circular(10),
-              //     ),
-              //     child: Column(
-              //       mainAxisSize: MainAxisSize.min,
-              //       children: <Widget>[
-              //         ListTile(
-              //           trailing: Image.asset("assets/icons/forward-100.png",
-              //               color: Theme.of(context).primaryColor,
-              //               width: 25,
-              //               height: 25),
-              //           title: Text('Create Medical Record',
-              //               style: Theme.of(context).textTheme.bodyText1),
-              //           onTap: () {
-              //             Navigator.push(
-              //               context,
-              //               MaterialPageRoute(
-              //                 builder: (context) =>
-              //                     PatientMedicalRecordCreation(),
+              // SizedBox(
+              //   width: double.infinity,
+              //   height: 400,
+              //   child: GridView.count(
+              //     primary: false,
+              //     padding: const EdgeInsets.all(20),
+              //     crossAxisSpacing: 10,
+              //     mainAxisSpacing: 10,
+              //     crossAxisCount: 2,
+              //     children: <Widget>[
+              //       CustomCard(
+              //         onPressed: () => {
+              //           Navigator.push(
+              //             context,
+              //             MaterialPageRoute(
+              //               builder: (context) => PatientStoreDetails(
+              //                 patientName: patientIpfsHash['patient_name'],
+              //                 patientHospitalAddress:
+              //                 patientIpfsHash['patient_hospital_address'],
+              //                 patientDoctorAddress:
+              //                 patientIpfsHash['patient_doctor_address'],
+              //                 patientAddress: patientIpfsHash['patient_address'],
+              //                 patientAge: patientIpfsHash['patient_age'],
+              //                 patientPhoneNo: patientIpfsHash['patient_phone_no'],
               //               ),
-              //             );
-              //           },
-              //         ),
-              //       ],
-              //     ),
+              //             ),
+              //           )
+              //         },
+              //         imageAsset: Image.asset("assets/icons/icons8-user-shield-100.png",
+              //             color: Theme.of(context).primaryColor,
+              //             width: 20,
+              //             height: 20) ,
+              //         cardText: 'Store or Update Patient on Blockchain',
+              //       ),
+              //       CustomCard(
+              //         onPressed: () => {
+              //           Navigator.push(
+              //             context,
+              //             MaterialPageRoute(
+              //               builder: (context) => PatientMedicalRecordView(),
+              //             ),
+              //           )
+              //         },
+              //         imageAsset:
+              //         Image.asset("assets/icons/icons8-medical-history-100.png",
+              //             color: Theme.of(context).primaryColor,
+              //             width: 20,
+              //             height: 20) ,
+              //         cardText: 'View Medical Records',
+              //       ),
+              //       CustomCard(
+              //         onPressed: () => {
+              //           Navigator.push(
+              //             context,
+              //             MaterialPageRoute(
+              //               builder: (context) => PatientMedicalRecords(),
+              //             ),
+              //           )
+              //         },
+              //         imageAsset:
+              //         Image.asset("assets/icons/icons8-treatment-100.png",
+              //             color: Theme.of(context).primaryColor,
+              //             width: 20,
+              //             height: 20),
+              //         cardText: 'Store Medical Records',
+              //       ),
+              //     ].toList(),
               //   ),
               // ),
+
             ],
           ),
         ),
