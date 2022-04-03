@@ -15,6 +15,8 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:provider/provider.dart';
 import 'package:web3dart/credentials.dart';
 
+import '../Widgets/ErrorWidget.dart';
+
 class PatientMedicalRecords extends StatefulWidget {
   static const routeName = '/patient-medical-records';
 
@@ -561,13 +563,14 @@ class _PatientMedicalRecordsState extends State<PatientMedicalRecords> {
                           imageSet ? Padding(
                             padding: const EdgeInsets.all(8),
                             child: Card(
+                              elevation: 4,
                               borderOnForeground: true,
                               clipBehavior: Clip.antiAlias,
                               shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                    color:
-                                    Theme.of(context).colorScheme.primary,
-                                    width: 2),
+                                // side: BorderSide(
+                                //     color:
+                                //     Theme.of(context).colorScheme.primary,
+                                //     width: 2),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Column(
@@ -580,7 +583,7 @@ class _PatientMedicalRecordsState extends State<PatientMedicalRecords> {
                                       child: Padding(
                                           padding: const EdgeInsets.all(15),
                                           child: formBuilderTextFieldWidget(
-                                              TextInputType.number,
+                                              TextInputType.text,
                                               'Password@123',
                                               'password',
                                               'Wallet Password',
@@ -618,15 +621,22 @@ class _PatientMedicalRecordsState extends State<PatientMedicalRecords> {
                                             .getWalletDetails();
                                         print(_formKey
                                             .currentState?.value["password"]);
-                                        Wallet newWallet = Wallet.fromJson(
-                                            dbResponse!['walletEncryptedKey']
-                                                .toString(),
-                                            _formKey.currentState
-                                                ?.value["password"]);
-                                        credentialsNew = newWallet.privateKey;
-                                        myAddress = await credentialsNew
-                                            .extractAddress();
-                                        uploadImage(credentialsNew, myAddress);
+                                        try {
+                                          Wallet newWallet = Wallet.fromJson(
+                                              dbResponse!['walletEncryptedKey']
+                                                  .toString(),
+                                              _formKey.currentState
+                                                  ?.value["password"]);
+                                          credentialsNew = newWallet.privateKey;
+                                          myAddress = await credentialsNew
+                                              .extractAddress();
+                                          uploadImage(credentialsNew, myAddress);
+                                        } catch
+                                      (error) {
+                                          print(error);
+                                          showErrorDialogWidget(context,error.toString());
+                                        }
+
                                       }
                                     },
                                   ),
@@ -636,13 +646,14 @@ class _PatientMedicalRecordsState extends State<PatientMedicalRecords> {
                           ): Padding(
                             padding: const EdgeInsets.all(8),
                             child: Card(
+                              elevation: 4,
                               borderOnForeground: true,
                               clipBehavior: Clip.antiAlias,
                               shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                    width: 2),
+                                // side: BorderSide(
+                                //     color:
+                                //         Theme.of(context).colorScheme.primary,
+                                //     width: 2),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Column(

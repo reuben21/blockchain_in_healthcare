@@ -532,48 +532,21 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
                           // ),
                         ),
                       ),
-                      SizedBox(
-                        height: 125,
-                        width: double.infinity,
-                        child: Card(
-                          clipBehavior: Clip.antiAlias,
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(
-                                color: Theme.of(context).colorScheme.primary,
-                                width: 2),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  medicalRecordCount.toString(),
-                                  style: TextStyle(
-                                      color:
-                                      Theme.of(context).colorScheme.primary,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Image.asset("assets/icons/patient-count-100.png",
-                                  color: Theme.of(context).colorScheme.primary,
-                                  width: 50,
-                                  height: 50),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  "Patient Prescription Record Count",
-                                  style: TextStyle(
-                                      color:
-                                      Theme.of(context).colorScheme.primary,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ],
-                          ),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: ListTile(
+                          trailing: Image.asset(
+                              "assets/icons/icons8-medical-history-100.png",
+                              color: Theme.of(context)
+                                  .primaryColor,
+                              width: 25,
+                              height: 25),
+                          title: Text(
+                              "Found ${medicalRecordCount.toString()} Prescriptions",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1),
+
                         ),
                       ),
                       SizedBox(
@@ -587,14 +560,15 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
                                 itemBuilder:
                                     (BuildContext context, int position) {
                                   return Card(
+                                    elevation: 4,
                                     borderOnForeground: true,
                                     clipBehavior: Clip.antiAlias,
                                     shape: RoundedRectangleBorder(
-                                      side: BorderSide(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                          width: 2),
+                                      // side: BorderSide(
+                                      //     color: Theme.of(context)
+                                      //         .colorScheme
+                                      //         .primary,
+                                      //     width: 2),
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: Column(

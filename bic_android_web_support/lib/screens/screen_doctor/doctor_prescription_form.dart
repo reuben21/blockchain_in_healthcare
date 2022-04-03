@@ -827,7 +827,7 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                           var doctorHospitalAddress =
                               Provider.of<DoctorModel>(context, listen: false)
                                   .doctorHospitalAddress;
-                          print(doctorHospitalAddress.hex);
+                          print(doctorHospitalAddress?.hex);
                           Map<String, dynamic> objText = {
                             "patientAddress": _formPatient
                                 .currentState?.value["patientAddress"],
@@ -865,7 +865,7 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                                     .currentState?.value["patientAddress"]);
                             estimateGasFunction(
                                 hashReceived,
-                                doctorHospitalAddress,
+                                doctorHospitalAddress!,
                                 myAddress,
                                 patientAddress,
                                 _formPatient.currentState?.value["validTill"],

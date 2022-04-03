@@ -526,7 +526,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
               //   color: Theme.of(context).colorScheme.primary,
               // ),
               SizedBox(
-                height: 20,
+                height: 10,
               ),
 
               hospitalIpfsHashData.toString() == ''

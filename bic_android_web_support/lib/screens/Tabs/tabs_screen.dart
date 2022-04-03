@@ -3,6 +3,7 @@ import 'package:bic_android_web_support/screens/screen_doctor/doctor_prescriptio
 import 'package:bic_android_web_support/screens/screen_doctor/doctor_screen.dart';
 import 'package:bic_android_web_support/screens/screen_hospital/hospital_access_control.dart';
 import 'package:bic_android_web_support/screens/screen_hospital/hospital_screen.dart';
+import 'package:bic_android_web_support/screens/screen_patient/patient_medicine_screen.dart';
 import 'package:bic_android_web_support/screens/screen_patient/patient_screen.dart';
 import 'package:bic_android_web_support/screens/screen_pharmacy/pharmacy_prescription.dart';
 import 'package:bic_android_web_support/screens/screen_pharmacy/pharmacy_screen.dart';
@@ -39,7 +40,7 @@ class _TabsScreenState extends State<TabsScreen> {
 
   late final List<Map<String, Widget>> _screensPatient = [
     {'page': PatientRecordScreen()},
-    {'page': PrescriptionScreen()},
+    {'page': PatientMedicineScreen()},
     {'page': WalletView()}
   ];
 

@@ -14,14 +14,14 @@ import 'package:provider/provider.dart';
 import 'package:web3dart/credentials.dart';
 
 class PatientChangeDoctor extends StatefulWidget {
-  static const routeName = '/doctorDetail';
+  static const routeName = '/patient-change-doctor';
 
-  final String? doctorWalletAddress;
+
   final String? oldHospitalAddress;
 
 
   const PatientChangeDoctor({
-    required this.doctorWalletAddress,
+
     required this.oldHospitalAddress,
   });
 
@@ -534,9 +534,9 @@ class _PatientChangeDoctorState extends State<PatientChangeDoctor> {
                                           TextInputType.streetAddress,
                                           widget.oldHospitalAddress.toString(),
                                           'old_hospital_address',
-                                          'Old Hospital Address',
+                                          'Previous Doctor Address',
                                           Image.asset(
-                                              "assets/icons/key-100.png",
+                                              "assets/icons/wallet.png",
                                               color: Theme.of(context)
                                                   .colorScheme
                                                   .primary,
@@ -554,9 +554,9 @@ class _PatientChangeDoctorState extends State<PatientChangeDoctor> {
                                           TextInputType.streetAddress,
                                           '0x72ec479eb474b3b737e30d265773f9e7a2d0b031',
                                           'new_hospital_address',
-                                          'New Hospital Wallet Address',
+                                          'New Doctor Wallet Address',
                                           Image.asset(
-                                              "assets/icons/key-100.png",
+                                              "assets/icons/wallet.png",
                                               color: Theme.of(context)
                                                   .colorScheme
                                                   .primary,

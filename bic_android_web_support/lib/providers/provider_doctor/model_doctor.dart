@@ -4,15 +4,15 @@ import 'package:web3dart/web3dart.dart';
 
 class DoctorModel with ChangeNotifier {
 
-  late EthereumAddress _doctorHospitalAddress;
-  late EthereumAddress _doctorAddress;
+  EthereumAddress? _doctorHospitalAddress;
+  EthereumAddress? _doctorAddress;
 
 
-  EthereumAddress get doctorHospitalAddress {
+  EthereumAddress? get doctorHospitalAddress {
     return _doctorHospitalAddress;
   }
 
-  EthereumAddress get doctorAddress {
+  EthereumAddress? get doctorAddress {
     return _doctorAddress;
   }
 

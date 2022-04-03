@@ -14,6 +14,7 @@ import 'package:web3dart/credentials.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
 
+import '../Widgets/CustomButtonGen.dart';
 import '../Widgets/CustomCard.dart';
 import '../screen_doctor/doctor_patient_medical_view.dart';
 import '../screen_patient/patient_prescription_view.dart';
@@ -311,84 +312,34 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
                 ),
               ),
               SizedBox(
-                height: 10,
+                height: 5,
               ),
-              CarouselSlider(
-                options: CarouselOptions(
-                  height: 180.0,
-                  aspectRatio: 16 / 9,
-                  viewportFraction: 0.5,
-                  initialPage: 0,
-                  enableInfiniteScroll: true,
-                  reverse: false,
-                  autoPlay: true,
-                  autoPlayInterval: Duration(seconds: 3),
-                  autoPlayAnimationDuration: Duration(milliseconds: 800),
-                  autoPlayCurve: Curves.fastOutSlowIn,
-                  enlargeCenterPage: true,
-                  scrollDirection: Axis.horizontal,
-                ),
-                items: [
-                  CustomCard(
-                    onPressed: () => {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => PharmacyStoreDetails(
-                            pharmacyName: pharmacyIpfsHash['pharmacy_name'],
-                            pharmacyOwnerName:
-                                pharmacyIpfsHash['pharmacy_owner_name'],
-                            pharmacyAddress:
-                                pharmacyIpfsHash['pharmacy_address'],
-                            pharmacyYearOrigin:
-                                pharmacyIpfsHash['pharmacy_year_origin'],
-                            pharmacyPhoneNo:
-                                pharmacyIpfsHash['pharmacy_phone_no'],
-                          ),
-                        ),
-                      )
-                    },
-                    imageAsset: Image.asset(
-                        "assets/icons/icons8-file-prescription-100.png",
-                        color: Theme.of(context).primaryColor,
-                        width: 20,
-                        height: 20),
-                    cardText: 'Store or Update Pharmacy Details',
+              CustomButtonGen(cardText:'Store or Update Pharmacy Details',onPressed:()=>{
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PharmacyStoreDetails(
+                      pharmacyName: pharmacyIpfsHash['pharmacy_name'],
+                      pharmacyOwnerName:
+                      pharmacyIpfsHash['pharmacy_owner_name'],
+                      pharmacyAddress:
+                      pharmacyIpfsHash['pharmacy_address'],
+                      pharmacyYearOrigin:
+                      pharmacyIpfsHash['pharmacy_year_origin'],
+                      pharmacyPhoneNo:
+                      pharmacyIpfsHash['pharmacy_phone_no'],
+                    ),
                   ),
-                  CustomCard(
-                    onPressed: () => {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DoctorPatientMedicalRecordView(),
-                        ),
-                      )
-                    },
-                    imageAsset:
-                    Image.asset("assets/icons/icons8-medical-history-100.png",
-                      color: Theme.of(context).primaryColor,
-                      width: 20,
-                      height: 20,fit: BoxFit.contain,alignment: Alignment.center,),
-                    cardText: 'View Medical Records for Patients',
-                  ),
-                  CustomCard(
-                    onPressed: () => {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => PatientPrescriptionViewGen(),
-                        ),
-                      )
-                    },
-                    imageAsset:
-                    Image.asset("assets/icons/icons8-file-prescription-100.png",
-                        color: Theme.of(context).primaryColor,
-                        width: 20,
-                        height: 20) ,
-                    cardText: 'View Prescriptions',
-                  ),
-                ].toList(),
-              ),
+                )
+              },imageAsset:Image.asset(
+                "assets/icons/pharmacy-shop-100.png",
+                color: Theme.of(context).primaryColor,
+                width: 20,
+                height: 20,
+                fit: BoxFit.contain,
+                alignment: Alignment.center,
+              ),),
+
 
             ],
           ),

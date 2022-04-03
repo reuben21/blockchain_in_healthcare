@@ -170,13 +170,17 @@ contract MainContract is AccessControl {
         return true;
     }
 
-    function setPrescriptionRecordByDoctor(
+    function setPrescriptionRecord(
         string memory _prescriptionRecordHash,
         address _walletAddress,
         address _patientWalletAddress,
         string memory _prescriptionExpiryDateTime
     ) external returns (bool status) {
-        require(hasRole(VERIFIED_DOCTOR, _walletAddress), "RNG");
+        require(
+            hasRole(VERIFIED_DOCTOR, _walletAddress) ||
+                hasRole(PHARMACY, _walletAddress),
+            "RNG"
+        );
         patientDatabase[_patientWalletAddress].prescriptionCount++;
 
         patientDatabase[_patientWalletAddress]

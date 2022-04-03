@@ -14,14 +14,14 @@ import 'package:provider/provider.dart';
 import 'package:web3dart/credentials.dart';
 
 class PatientChangeHospital extends StatefulWidget {
-  static const routeName = '/doctorDetail';
+  static const routeName = '/patient-change-hospital';
 
-  final String? doctorWalletAddress;
+
   final String? oldHospitalAddress;
 
 
   const PatientChangeHospital({
-    required this.doctorWalletAddress,
+
     required this.oldHospitalAddress,
   });
 
@@ -54,9 +54,10 @@ class _PatientChangeHospitalState extends State<PatientChangeHospital> {
       EthereumAddress newHospitalAddress,
       EthereumAddress walletAddress,
       Credentials credentials) async {
+    print(oldHospitalAddress.hex+" "+newHospitalAddress.hex+" "+walletAddress.hex);
     var gasEstimation =
     await Provider.of<GasEstimationModel>(context, listen: false)
-        .estimateGasForContractFunction(walletAddress, "changeHospitalForDoctor",
+        .estimateGasForContractFunction(walletAddress, "changeHospitalForPatient",
         [oldHospitalAddress, newHospitalAddress, walletAddress]);
     print(gasEstimation);
 
@@ -398,7 +399,7 @@ class _PatientChangeHospitalState extends State<PatientChangeHospital> {
       EthereumAddress walletAddress,
       Credentials credentials) async {
     var transactionHash = await Provider.of<WalletModel>(context, listen: false)
-        .writeContract("changeHospitalForDoctor",
+        .writeContract("changeHospitalForPatient",
         [oldHospitalAddress, newHospitalAddress, walletAddress], credentials);
 
     var firebaseStatus =
@@ -531,12 +532,12 @@ class _PatientChangeHospitalState extends State<PatientChangeHospital> {
                                   Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
-                                          TextInputType.streetAddress,
+                                          TextInputType.text,
                                           widget.oldHospitalAddress.toString(),
                                           'old_hospital_address',
                                           'Old Hospital Address',
                                           Image.asset(
-                                              "assets/icons/key-100.png",
+                                              "assets/icons/wallet.png",
                                               color: Theme.of(context)
                                                   .colorScheme
                                                   .primary,
@@ -551,12 +552,12 @@ class _PatientChangeHospitalState extends State<PatientChangeHospital> {
                                   Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
-                                          TextInputType.streetAddress,
+                                          TextInputType.text,
                                           '0x72ec479eb474b3b737e30d265773f9e7a2d0b031',
                                           'new_hospital_address',
                                           'New Hospital Wallet Address',
                                           Image.asset(
-                                              "assets/icons/key-100.png",
+                                              "assets/icons/wallet.png",
                                               color: Theme.of(context)
                                                   .colorScheme
                                                   .primary,

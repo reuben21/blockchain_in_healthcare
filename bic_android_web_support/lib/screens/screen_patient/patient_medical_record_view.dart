@@ -532,106 +532,83 @@ class _PatientMedicalRecordViewState extends State<PatientMedicalRecordView> {
                           // ),
                         ),
                       ),
-                      SizedBox(
-                        height: 125,
-                        width: double.infinity,
-                        child: Card(
-                          clipBehavior: Clip.antiAlias,
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(
-                                color: Theme.of(context).colorScheme.primary,
-                                width: 2),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  medicalRecordCount.toString(),
-                                  style: TextStyle(
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Image.asset("assets/icons/patient-count-100.png",
-                                  color: Theme.of(context).colorScheme.primary,
-                                  width: 50,
-                                  height: 50),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  "Patient Medical Record Count",
-                                  style: TextStyle(
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ],
-                          ),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: ListTile(
+                          trailing: Image.asset(
+                              "assets/icons/icons8-medical-history-100.png",
+                              color: Theme.of(context)
+                                  .primaryColor,
+                              width: 25,
+                              height: 25),
+                          title: Text(
+                              "Found ${medicalRecordCount.toString()} Medical Records",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1),
+
                         ),
                       ),
-                      SizedBox(
-                          width: double.infinity,
-                          height: size.height - 400,
-                          child: SingleChildScrollView(
-                            child: ListView.builder(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: medicalRecordCount.toInt(),
-                                itemBuilder:
-                                    (BuildContext context, int position) {
-                                  return Card(
-                                    borderOnForeground: true,
-                                    clipBehavior: Clip.antiAlias,
-                                    shape: RoundedRectangleBorder(
-                                      side: BorderSide(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                          width: 2),
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        ListTile(
-                                          trailing: Image.asset(
-                                              "assets/icons/forward-100.png",
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                              width: 25,
-                                              height: 25),
-                                          title: Text(
-                                              'View Medical Record ${position + 1}',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1),
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    PatientSingleMedicalView(
-                                                  recordNumber: position + 1,
-                                                  walletAddress:
-                                                      EthereumAddress.fromHex(
-                                                          walletAdd),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SizedBox(
+                            width: double.infinity,
+                            height: size.height - 400,
+                            child: SingleChildScrollView(
+                              child: ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: medicalRecordCount.toInt(),
+                                  itemBuilder:
+                                      (BuildContext context, int position) {
+                                    return Card(
+                                      elevation: 4,
+                                      borderOnForeground: true,
+                                      clipBehavior: Clip.antiAlias,
+                                      shape: RoundedRectangleBorder(
+                                        // side: BorderSide(
+                                        //     color: Theme.of(context)
+                                        //         .colorScheme
+                                        //         .primary,
+                                        //     width: 2),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          ListTile(
+                                            trailing: Image.asset(
+                                                "assets/icons/forward-100.png",
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                                width: 25,
+                                                height: 25),
+                                            title: Text(
+                                                'View Medical Record ${position + 1}',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyText1),
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      PatientSingleMedicalView(
+                                                    recordNumber: position + 1,
+                                                    walletAddress:
+                                                        EthereumAddress.fromHex(
+                                                            walletAdd),
+                                                  ),
                                                 ),
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                }),
-                          ))
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }),
+                            )),
+                      )
                     ],
                   ),
                 ),

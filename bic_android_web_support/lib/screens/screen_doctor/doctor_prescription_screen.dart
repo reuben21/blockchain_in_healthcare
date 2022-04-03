@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:bic_android_web_support/databases/wallet_shared_preferences.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -67,7 +68,65 @@ class _DoctorPrescriptionScreenState extends State<DoctorPrescriptionScreen> {
       // ),
       body: SingleChildScrollView(
         child: SingleChildScrollView(
-          child: Container(
+          child: doctorProvider == null ? Container(
+            height: 800,
+            width: double.infinity,
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Theme.of(context).colorScheme.primaryVariant,
+                    Theme.of(context).colorScheme.primary,
+
+                  ],
+                )),
+            child: Column(
+              children: [
+                Padding(
+                  padding:
+                  const EdgeInsets.symmetric(vertical: 80),
+                  child: SvgPicture.asset(
+                    "assets/images/undraw_doctors.svg",
+                    height: 220,
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+
+                    Text(
+                      "Register",
+                      style: GoogleFonts.montserrat(
+                        color: Theme.of(context).colorScheme.secondary,
+                        fontSize: 25,
+                      ),
+
+                    ),
+                    Text(
+                      "Yourself",
+                      style: GoogleFonts.montserrat(
+                        color: Theme.of(context).colorScheme.secondary,
+                        fontSize: 25,
+                      ),
+
+
+                    ),
+                    Text(
+                      "From the Home Tab",
+                      style: GoogleFonts.montserrat(
+                        color: Theme.of(context).colorScheme.secondary,
+                        fontSize: 25,
+                      ),
+
+
+                    ),
+                  ],
+                ),
+
+              ],
+            ),
+          ):Container(
             child: Column(
               children: [
                 CustomButtonGen(cardText:"View Medical Record For Patient",onPressed:()=>{

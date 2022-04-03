@@ -4,6 +4,7 @@ import 'package:bic_android_web_support/databases/wallet_shared_preferences.dart
 import 'package:bic_android_web_support/providers/provider_doctor/model_doctor.dart';
 import 'package:bic_android_web_support/screens/screen_doctor/doctor_prescription_form.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -129,8 +130,8 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
         fontSize: 15,
         fontWeight: FontWeight.bold,
         color: Theme.of(context).colorScheme.primary);
-    var doctorProvider =
-        Provider.of<DoctorModel>(context, listen: false).doctorHospitalAddress;
+    // var doctorProvider =
+    //     Provider.of<DoctorModel>(context, listen: false).doctorHospitalAddress;
 
     return Scaffold(
       // appBar: AppBar(
@@ -144,30 +145,117 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
           child: Container(
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Container(
+                doctorIpfsHash['doctor_name'] == ''
+                        ? Container(
+                      height: 800,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              Theme.of(context).colorScheme.primaryVariant,
+                              Theme.of(context).colorScheme.primary,
+
+                            ],
+                          )),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding:
+                            const EdgeInsets.symmetric(vertical: 80),
+                            child: SvgPicture.asset(
+                              "assets/images/undraw_doctor.svg",
+                              height: 220,
+                            ),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 10),
+                                child: Text(
+                                  "Hello Doctor !",
+                                  style: GoogleFonts.montserrat(
+                                    color: Theme.of(context).colorScheme.secondary,
+                                    fontSize: 30,
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                "Start By",
+                                style: GoogleFonts.montserrat(
+                                  color: Theme.of(context).colorScheme.secondary,
+                                  fontSize: 25,
+                                ),
+                              ),
+                              Text(
+                                "Registering Yourself",
+                                style: GoogleFonts.montserrat(
+                                  color: Theme.of(context).colorScheme.secondary,
+                                  fontSize: 25,
+                                ),
+
+                              ),
+                              Text(
+                                "On the Blockchain",
+                                style: GoogleFonts.montserrat(
+                                  color: Theme.of(context).colorScheme.secondary,
+                                  fontSize: 25,
+                                ),
+
+                              ),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 30,right: 75),
+                                child: FloatingActionButton.extended(
+                                  heroTag: "registerOnBlockchain",
+                                  backgroundColor:
+                                  Theme.of(context).colorScheme.secondary,
+                                  foregroundColor:
+                                  Theme.of(context).colorScheme.primary,
+                                  onPressed: ()  {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => DoctorDetails(
+                                          doctorName: doctorIpfsHash['doctor_name'],
+                                          doctorAge: doctorIpfsHash['doctor_age'],
+                                          doctorAddress: doctorIpfsHash['doctor_address'],
+                                          doctorHospitalAddress:
+                                          doctorIpfsHash['hospital_address'],
+                                          doctorGender: doctorIpfsHash['doctor_gender'],
+                                          doctorPhoneNo:
+                                          doctorIpfsHash['doctor_phone_no'],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  // icon: Image.asset(
+                                  //     "assets/icons/registration-100.png",
+                                  //     color: Theme.of(context).colorScheme.secondary,
+                                  //     width: 25,
+                                  //     fit: BoxFit.fill,
+                                  //     height: 25),
+                                  label: Text('Register Now',style: GoogleFonts.montserrat(
+                                    color: Theme.of(context).colorScheme.primary,
+                                    fontSize: 18,
+                                  ) ,),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    )
+                        : Container(
                     width: double.infinity,
                     height: 520,
-                    child: doctorIpfsHash['doctor_name'] == ''
-                        ? Card(
-                            // borderOnForeground: true,
-                            clipBehavior: Clip.antiAlias,
-                            shape: RoundedRectangleBorder(
-                              // side: BorderSide(
-                              //     color: Theme.of(context).colorScheme.primary,
-                              //     width: 2),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: const ListTile(
-                              leading: Icon(Icons.arrow_drop_down_circle),
-                              title: Text(
-                                "Not Registered on Blockchain",
-                                style: TextStyle(fontSize: 15),
-                              ),
-                            ),
-                          )
-                        : Card(
+                    child:Card(
                             // borderOnForeground: true,
                             clipBehavior: Clip.antiAlias,
                             shape: RoundedRectangleBorder(
@@ -343,7 +431,7 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                             ),
                           ),
                   ),
-                ),
+
                 // Divider(
                 //
                 //   height: 20,
@@ -352,49 +440,56 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                 //   endIndent: 15,
                 //   color: Theme.of(context).colorScheme.primary,
                 // ),
-                CustomButtonGen(cardText:'Store or Update Doctor on Blockchain',onPressed:()=>{
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => DoctorDetails(
-                        doctorName: doctorIpfsHash['doctor_name'],
-                        doctorAge: doctorIpfsHash['doctor_age'],
-                        doctorAddress: doctorIpfsHash['doctor_address'],
-                        doctorHospitalAddress:
-                        doctorIpfsHash['hospital_address'],
-                        doctorGender: doctorIpfsHash['doctor_gender'],
-                        doctorPhoneNo:
-                        doctorIpfsHash['doctor_phone_no'],
-                      ),
-                    ),
-                  )
-                },imageAsset:Image.asset(
-                  "assets/icons/icons8-medical-doctor-100.png",
-                  color: Theme.of(context).primaryColor,
-                  width: 20,
-                  height: 20,
-                  fit: BoxFit.contain,
-                  alignment: Alignment.center,
-                ),),
-                CustomButtonGen(cardText:'Change Hospital on Blockchain',onPressed:()=>{
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => DoctorChangeHospital(
-                        oldHospitalAddress:
-                        doctorIpfsHash['hospital_address'],
-                        doctorWalletAddress: walletAdd,
-                      ),
-                    ),
-                  )
-                },imageAsset:Image.asset(
-                  "assets/icons/hospital.png",
-                  color: Theme.of(context).primaryColor,
-                  width: 20,
-                  height: 20,
-                  fit: BoxFit.contain,
-                  alignment: Alignment.center,
-                ),),
+                doctorIpfsHash['doctor_name'] == ''
+                    ?Container():
+                Column(
+                  children: [
+                    CustomButtonGen(cardText:'Store or Update Doctor on Blockchain',onPressed:()=>{
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DoctorDetails(
+                            doctorName: doctorIpfsHash['doctor_name'],
+                            doctorAge: doctorIpfsHash['doctor_age'],
+                            doctorAddress: doctorIpfsHash['doctor_address'],
+                            doctorHospitalAddress:
+                            doctorIpfsHash['hospital_address'],
+                            doctorGender: doctorIpfsHash['doctor_gender'],
+                            doctorPhoneNo:
+                            doctorIpfsHash['doctor_phone_no'],
+                          ),
+                        ),
+                      )
+                    },imageAsset:Image.asset(
+                      "assets/icons/icons8-medical-doctor-100.png",
+                      color: Theme.of(context).primaryColor,
+                      width: 20,
+                      height: 20,
+                      fit: BoxFit.contain,
+                      alignment: Alignment.center,
+                    ),),
+                    CustomButtonGen(cardText:'Change Hospital on Blockchain',onPressed:()=>{
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DoctorChangeHospital(
+                            oldHospitalAddress:
+                            doctorIpfsHash['hospital_address'],
+                            doctorWalletAddress: walletAdd,
+                          ),
+                        ),
+                      )
+                    },imageAsset:Image.asset(
+                      "assets/icons/hospital.png",
+                      color: Theme.of(context).primaryColor,
+                      width: 20,
+                      height: 20,
+                      fit: BoxFit.contain,
+                      alignment: Alignment.center,
+                    ),),
+                  ],
+                ),
+
 
               ],
             ),

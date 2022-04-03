@@ -493,59 +493,64 @@ class _PatientSingleMedicalViewState extends State<PatientSingleMedicalView> {
             children: [
               SingleChildScrollView(
                 child: Background(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: 100,
-                      ),
-                      Card(
-                        borderOnForeground: true,
-                        clipBehavior: Clip.antiAlias,
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                              color: Theme.of(context).colorScheme.primary,
-                              width: 2),
-                          borderRadius: BorderRadius.circular(10),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          height: 100,
                         ),
-                        child:  ListTile(
-
-                          title:  Text(
-                            "Medical Record ID",
-                            style: textStyleForName,
+                        Card(
+                          elevation: 4,
+                          borderOnForeground: true,
+                          clipBehavior: Clip.antiAlias,
+                          shape: RoundedRectangleBorder(
+                            // side: BorderSide(
+                            //     color: Theme.of(context).colorScheme.primary,
+                            //     width: 2),
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                          subtitle: Text(medicalRecordCount.toString(),
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.red.withOpacity(0.6),fontWeight: FontWeight.bold),
+                          child:  ListTile(
+
+                            title:  Text(
+                              "Medical Record ID",
+                              style: textStyleForName,
+                            ),
+                            subtitle: Text(medicalRecordCount.toString(),
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.red.withOpacity(0.6),fontWeight: FontWeight.bold),
+                            ),
                           ),
                         ),
-                      ),
-                      Image.network(
-                          '${keys.getIpfsUrlForReceivingData}${medicalRecordHash}'),
-                      Card(
-                        borderOnForeground: true,
-                        clipBehavior: Clip.antiAlias,
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                              color: Theme.of(context).colorScheme.primary,
-                              width: 2),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child:  ListTile(
-
-
-                          title: Text(
-                            "Validity Status: ",
-                            style:textStyleForName,
+                        Image.network(
+                            '${keys.getIpfsUrlForReceivingData}${medicalRecordHash}'),
+                        Card(
+                          elevation: 4,
+                          borderOnForeground: true,
+                          clipBehavior: Clip.antiAlias,
+                          shape: RoundedRectangleBorder(
+                            // side: BorderSide(
+                            //     color: Theme.of(context).colorScheme.primary,
+                            //     width: 2),
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                          subtitle: Text(verifiedStatus ? "Verified" : "Unverified",
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.red.withOpacity(0.6)),
-                        ),
-                      ),),
-                    ],
+                          child:  ListTile(
+
+
+                            title: Text(
+                              "Validity Status: ",
+                              style:textStyleForName,
+                            ),
+                            subtitle: Text(verifiedStatus ? "Verified" : "Unverified",
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.red.withOpacity(0.6)),
+                          ),
+                        ),),
+                      ],
+                    ),
                   ),
                 ),
               ),
