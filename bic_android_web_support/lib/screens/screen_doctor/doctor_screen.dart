@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:bic_android_web_support/databases/wallet_shared_preferences.dart';
 import 'package:bic_android_web_support/providers/provider_doctor/model_doctor.dart';
+import 'package:bic_android_web_support/screens/screen_doctor/doctor_prescription_form.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -20,6 +21,7 @@ import 'package:web3dart/credentials.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
 
+import '../Widgets/CustomButtonGen.dart';
 import '../Widgets/CustomCard.dart';
 import 'doctor_change_hospital.dart';
 import 'doctor_patient_list.dart';
@@ -66,8 +68,6 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
     });
   }
 
-
-
   Future<void> fetchDoctorData() async {
     Credentials credentialsNew;
     EthereumAddress address;
@@ -84,8 +84,9 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
     // print(data[0]);
 
     if (data[1].toString() != '') {
-      var doctorProvider = await Provider.of<DoctorModel>(context, listen: false)
-          .setDoctorData(data[4],data[2]);
+      var doctorProvider =
+          await Provider.of<DoctorModel>(context, listen: false)
+              .setDoctorData(data[4], data[2]);
       var doctorData = await Provider.of<IPFSModel>(context, listen: false)
           .receiveData(data[1]);
       print(doctorData);
@@ -128,8 +129,8 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
         fontSize: 15,
         fontWeight: FontWeight.bold,
         color: Theme.of(context).colorScheme.primary);
-    var doctorProvider = Provider.of<DoctorModel>(context, listen: false)
-        .doctorHospitalAddress;
+    var doctorProvider =
+        Provider.of<DoctorModel>(context, listen: false).doctorHospitalAddress;
 
     return Scaffold(
       // appBar: AppBar(
@@ -143,7 +144,6 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
           child: Container(
             child: Column(
               children: [
-
                 Padding(
                   padding: const EdgeInsets.all(8),
                   child: Container(
@@ -182,16 +182,17 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                                 ListTile(
                                   leading: Image.asset(
                                       "assets/icons/checked-user-male-100.png",
-                                      color: Theme.of(context).colorScheme.primary,
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
                                       width: 35,
                                       height: 35),
                                   title: Text('Role', style: textStyleForName),
                                   subtitle: Text(
                                     role.toString(),
                                     style: GoogleFonts.montserrat(
-                    color: Colors.black.withOpacity(0.6),
-                    fontSize: 15,
-                  ),
+                                      color: Colors.black.withOpacity(0.6),
+                                      fontSize: 15,
+                                    ),
                                   ),
                                 ),
                                 ListTile(
@@ -204,11 +205,11 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                                   title: Text('Doctor Name',
                                       style: textStyleForName),
                                   subtitle: Text(
-                                    doctorIpfsHash['doctor_name'] ,
+                                    doctorIpfsHash['doctor_name'],
                                     style: GoogleFonts.montserrat(
-                    color: Colors.black.withOpacity(0.6),
-                    fontSize: 15,
-                  ),
+                                      color: Colors.black.withOpacity(0.6),
+                                      fontSize: 15,
+                                    ),
                                   ),
                                 ),
                                 Row(
@@ -217,17 +218,20 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                                       child: ListTile(
                                         leading: Image.asset(
                                             "assets/icons/icons8-age-100.png",
-                                            color:
-                                                Theme.of(context).colorScheme.primary,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
                                             width: 35,
                                             height: 35),
-                                        title: Text('Age', style: textStyleForName),
+                                        title: Text('Age',
+                                            style: textStyleForName),
                                         subtitle: Text(
                                           doctorIpfsHash['doctor_age'],
                                           style: GoogleFonts.montserrat(
-                    color: Colors.black.withOpacity(0.6),
-                    fontSize: 15,
-                  ),
+                                            color:
+                                                Colors.black.withOpacity(0.6),
+                                            fontSize: 15,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -235,8 +239,9 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                                       child: ListTile(
                                         leading: Image.asset(
                                             "assets/icons/icons8-gender-100.png",
-                                            color:
-                                            Theme.of(context).colorScheme.primary,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
                                             width: 35,
                                             height: 35),
                                         title: Text(
@@ -246,9 +251,10 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                                         subtitle: Text(
                                           doctorIpfsHash['doctor_gender'],
                                           style: GoogleFonts.montserrat(
-                    color: Colors.black.withOpacity(0.6),
-                    fontSize: 15,
-                  ),
+                                            color:
+                                                Colors.black.withOpacity(0.6),
+                                            fontSize: 15,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -266,29 +272,34 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                                   subtitle: Text(
                                     doctorIpfsHash['doctor_address'],
                                     style: GoogleFonts.montserrat(
-                    color: Colors.black.withOpacity(0.6),
-                    fontSize: 15,
-                  ),
+                                      color: Colors.black.withOpacity(0.6),
+                                      fontSize: 15,
+                                    ),
                                   ),
                                 ),
                                 ListTile(
                                   leading: Image.asset(
                                       "assets/icons/wallet.png",
                                       color:
-                                      Theme.of(context).colorScheme.primary,
+                                          Theme.of(context).colorScheme.primary,
                                       width: 35,
                                       height: 35),
-                                  title:
-                                  Text('Hospital Address', style: textStyleForName),
+                                  title: Text('Hospital Address',
+                                      style: textStyleForName),
                                   subtitle: Text(
-                                    doctorIpfsHash['hospital_address'].toString().substring(0,4)+"...."+doctorIpfsHash['hospital_address'].toString().lastChars(4),
+                                    doctorIpfsHash['hospital_address']
+                                            .toString()
+                                            .substring(0, 4) +
+                                        "...." +
+                                        doctorIpfsHash['hospital_address']
+                                            .toString()
+                                            .lastChars(4),
                                     style: GoogleFonts.montserrat(
-                    color: Colors.black.withOpacity(0.6),
-                    fontSize: 15,
-                  ),
+                                      color: Colors.black.withOpacity(0.6),
+                                      fontSize: 15,
+                                    ),
                                   ),
                                 ),
-
                                 ListTile(
                                   leading: Image.asset(
                                       "assets/icons/phone-100.png",
@@ -301,9 +312,9 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                                   subtitle: Text(
                                     doctorIpfsHash['doctor_phone_no'],
                                     style: GoogleFonts.montserrat(
-                    color: Colors.black.withOpacity(0.6),
-                    fontSize: 15,
-                  ),
+                                      color: Colors.black.withOpacity(0.6),
+                                      fontSize: 15,
+                                    ),
                                   ),
                                 ),
                                 ListTile(
@@ -318,9 +329,9 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                                   subtitle: Text(
                                     doctorIpfsHashData,
                                     style: GoogleFonts.montserrat(
-                    color: Colors.black.withOpacity(0.6),
-                    fontSize: 15,
-                  ),
+                                      color: Colors.black.withOpacity(0.6),
+                                      fontSize: 15,
+                                    ),
                                   ),
                                   onTap: () {
                                     String _url =
@@ -328,7 +339,6 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                                     _launchURL(_url);
                                   },
                                 ),
-                               
                               ],
                             ),
                           ),
@@ -342,132 +352,59 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                 //   endIndent: 15,
                 //   color: Theme.of(context).colorScheme.primary,
                 // ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 20),
-                  child: CarouselSlider(
-                    options: CarouselOptions(
-                      height: 180.0,
-
-                      aspectRatio: 16 / 9,
-                      viewportFraction: 0.5,
-                      initialPage: 0,
-                      enableInfiniteScroll: true,
-                      reverse: false,
-                      autoPlay: true,
-                      autoPlayInterval: Duration(seconds: 3),
-                      autoPlayAnimationDuration: Duration(milliseconds: 800),
-                      autoPlayCurve: Curves.fastOutSlowIn,
-                      enlargeCenterPage: true,
-                      scrollDirection: Axis.horizontal,
+                CustomButtonGen(cardText:'Store or Update Doctor on Blockchain',onPressed:()=>{
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DoctorDetails(
+                        doctorName: doctorIpfsHash['doctor_name'],
+                        doctorAge: doctorIpfsHash['doctor_age'],
+                        doctorAddress: doctorIpfsHash['doctor_address'],
+                        doctorHospitalAddress:
+                        doctorIpfsHash['hospital_address'],
+                        doctorGender: doctorIpfsHash['doctor_gender'],
+                        doctorPhoneNo:
+                        doctorIpfsHash['doctor_phone_no'],
+                      ),
                     ),
-                    items: [
-                      CustomCard(
-                        onPressed: () => {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DoctorDetails(
-                                doctorName: doctorIpfsHash['doctor_name'],
-                                doctorAge: doctorIpfsHash['doctor_age'],
-                                doctorAddress:
-                                doctorIpfsHash['doctor_address'],
-                                doctorGender: doctorIpfsHash['doctor_gender'],
-                                doctorPhoneNo:
-                                doctorIpfsHash['doctor_phone_no'],
-                              ),
-                            ),
-                          )
-                        },
-                        imageAsset: Image.asset("assets/icons/icons8-medical-doctor-100.png",
-                            color: Theme.of(context).primaryColor,
-                            width: 20,
-                            height: 20),
-                        cardText: 'Store or Update Doctor on Blockchain',
+                  )
+                },imageAsset:Image.asset(
+                  "assets/icons/icons8-medical-doctor-100.png",
+                  color: Theme.of(context).primaryColor,
+                  width: 20,
+                  height: 20,
+                  fit: BoxFit.contain,
+                  alignment: Alignment.center,
+                ),),
+                CustomButtonGen(cardText:'Change Hospital on Blockchain',onPressed:()=>{
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DoctorChangeHospital(
+                        oldHospitalAddress:
+                        doctorIpfsHash['hospital_address'],
+                        doctorWalletAddress: walletAdd,
                       ),
-                      CustomCard(
-                        onPressed: () => {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DoctorChangeHospital(
-                                oldHospitalAddress: doctorIpfsHash['hospital_address'], doctorWalletAddress:walletAdd ,
-                              ),
-                            ),
-                          )
-                        },
-                        imageAsset:
-                        Image.asset("assets/icons/hospital.png",
-                            color: Theme.of(context).primaryColor,
-                            width: 20,
-                            height: 20,fit: BoxFit.contain,alignment: Alignment.center,),
-                        cardText: 'Change Hospital on Blockchain',
-                      ),
-                      CustomCard(
-                        onPressed: () => {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DoctorPatientMedicalRecordView(hospitalAddress:doctorProvider.hex),
-                            ),
-                          )
-                        },
-                        imageAsset:
-                        Image.asset("assets/icons/icons8-medical-history-100.png",
-                          color: Theme.of(context).primaryColor,
-                          width: 20,
-                          height: 20,fit: BoxFit.contain,alignment: Alignment.center,),
-                        cardText: 'View Medical Records for Patients',
-                      ),
-                      CustomCard(
-                        onPressed: () => {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DoctorPatientMedicalRecordView(
-                                  hospitalAddress: doctorProvider.hex),
-                            ),
-                          )
-                        },
-                        imageAsset:
-                        Image.asset("assets/icons/icons8-hand-with-a-pill-100.png",
-                          color: Theme.of(context).primaryColor,
-                          width: 20,
-                          height: 20,fit: BoxFit.contain,alignment: Alignment.center,),
-                        cardText: 'Prescribe Medicine',
-                      ),
-                      CustomCard(
-                        onPressed: () => {
-                        Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                        builder: (context) => DoctorPatientMedicalRecordView(
-                                      hospitalAddress: doctorProvider.hex),
-                            ),
-                          )
-                        },
-                        imageAsset:
-                        Image.asset("assets/icons/icons8-list-100.png",
-                          color: Theme.of(context).primaryColor,
-                          width: 20,
-                          height: 20,fit: BoxFit.contain,alignment: Alignment.center,),
-                        cardText: 'View Patient List',
-                      ),
-                    ].toList(),
-                  ),
-                ),
-
+                    ),
+                  )
+                },imageAsset:Image.asset(
+                  "assets/icons/hospital.png",
+                  color: Theme.of(context).primaryColor,
+                  width: 20,
+                  height: 20,
+                  fit: BoxFit.contain,
+                  alignment: Alignment.center,
+                ),),
 
               ],
             ),
           ),
         ),
-       
       ),
     );
   }
-
-
 }
+
 extension E on String {
   String lastChars(int n) => substring(length - n);
 }

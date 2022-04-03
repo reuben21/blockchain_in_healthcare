@@ -1,19 +1,11 @@
-import 'dart:convert';
 import 'dart:typed_data';
-
-import 'package:bic_android_web_support/providers/ipfs.dart';
 import 'package:bic_android_web_support/screens/screen_hospital/grant_access_to_patient_screen.dart';
 import 'package:bic_android_web_support/screens/screen_hospital/revoke_access_screen.dart';
-import 'package:bic_android_web_support/screens/screen_patient/patient_details.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:velocity_x/src/extensions/context_ext.dart';
-import 'package:velocity_x/src/extensions/num_ext.dart';
-import 'package:velocity_x/velocity_x.dart';
 import 'package:web3dart/credentials.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
-
+import '../Widgets/CustomButtonGen.dart';
 import 'grant_access_screen.dart';
 
 class HospitalAccessControl extends StatefulWidget {
@@ -78,113 +70,38 @@ class _HospitalAccessControlState extends State<HospitalAccessControl> {
         child: Container(
           child:  Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8),
-                child: Card(
-                  borderOnForeground: true,
-                  clipBehavior: Clip.antiAlias,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                        color: Theme.of(context).colorScheme.primary, width: 2),
-                    borderRadius: BorderRadius.circular(10),
+              CustomButtonGen(cardText:'Grant Access',onPressed:()=>{
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => GrantRoleScreen(),
                   ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      ListTile(
-                        trailing: Image.asset("assets/icons/forward-100.png",
-                            color: Theme.of(context).primaryColor,
-                            width: 25,
-                            height: 25),
-                        title: Text('Grant Access To Doctor',
-                            style: Theme.of(context).textTheme.bodyText1),
-                        onTap: () {
+                )
+              },imageAsset:Image.asset(
+                "assets/icons/icons8-access-100.png",
+                color: Theme.of(context).primaryColor,
+                width: 20,
+                height: 20,
+                fit: BoxFit.contain,
+                alignment: Alignment.center,
+              ),),
 
+              CustomButtonGen(cardText:'Revoke Access',onPressed:()=>{
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          RevokeRoleAccessScreen()),
+                )
+              },imageAsset:Image.asset(
+                "assets/icons/icons8-no-access-100.png",
+                color: Theme.of(context).primaryColor,
+                width: 20,
+                height: 20,
+                fit: BoxFit.contain,
+                alignment: Alignment.center,
+              ),),
 
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => GrantRoleScreen(),
-                            ),
-                          );
-                        },
-                      ),
-
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8),
-                child: Card(
-                  borderOnForeground: true,
-                  clipBehavior: Clip.antiAlias,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                        color: Theme.of(context).colorScheme.primary, width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      ListTile(
-                        trailing: Image.asset("assets/icons/forward-100.png",
-                            color: Theme.of(context).primaryColor,
-                            width: 25,
-                            height: 25),
-                        title: Text('Grant Access To Patient',
-                            style: Theme.of(context).textTheme.bodyText1),
-                        onTap: () {
-
-
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => GrantRoleScreenPatient(),
-                            ),
-                          );
-                        },
-                      ),
-
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8),
-                child: Card(
-                  borderOnForeground: true,
-                  clipBehavior: Clip.antiAlias,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                        color: Theme.of(context).colorScheme.primary, width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      ListTile(
-                        trailing: Image.asset("assets/icons/forward-100.png",
-                            color: Theme.of(context).primaryColor,
-                            width: 25,
-                            height: 25),
-                        title: Text('Revoke Role',
-                            style: Theme.of(context).textTheme.bodyText1),
-                        onTap: () {
-
-
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => RevokeRoleAccessScreen(),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
             ],
           ),
             ),

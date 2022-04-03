@@ -108,7 +108,7 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                       child: Column(
                         children: <Widget>[
                           Padding(
-                            padding: const EdgeInsets.all(5.0),
+                            padding: const EdgeInsets.all(15.0),
                             child: Container(
                               height: 50,
                               width: double.infinity,
@@ -131,6 +131,7 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                               ),
                             ),
                           ),
+                          SizedBox(height: 15,),
                           Padding(
                               padding: const EdgeInsets.all(15),
                               child: FormBuilderTextField(
@@ -140,7 +141,7 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                                 name: 'patientAddress',
                                 decoration: dynamicInputDecoration(
                                   'Patient Address',
-                                  Image.asset("assets/icons/at-sign-100.png",
+                                  Image.asset("assets/icons/wallet.png",
                                       color:
                                           Theme.of(context).colorScheme.primary,
                                       scale: 4,
@@ -160,7 +161,7 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                                 name: 'dateTimeToday',
                                 decoration: dynamicInputDecoration(
                                   'Origin Time',
-                                  Image.asset("assets/icons/key-100.png",
+                                  Image.asset("assets/icons/icons8-alarm-on-100.png",
                                       color:
                                           Theme.of(context).colorScheme.primary,
                                       scale: 4,
@@ -180,7 +181,7 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                               inputType: InputType.date,
                               decoration: dynamicInputDecoration(
                                 'Valid Till',
-                                Image.asset("assets/icons/key-100.png",
+                                Image.asset("assets/icons/icons8-alarm-off-100.png",
                                     color:
                                         Theme.of(context).colorScheme.primary,
                                     scale: 4,

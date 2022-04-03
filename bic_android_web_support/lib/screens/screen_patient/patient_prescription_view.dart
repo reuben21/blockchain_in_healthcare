@@ -7,6 +7,7 @@ import 'package:bic_android_web_support/providers/provider_firebase/model_fireba
 import 'package:bic_android_web_support/providers/provider_pharmacy/model_pharmacy.dart';
 import 'package:bic_android_web_support/providers/wallet.dart';
 import 'package:bic_android_web_support/screens/Tabs/tabs_screen.dart';
+import 'package:bic_android_web_support/screens/screen_patient/patient_prescription_single_screen.dart';
 import 'package:bic_android_web_support/screens/screen_patient/patient_single_medical_view.dart';
 import 'package:bic_android_web_support/screens/screens_auth/background.dart';
 import 'package:file_picker/file_picker.dart';
@@ -18,17 +19,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:web3dart/credentials.dart';
 
-import 'doctor_patient_medical_view_single.dart';
 
-class DoctorPatientMedicalRecordView extends StatefulWidget {
+class PatientPrescriptionViewGen extends StatefulWidget {
   static const routeName = '/patient-medical-records';
 
 
   @override
-  _DoctorPatientMedicalRecordViewState createState() => _DoctorPatientMedicalRecordViewState();
+  _PatientPrescriptionViewGenState createState() => _PatientPrescriptionViewGenState();
 }
 
-class _DoctorPatientMedicalRecordViewState extends State<DoctorPatientMedicalRecordView> {
+class _PatientPrescriptionViewGenState extends State<PatientPrescriptionViewGen> {
   final _formKey = GlobalKey<FormBuilderState>();
 
   String walletAdd = '';
@@ -82,7 +82,7 @@ class _DoctorPatientMedicalRecordViewState extends State<DoctorPatientMedicalRec
 
 
     var data = await Provider.of<PharmacyModel>(context, listen: false)
-        .readContract("getMedicalRecordCountForPatient", [address]);
+        .readContract("getPrescriptionsCountForPatient", [address]);
     print(data);
     setState(() {
       medicalRecordCount = data[0];
@@ -568,7 +568,7 @@ class _DoctorPatientMedicalRecordViewState extends State<DoctorPatientMedicalRec
                                         color: Theme.of(context).primaryColor,
                                         width: 25,
                                         height: 25),
-                                    title: Text('View Medical Record',
+                                    title: Text('View Prescription',
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyText1),
@@ -617,7 +617,7 @@ class _DoctorPatientMedicalRecordViewState extends State<DoctorPatientMedicalRec
                                   width: 25,
                                   height: 25),
                               title: Text(
-                                  "Found ${medicalRecordCount.toString()} Medical Records ",
+                                  "Found ${medicalRecordCount.toString()} Prescriptions",
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText1),
@@ -668,7 +668,7 @@ class _DoctorPatientMedicalRecordViewState extends State<DoctorPatientMedicalRec
                                                     context,
                                                     MaterialPageRoute(
                                                       builder: (context) =>
-                                                          DoctorPatientMedicalRecordViewSingle(
+                                                          PatientPrescriptionSingleScreen(
                                                             recordNumber: position + 1,
                                                             walletAddress:
                                                             EthereumAddress.fromHex(

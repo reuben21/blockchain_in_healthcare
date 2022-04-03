@@ -3,6 +3,8 @@ import 'dart:typed_data';
 import 'package:bic_android_web_support/screens/screen_hospital/hospital_access_list.dart';
 import 'package:bic_android_web_support/screens/screen_hospital/revoke_access_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -20,6 +22,7 @@ import 'package:web3dart/credentials.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
 
+import '../Widgets/CustomButtonGen.dart';
 import '../Widgets/CustomCard.dart';
 import 'grant_access_screen.dart';
 
@@ -116,23 +119,101 @@ class _HospitalScreenState extends State<HospitalScreen> {
           child: Column(
             children: [
               hospitalIpfsHashData.toString() == ''
-                  ? Card(
-                      borderOnForeground: true,
-                      clipBehavior: Clip.antiAlias,
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(
-                            color: Theme.of(context).colorScheme.primary,
-                            width: 2),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: const ListTile(
-                        leading: Icon(Icons.arrow_drop_down_circle),
-                        title: Text(
-                          "Not Registered on Blockchain",
-                          style: TextStyle(fontSize: 15),
-                        ),
-                      ),
-                    )
+                  ?  Container(
+                            height: 800,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                Theme.of(context).colorScheme.primary,
+                                Theme.of(context).colorScheme.primaryVariant,
+                              ],
+                            )),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 80),
+                                  child: SvgPicture.asset(
+                                    "assets/images/undraw_secure.svg",
+                                    height: 220,
+                                  ),
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Start By",
+                                      style: GoogleFonts.montserrat(
+                                        color: Theme.of(context).colorScheme.secondary,
+                                        fontSize: 25,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Registering Yourself",
+                                      style: GoogleFonts.montserrat(
+                                        color: Theme.of(context).colorScheme.secondary,
+                                        fontSize: 25,
+                                      ),
+
+                                    ),
+                                    Text(
+                                      "On the Blockchain",
+                                      style: GoogleFonts.montserrat(
+                                        color: Theme.of(context).colorScheme.secondary,
+                                        fontSize: 25,
+                                      ),
+
+                                    ),
+                                  ],
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 30,right: 75),
+                                      child: FloatingActionButton.extended(
+                                        heroTag: "registerOnBlockchain",
+                                        backgroundColor:
+                                        Theme.of(context).colorScheme.secondary,
+                                        foregroundColor:
+                                        Theme.of(context).colorScheme.primary,
+                                        onPressed: ()  {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => HospitalDetailScreen(
+                                                // hospitalName: hospitalIpfsHash['hospital_name'],
+                                                // hospitalAge: hospitalIpfsHash['hospital_age'],
+                                                // hospitalAddress:
+                                                // hospitalIpfsHash['hospital_address'],
+                                                // hospitalGender: hospitalIpfsHash['hospital_gender'],
+                                                // hospitalPhoneNo:
+                                                // hospitalIpfsHash['hospital_phone_no'],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        // icon: Image.asset(
+                                        //     "assets/icons/registration-100.png",
+                                        //     color: Theme.of(context).colorScheme.secondary,
+                                        //     width: 25,
+                                        //     fit: BoxFit.fill,
+                                        //     height: 25),
+                                        label: Text('Register Now',style: GoogleFonts.montserrat(
+                                          color: Theme.of(context).colorScheme.primary,
+                                          fontSize: 18,
+                                        ) ,),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          )
+
                   : Container(
                       child: Column(
                         children: [
@@ -448,94 +529,50 @@ class _HospitalScreenState extends State<HospitalScreen> {
                 height: 20,
               ),
 
-              CarouselSlider(
-                options: CarouselOptions(
-                  height: 180.0,
-                  aspectRatio: 16 / 9,
-                  viewportFraction: 0.5,
-                  initialPage: 0,
-                  enableInfiniteScroll: true,
-                  reverse: false,
-                  autoPlay: true,
-                  autoPlayInterval: Duration(seconds: 3),
-                  autoPlayAnimationDuration: Duration(milliseconds: 800),
-                  autoPlayCurve: Curves.fastOutSlowIn,
-                  enlargeCenterPage: true,
-                  scrollDirection: Axis.horizontal,
-                ),
-                items: [
-                  CustomCard(
-                    onPressed: () => {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => HospitalDetailScreen(
-                              // hospitalName: hospitalIpfsHash['hospital_name'],
-                              // hospitalAge: hospitalIpfsHash['hospital_age'],
-                              // hospitalAddress:
-                              // hospitalIpfsHash['hospital_address'],
-                              // hospitalGender: hospitalIpfsHash['hospital_gender'],
-                              // hospitalPhoneNo:
-                              // hospitalIpfsHash['hospital_phone_no'],
-                              ),
+              hospitalIpfsHashData.toString() == ''
+                  ? Container()
+                  :
+              Column(
+                children: [
+                  CustomButtonGen(cardText:'Store or Update Hospital on Blockchain',onPressed:()=>{
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HospitalDetailScreen(
+                          // hospitalName: hospitalIpfsHash['hospital_name'],
+                          // hospitalAge: hospitalIpfsHash['hospital_age'],
+                          // hospitalAddress:
+                          // hospitalIpfsHash['hospital_address'],
+                          // hospitalGender: hospitalIpfsHash['hospital_gender'],
+                          // hospitalPhoneNo:
+                          // hospitalIpfsHash['hospital_phone_no'],
                         ),
-                      )
-                    },
-                    imageAsset: Image.asset(
-                        "assets/icons/icons8-hospital-3-100.png",
-                        color: Theme.of(context).primaryColor,
-                        width: 20,
-                        height: 20),
-                    cardText: 'Store or Update Hospital on Blockchain',
-                  ),
-                  CustomCard(
-                    onPressed: () => {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => HospitalAccessList()),
-                      )
-                    },
-                    imageAsset: Image.asset(
-                        "assets/icons/icons8-tasklist-100.png",
-                        color: Theme.of(context).primaryColor,
-                        width: 20,
-                        height: 20),
-                    cardText: 'Users To Approve',
-                  ),
-                  CustomCard(
-                    onPressed: () => {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => GrantRoleScreen(),
-                        ),
-                      )
-                    },
-                    imageAsset: Image.asset(
-                        "assets/icons/icons8-access-100.png",
-                        color: Theme.of(context).primaryColor,
-                        width: 20,
-                        height: 20),
-                    cardText: 'Grant Access',
-                  ),
-                  CustomCard(
-                    onPressed: () => {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => RevokeRoleAccessScreen()),
-                      )
-                    },
-                    imageAsset: Image.asset(
-                        "assets/icons/icons8-no-access-100.png",
-                        color: Theme.of(context).primaryColor,
-                        width: 20,
-                        height: 20),
-                    cardText: 'Revoke Access',
-                  ),
-                ].toList(),
+                      ),
+                    )
+                  },imageAsset:Image.asset(
+                    "assets/icons/icons8-hospital-3-100.png",
+                    color: Theme.of(context).primaryColor,
+                    width: 20,
+                    height: 20,
+                    fit: BoxFit.contain,
+                    alignment: Alignment.center,
+                  ),),
+                ],
               ),
+              CustomButtonGen(cardText:'Users To Approve',onPressed:()=>{
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => HospitalAccessList()),
+                )
+              },imageAsset:Image.asset(
+                "assets/icons/icons8-tasklist-100.png",
+                color: Theme.of(context).primaryColor,
+                width: 20,
+                height: 20,
+                fit: BoxFit.contain,
+                alignment: Alignment.center,
+              ),),
             ],
           ),
         ),

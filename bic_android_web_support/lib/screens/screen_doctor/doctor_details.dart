@@ -23,6 +23,7 @@ class DoctorDetails extends StatefulWidget {
   final String? doctorAddress;
   final String? doctorGender;
   final String? doctorPhoneNo;
+  final String? doctorHospitalAddress;
 
   const DoctorDetails({
     required this.doctorName,
@@ -30,6 +31,7 @@ class DoctorDetails extends StatefulWidget {
     required this.doctorAddress,
     required this.doctorGender,
     required this.doctorPhoneNo,
+    required this.doctorHospitalAddress,
   });
 
   @override
@@ -56,6 +58,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
     walletAdd = dbResponse!['walletAddress'].toString();
     setState(() {
       walletAdd;
+      hospitalAddress.text = widget.doctorHospitalAddress!;
     });
   }
 

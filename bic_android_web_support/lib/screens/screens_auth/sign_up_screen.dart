@@ -169,11 +169,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       //   style: TextStyle(fontSize: 20, color: Colors.purple),
                       // ),
                       // SizedBox(height: size.height * 0.03),
+                      const SizedBox(height: 50),
                       SvgPicture.asset(
                         "assets/icons/signup.svg",
                         height: size.height * 0.35,
                       ),
-                      SizedBox(height: size.height * 0.03),
+                      const SizedBox(height: 10),
                       FormBuilder(
                         key: _formKey,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -384,9 +385,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 20,
-                      ),
+                      const SizedBox(height: 50),
+                      const SizedBox(height: 50),
                     ],
                   ),
                 ),

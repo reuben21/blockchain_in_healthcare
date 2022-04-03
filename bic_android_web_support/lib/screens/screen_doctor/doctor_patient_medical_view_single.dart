@@ -22,10 +22,10 @@ class DoctorPatientMedicalRecordViewSingle extends StatefulWidget {
 
   int recordNumber;
   EthereumAddress walletAddress;
-  EthereumAddress hospitalAddress;
+
 
   DoctorPatientMedicalRecordViewSingle(
-      {required this.recordNumber,required this.hospitalAddress, required this.walletAddress});
+      {required this.recordNumber, required this.walletAddress});
 
   @override
   _DoctorPatientMedicalRecordViewSingleState createState() =>
@@ -443,7 +443,7 @@ class _DoctorPatientMedicalRecordViewSingleState
 
 
   Future<void> uploadImage( int value,
-      EthereumAddress patientAddress, EthereumAddress hospitalAddress,
+      EthereumAddress patientAddress,
       Credentials doctorCredentials, EthereumAddress doctorAddress) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
 
@@ -453,7 +453,7 @@ class _DoctorPatientMedicalRecordViewSingleState
       await Provider.of<IPFSModel>(context, listen: false).sendFile(file);
       print("hashReceived ------" + hashReceived.toString());
       if (hashReceived.toString().isNotEmpty) {
-        estimateGasForSetMedicalRecordStatus(value,patientAddress,hospitalAddress,doctorAddress,hashReceived,doctorCredentials);
+        estimateGasForSetMedicalRecordStatus(value,patientAddress,doctorAddress,hashReceived,doctorCredentials);
       }
     } else {
       // User canceled the picker
@@ -461,7 +461,7 @@ class _DoctorPatientMedicalRecordViewSingleState
   }
   Future<void> estimateGasForSetMedicalRecordStatus(
   int value,
-      EthereumAddress patientAddress, EthereumAddress hospitalAddress,
+      EthereumAddress patientAddress,
        EthereumAddress doctorAddress,String hashReceived,
   Credentials doctorCredentials) async {
     var gasEstimation =
@@ -784,7 +784,7 @@ class _DoctorPatientMedicalRecordViewSingleState
                     backgroundColor: Theme.of(context).colorScheme.primary,
                     foregroundColor: Theme.of(context).colorScheme.secondary,
                     onPressed: () async {
-                      executeTransactionForSetMedicalRecordStatus(value, patientAddress,hospitalAddress, doctorAddress,
+                      executeTransactionForSetMedicalRecordStatus(value, patientAddress, doctorAddress,
                           hashReceived, doctorCredentials);
                     },
                     icon: const Icon(Icons.add_circle_outline_outlined),
@@ -809,7 +809,7 @@ class _DoctorPatientMedicalRecordViewSingleState
 
   Future<void> executeTransactionForSetMedicalRecordStatus(
       int value,
-      EthereumAddress patientAddress, EthereumAddress hospitalAddress,
+      EthereumAddress patientAddress,
       EthereumAddress doctorAddress,String hashReceived,
       Credentials doctorCredentials) async {
     var transactionHash =
@@ -981,7 +981,7 @@ class _DoctorPatientMedicalRecordViewSingleState
                                doctorCredentials =
                                    Provider.of<WalletModel>(context, listen: false).walletCredentials;
                                doctorAddress = await doctorCredentials.extractAddress();
-                               uploadImage(widget.recordNumber, widget.walletAddress,widget.hospitalAddress,doctorCredentials, doctorAddress);
+                               uploadImage(widget.recordNumber, widget.walletAddress, doctorCredentials, doctorAddress);
                                // estimateGasForSetMedicalRecordStatus( doctorAddress, true, doctorCredentials);
                              },
                              icon: const Icon(Icons.add_circle_outline_outlined),
