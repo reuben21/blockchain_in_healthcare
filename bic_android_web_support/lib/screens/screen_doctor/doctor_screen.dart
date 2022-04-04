@@ -252,185 +252,188 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                         ],
                       ),
                     )
-                        : Container(
+                        : Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
                     width: double.infinity,
                     height: 520,
                     child:Card(
-                            // borderOnForeground: true,
-                            clipBehavior: Clip.antiAlias,
-                            shape: RoundedRectangleBorder(
-                              // side: BorderSide(
-                              //     color: Theme.of(context).colorScheme.primary,
-                              //     width: 2),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                ListTile(
-                                  leading: Image.asset(
-                                      "assets/icons/checked-user-male-100.png",
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      width: 35,
-                                      height: 35),
-                                  title: Text('Role', style: textStyleForName),
-                                  subtitle: Text(
-                                    role.toString(),
-                                    style: GoogleFonts.montserrat(
-                                      color: Colors.black.withOpacity(0.6),
-                                      fontSize: 15,
+                              // borderOnForeground: true,
+                              clipBehavior: Clip.antiAlias,
+                              shape: RoundedRectangleBorder(
+                                // side: BorderSide(
+                                //     color: Theme.of(context).colorScheme.primary,
+                                //     width: 2),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  ListTile(
+                                    leading: Image.asset(
+                                        "assets/icons/checked-user-male-100.png",
+                                        color:
+                                            Theme.of(context).colorScheme.primary,
+                                        width: 35,
+                                        height: 35),
+                                    title: Text('Role', style: textStyleForName),
+                                    subtitle: Text(
+                                      role.toString(),
+                                      style: GoogleFonts.montserrat(
+                                        color: Colors.black.withOpacity(0.6),
+                                        fontSize: 15,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                ListTile(
-                                  leading: Image.asset(
-                                      "assets/icons/icons8-medical-doctor-100.png",
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      width: 35,
-                                      height: 35),
-                                  title: Text('Doctor Name',
-                                      style: textStyleForName),
-                                  subtitle: Text(
-                                    doctorIpfsHash['doctor_name'],
-                                    style: GoogleFonts.montserrat(
-                                      color: Colors.black.withOpacity(0.6),
-                                      fontSize: 15,
+                                  ListTile(
+                                    leading: Image.asset(
+                                        "assets/icons/icons8-medical-doctor-100.png",
+                                        color:
+                                            Theme.of(context).colorScheme.primary,
+                                        width: 35,
+                                        height: 35),
+                                    title: Text('Doctor Name',
+                                        style: textStyleForName),
+                                    subtitle: Text(
+                                      doctorIpfsHash['doctor_name'],
+                                      style: GoogleFonts.montserrat(
+                                        color: Colors.black.withOpacity(0.6),
+                                        fontSize: 15,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: ListTile(
-                                        leading: Image.asset(
-                                            "assets/icons/icons8-age-100.png",
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primary,
-                                            width: 35,
-                                            height: 35),
-                                        title: Text('Age',
-                                            style: textStyleForName),
-                                        subtitle: Text(
-                                          doctorIpfsHash['doctor_age'],
-                                          style: GoogleFonts.montserrat(
-                                            color:
-                                                Colors.black.withOpacity(0.6),
-                                            fontSize: 15,
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: ListTile(
+                                          leading: Image.asset(
+                                              "assets/icons/icons8-age-100.png",
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                              width: 35,
+                                              height: 35),
+                                          title: Text('Age',
+                                              style: textStyleForName),
+                                          subtitle: Text(
+                                            doctorIpfsHash['doctor_age'],
+                                            style: GoogleFonts.montserrat(
+                                              color:
+                                                  Colors.black.withOpacity(0.6),
+                                              fontSize: 15,
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    Expanded(
-                                      child: ListTile(
-                                        leading: Image.asset(
-                                            "assets/icons/icons8-gender-100.png",
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primary,
-                                            width: 35,
-                                            height: 35),
-                                        title: Text(
-                                          'Gender',
-                                          style: textStyleForName,
-                                        ),
-                                        subtitle: Text(
-                                          doctorIpfsHash['doctor_gender'],
-                                          style: GoogleFonts.montserrat(
-                                            color:
-                                                Colors.black.withOpacity(0.6),
-                                            fontSize: 15,
+                                      Expanded(
+                                        child: ListTile(
+                                          leading: Image.asset(
+                                              "assets/icons/icons8-gender-100.png",
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                              width: 35,
+                                              height: 35),
+                                          title: Text(
+                                            'Gender',
+                                            style: textStyleForName,
+                                          ),
+                                          subtitle: Text(
+                                            doctorIpfsHash['doctor_gender'],
+                                            style: GoogleFonts.montserrat(
+                                              color:
+                                                  Colors.black.withOpacity(0.6),
+                                              fontSize: 15,
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                ListTile(
-                                  leading: Image.asset(
-                                      "assets/icons/address-100.png",
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      width: 35,
-                                      height: 35),
-                                  title:
-                                      Text('Address', style: textStyleForName),
-                                  subtitle: Text(
-                                    doctorIpfsHash['doctor_address'],
-                                    style: GoogleFonts.montserrat(
-                                      color: Colors.black.withOpacity(0.6),
-                                      fontSize: 15,
+                                    ],
+                                  ),
+                                  ListTile(
+                                    leading: Image.asset(
+                                        "assets/icons/address-100.png",
+                                        color:
+                                            Theme.of(context).colorScheme.primary,
+                                        width: 35,
+                                        height: 35),
+                                    title:
+                                        Text('Address', style: textStyleForName),
+                                    subtitle: Text(
+                                      doctorIpfsHash['doctor_address'],
+                                      style: GoogleFonts.montserrat(
+                                        color: Colors.black.withOpacity(0.6),
+                                        fontSize: 15,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                ListTile(
-                                  leading: Image.asset(
-                                      "assets/icons/wallet.png",
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      width: 35,
-                                      height: 35),
-                                  title: Text('Hospital Address',
-                                      style: textStyleForName),
-                                  subtitle: Text(
-                                    doctorIpfsHash['hospital_address']
-                                            .toString()
-                                            .substring(0, 4) +
-                                        "...." +
-                                        doctorIpfsHash['hospital_address']
-                                            .toString()
-                                            .lastChars(4),
-                                    style: GoogleFonts.montserrat(
-                                      color: Colors.black.withOpacity(0.6),
-                                      fontSize: 15,
+                                  ListTile(
+                                    leading: Image.asset(
+                                        "assets/icons/wallet.png",
+                                        color:
+                                            Theme.of(context).colorScheme.primary,
+                                        width: 35,
+                                        height: 35),
+                                    title: Text('Hospital Address',
+                                        style: textStyleForName),
+                                    subtitle: Text(
+                                      doctorIpfsHash['hospital_address']
+                                              .toString()
+                                              .substring(0, 4) +
+                                          "...." +
+                                          doctorIpfsHash['hospital_address']
+                                              .toString()
+                                              .lastChars(4),
+                                      style: GoogleFonts.montserrat(
+                                        color: Colors.black.withOpacity(0.6),
+                                        fontSize: 15,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                ListTile(
-                                  leading: Image.asset(
-                                      "assets/icons/phone-100.png",
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      width: 35,
-                                      height: 35),
-                                  title:
-                                      Text('Phone No', style: textStyleForName),
-                                  subtitle: Text(
-                                    doctorIpfsHash['doctor_phone_no'],
-                                    style: GoogleFonts.montserrat(
-                                      color: Colors.black.withOpacity(0.6),
-                                      fontSize: 15,
+                                  ListTile(
+                                    leading: Image.asset(
+                                        "assets/icons/phone-100.png",
+                                        color:
+                                            Theme.of(context).colorScheme.primary,
+                                        width: 35,
+                                        height: 35),
+                                    title:
+                                        Text('Phone No', style: textStyleForName),
+                                    subtitle: Text(
+                                      doctorIpfsHash['doctor_phone_no'],
+                                      style: GoogleFonts.montserrat(
+                                        color: Colors.black.withOpacity(0.6),
+                                        fontSize: 15,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                ListTile(
-                                  leading: Image.asset(
-                                      "assets/icons/storage-100.png",
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      width: 35,
-                                      height: 35),
-                                  title: Text('IPFS Hash',
-                                      style: textStyleForName),
-                                  subtitle: Text(
-                                    doctorIpfsHashData,
-                                    style: GoogleFonts.montserrat(
-                                      color: Colors.black.withOpacity(0.6),
-                                      fontSize: 15,
+                                  ListTile(
+                                    leading: Image.asset(
+                                        "assets/icons/storage-100.png",
+                                        color:
+                                            Theme.of(context).colorScheme.primary,
+                                        width: 35,
+                                        height: 35),
+                                    title: Text('IPFS Hash',
+                                        style: textStyleForName),
+                                    subtitle: Text(
+                                      doctorIpfsHashData,
+                                      style: GoogleFonts.montserrat(
+                                        color: Colors.black.withOpacity(0.6),
+                                        fontSize: 15,
+                                      ),
                                     ),
+                                    onTap: () {
+                                      String _url =
+                                          "${keys.getIpfsUrlForReceivingData}$doctorIpfsHashData";
+                                      _launchURL(_url);
+                                    },
                                   ),
-                                  onTap: () {
-                                    String _url =
-                                        "${keys.getIpfsUrlForReceivingData}$doctorIpfsHashData";
-                                    _launchURL(_url);
-                                  },
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
                   ),
+                        ),
 
                 // Divider(
                 //

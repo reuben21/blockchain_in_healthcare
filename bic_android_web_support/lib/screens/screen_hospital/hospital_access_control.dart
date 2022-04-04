@@ -6,6 +6,7 @@ import 'package:web3dart/credentials.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
 import '../Widgets/CustomButtonGen.dart';
+import '../screen_doctor/doctor_patient_medical_view.dart';
 import 'grant_access_screen.dart';
 
 class HospitalAccessControl extends StatefulWidget {
@@ -95,6 +96,22 @@ class _HospitalAccessControlState extends State<HospitalAccessControl> {
                 )
               },imageAsset:Image.asset(
                 "assets/icons/icons8-no-access-100.png",
+                color: Theme.of(context).primaryColor,
+                width: 20,
+                height: 20,
+                fit: BoxFit.contain,
+                alignment: Alignment.center,
+              ),),
+              CustomButtonGen(cardText:"View Medical Record For Patient",onPressed:()=>{
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        DoctorPatientMedicalRecordView(),
+                  ),
+                )
+              },imageAsset:Image.asset(
+                "assets/icons/icons8-medical-history-100.png",
                 color: Theme.of(context).primaryColor,
                 width: 20,
                 height: 20,
