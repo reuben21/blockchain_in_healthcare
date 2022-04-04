@@ -1,3 +1,4 @@
+import 'package:bic_android_web_support/screens/screen_doctor/doctor_read_screen.dart';
 import 'package:bic_android_web_support/screens/screen_patient/patient_details.dart';
 import 'package:bic_android_web_support/screens/screen_patient/patient_medical_record.dart';
 import 'package:bic_android_web_support/screens/screen_patient/patient_medical_record_creation.dart';
@@ -20,6 +21,7 @@ import 'package:web3dart/web3dart.dart';
 
 import '../Widgets/CustomButtonGen.dart';
 import '../Widgets/CustomCard.dart';
+import '../screen_hospital/hospital_read_screen.dart';
 
 class PatientMedicineScreen extends StatefulWidget {
   static const routeName = '/patient-record-screen';
@@ -206,6 +208,7 @@ class _PatientMedicineScreenState extends State<PatientMedicineScreen> {
                             height: 20) ,
                         cardText: 'View Medical Records',
                       ),
+
                       CustomButtonGen(
                         onPressed: () => {
                           Navigator.push(
@@ -221,6 +224,25 @@ class _PatientMedicineScreenState extends State<PatientMedicineScreen> {
                             width: 20,
                             height: 20) ,
                         cardText: 'View Prescriptions',
+                      ),
+
+
+
+                      CustomButtonGen(
+                        onPressed: () => {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PrescriptionScreen(),
+                            ),
+                          )
+                        },
+                        imageAsset:
+                        Image.asset("assets/icons/pharmacy-shop-100.png",
+                            color: Theme.of(context).primaryColor,
+                            width: 20,
+                            height: 20) ,
+                        cardText: 'View Pharmacy\'s Data',
                       ),
                     ],
                   ),

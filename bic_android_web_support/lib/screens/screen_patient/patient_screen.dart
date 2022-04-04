@@ -16,6 +16,8 @@ import 'package:web3dart/web3dart.dart';
 
 import '../Widgets/CustomButtonGen.dart';
 import '../Widgets/CustomCard.dart';
+import '../screen_doctor/doctor_read_screen.dart';
+import '../screen_hospital/hospital_read_screen.dart';
 
 class PatientRecordScreen extends StatefulWidget {
   static const routeName = '/patient-record-screen';
@@ -486,7 +488,22 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                               height: 20),
                           cardText: 'Store or Update Patient on Blockchain',
                         ),
-
+                        CustomButtonGen(
+                          onPressed: () => {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>DoctorReadScreen(),
+                              ),
+                            )
+                          },
+                          imageAsset:
+                          Image.asset("assets/icons/icons8-stethoscope-100.png",
+                              color: Theme.of(context).primaryColor,
+                              width: 20,
+                              height: 20) ,
+                          cardText: 'View Doctor\'s Data',
+                        ),
                         CustomButtonGen(
                           onPressed: () => {
                             Navigator.push(
@@ -502,6 +519,22 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                               width: 20,
                               height: 20),
                           cardText: 'Change Doctor',
+                        ),
+                        CustomButtonGen(
+                          onPressed: () => {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HospitalReadScreen(),
+                              ),
+                            )
+                          },
+                          imageAsset:
+                          Image.asset("assets/icons/icons8-hospital-sign-100.png",
+                              color: Theme.of(context).primaryColor,
+                              width: 20,
+                              height: 20) ,
+                          cardText: 'View Hospital\'s Data',
                         ),
                         CustomButtonGen(
                           onPressed: () => {
@@ -533,5 +566,5 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
 }
 
 extension E on String {
-  String lastChars(int n) => substring(length - n);
+  String subStringLastChars(int n) => substring(length - n);
 }
