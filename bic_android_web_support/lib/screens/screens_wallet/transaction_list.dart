@@ -3,7 +3,9 @@ import 'package:bic_android_web_support/providers/wallet.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:cloud_firestore/cloud_firestore.dart' as firestore;
 
+import '../../databases/wallet_shared_preferences.dart';
 import '../../providers/wallet.dart';
 import '../screens_wallet/transfer_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -34,6 +36,45 @@ class _TransactionListState extends State<TransactionList> {
   String dropDownCurrentValue = 'Select Account';
   late String scannedAddress;
 
+  firestore.CollectionReference? users;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  Future<firestore.CollectionReference?> getFirestoreDocument(
+      String userType) async {
+    if (userType == 'Patient') {
+      firestore.CollectionReference patientFirestore =
+          firestore.FirebaseFirestore.instance.collection('Patient');
+      return patientFirestore;
+    } else if (userType == 'Doctor') {
+      firestore.CollectionReference doctorFirestore =
+          firestore.FirebaseFirestore.instance.collection('Doctor');
+      return doctorFirestore;
+    } else if (userType == 'Hospital') {
+      firestore.CollectionReference hospitalFirestore =
+          firestore.FirebaseFirestore.instance.collection('Hospital');
+      return hospitalFirestore;
+    } else if (userType == 'Pharmacy') {
+      firestore.CollectionReference pharmacyFirestore =
+          firestore.FirebaseFirestore.instance.collection('Pharmacy');
+      return pharmacyFirestore;
+    }
+
+    return null;
+  }
+
+  Future<void> getCollectionReferenceData() async {
+    String? userType = await WalletSharedPreference.getUserType();
+
+    setState(() async {
+      users = await getFirestoreDocument(userType!);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,18 +83,18 @@ class _TransactionListState extends State<TransactionList> {
           elevation: 0,
           automaticallyImplyLeading: false,
           leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.primary),
+            icon: Icon(Icons.arrow_back,
+                color: Theme.of(context).colorScheme.primary),
             onPressed: () => Navigator.of(context).pop(),
           ),
-          actions: <Widget>[
-
-          ]),
+          actions: <Widget>[]),
       body: SingleChildScrollView(
         child: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance
-              .collection('users')
-              .doc(auth.currentUser?.uid)
-              .collection("transactions").orderBy("dateTime",descending: true).limit(10)
+          stream: users
+              ?.doc(auth.currentUser?.uid)
+              .collection("transactions")
+              .orderBy("dateTime", descending: true)
+              .limit(10)
               .snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -173,7 +214,7 @@ class _TransactionListState extends State<TransactionList> {
                                 softWrap: false,
                               ),
                               trailing: Text(
-                                '${ documents[position]['totalAmountInEther'].toString()} ETH',
+                                '${documents[position]['totalAmountInEther'].toString()} ETH',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color:

@@ -74,7 +74,7 @@ class FirebaseModel with ChangeNotifier {
 
   }
 
-  Future<bool> storeTransaction(String transactionHash) async {
+  Future<bool>  storeTransaction(String transactionHash) async {
     try {
       TransactionInformation tx =
           await _client.getTransactionByHash(transactionHash);
@@ -115,13 +115,13 @@ class FirebaseModel with ChangeNotifier {
 
         if (auth.currentUser?.uid.toString() != null) {
           String? userType = await WalletSharedPreference.getUserType();
-          getFirestoreDocument(userType!).then((value) => {
-            value?.doc(auth.currentUser?.uid.toString())
+          firestore.CollectionReference userFirestore =
+          firestore.FirebaseFirestore.instance.collection(userType!);
+          userFirestore.doc(auth.currentUser?.uid.toString())
               .collection("transactions")
               .doc()
-              .set(data)
+              .set(data);
 
-          });
 
 
         }
@@ -153,21 +153,20 @@ class FirebaseModel with ChangeNotifier {
       Map<String, bool?> data = {"registerOnce": true};
       if (auth.currentUser?.uid.toString() != null) {
         var hospitalId;
-        var querySnapshot = await FirebaseFirestore.instance
-            .collection('users')
-            .where('walletAddress', isEqualTo: walletAddressOfUser)
+        var querySnapshot = await users
+            ?.where('walletAddress', isEqualTo: walletAddressOfUser)
             .get();
 
-        for (var doc in querySnapshot.docs) {
+        for (var doc in querySnapshot!.docs) {
           // Getting data directly
 
-          hospitalId = doc.data();
+          var data = doc.data() as Map<String,dynamic>;
 
-          if (doc.data()['registerOnce'] == true) {
-            return true;
-          } else if (doc.data()['registerOnce'] == false) {
-            userFirestore.doc(auth.currentUser?.uid.toString()).update(data);
+          if (data['registerOnce'] == true) {
             return false;
+          } else if (data['registerOnce'] == false) {
+            users?.doc(auth.currentUser?.uid.toString()).update(data);
+            return true;
           }
         }
       }
@@ -183,23 +182,55 @@ class FirebaseModel with ChangeNotifier {
     }
   }
 
-  Future<String> checkIfUserIsPresent(String walletAddressOfUser) async {
+  Future<bool> checkIfHospitalIsPresent(String walletAddressOfUser) async {
     try {
       if (auth.currentUser?.uid.toString() != null) {
-        var hospitalId;
-        var querySnapshot = await FirebaseFirestore.instance
-            .collection('users')
-            .where('walletAddress', isEqualTo: walletAddressOfUser)
+
+        firestore.CollectionReference? users = await getFirestoreDocument('Hospital');
+        var querySnapshot = await users
+            ?.where('walletAddress', isEqualTo: walletAddressOfUser)
             .get();
 
-        for (var doc in querySnapshot.docs) {
+        for (var doc in querySnapshot!.docs) {
           // Getting data directly
+          if(doc.exists) {
+            return true;
+          } else { return false; }
 
-          hospitalId = doc.id;
         }
-        return hospitalId;
+        return false;
       }
-      return "";
+      return false;
+    } on SocketException {
+      throw exception.HttpException("No Internet connection 😑");
+    } on HttpException {
+      throw exception.HttpException("Couldn't find the post 😱");
+    } on FormatException {
+      throw exception.HttpException("Bad response format 👎");
+    } catch (error) {
+      throw exception.HttpException(error.toString());
+    }
+  }
+
+  Future<bool> checkIfDoctorIsPresent(String walletAddressOfUser) async {
+    try {
+      if (auth.currentUser?.uid.toString() != null) {
+
+        firestore.CollectionReference? users = await getFirestoreDocument('Doctor');
+        var querySnapshot = await users
+            ?.where('walletAddress', isEqualTo: walletAddressOfUser)
+            .get();
+
+        for (var doc in querySnapshot!.docs) {
+          // Getting data directly
+          if(doc.exists) {
+            return true;
+          } else { return false; }
+
+        }
+        return false;
+      }
+      return false;
     } on SocketException {
       throw exception.HttpException("No Internet connection 😑");
     } on HttpException {
@@ -221,8 +252,10 @@ class FirebaseModel with ChangeNotifier {
         "granted": false
       };
       if (auth.currentUser?.uid.toString() != null) {
-        userFirestore
-            .doc(hospitalFirebaseId)
+        firestore.CollectionReference? users = await getFirestoreDocument('Hospital');
+
+        users
+            ?.doc(hospitalFirebaseId)
             .collection("AccessControl")
             .add(data);
       }

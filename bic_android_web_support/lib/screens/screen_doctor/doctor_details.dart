@@ -76,7 +76,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
     print(gasEstimation);
     var hospitalDetails =
         await Provider.of<FirebaseModel>(context, listen: false)
-            .checkIfUserIsPresent(doctorsHospitalAddress);
+            .checkIfHospitalIsPresent(doctorsHospitalAddress);
 
     print(hospitalDetails);
 
@@ -389,8 +389,9 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                     backgroundColor: Theme.of(context).colorScheme.primary,
                     foregroundColor: Theme.of(context).colorScheme.secondary,
                     onPressed: () async {
+                      print("RNA");
                       executeTransaction(doctorName, ipfsHash, walletAddress,
-                          hospitalAddress, credentials, hospitalDetails);
+                          hospitalAddress, credentials);
                     },
                     icon: const Icon(Icons.add_circle_outline_outlined),
                     label: const Text('Confirm Pay'),
@@ -417,8 +418,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
       String ipfsHash,
       EthereumAddress walletAddress,
       EthereumAddress hospitalAddress,
-      Credentials credentials,
-      String hospitalFirebaseId) async {
+      Credentials credentials) async {
     var status = await Provider.of<FirebaseModel>(context, listen: false)
         .storeUserRegistrationStatus(walletAddress.hex);
     if (status) {
@@ -430,7 +430,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
 
       var hospitalRequest =
           await Provider.of<FirebaseModel>(context, listen: false)
-              .sendHospitalRequest(hospitalFirebaseId, walletAddress.hex);
+              .sendHospitalRequest(hospitalAddress.hex, walletAddress.hex);
       var firebaseStatus =
           await Provider.of<FirebaseModel>(context, listen: false)
               .storeTransaction(transactionHash);

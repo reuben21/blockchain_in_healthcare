@@ -277,8 +277,8 @@ class WalletModel with ChangeNotifier {
       Wallet newWallet = Wallet.fromJson(_walletCredentials, password);
       print(newWallet.privateKey.privateKeyInt);
 
-      String? userType = await WalletSharedPreference.getUserType();
-      firestore.CollectionReference? users = await getFirestoreDocument(userType!);
+
+      firestore.CollectionReference? users = await getFirestoreDocument(userType);
       users?.doc(myAddress.hex.toString()).set({
         'userName': fullName,
         'userEmail': emailId,
@@ -306,31 +306,27 @@ class WalletModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> signInWithWallet(String? uid, String password,String userType) async {
-    Credentials credentials;
-    EthereumAddress myAddress;
+  Future<bool> signInWithWallet(String emailId, String? uid, String password,String userType) async {
 
-    print(uid.toString() + " " + password);
+    print(uid.toString() + " " + password+ " " + userType );
 
 
     try {
-      String emailId;
-      String fullName;
 
       firestore.CollectionReference? users = await getFirestoreDocument(userType);
+      var querySnapshot = await users
+          ?.where('userEmail', isEqualTo: emailId)
+          .get();
+      for (var doc in querySnapshot!.docs) {
+        // Getting data directly
+        var data = doc.data() as Map<String,dynamic>;
 
-      users?.doc(uid).get().then((
-          firestore.DocumentSnapshot documentSnapshot) async {
-        if (documentSnapshot.exists) {
-          print('Document exists on the database');
-          print(documentSnapshot.get('walletAddress'));
 
-          String walletAddressFirestore = documentSnapshot.get('walletAddress');
-          String userEmailFirestore = documentSnapshot.get('userEmail');
-          String userNameFirestore = documentSnapshot.get('userName');
-          String userType = documentSnapshot.get('userType');
-          String walletEncryptedKeyFirestore = documentSnapshot.get(
-              'walletEncryptedKey');
+          String walletAddressFirestore =data['walletAddress'];
+          String userEmailFirestore = data['userEmail'];
+          String userNameFirestore = data['userName'];
+          String userType = data['userType'];
+          String walletEncryptedKeyFirestore = data['walletEncryptedKey'];
 
           await WalletSharedPreference.setWalletDetails(
               userNameFirestore, userEmailFirestore, walletAddressFirestore, walletEncryptedKeyFirestore,
@@ -339,11 +335,12 @@ class WalletModel with ChangeNotifier {
               walletEncryptedKeyFirestore,
               password);
           _credentials = newWallet.privateKey;
-        }
-      });
+          return true;
+
+      }
+      return false;
 
 
-      notifyListeners();
     } on SocketException {
       throw exception.HttpException("No Internet connection 😑");
     } on HttpException {

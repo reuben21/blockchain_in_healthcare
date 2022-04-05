@@ -92,8 +92,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                     // _showErrorDialog("Wallet Has Been Created");
                   }
-              });
-      Navigator.of(context).pushNamed(LoginScreen.routeName);
+              }).then((value) => {
+      Navigator.of(context).pushNamed(LoginScreen.routeName)
+
+      });
     } catch (error) {
       _showErrorDialog(error.toString());
     }

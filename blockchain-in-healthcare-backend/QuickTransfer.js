@@ -22,7 +22,7 @@ const mainContract = new web3.eth.Contract(MainContractAbi['abi'], MainContractA
 
 // ganache account address
 
-const ganacheWalletAddress = "0x166A3aBbE4651A88c8C38a051F6535193e123d62";
+const ganacheWalletAddress = "0xD6754D9AaDe64a3591A64a79B74bb8aD5BdAd635";
 
 // Using Hospital Token Contract to Approve Other Contracts
 
@@ -42,7 +42,7 @@ const ganacheWalletAddress = "0x166A3aBbE4651A88c8C38a051F6535193e123d62";
 // // FROM GANACHE TO PATIENT A
 const transaction1 = web3.eth.sendTransaction({
         from: ganacheWalletAddress,
-        to: "0xf9ad512430f7e6694d22a830da8cea7d1bb0eb5d",
+        to: "0xe05f04892bdad01aa0b14f900b65ee0af94b3af0",
         value: web3.utils.toWei("10.0", "ether")
 });
 
@@ -51,7 +51,7 @@ const transaction1 = web3.eth.sendTransaction({
 // FROM GANACHE TO DOCTOR A
 const transaction2 = web3.eth.sendTransaction({
         from: ganacheWalletAddress,
-        to: "0x386142cccf4b085024c2e7aee39b38cd64e653d2",
+        to: "0xd99ad42b7283e96068a371f847ab7e7de64832d0",
         value: web3.utils.toWei("10.0", "ether")
 });
 
@@ -59,7 +59,16 @@ const transaction2 = web3.eth.sendTransaction({
 // FROM GANACHE TO HOSPITAL A
 const transaction3 = web3.eth.sendTransaction({
         from: ganacheWalletAddress,
-        to: "0xd65ba9b459d339287cd5bb2beb17435f4e20dfb5",
+        to: "0xda1dfea2a4707ce4e0d7ff5d59c6fe1b35de9145",
+        value: web3.utils.toWei("10.0", "ether")
+});
+
+
+// console.log(transaction2);
+// FROM GANACHE TO PHARMACY A
+const transaction4 = web3.eth.sendTransaction({
+        from: ganacheWalletAddress,
+        to: "0xc64c87b95ca8729e3772df7c0cd9c376b9207cbf",
         value: web3.utils.toWei("10.0", "ether")
 });
 
