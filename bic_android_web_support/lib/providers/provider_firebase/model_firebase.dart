@@ -50,6 +50,30 @@ class FirebaseModel with ChangeNotifier {
     return contract;
   }
 
+  Future<firestore.CollectionReference?> getFirestoreDocument(String userType) async {
+
+    if (userType == 'Patient') {
+      firestore.CollectionReference patientFirestore =
+      firestore.FirebaseFirestore.instance.collection('Patient');
+      return patientFirestore;
+    } else if (userType == 'Doctor') {
+      firestore.CollectionReference doctorFirestore =
+      firestore.FirebaseFirestore.instance.collection('Doctor');
+      return doctorFirestore;
+    } else if (userType == 'Hospital') {
+      firestore.CollectionReference hospitalFirestore =
+      firestore.FirebaseFirestore.instance.collection('Hospital');
+      return hospitalFirestore;
+    } else if (userType == 'Pharmacy') {
+      firestore.CollectionReference pharmacyFirestore =
+      firestore.FirebaseFirestore.instance.collection('Pharmacy');
+      return pharmacyFirestore;
+    }
+
+    return null;
+
+  }
+
   Future<bool> storeTransaction(String transactionHash) async {
     try {
       TransactionInformation tx =
@@ -90,12 +114,16 @@ class FirebaseModel with ChangeNotifier {
         };
 
         if (auth.currentUser?.uid.toString() != null) {
-          userFirestore
-              .doc(auth.currentUser?.uid.toString())
+          String? userType = await WalletSharedPreference.getUserType();
+          getFirestoreDocument(userType!).then((value) => {
+            value?.doc(auth.currentUser?.uid.toString())
               .collection("transactions")
               .doc()
-              .set(data);
-          print(data);
+              .set(data)
+
+          });
+
+
         }
       }
 
@@ -119,8 +147,8 @@ class FirebaseModel with ChangeNotifier {
 
   Future<bool> storeUserRegistrationStatus(String walletAddressOfUser) async {
     try {
-      CollectionReference users =
-          FirebaseFirestore.instance.collection('users');
+      String? userType = await WalletSharedPreference.getUserType();
+      firestore.CollectionReference? users = await getFirestoreDocument(userType!);
 
       Map<String, bool?> data = {"registerOnce": true};
       if (auth.currentUser?.uid.toString() != null) {

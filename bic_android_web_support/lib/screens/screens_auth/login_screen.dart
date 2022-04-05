@@ -34,17 +34,18 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final _formKey = GlobalKey<FormBuilderState>();
 
-  void _submit(String emailId, String password) async {
-    print(emailId + " " + password);
+  void _submit(String emailId, String password,String userType) async {
+    print(emailId + " " + password+ " "+ userType);
     try {
 
       auth
           .signInWithEmailAndPassword(email: emailId, password: password)
           .then((value) async => {
+
                 if (value.user?.uid != null)
                   {
                     await Provider.of<WalletModel>(context, listen: false)
-                        .signInWithWallet(value.user?.uid, password),
+                        .signInWithWallet(value.user?.uid, password,userType),
 
       Navigator.of(context).pushNamed(SplashWelcomeScreen.routeName)
                     // _showErrorDialog("Wallet Has Been Created");
@@ -196,6 +197,66 @@ class _LoginScreenState extends State<LoginScreen> {
                                     FormBuilderValidators.required(context)
                                   ]),
                                 )),
+                            Padding(
+                              padding: const EdgeInsets.all(15),
+                              child: FormBuilderDropdown(
+                                name: 'userType',
+                                decoration: InputDecoration(
+                                  labelText: "Type of User",
+                                  prefixIcon: Image.asset(
+                                      "assets/icons/user-100.png",
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary,
+                                      scale: 4,
+                                      width: 15,
+                                      height: 15),
+                                  border: OutlineInputBorder(
+                                    borderRadius:
+                                    BorderRadius.circular(25.0),
+                                  ),
+                                  labelStyle: const TextStyle(
+                                    color: Color(0xFF6200EE),
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Color(0xFF6200EE)),
+                                    borderRadius:
+                                    BorderRadius.circular(25.0),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Color(0xFF6200EE)),
+                                    borderRadius:
+                                    BorderRadius.circular(25.0),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Color(0xFF6200EE)),
+                                    borderRadius:
+                                    BorderRadius.circular(25.0),
+                                  ),
+                                ),
+                                // initialValue: 'Male',
+
+                                allowClear: true,
+
+                                validator: FormBuilderValidators.compose([
+                                  FormBuilderValidators.required(context)
+                                ]),
+                                items: [
+                                  'Patient',
+                                  'Doctor',
+                                  'Hospital',
+                                  'Pharmacy'
+                                ]
+                                    .map((gender) => DropdownMenuItem(
+                                  value: gender,
+                                  child: Text('$gender'),
+                                ))
+                                    .toList(),
+                              ),
+                            ),
                             const SizedBox(
                               height: 20,
                             ),
@@ -224,7 +285,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                           _formKey
                                               .currentState?.value["emailId"],
                                           _formKey
-                                              .currentState?.value["password"]);
+                                              .currentState?.value["password"],
+                                          _formKey
+                                              .currentState?.value["userType"]);
                                     } else {
                                       print("validation failed");
                                     }

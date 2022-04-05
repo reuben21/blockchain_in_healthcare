@@ -18,14 +18,22 @@ import 'package:web3dart/web3dart.dart';
 
 class WalletModel with ChangeNotifier {
   FirebaseAuth auth = FirebaseAuth.instance;
-  firestore.CollectionReference userFirestore =
-  firestore.FirebaseFirestore.instance.collection('users');
+
+  firestore.CollectionReference patientFirestore =
+  firestore.FirebaseFirestore.instance.collection('Patient');
+  firestore.CollectionReference doctorFirestore =
+  firestore.FirebaseFirestore.instance.collection('Doctor');
+  firestore.CollectionReference hospitalFirestore =
+  firestore.FirebaseFirestore.instance.collection('Hospital');
+  firestore.CollectionReference pharmacyFirestore =
+  firestore.FirebaseFirestore.instance.collection('Pharmacy');
 
   late String _walletAddress;
   late String _walletPassword;
   late String _walletCredentials;
   late DateTime _expiryDate;
   late Credentials _credentials;
+
 
   bool get isWalletAvailable {
     print(_walletCredentials != null);
@@ -134,6 +142,29 @@ class WalletModel with ChangeNotifier {
 
   // writeContract('storePharmacy', ['Pharmacy A','pharmacy ipfs hash',credentials.toString()], credentials);
 
+  Future<firestore.CollectionReference?> getFirestoreDocument(String userType) async {
+
+    if (userType == 'Patient') {
+      firestore.CollectionReference patientFirestore =
+      firestore.FirebaseFirestore.instance.collection('Patient');
+      return patientFirestore;
+    } else if (userType == 'Doctor') {
+      firestore.CollectionReference doctorFirestore =
+      firestore.FirebaseFirestore.instance.collection('Doctor');
+      return doctorFirestore;
+    } else if (userType == 'Hospital') {
+      firestore.CollectionReference hospitalFirestore =
+      firestore.FirebaseFirestore.instance.collection('Hospital');
+      return hospitalFirestore;
+    } else if (userType == 'Pharmacy') {
+      firestore.CollectionReference pharmacyFirestore =
+      firestore.FirebaseFirestore.instance.collection('Pharmacy');
+      return pharmacyFirestore;
+    }
+
+    return null;
+
+  }
   Future<bool> transferEther(Credentials credentials, String senderAddress,
       String receiverAddress, String amount) async {
     try {
@@ -195,7 +226,9 @@ class WalletModel with ChangeNotifier {
 
 
         if (auth.currentUser?.uid.toString() != null) {
-          userFirestore.doc(auth.currentUser?.uid.toString()).collection(
+          String? userType = await WalletSharedPreference.getUserType();
+          firestore.CollectionReference? users = await getFirestoreDocument(userType!);
+          users?.doc(auth.currentUser?.uid.toString()).collection(
               "transactions").doc().set(data);
           print(data);
         }
@@ -244,7 +277,9 @@ class WalletModel with ChangeNotifier {
       Wallet newWallet = Wallet.fromJson(_walletCredentials, password);
       print(newWallet.privateKey.privateKeyInt);
 
-      userFirestore.doc(userId).set({
+      String? userType = await WalletSharedPreference.getUserType();
+      firestore.CollectionReference? users = await getFirestoreDocument(userType!);
+      users?.doc(myAddress.hex.toString()).set({
         'userName': fullName,
         'userEmail': emailId,
         'walletAddress': newWallet.privateKey.address.hex,
@@ -271,7 +306,7 @@ class WalletModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> signInWithWallet(String? uid, String password) async {
+  Future<void> signInWithWallet(String? uid, String password,String userType) async {
     Credentials credentials;
     EthereumAddress myAddress;
 
@@ -281,7 +316,10 @@ class WalletModel with ChangeNotifier {
     try {
       String emailId;
       String fullName;
-      userFirestore.doc(uid).get().then((
+
+      firestore.CollectionReference? users = await getFirestoreDocument(userType);
+
+      users?.doc(uid).get().then((
           firestore.DocumentSnapshot documentSnapshot) async {
         if (documentSnapshot.exists) {
           print('Document exists on the database');

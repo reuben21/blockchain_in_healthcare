@@ -31,8 +31,8 @@ class _WalletLoginState extends State<WalletLogin> {
   void _submit(String password,String address) async {
     try {
 
-      await Provider.of<WalletModel>(context, listen: false)
-          .signInWithWallet(address,password);
+      // await Provider.of<WalletModel>(context, listen: false)
+      //     .signInWithWallet(address,password);
 
       // _showErrorDialog("Wallet Has Been Created");
       Navigator.of(context).pushNamed(TabsScreen.routeName);

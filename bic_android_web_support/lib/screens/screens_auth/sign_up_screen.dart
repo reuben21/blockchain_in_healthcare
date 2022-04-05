@@ -78,6 +78,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     //     masterSecret: 'REUBEN@21');
     // final privateKey = HEX.encode(master.key);
     // print('private 1: $privateKey');
+
     try {
       print(name + " " + emailId + " " + password + " " + userType);
       auth
