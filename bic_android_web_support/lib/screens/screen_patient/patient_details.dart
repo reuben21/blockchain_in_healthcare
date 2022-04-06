@@ -54,6 +54,10 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
   Algolia algolia = Application.algolia;
   final _formKey = GlobalKey<FormBuilderState>();
   String _searchText = "";
+  String algoliaHospitalAddress="";
+  String algoliaDoctorAddress="";
+
+
   List<HospitalHit> _hitsList = [];
 
   TextEditingController _textFieldController = TextEditingController();
@@ -101,14 +105,14 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
     getWalletFromDatabase();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     super.initState();
-    _textFieldController.addListener(() {
-      if (_searchText != _textFieldController.text) {
-        setState(() {
-          _searchText = _textFieldController.text;
-        });
-        _getSearchResult(_searchText);
-      }
-    });
+    // _textFieldController.addListener(() {
+    //   if (_searchText != _textFieldController.text) {
+    //     setState(() {
+    //       _searchText = _textFieldController.text;
+    //     });
+    //     _getSearchResult(_searchText);
+    //   }
+    // });
     // _getSearchResult('');
   }
 
@@ -726,12 +730,24 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                 Padding(
                                   padding: const EdgeInsets.all(15.0),
                                   child: DropdownSearch<HospitalHit>(
-
+                                    searchFieldProps: TextFieldProps(
+                                      controller: _textFieldController,
+                                      decoration: InputDecoration(
+                                        suffixIcon: IconButton(
+                                          icon: Icon(Icons.clear),
+                                          onPressed: () {
+                                            _textFieldController.clear();
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                    isFilteredOnline: true,
                                     label: "Hospital Address",
-
+                                    filterFn: (user, filter) => user!.userFilterByCreationDate(filter!),
                                     mode: Mode.BOTTOM_SHEET,
                                     showSearchBox: true,
                                     onFind: (String? filter) async {
+                                      print(filter);
                                       AlgoliaQuery query = algolia.instance.index('Hospitals').query(filter!);
                                       query = query.facetFilter('registerOnce');
                                       // var models = HospitalHit.fromJson(query.parameters);
@@ -793,6 +809,9 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                       // );
                                     },
                                     onChanged: (data) {
+                                      setState(() {
+                                        algoliaHospitalAddress = data!.walletAddress.toString();
+                                      });
                                       print(data?.walletAddress.toString());
                                     },
                                   ),
@@ -806,7 +825,7 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                       mode: Mode.BOTTOM_SHEET,
                                       showSearchBox: true,
                                       onFind: (String? filter) async {
-                                        AlgoliaQuery query = algolia.instance.index('Doctors').query(filter!);
+                                        AlgoliaQuery query = algolia.instance.index('Doctors').query(filter!).setLength(1);
                                         query = query.facetFilter('registerOnce');
                                         // var models = HospitalHit.fromJson(query.parameters);
                                         // Get Result/Objects
@@ -867,6 +886,9 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                         // );
                                       },
                                       onChanged: (data) {
+                                        setState(() {
+                                          algoliaDoctorAddress = data!.walletAddress.toString();
+                                        });
                                         print(data?.walletAddress.toString());
                                       },
                                     ),

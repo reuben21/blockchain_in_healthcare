@@ -28,6 +28,12 @@ class HospitalHit {
   //   return this?.createdAt?.toString()?.contains(filter);
   // }
 
+
+  ///this method will prevent the override of toString
+  bool userFilterByCreationDate(String filter) {
+    return userName.toString().contains(filter);
+  }
+
   // ///custom comparing function to check if two users are equal
   // bool isEqual(HospitalHit model) {
   //   return this?.walletAddress == model?.walletAddress;
