@@ -797,7 +797,80 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                     },
                                   ),
                                 ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: DropdownSearch<HospitalHit>(
 
+                                      label: "Doctor Address",
+
+                                      mode: Mode.BOTTOM_SHEET,
+                                      showSearchBox: true,
+                                      onFind: (String? filter) async {
+                                        AlgoliaQuery query = algolia.instance.index('Doctors').query(filter!);
+                                        query = query.facetFilter('registerOnce');
+                                        // var models = HospitalHit.fromJson(query.parameters);
+                                        // Get Result/Objects
+                                        AlgoliaQuerySnapshot snap = await query.getObjects();
+
+
+                                        List _list= snap.hits;
+                                        List<HospitalHit> _newList =  snap.hits.map((item) => HospitalHit.fromJson(item.data)).toList();
+                                        return _newList;
+                                      },
+
+                                      popupItemBuilder: (
+                                          BuildContext context, HospitalHit? item, bool isSelected) {
+                                        return Container(
+
+
+                                          child: ListTile(
+                                            selected: isSelected,
+                                            title: Text(item?.userName ?? ''),
+                                            subtitle: Text(item?.walletAddress?.toString() ?? ''),
+                                            leading: CircleAvatar(
+                                              // this does not work - throws 404 error
+                                              // backgroundImage: NetworkImage(item.avatar ?? ''),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      dropDownButton: Container(),
+                                      dropdownSearchDecoration: InputDecoration(
+                                        constraints: BoxConstraints.tightFor(width: 320,height: 60),
+                                        // helperText: 'hello',
+                                        labelText: "Hospital",
+                                        prefixIcon: Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: Image.asset(
+                                            "assets/icons/wallet.png",
+                                            color:
+                                            Theme.of(context).colorScheme.primary,
+                                            width: 20,height: 10,scale: 0.2,fit: BoxFit.contain,
+                                          ),
+                                        ),
+
+
+
+                                      ),
+                                      dropdownBuilder: (context,selectedItems) {
+                                        var walletAddress = selectedItems?.userName.toString();
+
+                                        return
+                                          Text(
+                                            walletAddress.toString(),
+
+                                            style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                                          );
+
+                                        // return Wrap(
+                                        //   children: selectedItems.map((e) => item(e)).toList(),
+                                        // );
+                                      },
+                                      onChanged: (data) {
+                                        print(data?.walletAddress.toString());
+                                      },
+                                    ),
+                                  ),
                                   Padding(
                                     padding: const EdgeInsets.all(15),
                                     child: WalletAddressInputField(
