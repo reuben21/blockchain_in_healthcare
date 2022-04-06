@@ -1,9 +1,10 @@
 import 'package:bic_android_web_support/screens/screen_hospital/grant_access_to_patient_screen.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:bic_android_web_support/providers/wallet.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart' as firestore;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '../../databases/wallet_shared_preferences.dart';
 import '../../helpers/http_exception.dart' as exception;
 import '../../helpers/keys.dart' as keys;
 import 'grant_access_screen.dart';
@@ -18,6 +19,50 @@ class HospitalAccessList extends StatefulWidget {
 class _HospitalAccessListState extends State<HospitalAccessList> {
   final String screenName = "view_wallet.dart";
   FirebaseAuth auth = FirebaseAuth.instance;
+  firestore.CollectionReference? users;
+  String? walletAddress;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getCollectionReferenceData();
+    super.initState();
+  }
+
+
+  Future<firestore.CollectionReference?> getFirestoreDocument(
+      String userType) async {
+    if (userType == 'Patient') {
+      firestore.CollectionReference patientFirestore =
+      firestore.FirebaseFirestore.instance.collection('Patient');
+      return patientFirestore;
+    } else if (userType == 'Doctor') {
+      firestore.CollectionReference doctorFirestore =
+      firestore.FirebaseFirestore.instance.collection('Doctor');
+      return doctorFirestore;
+    } else if (userType == 'Hospital') {
+      firestore.CollectionReference hospitalFirestore =
+      firestore.FirebaseFirestore.instance.collection('Hospital');
+      return hospitalFirestore;
+    } else if (userType == 'Pharmacy') {
+      firestore.CollectionReference pharmacyFirestore =
+      firestore.FirebaseFirestore.instance.collection('Pharmacy');
+      return pharmacyFirestore;
+    }
+
+    return null;
+  }
+
+  Future<void> getCollectionReferenceData() async {
+    String? userType = await WalletSharedPreference.getUserType();
+    var walletDetails = await WalletSharedPreference.getWalletDetails();
+    users = await getFirestoreDocument(userType!);
+    setState(() {
+      users;
+      walletAddress = walletDetails!['walletAddress'];
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,15 +78,14 @@ class _HospitalAccessListState extends State<HospitalAccessList> {
           ),
           actions: <Widget>[]),
       body: SingleChildScrollView(
-        child: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance
-              .collection('users')
-              .doc(auth.currentUser?.uid)
+        child: StreamBuilder<firestore.QuerySnapshot>(
+          stream: users
+              ?.doc(walletAddress)
               .collection("AccessControl")
               .limit(10)
               .snapshots(),
           builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              (BuildContext context, AsyncSnapshot<firestore.QuerySnapshot> snapshot) {
             if (snapshot.hasError) {
               return const Text('Something went wrong');
             }
@@ -75,13 +119,23 @@ class _HospitalAccessListState extends State<HospitalAccessList> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   ListTile(
+                                    leading:documents![position]['userType'] ==
+                              "Patient"? Image.asset(
+                                        "assets/icons/icons8-user-100.png",
+                                        color: Theme.of(context).primaryColor,
+                                        width: 30,
+                                        height: 30,scale: 2,):Image.asset(
+                                        "assets/icons/icons8-medical-doctor-100.png",
+                                        color: Theme.of(context).primaryColor,
+                                        width: 25,
+                                        height: 25,scale: 2,) ,
                                     trailing: Image.asset(
                                         "assets/icons/forward-100.png",
                                         color: Theme.of(context).primaryColor,
                                         width: 25,
-                                        height: 25),
+                                        height: 25,scale: 2,),
                                     title: Text(
-                                        '${documents![position]['userType']}',
+                                        '${documents[position]['userType']}',
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyText1),
@@ -91,20 +145,11 @@ class _HospitalAccessListState extends State<HospitalAccessList> {
                                             .textTheme
                                             .bodyText1),
                                     onTap: () {
-                                      documents[position]['userType'] ==
-                                              "Patient"
-                                          ? Navigator.push(
+                                       Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) =>
-                                                    GrantRoleScreenPatient(),
-                                              ),
-                                            )
-                                          : Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    GrantRoleScreen(),
+                                                    GrantRoleScreen(address:documents[position]['address']),
                                               ),
                                             );
                                     },

@@ -16,8 +16,13 @@ import 'package:web3dart/credentials.dart';
 class GrantRoleScreen extends StatefulWidget {
   static const routeName = '/hospital-detail-screen';
 
+  final String? address;
 
 
+  const GrantRoleScreen({
+     this.address = "",
+
+  });
   @override
   _GrantRoleScreenState createState() => _GrantRoleScreenState();
 }
@@ -554,7 +559,7 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
                                           TextInputType.streetAddress,
-                                          '0x6bde22a36daeb9ee6813677dafdf2315f422a1d4',
+                                          widget.address == ''? '':widget.address.toString(),
                                           'walletAddress',
                                           'Wallet Address',
                                           Image.asset(

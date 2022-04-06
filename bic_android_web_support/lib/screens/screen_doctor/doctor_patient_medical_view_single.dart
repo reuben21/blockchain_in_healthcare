@@ -894,103 +894,108 @@ class _DoctorPatientMedicalRecordViewSingleState
             children: [
               SingleChildScrollView(
                 child: Background(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: 100,
-                      ),
-                      Card(
-                        borderOnForeground: true,
-                        clipBehavior: Clip.antiAlias,
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                              color: Theme.of(context).colorScheme.primary,
-                              width: 2),
-                          borderRadius: BorderRadius.circular(10),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          height: 100,
                         ),
-                        child: ListTile(
-                          title: Text(
-                            "Medical Record ID",
-                            style: textStyleForName,
+                        Card(
+                          elevation: 4,
+                          borderOnForeground: true,
+                          clipBehavior: Clip.antiAlias,
+                          shape: RoundedRectangleBorder(
+                            // side: BorderSide(
+                            //     color: Theme.of(context).colorScheme.primary,
+                            //     width: 2),
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                          subtitle: Text(
-                            medicalRecordCount.toString(),
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.red.withOpacity(0.6),
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                      Image.network(
-                          '${keys.getIpfsUrlForReceivingData}${medicalRecordHash}'),
-                      Card(
-                        borderOnForeground: true,
-                        clipBehavior: Clip.antiAlias,
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                              color: Theme.of(context).colorScheme.primary,
-                              width: 2),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: ListTile(
-                          title: Text(
-                            "Validity : ",
-                            style: textStyleForName,
-                          ),
-                          subtitle: Text(
-                            verifiedStatus ?  "Verified": "Unverified",
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.red.withOpacity(0.6)),
-                          ),
-                        ),
-                      ),
-                     verifiedStatus ?SizedBox()  : Padding(
-                       padding: const EdgeInsets.all(8.0),
-                       child: Row(
-                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                         children: [
-                           FloatingActionButton.extended(
-                              heroTag: "approveMedicalRecord",
-                              backgroundColor: Theme.of(context).colorScheme.primary,
-                              foregroundColor: Theme.of(context).colorScheme.secondary,
-                              onPressed: () async {
-                                Credentials doctorCredentials;
-                                EthereumAddress doctorAddress;
-
-                                print(widget.walletAddress);
-                                doctorCredentials =
-                                    Provider.of<WalletModel>(context, listen: false).walletCredentials;
-                                doctorAddress = await doctorCredentials.extractAddress();
-                                estimateGasFunction(widget.recordNumber, widget.walletAddress, doctorAddress, true, doctorCredentials);
-                              },
-                              icon: const Icon(Icons.add_circle_outline_outlined),
-                              label: const Text('Approve'),
+                          child: ListTile(
+                            title: Text(
+                              "Medical Record ID",
+                              style: textStyleForName,
                             ),
-                           FloatingActionButton.extended(
-                             heroTag: "updateMedicalRecord",
-                             backgroundColor: Theme.of(context).colorScheme.primary,
-                             foregroundColor: Theme.of(context).colorScheme.secondary,
-                             onPressed: () async {
-                               Credentials doctorCredentials;
-                               EthereumAddress doctorAddress;
+                            subtitle: Text(
+                              medicalRecordCount.toString(),
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.red.withOpacity(0.6),
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                        Image.network(
+                            '${keys.getIpfsUrlForReceivingData}${medicalRecordHash}'),
+                        Card(
+                          elevation: 4,
+                          borderOnForeground: true,
+                          clipBehavior: Clip.antiAlias,
+                          shape: RoundedRectangleBorder(
+                            // side: BorderSide(
+                            //     color: Theme.of(context).colorScheme.primary,
+                            //     width: 2),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: ListTile(
+                            title: Text(
+                              "Validity : ",
+                              style: textStyleForName,
+                            ),
+                            subtitle: Text(
+                              verifiedStatus ?  "Verified": "Unverified",
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.red.withOpacity(0.6)),
+                            ),
+                          ),
+                        ),
+                       verifiedStatus ?SizedBox()  : Padding(
+                         padding: const EdgeInsets.all(8.0),
+                         child: Row(
+                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                           children: [
+                             FloatingActionButton.extended(
+                                heroTag: "approveMedicalRecord",
+                                backgroundColor: Theme.of(context).colorScheme.primary,
+                                foregroundColor: Theme.of(context).colorScheme.secondary,
+                                onPressed: () async {
+                                  Credentials doctorCredentials;
+                                  EthereumAddress doctorAddress;
 
-                               print(widget.walletAddress);
-                               doctorCredentials =
-                                   Provider.of<WalletModel>(context, listen: false).walletCredentials;
-                               doctorAddress = await doctorCredentials.extractAddress();
-                               uploadImage(widget.recordNumber, widget.walletAddress, doctorCredentials, doctorAddress);
-                               // estimateGasForSetMedicalRecordStatus( doctorAddress, true, doctorCredentials);
-                             },
-                             icon: const Icon(Icons.add_circle_outline_outlined),
-                             label: const Text('Update'),
-                           )
-                         ],
-                       ),
-                     )
-                    ],
+                                  print(widget.walletAddress);
+                                  doctorCredentials =
+                                      Provider.of<WalletModel>(context, listen: false).walletCredentials;
+                                  doctorAddress = await doctorCredentials.extractAddress();
+                                  estimateGasFunction(widget.recordNumber, widget.walletAddress, doctorAddress, true, doctorCredentials);
+                                },
+                                icon: const Icon(Icons.add_circle_outline_outlined),
+                                label: const Text('Approve'),
+                              ),
+                             FloatingActionButton.extended(
+                               heroTag: "updateMedicalRecord",
+                               backgroundColor: Theme.of(context).colorScheme.primary,
+                               foregroundColor: Theme.of(context).colorScheme.secondary,
+                               onPressed: () async {
+                                 Credentials doctorCredentials;
+                                 EthereumAddress doctorAddress;
+
+                                 print(widget.walletAddress);
+                                 doctorCredentials =
+                                     Provider.of<WalletModel>(context, listen: false).walletCredentials;
+                                 doctorAddress = await doctorCredentials.extractAddress();
+                                 uploadImage(widget.recordNumber, widget.walletAddress, doctorCredentials, doctorAddress);
+                                 // estimateGasForSetMedicalRecordStatus( doctorAddress, true, doctorCredentials);
+                               },
+                               icon: const Icon(Icons.add_circle_outline_outlined),
+                               label: const Text('Update'),
+                             )
+                           ],
+                         ),
+                       )
+                      ],
+                    ),
                   ),
                 ),
               ),

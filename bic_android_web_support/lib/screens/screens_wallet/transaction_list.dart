@@ -25,24 +25,21 @@ class _TransactionListState extends State<TransactionList> {
   final String screenName = "view_wallet.dart";
   FirebaseAuth auth = FirebaseAuth.instance;
 
-  CarouselController buttonCarouselController = CarouselController();
+  String? walletAddress;
 
-  late Credentials credentials;
-  late EthereumAddress myAddress;
-  late String balanceOfAccount;
-
-  List<String> options = <String>['Select Account'];
-  String dropdownValue = 'Select Account';
-  String dropDownCurrentValue = 'Select Account';
-  late String scannedAddress;
 
   firestore.CollectionReference? users;
 
   @override
   void initState() {
     // TODO: implement initState
+    getCollectionReferenceData();
     super.initState();
   }
+
+
+
+
 
   Future<firestore.CollectionReference?> getFirestoreDocument(
       String userType) async {
@@ -69,14 +66,18 @@ class _TransactionListState extends State<TransactionList> {
 
   Future<void> getCollectionReferenceData() async {
     String? userType = await WalletSharedPreference.getUserType();
-
-    setState(() async {
-      users = await getFirestoreDocument(userType!);
+    var walletDetails = await WalletSharedPreference.getWalletDetails();
+    users = await getFirestoreDocument(userType!);
+    setState(() {
+      users;
+      walletAddress = walletDetails!['walletAddress'];
     });
+
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.secondary,
@@ -91,7 +92,7 @@ class _TransactionListState extends State<TransactionList> {
       body: SingleChildScrollView(
         child: StreamBuilder<QuerySnapshot>(
           stream: users
-              ?.doc(auth.currentUser?.uid)
+              ?.doc(walletAddress)
               .collection("transactions")
               .orderBy("dateTime", descending: true)
               .limit(10)
@@ -115,110 +116,187 @@ class _TransactionListState extends State<TransactionList> {
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: documents?.length,
                         itemBuilder: (BuildContext context, int position) {
-                          return Card(
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  width: 2),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            color: Theme.of(context).colorScheme.secondary,
-                            elevation: 0.0,
-                            child: ExpansionTile(
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.secondary,
-                              leading: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Image.asset(
-                                    documents![position]['status']
-                                                .toString()
-                                                .toLowerCase() ==
-                                            "true"
-                                        ? "assets/icons/ok-100.png"
-                                        : "assets/icons/cancel-100.png",
-                                    color: Theme.of(context).primaryColor,
-                                    width: 32,
-                                    height: 32),
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Card(
+
+                              shape: RoundedRectangleBorder(
+                                // side: BorderSide(
+                                //     color: Theme.of(context).colorScheme.primary,
+                                //     width: 2),
+                                borderRadius: BorderRadius.circular(10),
                               ),
-                              title: Text(
-                                documents[position]['status']
-                                            .toString()
-                                            .toLowerCase() ==
-                                        "true"
-                                    ? "Success"
-                                    : "Fail",
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.secondary,
+                              elevation: 4,
+                              child: ExpansionTile(
+
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.secondary,
+                                leading: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Image.asset(
+                                      documents![position]['status']
+                                                  .toString()
+                                                  .toLowerCase() ==
+                                              "true"
+                                          ? "assets/icons/ok-100.png"
+                                          : "assets/icons/cancel-100.png",
+                                      color: Theme.of(context).primaryColor,
+                                      width: 32,
+                                      height: 32),
                                 ),
-                              ),
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.all(15.0),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 5),
-                                        child: Text(
-                                          'To: ${documents[position]['to'].toString()}',
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 5),
-                                        child: Text(
-                                          'From: ${documents[position]['from'].toString()}',
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 5),
-                                        child: Text(
-                                          'Block Number: ${documents[position]['blockNumber'].toString()}',
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 5),
-                                        child: Text(
-                                          'Transaction Hash: ${documents[position]['transactionHash'].toString()}',
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary),
-                                        ),
-                                      ),
-                                    ],
+                                title: Text(
+                                  documents[position]['status']
+                                              .toString()
+                                              .toLowerCase() ==
+                                          "true"
+                                      ? "Success"
+                                      : "Fail",
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                              ],
-                              subtitle: Text(
-                                'To: ${documents[position]['to']}',
-                                maxLines: 1,
-                                overflow: TextOverflow.fade,
-                                softWrap: false,
-                              ),
-                              trailing: Text(
-                                '${documents[position]['totalAmountInEther'].toString()} ETH',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color:
-                                        Theme.of(context).colorScheme.primary),
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.only(bottom: 5),
+                                              child: Text(
+                                                'To:',
+                                                style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .primary),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                              const EdgeInsets.only(bottom: 5),
+                                              child: Text(
+                                                '${documents[position]['to'].toString().substring(0,4)+"..."+documents[position]['to'].toString().lastChars(4)}',
+                                                style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .primary),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.only(bottom: 5),
+                                              child: Text(
+                                                'From:',
+                                                style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .primary),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                              const EdgeInsets.only(bottom: 5),
+                                              child: Text(
+                                                '${documents[position]['from'].toString().substring(0,4)+"..."+documents[position]['from'].toString().lastChars(4)}',
+                                                style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .primary),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.only(bottom: 5),
+                                              child: Text(
+                                                'Block Number:',
+                                                style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .primary),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                              const EdgeInsets.only(bottom: 5),
+                                              child: Text(
+                                                '${documents[position]['blockNumber'].toString()}',
+                                                style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .primary),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.only(bottom: 5),
+                                              child: Text(
+                                                'Transaction Hash:',
+                                                style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .primary),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                              const EdgeInsets.only(bottom: 5),
+                                              child: Text(
+                                                '${documents[position]['transactionHash'].toString().substring(0,5)+"...."+documents[position]['transactionHash'].toString().lastChars(5)}',
+                                                style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .primary),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                                subtitle: Text(
+                                  'To: ${documents[position]['to']}',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.fade,
+                                  softWrap: false,
+                                ),
+                                trailing: Text(
+                                  '${documents[position]['totalAmountInEther'].toString()} ETH',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color:
+                                          Theme.of(context).colorScheme.primary),
+                                ),
                               ),
                             ),
                           );
@@ -235,4 +313,9 @@ class _TransactionListState extends State<TransactionList> {
       ),
     );
   }
+}
+
+
+extension E on String {
+  String lastChars(int n) => substring(length - n);
 }

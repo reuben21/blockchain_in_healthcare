@@ -3,6 +3,7 @@ pragma solidity ^0.8.0;
 //SPDX-License-Identifier: MIT
 
 import "./openzeppelin/contracts/utils/Counters.sol";
+import "./openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "./openzeppelin/contracts/access/AccessControl.sol";
 // import "./HospitalToken.sol";
 
@@ -13,7 +14,7 @@ bytes32 constant VERIFIED_DOCTOR = "VERIFIED_DOCTOR";
 bytes32 constant PHARMACY = "PHARMACY";
 bytes32 constant HOSPITAL_ADMIN = "HOSPITAL_ADMIN";
 
-contract MainContract is AccessControl {
+contract MainContract is ERC20, AccessControl {
     using Counters for Counters.Counter;
 
     // IERC20 hospitalToken;
@@ -82,10 +83,17 @@ contract MainContract is AccessControl {
     //: HOSPITAL DATABASE
     mapping(address => hospitalRecord) hospitalDatabase;
 
-    //: Constructor
-    constructor() {
-        // default role of contract deployer
+    constructor() ERC20("HospitalToken", "HPT") {
+        _mint(msg.sender, 10000000);
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
+    }
+
+    function decimals() public view virtual override returns (uint8) {
+        return 18;
+    }
+
+    function mintForUser(address _walletAddress, uint256 amount) public {
+        _mint(_walletAddress, amount);
     }
 
     function getRoleForUser(address _walletAddress)
@@ -125,6 +133,7 @@ contract MainContract is AccessControl {
         address _walletAddress
     ) external returns (bool status) {
         require(hasRole(VERIFIED_PATIENT, _walletAddress), "RNG");
+
         patientDatabase[_walletAddress].medicalRecordCount++;
 
         patientDatabase[_walletAddress].medicalRecordCount = patientDatabase[
@@ -322,6 +331,7 @@ contract MainContract is AccessControl {
             );
         } else {
             _setupRole(PATIENT, _walletAddress);
+            approve(_walletAddress, 100000);
             // hospitalToken.approve(_walletAddress, 100000);
             patientDatabase[_walletAddress].name = _name;
             patientDatabase[_walletAddress].personalDetails = _personalDetails;
@@ -406,6 +416,7 @@ contract MainContract is AccessControl {
             );
         } else {
             _setupRole(DOCTOR, _walletAddress);
+            approve(_walletAddress, 100000);
             // hospitalToken.approve(_walletAddress, 100000);
             doctorDatabase[_walletAddress].name = name;
             doctorDatabase[_walletAddress].walletAddress = _walletAddress;
@@ -478,6 +489,7 @@ contract MainContract is AccessControl {
             );
         } else {
             _setupRole(PHARMACY, _walletAddress);
+            approve(_walletAddress, 100000);
             // hospitalToken.approve(_walletAddress, 100000);
             pharmacyDatabase[_walletAddress].name = name;
             pharmacyDatabase[_walletAddress].walletAddress = _walletAddress;
@@ -535,6 +547,7 @@ contract MainContract is AccessControl {
             );
         } else {
             _setupRole(DEFAULT_ADMIN_ROLE, _walletAddress);
+            approve(_walletAddress, 100000);
             // hospitalToken.approve(_walletAddress, 100000);
             hospitalDatabase[_walletAddress].name = _name;
             hospitalDatabase[_walletAddress].walletAddress = _walletAddress;

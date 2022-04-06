@@ -115,9 +115,10 @@ class FirebaseModel with ChangeNotifier {
 
         if (auth.currentUser?.uid.toString() != null) {
           String? userType = await WalletSharedPreference.getUserType();
+          var walletDetails = await WalletSharedPreference.getWalletDetails();
           firestore.CollectionReference userFirestore =
           firestore.FirebaseFirestore.instance.collection(userType!);
-          userFirestore.doc(auth.currentUser?.uid.toString())
+          userFirestore.doc(walletDetails!['walletAddress'])
               .collection("transactions")
               .doc()
               .set(data);

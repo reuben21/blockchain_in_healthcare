@@ -22,7 +22,7 @@ const mainContract = new web3.eth.Contract(MainContractAbi['abi'], MainContractA
 
 // ganache account address
 
-const ganacheWalletAddress = "0xD6754D9AaDe64a3591A64a79B74bb8aD5BdAd635";
+const ganacheWalletAddress = "0x5cA4759abCaB466cE18eB16F7145fC379849519e";
 
 // Using Hospital Token Contract to Approve Other Contracts
 

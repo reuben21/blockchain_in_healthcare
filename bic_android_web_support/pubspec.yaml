@@ -76,6 +76,9 @@ dependencies:
   flutter_barcode_scanner: ^2.0.0
   dropdown_search: ^2.0.1
 
+  algolia: ^1.0.4
+  
+
 
 
 

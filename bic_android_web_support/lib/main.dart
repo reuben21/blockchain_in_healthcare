@@ -113,7 +113,29 @@ class MyApp extends StatelessWidget {
             ),
             backgroundColor: Color(0xFFf5f7ec),
             bottomAppBarColor: Color(0xFFf5f7ec),
+            inputDecorationTheme: InputDecorationTheme(
+
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(25.0),
+              ),
+              labelStyle: const TextStyle(
+                color: Color(0xFF6200EE),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Color(0xFF6200EE)),
+                borderRadius: BorderRadius.circular(25.0),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Color(0xFF6200EE)),
+                borderRadius: BorderRadius.circular(25.0),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Color(0xFF6200EE)),
+                borderRadius: BorderRadius.circular(25.0),
+              ),
+            ),
             textTheme: ThemeData.light().textTheme.copyWith(
+
                   bodyText1: TextStyle(
                       color: Color(0xff732eca),
                       fontSize: 16,
