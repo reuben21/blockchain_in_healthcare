@@ -250,39 +250,115 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
-                                ListTile(
-                                  leading: Image.asset(
-                                      "assets/icons/checked-user-male-100.png",
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      width: 35,
-                                      height: 35),
-                                  title: Text('Role', style: textStyleForName),
-                                  subtitle: Text(
-                                    role.toString(),
-                                    style: GoogleFonts.montserrat(
-                                      color: Colors.black.withOpacity(0.6),
-                                      fontSize: 15,
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: ListTile(
+                                        leading: Image.asset(
+                                            "assets/icons/checked-user-male-100.png",
+                                            color:
+                                                Theme.of(context).colorScheme.primary,
+                                            width: 35,
+                                            height: 35),
+                                        title: Text('Role', style: textStyleForName),
+                                        subtitle: Text(
+                                          role.toString(),
+                                          style: GoogleFonts.montserrat(
+                                            color: Colors.black.withOpacity(0.6),
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                ListTile(
-                                  leading: Image.asset(
-                                      "assets/icons/pharmacy-shop-100.png",
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      width: 35,
-                                      height: 35),
-                                  title: Text('Patient Name',
-                                      style: textStyleForName),
-                                  subtitle: Text(
-                                    patientName,
-                                    style: GoogleFonts.montserrat(
-                                      color: Colors.black.withOpacity(0.6),
-                                      fontSize: 15,
+                                    Expanded(
+                                      child: ListTile(
+                                        leading: Image.asset(
+                                            "assets/icons/pharmacy-shop-100.png",
+                                            color:
+                                            Theme.of(context).colorScheme.primary,
+                                            width: 35,
+                                            height: 35),
+                                        title: Text('Patient Name',
+                                            style: textStyleForName),
+                                        subtitle: Text(
+                                          patientName,
+                                          style: GoogleFonts.montserrat(
+                                            color: Colors.black.withOpacity(0.6),
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                  ],
                                 ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: ListTile(
+                                        leading: Image.asset(
+                                            "assets/icons/year-view-100.png",
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            width: 35,
+                                            height: 35),
+                                        title: Text(
+                                          'Date Of Birth',
+                                          style: textStyleForName,
+                                        ),
+                                        subtitle: Text(
+                                          DateTime.parse(patientIpfsHash[
+                                          'patient_dateOfBirth']
+                                              .toString())
+                                              .day
+                                              .toString() +
+                                              "-" +
+                                              DateTime.parse(patientIpfsHash[
+                                              'patient_dateOfBirth']
+                                                  .toString())
+                                                  .month
+                                                  .toString() +
+                                              "-" +
+                                              DateTime.parse(patientIpfsHash[
+                                              'patient_dateOfBirth']
+                                                  .toString())
+                                                  .year
+                                                  .toString(),
+                                          style: GoogleFonts.montserrat(
+                                            color:
+                                            Colors.black.withOpacity(0.6),
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: ListTile(
+                                        leading: Image.asset(
+                                            "assets/icons/icons8-gender-100.png",
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            width: 35,
+                                            height: 35),
+                                        title: Text(
+                                          'Gender',
+                                          style: textStyleForName,
+                                        ),
+                                        subtitle: Text(
+                                          patientIpfsHash['patient_gender']
+                                              .toString(),
+                                          style: GoogleFonts.montserrat(
+                                            color:
+                                            Colors.black.withOpacity(0.6),
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+
                                 ListTile(
                                   leading: Image.asset(
                                       "assets/icons/icons8-hospital-3-100.png",
@@ -342,73 +418,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                                     ),
                                   ),
                                 ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: ListTile(
-                                        leading: Image.asset(
-                                            "assets/icons/year-view-100.png",
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primary,
-                                            width: 35,
-                                            height: 35),
-                                        title: Text(
-                                          'Date Of Birth',
-                                          style: textStyleForName,
-                                        ),
-                                        subtitle: Text(
-                                          DateTime.parse(patientIpfsHash[
-                                                          'patient_dateOfBirth']
-                                                      .toString())
-                                                  .day
-                                                  .toString() +
-                                              "-" +
-                                              DateTime.parse(patientIpfsHash[
-                                                          'patient_dateOfBirth']
-                                                      .toString())
-                                                  .month
-                                                  .toString() +
-                                              "-" +
-                                              DateTime.parse(patientIpfsHash[
-                                                          'patient_dateOfBirth']
-                                                      .toString())
-                                                  .year
-                                                  .toString(),
-                                          style: GoogleFonts.montserrat(
-                                            color:
-                                                Colors.black.withOpacity(0.6),
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: ListTile(
-                                        leading: Image.asset(
-                                            "assets/icons/icons8-gender-100.png",
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primary,
-                                            width: 35,
-                                            height: 35),
-                                        title: Text(
-                                          'Gender',
-                                          style: textStyleForName,
-                                        ),
-                                        subtitle: Text(
-                                          patientIpfsHash['patient_gender']
-                                              .toString(),
-                                          style: GoogleFonts.montserrat(
-                                            color:
-                                                Colors.black.withOpacity(0.6),
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+
                                 ListTile(
                                   leading: Image.asset(
                                       "assets/icons/phone-100.png",

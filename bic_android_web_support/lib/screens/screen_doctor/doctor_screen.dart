@@ -256,7 +256,7 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
                     width: double.infinity,
-                    height: 520,
+                    height: 460,
                     child:Card(
                               // borderOnForeground: true,
                               clipBehavior: Clip.antiAlias,
@@ -269,39 +269,48 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
-                                  ListTile(
-                                    leading: Image.asset(
-                                        "assets/icons/checked-user-male-100.png",
-                                        color:
-                                            Theme.of(context).colorScheme.primary,
-                                        width: 35,
-                                        height: 35),
-                                    title: Text('Role', style: textStyleForName),
-                                    subtitle: Text(
-                                      role.toString(),
-                                      style: GoogleFonts.montserrat(
-                                        color: Colors.black.withOpacity(0.6),
-                                        fontSize: 15,
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: ListTile(
+                                          leading: Image.asset(
+                                              "assets/icons/checked-user-male-100.png",
+                                              color:
+                                                  Theme.of(context).colorScheme.primary,
+                                              width: 35,
+                                              height: 35),
+                                          title: Text('Role', style: textStyleForName),
+                                          subtitle: Text(
+                                            role.toString(),
+                                            style: GoogleFonts.montserrat(
+                                              color: Colors.black.withOpacity(0.6),
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                  ListTile(
-                                    leading: Image.asset(
-                                        "assets/icons/icons8-medical-doctor-100.png",
-                                        color:
-                                            Theme.of(context).colorScheme.primary,
-                                        width: 35,
-                                        height: 35),
-                                    title: Text('Doctor Name',
-                                        style: textStyleForName),
-                                    subtitle: Text(
-                                      doctorIpfsHash['doctor_name'],
-                                      style: GoogleFonts.montserrat(
-                                        color: Colors.black.withOpacity(0.6),
-                                        fontSize: 15,
+                                      Expanded(
+                                        child: ListTile(
+                                          leading: Image.asset(
+                                              "assets/icons/icons8-medical-doctor-100.png",
+                                              color:
+                                              Theme.of(context).colorScheme.primary,
+                                              width: 35,
+                                              height: 35),
+                                          title: Text('Doctor Name',
+                                              style: textStyleForName),
+                                          subtitle: Text(
+                                            doctorIpfsHash['doctor_name'],
+                                            style: GoogleFonts.montserrat(
+                                              color: Colors.black.withOpacity(0.6),
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
+                                    ],
                                   ),
+
                                   Row(
                                     children: [
                                       Expanded(

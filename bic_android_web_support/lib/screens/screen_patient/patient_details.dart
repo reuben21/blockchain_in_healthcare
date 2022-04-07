@@ -20,8 +20,6 @@ import 'package:algolia/algolia.dart';
 import '../../helpers/Algolia.dart';
 import '../../model_class/hospital.dart';
 
-
-
 class PatientStoreDetails extends StatefulWidget {
   static const routeName = '/patient-store-details';
 
@@ -51,21 +49,9 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
   String algoliaDoctorAddress = "";
   TextEditingController _textFieldController = TextEditingController();
 
-
   final _formKey = GlobalKey<FormBuilderState>();
 
-
-
-
-
-
-
-
-
-
-
   String walletAdd = '';
-
 
   void _showErrorDialog(String message) {
     showDialog(
@@ -117,7 +103,7 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
       EthereumAddress hospitalAddress,
       EthereumAddress doctorAddress,
       EthereumAddress walletAddress,
-      Credentials credentials ) async {
+      Credentials credentials) async {
     var gasEstimation =
         await Provider.of<GasEstimationModel>(context, listen: false)
             .estimateGasForContractFunction(walletAddress, "storePatient", [
@@ -506,54 +492,53 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
     var status = await Provider.of<FirebaseModel>(context, listen: false)
         .storeUserRegistrationStatus(walletAddress.hex);
 
+    try {
+      if (status == true) {
+        var transactionHash =
+            await Provider.of<WalletModel>(context, listen: false)
+                .writeContract(
+                    "storePatient",
+                    [
+                      patientName,
+                      ipfsHash,
+                      hospitalAddress,
+                      doctorAddress,
+                      walletAddress
+                    ],
+                    credentials);
 
-      try {
-        if (status == true) {
-          var transactionHash =
-          await Provider.of<WalletModel>(context, listen: false).writeContract(
-              "storePatient",
-              [
-                patientName,
-                ipfsHash,
-                hospitalAddress,
-                doctorAddress,
-                walletAddress
-              ],
-              credentials);
+        Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
+      } else if (status == false) {
+        var transactionHash =
+            await Provider.of<WalletModel>(context, listen: false)
+                .writeContract(
+                    "storePatient",
+                    [
+                      patientName,
+                      ipfsHash,
+                      hospitalAddress,
+                      doctorAddress,
+                      walletAddress
+                    ],
+                    credentials);
+        var hospitalRequest =
+            await Provider.of<FirebaseModel>(context, listen: false)
+                .sendHospitalRequest(hospitalAddress.hex, walletAddress.hex);
+        var addToDoctorList =
+            await Provider.of<FirebaseModel>(context, listen: false)
+                .addPatientToDoctorList(
+                    doctorAddress.hex, walletAddress.hex, patientName);
+        var firebaseStatus =
+            await Provider.of<FirebaseModel>(context, listen: false)
+                .storeTransaction(transactionHash);
 
+        if (firebaseStatus) {
           Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
-        } else if (status == false) {
-          var transactionHash =
-          await Provider.of<WalletModel>(context, listen: false).writeContract(
-              "storePatient",
-              [
-                patientName,
-                ipfsHash,
-                hospitalAddress,
-                doctorAddress,
-                walletAddress
-              ],
-              credentials);
-          var hospitalRequest =
-          await Provider.of<FirebaseModel>(context, listen: false)
-              .sendHospitalRequest(hospitalAddress.hex, walletAddress.hex);
-          var addToDoctorList =
-          await Provider.of<FirebaseModel>(context, listen: false)
-              .addPatientToDoctorList(
-              doctorAddress.hex, walletAddress.hex, patientName);
-          var firebaseStatus =
-          await Provider.of<FirebaseModel>(context, listen: false)
-              .storeTransaction(transactionHash);
-
-          if (firebaseStatus) {
-            Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
-          }
         }
-
-      } catch (error) {
-        _showErrorDialog(error.toString());
       }
-
+    } catch (error) {
+      _showErrorDialog(error.toString());
+    }
   }
 
   InputDecoration dynamicInputDecoration(String labelText, Image? icon) {
@@ -748,9 +733,14 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                       ),
                                       isFilteredOnline: true,
                                       label: "Hospital Address",
-                                      selectedItem:HospitalHit(walletAddress: algoliaHospitalAddress==""?"Select Address":algoliaHospitalAddress, userEmail: '', registerOnce: '', userName: ''),
-
-
+                                      selectedItem: HospitalHit(
+                                          walletAddress:
+                                              algoliaHospitalAddress == ""
+                                                  ? "Select Address"
+                                                  : algoliaHospitalAddress,
+                                          userEmail: '',
+                                          registerOnce: '',
+                                          userName: ''),
                                       mode: Mode.DIALOG,
                                       showSearchBox: true,
                                       onFind: (String? filter) async {
@@ -781,7 +771,6 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                             subtitle: Text(item?.walletAddress
                                                     ?.toString() ??
                                                 ''),
-
                                           ),
                                         );
                                       },
@@ -807,8 +796,9 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                       ),
                                       dropdownBuilder:
                                           (context, selectedItems) {
-                                        var walletAddress =
-                                            selectedItems?.walletAddress.toString();
+                                        var walletAddress = selectedItems
+                                            ?.walletAddress
+                                            .toString();
 
                                         return Text(
                                           walletAddress.toString(),
@@ -835,8 +825,14 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                   Padding(
                                     padding: const EdgeInsets.all(15.0),
                                     child: DropdownSearch<HospitalHit>(
-                                      selectedItem:HospitalHit(walletAddress:algoliaDoctorAddress==""?"Select Address":algoliaDoctorAddress,  userEmail: '', registerOnce: '', userName: ''),
-                                      
+                                      selectedItem: HospitalHit(
+                                          walletAddress:
+                                              algoliaDoctorAddress == ""
+                                                  ? "Select Address"
+                                                  : algoliaDoctorAddress,
+                                          userEmail: '',
+                                          registerOnce: '',
+                                          userName: ''),
                                       label: "Doctor Address",
                                       isFilteredOnline: true,
                                       mode: Mode.DIALOG,
@@ -869,7 +865,6 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                             subtitle: Text(item?.walletAddress
                                                     .toString() ??
                                                 ''),
-
                                           ),
                                         );
                                       },
@@ -895,8 +890,9 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                       ),
                                       dropdownBuilder:
                                           (context, selectedItems) {
-                                        var walletAddress =
-                                            selectedItems?.walletAddress.toString();
+                                        var walletAddress = selectedItems
+                                            ?.walletAddress
+                                            .toString();
 
                                         return Text(
                                           walletAddress.toString(),
@@ -1198,70 +1194,76 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                   // _formKey.currentState?.value["age"];
                                   // _formKey.currentState?.value["address"];
                                   // _formKey.currentState?.value["gender"];
+                                  try {
+                                    Map<String, dynamic> objText = {
+                                      "patient_name": _formKey
+                                          .currentState?.value["patient_name"],
+                                      "patient_hospital_address":
+                                          algoliaHospitalAddress,
+                                      "patient_doctor_address":
+                                          algoliaDoctorAddress,
+                                      "patient_address": _formKey.currentState
+                                          ?.value["patient_address"],
+                                      "patient_dateOfBirth": _formKey
+                                          .currentState?.value["dateOfBirth"]
+                                          .toString(),
 
-                                  Map<String, dynamic> objText = {
-                                    "patient_name": _formKey
-                                        .currentState?.value["patient_name"],
-                                    "patient_hospital_address":
-                                        algoliaHospitalAddress,
-                                    "patient_doctor_address":
-                                        algoliaDoctorAddress,
-                                    "patient_address": _formKey.currentState
-                                        ?.value["patient_address"],
-                                    "patient_dateOfBirth": _formKey
-                                        .currentState?.value["dateOfBirth"]
-                                        .toString(),
+                                      "patient_phone_no": _formKey.currentState
+                                          ?.value["patient_phone_no"],
+                                      "patient_gender": _formKey.currentState
+                                          ?.value["patient_gender"],
 
-                                    "patient_phone_no": _formKey.currentState
-                                        ?.value["patient_phone_no"],
-                                    "patient_gender": _formKey
-                                        .currentState?.value["patient_gender"],
+                                      "wallet_address": walletAdd,
 
-                                    "wallet_address": walletAdd,
-
-                                    // "lastName4": ["Coutinho", "Coutinho", "Coutinho"],
-                                    // "age": 30
-                                  };
-                                  var hashReceived =
-                                      await Provider.of<IPFSModel>(context,
-                                              listen: false)
-                                          .sendData(objText);
-                                  print("hashReceived ------" +
-                                      hashReceived.toString());
-                                  if (hashReceived != null) {
-                                    Credentials credentialsNew;
-                                    EthereumAddress myAddress;
-                                    var dbResponse =
-                                        await WalletSharedPreference
-                                            .getWalletDetails();
-                                    print(_formKey
-                                        .currentState?.value["password"]);
-                                    Wallet newWallet = Wallet.fromJson(
-                                        dbResponse!['walletEncryptedKey']
-                                            .toString(),
-                                        _formKey
-                                            .currentState?.value["password"]);
-                                    credentialsNew = newWallet.privateKey;
-                                    myAddress =
-                                        await credentialsNew.extractAddress();
-
-                                    var hospitalAddressEth =
-                                        EthereumAddress.fromHex(
-                                            algoliaHospitalAddress);
-                                    var doctorAddressEth =
-                                        EthereumAddress.fromHex(
-                                            algoliaDoctorAddress);
-                                    estimateGasFunction(
-                                        _formKey.currentState
-                                            ?.value["patient_name"],
-                                        hashReceived,
-                                        hospitalAddressEth,
-                                        doctorAddressEth,
-                                        myAddress,
-                                        credentialsNew);
+                                      // "lastName4": ["Coutinho", "Coutinho", "Coutinho"],
+                                      // "age": 30
+                                    };
+                                    var hashReceived =
+                                        await Provider.of<IPFSModel>(context,
+                                                listen: false)
+                                            .sendData(objText);
+                                    print("hashReceived ------" +
+                                        hashReceived.toString());
+                                    if (hashReceived != null) {
+                                      Credentials credentialsNew;
+                                      EthereumAddress myAddress;
+                                      var dbResponse =
+                                          await WalletSharedPreference
+                                              .getWalletDetails();
+                                      print(_formKey
+                                          .currentState?.value["password"]);
+                                      Wallet newWallet = Wallet.fromJson(
+                                          dbResponse!['walletEncryptedKey']
+                                              .toString(),
+                                          _formKey
+                                              .currentState?.value["password"]);
+                                      credentialsNew = newWallet.privateKey;
+                                      myAddress =
+                                          await credentialsNew.extractAddress();
+                                      try {
+                                        var hospitalAddressEth =
+                                            EthereumAddress.fromHex(
+                                                algoliaHospitalAddress);
+                                        var doctorAddressEth =
+                                            EthereumAddress.fromHex(
+                                                algoliaDoctorAddress);
+                                        estimateGasFunction(
+                                            _formKey.currentState
+                                                ?.value["patient_name"],
+                                            hashReceived,
+                                            hospitalAddressEth,
+                                            doctorAddressEth,
+                                            myAddress,
+                                            credentialsNew);
+                                      } catch (error) {
+                                        _showErrorDialog("Please Select Appropriate Address");
+                                      }
+                                    } else {
+                                      print("validation failed");
+                                    }
+                                  } catch (error) {
+                                    _showErrorDialog(error.toString());
                                   }
-                                } else {
-                                  print("validation failed");
                                 }
                               },
                               icon: Image.asset("assets/icons/sign_in.png",

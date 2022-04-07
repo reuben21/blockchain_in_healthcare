@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:bic_android_web_support/databases/wallet_shared_preferences.dart';
+import 'package:bic_android_web_support/screens/screen_patient/patient_read_screen.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -129,6 +130,21 @@ class _DoctorPrescriptionScreenState extends State<DoctorPrescriptionScreen> {
           ):Container(
             child: Column(
               children: [
+                CustomButtonGen(cardText:'View Patient Details',onPressed:()=>{
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PatientReadScreen(),
+                    ),
+                  )
+                },imageAsset:Image.asset(
+                  "assets/icons/icons8-user-100.png",
+                  color: Theme.of(context).primaryColor,
+                  width: 20,
+                  height: 20,
+                  fit: BoxFit.contain,
+                  alignment: Alignment.center,
+                ),),
                 CustomButtonGen(cardText:"View Medical Record For Patient",onPressed:()=>{
                   Navigator.push(
                     context,

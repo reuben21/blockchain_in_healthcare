@@ -201,10 +201,6 @@ class _DoctorReadScreenState extends State<DoctorReadScreen> {
                     borderOnForeground: true,
                     clipBehavior: Clip.antiAlias,
                     shape: RoundedRectangleBorder(
-                      // side: BorderSide(
-                      //     color:
-                      //     Theme.of(context).colorScheme.primary,
-                      //     width: 2),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Column(
@@ -302,25 +298,6 @@ class _DoctorReadScreenState extends State<DoctorReadScreen> {
                                     },
                                   ),
                                 ),
-                                // Padding(
-                                //     padding: const EdgeInsets.all(15),
-                                //     child: formBuilderTextFieldWidget(
-                                //         TextInputType.text,
-                                //         '',
-                                //         'address',
-                                //         'Doctor Address',
-                                //         Image.asset("assets/icons/key-100.png",
-                                //             color: Theme.of(context)
-                                //                 .colorScheme
-                                //                 .primary,
-                                //             scale: 4,
-                                //             width: 15,
-                                //             height: 15),
-                                //         false,
-                                //         [
-                                //           FormBuilderValidators.required(
-                                //               context),
-                                //         ])),
                               ],
                             )),
                         ListTile(

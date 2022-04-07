@@ -583,7 +583,7 @@ contract MainContract is ERC20, AccessControl {
         string memory _personalDetails,
         address _walletAddress
     ) external returns (bool status) {
-        patientDatabase[_walletAddress].personalDetails = _personalDetails;
+        hospitalDatabase[_walletAddress].hospitalDetails = _personalDetails;
 
         return true;
     }
