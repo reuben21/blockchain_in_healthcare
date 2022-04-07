@@ -1,3 +1,4 @@
+import 'package:algolia/algolia.dart';
 import 'package:bic_android_web_support/databases/wallet_shared_preferences.dart';
 import 'package:bic_android_web_support/providers/gas_estimation.dart';
 import 'package:bic_android_web_support/providers/provider_doctor/model_doctor.dart';
@@ -5,6 +6,7 @@ import 'package:bic_android_web_support/providers/provider_firebase/model_fireba
 import 'package:bic_android_web_support/providers/wallet.dart';
 import 'package:bic_android_web_support/screens/Tabs/tabs_screen.dart';
 import 'package:bic_android_web_support/providers/ipfs.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -12,6 +14,9 @@ import 'package:provider/provider.dart';
 import 'package:web3dart/credentials.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
+
+import '../../helpers/Algolia.dart';
+import '../../model_class/hospital.dart';
 
 class DoctorPrescriptionForm extends StatefulWidget {
   static const routeName = '/doctor-prescription-screen';
@@ -24,6 +29,9 @@ class DoctorPrescriptionForm extends StatefulWidget {
 }
 
 class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
+  Algolia algolia = Application.algolia;
+  String algoliaPatientAddress = "";
+
   final _formPatient = GlobalKey<FormBuilderState>();
   final _formMedicine = GlobalKey<FormBuilderState>();
   final _formFieldForPassword = GlobalKey<FormBuilderState>();
@@ -37,6 +45,23 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
     super.initState();
   }
 
+
+  void _showErrorDialog(String message) {
+    showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text('An Error Occurred'),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+                child: Text('Okay'))
+          ],
+        ));
+  }
+  
   Future<void> getWalletFromDatabase() async {
     var dbResponse = await WalletSharedPreference.getWalletDetails();
     walletAdd = dbResponse!['walletAddress'].toString();
@@ -133,25 +158,92 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                           ),
                           SizedBox(height: 15,),
                           Padding(
-                              padding: const EdgeInsets.all(15),
-                              child: FormBuilderTextField(
-                                initialValue:
-                                    '0x1072f3b15da7fecfce1120d605d299f185d0fe1b',
-                                maxLines: 1,
-                                name: 'patientAddress',
-                                decoration: dynamicInputDecoration(
-                                  'Patient Address',
-                                  Image.asset("assets/icons/wallet.png",
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      scale: 4,
-                                      width: 15,
-                                      height: 15),
+                            padding: const EdgeInsets.all(15.0),
+                            child: DropdownSearch<HospitalHit>(
+                              selectedItem:HospitalHit(walletAddress:algoliaPatientAddress==""?"Select Address":algoliaPatientAddress,  userEmail: '', registerOnce: '', userName: ''),
+
+                              label: "Patient Address",
+                              isFilteredOnline: true,
+                              mode: Mode.DIALOG,
+                              showSearchBox: true,
+                              onFind: (String? filter) async {
+                                AlgoliaQuery query = algolia.instance
+                                    .index('Patients')
+                                    .query(filter!)
+                                    .setLength(1);
+
+                                // var models = HospitalHit.fromJson(query.parameters);
+                                // Get Result/Objects
+                                AlgoliaQuerySnapshot snap =
+                                await query.getObjects();
+
+                                List _list = snap.hits;
+                                List<HospitalHit> _newList = snap.hits
+                                    .map((item) =>
+                                    HospitalHit.fromJson(item.data))
+                                    .toList();
+                                return _newList;
+                              },
+                              popupItemBuilder: (BuildContext context,
+                                  HospitalHit? item, bool isSelected) {
+                                return Container(
+                                  child: ListTile(
+                                    selected: isSelected,
+                                    title: Text(item?.userName ?? ''),
+                                    subtitle: Text(item?.walletAddress
+                                        .toString() ??
+                                        ''),
+
+                                  ),
+                                );
+                              },
+                              dropDownButton: Container(),
+                              dropdownSearchDecoration: InputDecoration(
+                                constraints: BoxConstraints.tightFor(
+                                    width: 320, height: 60),
+                                // helperText: 'hello',
+                                labelText: "Hospital",
+                                prefixIcon: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Image.asset(
+                                    "assets/icons/wallet.png",
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .primary,
+                                    width: 20,
+                                    height: 10,
+                                    scale: 0.2,
+                                    fit: BoxFit.contain,
+                                  ),
                                 ),
-                                // valueTransformer: (text) => num.tryParse(text),
-                                validator: FormBuilderValidators.compose(
-                                    [FormBuilderValidators.required(context)]),
-                              )),
+                              ),
+                              dropdownBuilder:
+                                  (context, selectedItems) {
+                                var walletAddress =
+                                selectedItems?.walletAddress.toString();
+
+                                return Text(
+                                  walletAddress.toString(),
+                                  style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary),
+                                );
+
+                                // return Wrap(
+                                //   children: selectedItems.map((e) => item(e)).toList(),
+                                // );
+                              },
+                              onChanged: (data) {
+                                setState(() {
+                                  algoliaPatientAddress =
+                                      data!.walletAddress.toString();
+                                });
+                                print(data?.walletAddress.toString());
+                              },
+                            ),
+                          ),
+
                           Padding(
                               padding: const EdgeInsets.all(15),
                               child: FormBuilderTextField(
@@ -595,7 +687,7 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Text(
-                        "Patient Wallet Address: ${_formPatient.currentState?.value["patientAddress"]}",
+                        "Patient Wallet Address: ${algoliaPatientAddress}",
                       ),
                     ),
                   ),
@@ -829,8 +921,7 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                                   .doctorHospitalAddress;
                           print(doctorHospitalAddress?.hex);
                           Map<String, dynamic> objText = {
-                            "patientAddress": _formPatient
-                                .currentState?.value["patientAddress"],
+                            "patientAddress":algoliaPatientAddress,
                             "doctorAddress": walletAdd,
                             "dateOfPrescription": _formPatient
                                 .currentState?.value["dateTimeToday"],
@@ -860,15 +951,19 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                             credentialsNew = newWallet.privateKey;
                             myAddress = await credentialsNew.extractAddress();
 
-                            EthereumAddress patientAddress =
-                                EthereumAddress.fromHex(_formPatient
-                                    .currentState?.value["patientAddress"]);
-                            estimateGasFunction(
-                                hashReceived,
-                                myAddress,
-                                patientAddress,
-                                _formPatient.currentState?.value["validTill"],
-                                credentialsNew);
+                            try {
+                              EthereumAddress patientAddress =
+                              EthereumAddress.fromHex(algoliaPatientAddress);
+                              estimateGasFunction(
+                                  hashReceived,
+                                  myAddress,
+                                  patientAddress,
+                                  _formPatient.currentState?.value["validTill"],
+                                  credentialsNew);
+                            } catch (error) {
+                              _showErrorDialog("Check your details!");
+                            }
+                          
                           }
                         } else {
                           print("validation failed");

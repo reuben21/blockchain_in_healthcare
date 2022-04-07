@@ -84,11 +84,11 @@ class _DoctorDetailsState extends State<DoctorDetails> {
             .estimateGasForContractFunction(walletAddress, "storeDoctor",
                 [doctorName, ipfsHash, hospitalAddress, walletAddress]);
     print(gasEstimation);
-    var hospitalDetails =
-        await Provider.of<FirebaseModel>(context, listen: false)
-            .checkIfHospitalIsPresent(doctorsHospitalAddress);
+    // var hospitalDetails =
+    //     await Provider.of<FirebaseModel>(context, listen: false)
+    //         .checkIfHospitalIsPresent(doctorsHospitalAddress);
 
-    print(hospitalDetails);
+    // print(hospitalDetails);
 
     return showDialog(
       context: context,

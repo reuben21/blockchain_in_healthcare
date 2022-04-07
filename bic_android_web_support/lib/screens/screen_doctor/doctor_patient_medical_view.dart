@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:algolia/algolia.dart';
 import 'package:bic_android_web_support/databases/wallet_shared_preferences.dart';
 import 'package:bic_android_web_support/providers/gas_estimation.dart';
 import 'package:bic_android_web_support/providers/ipfs.dart';
@@ -9,6 +10,7 @@ import 'package:bic_android_web_support/providers/wallet.dart';
 import 'package:bic_android_web_support/screens/Tabs/tabs_screen.dart';
 import 'package:bic_android_web_support/screens/screen_patient/patient_single_medical_view.dart';
 import 'package:bic_android_web_support/screens/screens_auth/background.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,6 +20,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:web3dart/credentials.dart';
 
+import '../../helpers/Algolia.dart';
+import '../../model_class/hospital.dart';
 import 'doctor_patient_medical_view_single.dart';
 
 class DoctorPatientMedicalRecordView extends StatefulWidget {
@@ -29,6 +33,10 @@ class DoctorPatientMedicalRecordView extends StatefulWidget {
 }
 
 class _DoctorPatientMedicalRecordViewState extends State<DoctorPatientMedicalRecordView> {
+  Algolia algolia = Application.algolia;
+  String algoliaPatientAddress = "";
+
+
   final _formKey = GlobalKey<FormBuilderState>();
 
   String walletAdd = '';
@@ -540,25 +548,92 @@ class _DoctorPatientMedicalRecordViewState extends State<DoctorPatientMedicalRec
                                       child: Column(
                                         children: [
                                           Padding(
-                                              padding: const EdgeInsets.all(15),
-                                              child: formBuilderTextFieldWidget(
-                                                  TextInputType.text,
-                                                  '',
-                                                  'patient_address',
-                                                  'Patient Address',
-                                                  Image.asset(
-                                                      "assets/icons/key-100.png",
+                                            padding: const EdgeInsets.all(15.0),
+                                            child: DropdownSearch<HospitalHit>(
+                                              selectedItem:HospitalHit(walletAddress:algoliaPatientAddress==""?"Select Address":algoliaPatientAddress,  userEmail: '', registerOnce: '', userName: ''),
+
+                                              label: "Patient Address",
+                                              isFilteredOnline: true,
+                                              mode: Mode.DIALOG,
+                                              showSearchBox: true,
+                                              onFind: (String? filter) async {
+                                                AlgoliaQuery query = algolia.instance
+                                                    .index('Patients')
+                                                    .query(filter!)
+                                                    .setLength(1);
+
+                                                // var models = HospitalHit.fromJson(query.parameters);
+                                                // Get Result/Objects
+                                                AlgoliaQuerySnapshot snap =
+                                                await query.getObjects();
+
+                                                List _list = snap.hits;
+                                                List<HospitalHit> _newList = snap.hits
+                                                    .map((item) =>
+                                                    HospitalHit.fromJson(item.data))
+                                                    .toList();
+                                                return _newList;
+                                              },
+                                              popupItemBuilder: (BuildContext context,
+                                                  HospitalHit? item, bool isSelected) {
+                                                return Container(
+                                                  child: ListTile(
+                                                    selected: isSelected,
+                                                    title: Text(item?.userName ?? ''),
+                                                    subtitle: Text(item?.walletAddress
+                                                        .toString() ??
+                                                        ''),
+
+                                                  ),
+                                                );
+                                              },
+                                              dropDownButton: Container(),
+                                              dropdownSearchDecoration: InputDecoration(
+                                                constraints: BoxConstraints.tightFor(
+                                                    width: 320, height: 60),
+                                                // helperText: 'hello',
+                                                labelText: "Hospital",
+                                                prefixIcon: Padding(
+                                                  padding: const EdgeInsets.all(10.0),
+                                                  child: Image.asset(
+                                                    "assets/icons/wallet.png",
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .primary,
+                                                    width: 20,
+                                                    height: 10,
+                                                    scale: 0.2,
+                                                    fit: BoxFit.contain,
+                                                  ),
+                                                ),
+                                              ),
+                                              dropdownBuilder:
+                                                  (context, selectedItems) {
+                                                var walletAddress =
+                                                selectedItems?.walletAddress.toString();
+
+                                                return Text(
+                                                  walletAddress.toString(),
+                                                  style: TextStyle(
                                                       color: Theme.of(context)
                                                           .colorScheme
-                                                          .primary,
-                                                      scale: 4,
-                                                      width: 15,
-                                                      height: 15),
-                                                  false,
-                                                  [
-                                                    FormBuilderValidators.required(
-                                                        context),
-                                                  ])),
+                                                          .primary),
+                                                );
+
+                                                // return Wrap(
+                                                //   children: selectedItems.map((e) => item(e)).toList(),
+                                                // );
+                                              },
+                                              onChanged: (data) {
+                                                setState(() {
+                                                  algoliaPatientAddress =
+                                                      data!.walletAddress.toString();
+                                                });
+                                                print(data?.walletAddress.toString());
+                                              },
+                                            ),
+                                          ),
+
 
                                         ],
                                       )),
@@ -576,29 +651,8 @@ class _DoctorPatientMedicalRecordViewState extends State<DoctorPatientMedicalRec
                                       _formKey.currentState?.save();
                                       if (_formKey.currentState?.validate() !=
                                           false) {
-                                        // Credentials credentialsNew;
-                                        // EthereumAddress myAddress;
-                                        // var dbResponse =
-                                        // await WalletSharedPreference
-                                        //     .getWalletDetails();
-                                        print(_formKey
-                                            .currentState?.value["patient_address"]);
-                                        // Wallet newWallet = Wallet.fromJson(
-                                        //     dbResponse!['walletEncryptedKey']
-                                        //         .toString(),
-                                        //     _formKey.currentState
-                                        //         ?.value["password"]);
-                                        // credentialsNew = newWallet.privateKey;
-                                        // myAddress = await credentialsNew
-                                        //     .extractAddress();
-                                        // uploadImage(credentialsNew, myAddress);
-                                        patientAddress = _formKey
-                                            .currentState?.value["patient_address"];
-                                        setState(() {
-                                          patientAddress;
-                                        });
-                                        getMedicalRecordForPatient(EthereumAddress.fromHex(_formKey
-                                            .currentState?.value["patient_address"]));
+
+                                        getMedicalRecordForPatient(EthereumAddress.fromHex(algoliaPatientAddress));
 
                                       }
                                     },
@@ -672,7 +726,7 @@ class _DoctorPatientMedicalRecordViewState extends State<DoctorPatientMedicalRec
                                                             recordNumber: position + 1,
                                                             walletAddress:
                                                             EthereumAddress.fromHex(
-                                                                patientAddress),
+                                                                algoliaPatientAddress),
                                                           ),
                                                     ),
                                                   );

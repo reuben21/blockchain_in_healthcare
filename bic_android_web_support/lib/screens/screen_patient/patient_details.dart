@@ -115,13 +115,12 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
     ]);
 
     print(gasEstimation);
-    var hospitalDetails =
-        await Provider.of<FirebaseModel>(context, listen: false)
-            .checkIfHospitalIsPresent(hospitalAddress.hex);
-    var doctorDetails = await Provider.of<FirebaseModel>(context, listen: false)
-        .checkIfDoctorIsPresent(doctorAddress.hex);
-    if (hospitalDetails == true) {
-      if (doctorDetails == true) {
+    // var hospitalDetails =
+    //     await Provider.of<FirebaseModel>(context, listen: false)
+    //         .checkIfHospitalIsPresent(hospitalAddress.hex);
+    // var doctorDetails = await Provider.of<FirebaseModel>(context, listen: false)
+    //     .checkIfDoctorIsPresent(doctorAddress.hex);
+
         return showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
@@ -474,12 +473,7 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
             ],
           ),
         );
-      } else {
-        _showErrorDialog("Doctor Address is Incorrect");
-      }
-    } else {
-      _showErrorDialog("Hospital Address is Incorrect");
-    }
+
   }
 
   Future<void> executeTransaction(
@@ -491,6 +485,7 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
       Credentials credentials) async {
     var status = await Provider.of<FirebaseModel>(context, listen: false)
         .storeUserRegistrationStatus(walletAddress.hex);
+    print(status);
 
     try {
       if (status == true) {

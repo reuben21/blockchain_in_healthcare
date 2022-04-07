@@ -37,6 +37,7 @@ class _DoctorPatientMedicalRecordViewSingleState
   final _formKey = GlobalKey<FormBuilderState>();
 
   String walletAdd = '';
+  String _userType = '';
   String medicalRecordHash = '';
   BigInt medicalRecordCount = BigInt.from(0);
   bool verifiedStatus = false;
@@ -53,7 +54,7 @@ class _DoctorPatientMedicalRecordViewSingleState
   Future<void> getWalletFromDatabase() async {
     Credentials credentialsNew;
     EthereumAddress address;
-
+    String? userType = await WalletSharedPreference.getUserType();
     print(widget.walletAddress);
     credentialsNew =
         Provider.of<WalletModel>(context, listen: false).walletCredentials;
@@ -68,6 +69,7 @@ class _DoctorPatientMedicalRecordViewSingleState
       medicalRecordCount = data[0][0];
       medicalRecordHash = data[0][1].toString();
       verifiedStatus = data[0][2];
+      _userType = userType!;
     });
   }
 
@@ -883,6 +885,7 @@ class _DoctorPatientMedicalRecordViewSingleState
         fontSize: 18,
         fontWeight: FontWeight.bold,
         color: Theme.of(context).colorScheme.primary);
+
     return Scaffold(
       // appBar: AppBar(
       //   elevation: 0,
@@ -951,7 +954,7 @@ class _DoctorPatientMedicalRecordViewSingleState
                             ),
                           ),
                         ),
-                       verifiedStatus ?SizedBox()  : Padding(
+                        _userType=="Doctor" ? verifiedStatus ?SizedBox()  : Padding(
                          padding: const EdgeInsets.all(8.0),
                          child: Row(
                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -993,7 +996,7 @@ class _DoctorPatientMedicalRecordViewSingleState
                              )
                            ],
                          ),
-                       )
+                       ) : Container()
                       ],
                     ),
                   ),
