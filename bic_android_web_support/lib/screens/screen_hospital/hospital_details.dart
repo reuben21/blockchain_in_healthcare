@@ -426,6 +426,32 @@ class _HospitalDetailScreenState extends State<HospitalDetailScreen> {
 
   }
 
+  InputDecoration dynamicInputDecoration(String labelText, Image? icon) {
+    return InputDecoration(
+      // helperText: 'hello',
+      labelText: labelText,
+      prefixIcon: icon,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      labelStyle: const TextStyle(
+        color: Color(0xFF6200EE),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Color(0xFF6200EE)),
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Color(0xFF6200EE)),
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Color(0xFF6200EE)),
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+    );
+  }
+
   Widget formBuilderTextFieldWidget(
       TextInputType inputTextType,
       String? initialValue,
@@ -539,25 +565,27 @@ class _HospitalDetailScreenState extends State<HospitalDetailScreen> {
                                                 context),
                                           ])),
                                   Padding(
-                                      padding: const EdgeInsets.all(15),
-                                      child: formBuilderTextFieldWidget(
-                                          TextInputType.number,
-                                          '2008',
-                                          'origin',
-                                          'Year of Origin',
-                                          Image.asset(
-                                              "assets/icons/at-sign-100.png",
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                              scale: 4,
-                                              width: 15,
-                                              height: 15),
-                                          false,
-                                          [
-                                            FormBuilderValidators.required(
-                                                context),
-                                          ])),
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: FormBuilderDateTimePicker(
+                                      name: 'origin',
+                                      // onChanged: _onChanged,
+                                      inputType: InputType.date,
+                                      decoration: dynamicInputDecoration(
+                                        'Year of Origin',
+                                        Image.asset("assets/icons/key-100.png",
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            scale: 4,
+                                            width: 15,
+                                            height: 15),
+                                      ),
+
+                                      initialValue: DateTime.now(),
+                                      // enabled: true,
+                                    ),
+                                  ),
+
                                   Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
@@ -645,7 +673,7 @@ class _HospitalDetailScreenState extends State<HospitalDetailScreen> {
                                   "hospitalName": _formKey
                                       .currentState?.value["hospitalName"],
                                   "origin":
-                                      _formKey.currentState?.value["origin"],
+                                      _formKey.currentState?.value["origin"].toIso8601String(),
                                   "address":
                                       _formKey.currentState?.value["address"],
                                   "hospitalPhoneNo": _formKey

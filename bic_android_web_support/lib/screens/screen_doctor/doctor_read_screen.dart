@@ -478,7 +478,7 @@ class _DoctorReadScreenState extends State<DoctorReadScreen> {
                                 Row(
                                   children: [
                                     Expanded(
-                                      child: ListTile(
+                                      child:  ListTile(
                                         leading: Image.asset(
                                             "assets/icons/icons8-age-100.png",
                                             color: Theme.of(context)
@@ -486,13 +486,13 @@ class _DoctorReadScreenState extends State<DoctorReadScreen> {
                                                 .primary,
                                             width: 35,
                                             height: 35),
-                                        title: Text('Age',
+                                        title: Text('Date Of Birth',
                                             style: textStyleForName),
                                         subtitle: Text(
-                                          doctorIpfsHash['doctor_age'],
+                                          DateTime.parse(doctorIpfsHash['doctor_age']).day.toString()+"/"+ DateTime.parse(doctorIpfsHash['doctor_age']).month.toString()+"/"+DateTime.parse(doctorIpfsHash['doctor_age']).year.toString(),
                                           style: GoogleFonts.montserrat(
                                             color:
-                                                Colors.black.withOpacity(0.6),
+                                            Colors.black.withOpacity(0.6),
                                             fontSize: 15,
                                           ),
                                         ),

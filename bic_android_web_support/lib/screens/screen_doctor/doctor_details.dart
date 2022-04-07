@@ -470,7 +470,31 @@ class _DoctorDetailsState extends State<DoctorDetails> {
 
     }
   }
-
+  InputDecoration dynamicInputDecoration(String labelText, Image? icon) {
+    return InputDecoration(
+      // helperText: 'hello',
+      labelText: labelText,
+      prefixIcon: icon,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      labelStyle: const TextStyle(
+        color: Color(0xFF6200EE),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Color(0xFF6200EE)),
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Color(0xFF6200EE)),
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Color(0xFF6200EE)),
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+    );
+  }
   Widget formBuilderTextFieldWidget(
       TextInputType inputTextType,
       String initialValue,
@@ -584,30 +608,32 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                                 context),
                                           ])),
                                   Padding(
-                                      padding: const EdgeInsets.all(15),
-                                      child: formBuilderTextFieldWidget(
-                                          TextInputType.number,
-                                          '40',
-                                          'doctor_age',
-                                          'Age',
-                                          Image.asset(
-                                              "assets/icons/at-sign-100.png",
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                              scale: 4,
-                                              width: 15,
-                                              height: 15),
-                                          false,
-                                          [
-                                            FormBuilderValidators.required(
-                                                context),
-                                          ])),
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: FormBuilderDateTimePicker(
+                                      name: 'doctor_age',
+                                      // onChanged: _onChanged,
+                                      inputType: InputType.date,
+                                      decoration: dynamicInputDecoration(
+                                        'Date of Birth',
+                                        Image.asset("assets/icons/key-100.png",
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            scale: 4,
+                                            width: 15,
+                                            height: 15),
+                                      ),
+
+                                      initialValue: DateTime.now(),
+                                      // enabled: true,
+                                    ),
+                                  ),
+
                                   Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
                                           TextInputType.streetAddress,
-                                          'skldfjf',
+                                          'Green Rd, Near Main Road',
                                           'doctor_address',
                                           'Address',
                                           Image.asset(
@@ -859,7 +885,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                   "doctor_name": _formKey
                                       .currentState?.value["doctor_name"],
                                   "doctor_age": _formKey
-                                      .currentState?.value["doctor_age"],
+                                      .currentState?.value["doctor_age"].toIso8601String(),
                                   "doctor_address": _formKey
                                       .currentState?.value["doctor_address"],
                                   "hospital_address": algoliaHospitalAddress,

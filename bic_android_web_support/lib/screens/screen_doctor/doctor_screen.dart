@@ -313,10 +313,10 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
                                                   .primary,
                                               width: 35,
                                               height: 35),
-                                          title: Text('Age',
+                                          title: Text('Date Of Birth',
                                               style: textStyleForName),
                                           subtitle: Text(
-                                            doctorIpfsHash['doctor_age'],
+                                              DateTime.parse(doctorIpfsHash['doctor_age']).day.toString()+"/"+ DateTime.parse(doctorIpfsHash['doctor_age']).month.toString()+"/"+DateTime.parse(doctorIpfsHash['doctor_age']).year.toString(),
                                             style: GoogleFonts.montserrat(
                                               color:
                                                   Colors.black.withOpacity(0.6),

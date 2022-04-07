@@ -1211,6 +1211,7 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                     "patient_dateOfBirth": _formKey
                                         .currentState?.value["dateOfBirth"]
                                         .toString(),
+
                                     "patient_phone_no": _formKey.currentState
                                         ?.value["patient_phone_no"],
                                     "patient_gender": _formKey
