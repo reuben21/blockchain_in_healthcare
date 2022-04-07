@@ -1,3 +1,4 @@
+import 'package:algolia/algolia.dart';
 import 'package:bic_android_web_support/databases/wallet_shared_preferences.dart';
 import 'package:bic_android_web_support/providers/gas_estimation.dart';
 import 'package:bic_android_web_support/providers/ipfs.dart';
@@ -6,12 +7,16 @@ import 'package:bic_android_web_support/providers/provider_firebase/model_fireba
 import 'package:bic_android_web_support/providers/wallet.dart';
 import 'package:bic_android_web_support/screens/Tabs/tabs_screen.dart';
 import 'package:bic_android_web_support/screens/screens_auth/background.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:provider/provider.dart';
 import 'package:web3dart/credentials.dart';
+
+import '../../helpers/Algolia.dart';
+import '../../model_class/hospital.dart';
 
 class PatientChangeDoctor extends StatefulWidget {
   static const routeName = '/patient-change-doctor';
@@ -30,6 +35,11 @@ class PatientChangeDoctor extends StatefulWidget {
 }
 
 class _PatientChangeDoctorState extends State<PatientChangeDoctor> {
+  Algolia algolia = Application.algolia;
+  String algoliaHospitalAddress = "";
+  String algoliaDoctorAddress = "";
+  TextEditingController _textFieldController = TextEditingController();
+
   final _formKey = GlobalKey<FormBuilderState>();
 
   String walletAdd = '';
@@ -54,342 +64,363 @@ class _PatientChangeDoctorState extends State<PatientChangeDoctor> {
       EthereumAddress newHospitalAddress,
       EthereumAddress walletAddress,
       Credentials credentials) async {
-    var gasEstimation =
-    await Provider.of<GasEstimationModel>(context, listen: false)
-        .estimateGasForContractFunction(walletAddress, "changeHospitalForDoctor",
-        [oldHospitalAddress, newHospitalAddress, walletAddress]);
-    print(gasEstimation);
+    try {
+      var gasEstimation =
+      await Provider.of<GasEstimationModel>(context, listen: false)
+          .estimateGasForContractFunction(walletAddress, "changeDoctorForPatient",
+          [oldHospitalAddress, newHospitalAddress, walletAddress]);
+      print(gasEstimation);
 
-    return showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        insetPadding: EdgeInsets.all(15),
-        backgroundColor: Theme.of(context).colorScheme.secondary,
-        title: Text(
-          "Confirmation Screen",
-          style: Theme.of(context).textTheme.bodyText1,
-        ),
-        content: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          // color: Theme.of(context).colorScheme.secondary,
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Center(
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Container(
-                    height: 90,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            Theme.of(context).colorScheme.primary,
-                            Colors.purpleAccent.withOpacity(0.9),
-                            // Colors.lightBlueAccent,
-                          ]),
-                      borderRadius: BorderRadius.circular(9),
+      return showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          insetPadding: EdgeInsets.all(15),
+          backgroundColor: Theme.of(context).colorScheme.secondary,
+          title: Text(
+            "Confirmation Screen",
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
+          content: Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            // color: Theme.of(context).colorScheme.secondary,
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Center(
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 15,
                     ),
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 65,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  colors: [
-                                    Theme.of(context).colorScheme.primary,
-                                    Colors.purpleAccent.withOpacity(0.9),
-                                    // Colors.lightBlueAccent,
-                                  ]),
-                              borderRadius: BorderRadius.circular(9),
-                            ),
-                            child: ListTile(
-                              leading: Image.asset("assets/icons/wallet.png",
-                                  color:
-                                  Theme.of(context).colorScheme.secondary,
-                                  width: 35,
-                                  height: 35),
-                              title: Text('From Wallet Address',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
+                    Container(
+                      height: 90,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              Theme.of(context).colorScheme.primary,
+                              Colors.purpleAccent.withOpacity(0.9),
+                              // Colors.lightBlueAccent,
+                            ]),
+                        borderRadius: BorderRadius.circular(9),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 65,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                    colors: [
+                                      Theme.of(context).colorScheme.primary,
+                                      Colors.purpleAccent.withOpacity(0.9),
+                                      // Colors.lightBlueAccent,
+                                    ]),
+                                borderRadius: BorderRadius.circular(9),
+                              ),
+                              child: ListTile(
+                                leading: Image.asset("assets/icons/wallet.png",
                                     color:
                                     Theme.of(context).colorScheme.secondary,
-                                  )),
-                              subtitle: Text(
-                                walletAddress.hex.toString(),
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color:
-                                  Theme.of(context).colorScheme.secondary,
-                                ),
-                              ),
-                            ),
-                            // Padding(
-                            //   padding: const EdgeInsets.all(10.0),
-                            //   child: Text(
-                            //     widget.address,style: TextStyle(fontSize: 20),
-                            //   ),
-                            // ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Container(
-                    height: 90,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            Colors.purpleAccent.withOpacity(0.9),
-                            Theme.of(context).colorScheme.primary,
-
-                            // Colors.lightBlueAccent,
-                          ]),
-                      borderRadius: BorderRadius.circular(9),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 65,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  colors: [
-                                    Colors.purpleAccent.withOpacity(0.9),
-                                    Theme.of(context).colorScheme.primary,
-
-                                    // Colors.lightBlueAccent,
-                                  ]),
-                              borderRadius: BorderRadius.circular(9),
-                            ),
-                            child: ListTile(
-                              trailing: Image.asset("assets/icons/wallet.png",
-                                  color:
-                                  Theme.of(context).colorScheme.secondary,
-                                  width: 35,
-                                  height: 35),
-                              title: Text('To Wallet Address',
+                                    width: 35,
+                                    height: 35),
+                                title: Text('From Wallet Address',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color:
+                                      Theme.of(context).colorScheme.secondary,
+                                    )),
+                                subtitle: Text(
+                                  walletAddress.hex.toString(),
                                   style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
                                     color:
                                     Theme.of(context).colorScheme.secondary,
-                                  )),
-                              subtitle: Text(
-                                gasEstimation['contractAddress'].toString(),
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color:
-                                  Theme.of(context).colorScheme.secondary,
+                                  ),
                                 ),
                               ),
+                              // Padding(
+                              //   padding: const EdgeInsets.all(10.0),
+                              //   child: Text(
+                              //     widget.address,style: TextStyle(fontSize: 20),
+                              //   ),
+                              // ),
                             ),
-                            // Padding(
-                            //   padding: const EdgeInsets.all(10.0),
-                            //   child: Text(
-                            //     widget.address,style: TextStyle(fontSize: 20),
-                            //   ),
-                            // ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            fit: FlexFit.loose,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                "Ether Amount: ",
-                                style: Theme.of(context).textTheme.bodyText1,
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
-                          ),
-                          Flexible(
-                            fit: FlexFit.loose,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                gasEstimation['actualAmountInWei'].toString(),
-                                style: Theme.of(context).textTheme.bodyText1,
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      // Expanded(child: Divider()),
-                      Row(children: <Widget>[
-                        Expanded(child: Divider()),
-                      ]),
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            fit: FlexFit.loose,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                "Gas Estimate: ",
-                                style: Theme.of(context).textTheme.bodyText1,
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
-                          ),
-                          Flexible(
-                            fit: FlexFit.loose,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                gasEstimation['gasEstimate'].toString() +
-                                    " units",
-                                style: Theme.of(context).textTheme.bodyText1,
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(children: <Widget>[
-                        Expanded(child: Divider()),
-                      ]),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            fit: FlexFit.loose,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                "Gas Price: ",
-                                style: Theme.of(context).textTheme.bodyText1,
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
-                          ),
-                          Flexible(
-                            fit: FlexFit.loose,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                gasEstimation['gasPrice'].toString() + " Wei",
-                                style: Theme.of(context).textTheme.bodyText1,
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(children: <Widget>[
-                        Expanded(
-                          child: Divider(
-                            // thickness: 2,
-                            // color: Colors.grey,
-                          ),
+                          ],
                         ),
-                      ]),
-                      const SizedBox(
-                        height: 15,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            fit: FlexFit.loose,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                "(Approx.) Total Ether Amount: ",
-                                style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700),
-                                textAlign: TextAlign.left,
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Container(
+                      height: 90,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              Colors.purpleAccent.withOpacity(0.9),
+                              Theme.of(context).colorScheme.primary,
+
+                              // Colors.lightBlueAccent,
+                            ]),
+                        borderRadius: BorderRadius.circular(9),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 65,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                    colors: [
+                                      Colors.purpleAccent.withOpacity(0.9),
+                                      Theme.of(context).colorScheme.primary,
+
+                                      // Colors.lightBlueAccent,
+                                    ]),
+                                borderRadius: BorderRadius.circular(9),
+                              ),
+                              child: ListTile(
+                                trailing: Image.asset("assets/icons/wallet.png",
+                                    color:
+                                    Theme.of(context).colorScheme.secondary,
+                                    width: 35,
+                                    height: 35),
+                                title: Text('To Wallet Address',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color:
+                                      Theme.of(context).colorScheme.secondary,
+                                    )),
+                                subtitle: Text(
+                                  gasEstimation['contractAddress'].toString(),
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color:
+                                    Theme.of(context).colorScheme.secondary,
+                                  ),
+                                ),
+                              ),
+                              // Padding(
+                              //   padding: const EdgeInsets.all(10.0),
+                              //   child: Text(
+                              //     widget.address,style: TextStyle(fontSize: 20),
+                              //   ),
+                              // ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Flexible(
+                              fit: FlexFit.loose,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Ether Amount: ",
+                                  style: Theme.of(context).textTheme.bodyText1,
+                                  textAlign: TextAlign.left,
+                                ),
                               ),
                             ),
-                          ),
-                          Flexible(
-                            fit: FlexFit.loose,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                gasEstimation['totalAmount'].toString() +
-                                    " ETH",
-                                style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w500),
-                                textAlign: TextAlign.left,
+                            Flexible(
+                              fit: FlexFit.loose,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  gasEstimation['actualAmountInWei'].toString(),
+                                  style: Theme.of(context).textTheme.bodyText1,
+                                  textAlign: TextAlign.left,
+                                ),
                               ),
                             ),
+                          ],
+                        ),
+                        // Expanded(child: Divider()),
+                        Row(children: <Widget>[
+                          Expanded(child: Divider()),
+                        ]),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Flexible(
+                              fit: FlexFit.loose,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Gas Estimate: ",
+                                  style: Theme.of(context).textTheme.bodyText1,
+                                  textAlign: TextAlign.left,
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              fit: FlexFit.loose,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  gasEstimation['gasEstimate'].toString() +
+                                      " units",
+                                  style: Theme.of(context).textTheme.bodyText1,
+                                  textAlign: TextAlign.left,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(children: <Widget>[
+                          Expanded(child: Divider()),
+                        ]),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Flexible(
+                              fit: FlexFit.loose,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Gas Price: ",
+                                  style: Theme.of(context).textTheme.bodyText1,
+                                  textAlign: TextAlign.left,
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              fit: FlexFit.loose,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  gasEstimation['gasPrice'].toString() + " Wei",
+                                  style: Theme.of(context).textTheme.bodyText1,
+                                  textAlign: TextAlign.left,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(children: <Widget>[
+                          Expanded(
+                            child: Divider(
+                              // thickness: 2,
+                              // color: Colors.grey,
+                            ),
                           ),
-                        ],
-                      ),
-                      Row(children: <Widget>[
-                        Expanded(child: Divider()),
-                      ]),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                    ],
-                  ),
-                  FloatingActionButton.extended(
-                    heroTag: "confirmPay",
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    foregroundColor: Theme.of(context).colorScheme.secondary,
-                    onPressed: () async {
-                      executeTransaction(oldHospitalAddress,newHospitalAddress, walletAddress,
-                           credentials);
-                    },
-                    icon: const Icon(Icons.add_circle_outline_outlined),
-                    label: const Text('Confirm Pay'),
-                  )
-                ],
+                        ]),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Flexible(
+                              fit: FlexFit.loose,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "(Approx.) Total Ether Amount: ",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w700),
+                                  textAlign: TextAlign.left,
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              fit: FlexFit.loose,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  gasEstimation['totalAmount'].toString() +
+                                      " ETH",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500),
+                                  textAlign: TextAlign.left,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(children: <Widget>[
+                          Expanded(child: Divider()),
+                        ]),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                      ],
+                    ),
+                    FloatingActionButton.extended(
+                      heroTag: "confirmPay",
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      foregroundColor: Theme.of(context).colorScheme.secondary,
+                      onPressed: () async {
+                        executeTransaction(oldHospitalAddress,newHospitalAddress, walletAddress,
+                            credentials);
+                      },
+                      icon: const Icon(Icons.add_circle_outline_outlined),
+                      label: const Text('Confirm Pay'),
+                    )
+                  ],
+                ),
               ),
             ),
           ),
+          actions: <Widget>[
+            // ElevatedButton(
+            //   onPressed: () {
+            //     Navigator.of(ctx).pop();
+            //   },
+            //   child: const Text("okay"),
+            // ),
+          ],
         ),
-        actions: <Widget>[
-          // ElevatedButton(
-          //   onPressed: () {
-          //     Navigator.of(ctx).pop();
-          //   },
-          //   child: const Text("okay"),
-          // ),
-        ],
-      ),
-    );
+      );
+    } catch (error) {
+      _showErrorDialog(error.toString());
+    }
+
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text('An Error Occurred'),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+                child: Text('Okay'))
+          ],
+        ));
   }
 
   Future<void> executeTransaction(
@@ -398,7 +429,7 @@ class _PatientChangeDoctorState extends State<PatientChangeDoctor> {
       EthereumAddress walletAddress,
       Credentials credentials) async {
     var transactionHash = await Provider.of<WalletModel>(context, listen: false)
-        .writeContract("changeHospitalForDoctor",
+        .writeContract("changeDoctorForPatient",
         [oldHospitalAddress, newHospitalAddress, walletAddress], credentials);
 
     var firebaseStatus =
@@ -475,7 +506,7 @@ class _PatientChangeDoctorState extends State<PatientChangeDoctor> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Change Hospital',
+                          'Change Doctor',
                           style: Theme.of(context).textTheme.headline1,
                         ),
 
@@ -549,27 +580,92 @@ class _PatientChangeDoctorState extends State<PatientChangeDoctor> {
                                                 context),
                                           ])),
                                   Padding(
-                                      padding: const EdgeInsets.all(15),
-                                      child: formBuilderTextFieldWidget(
-                                          TextInputType.streetAddress,
-                                          '0x72ec479eb474b3b737e30d265773f9e7a2d0b031',
-                                          'new_hospital_address',
-                                          'New Doctor Wallet Address',
-                                          Image.asset(
-                                              "assets/icons/wallet.png",
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: DropdownSearch<HospitalHit>(
+                                      selectedItem:HospitalHit(walletAddress:algoliaDoctorAddress==""?"Select Address":algoliaDoctorAddress,  userEmail: '', registerOnce: '', userName: ''),
+
+                                      label: "New Doctor Address",
+                                      isFilteredOnline: true,
+                                      mode: Mode.DIALOG,
+                                      showSearchBox: true,
+                                      onFind: (String? filter) async {
+                                        AlgoliaQuery query = algolia.instance
+                                            .index('Doctors')
+                                            .query(filter!)
+                                            .setLength(1);
+                                        query =
+                                            query.facetFilter('registerOnce');
+                                        // var models = HospitalHit.fromJson(query.parameters);
+                                        // Get Result/Objects
+                                        AlgoliaQuerySnapshot snap =
+                                        await query.getObjects();
+
+                                        List _list = snap.hits;
+                                        List<HospitalHit> _newList = snap.hits
+                                            .map((item) =>
+                                            HospitalHit.fromJson(item.data))
+                                            .toList();
+                                        return _newList;
+                                      },
+                                      popupItemBuilder: (BuildContext context,
+                                          HospitalHit? item, bool isSelected) {
+                                        return Container(
+                                          child: ListTile(
+                                            selected: isSelected,
+                                            title: Text(item?.userName ?? ''),
+                                            subtitle: Text(item?.walletAddress
+                                                .toString() ??
+                                                ''),
+
+                                          ),
+                                        );
+                                      },
+                                      dropDownButton: Container(),
+                                      dropdownSearchDecoration: InputDecoration(
+                                        constraints: BoxConstraints.tightFor(
+                                            width: 320, height: 60),
+                                        // helperText: 'hello',
+                                        labelText: "Hospital",
+                                        prefixIcon: Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: Image.asset(
+                                            "assets/icons/wallet.png",
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            width: 20,
+                                            height: 10,
+                                            scale: 0.2,
+                                            fit: BoxFit.contain,
+                                          ),
+                                        ),
+                                      ),
+                                      dropdownBuilder:
+                                          (context, selectedItems) {
+                                        var walletAddress =
+                                        selectedItems?.walletAddress.toString();
+
+                                        return Text(
+                                          walletAddress.toString(),
+                                          style: TextStyle(
                                               color: Theme.of(context)
                                                   .colorScheme
-                                                  .primary,
-                                              scale: 4,
-                                              width: 15,
-                                              height: 15),
-                                          false,
-                                          [
-                                            FormBuilderValidators.required(
-                                                context),
-                                          ])),
+                                                  .primary),
+                                        );
 
-
+                                        // return Wrap(
+                                        //   children: selectedItems.map((e) => item(e)).toList(),
+                                        // );
+                                      },
+                                      onChanged: (data) {
+                                        setState(() {
+                                          algoliaDoctorAddress =
+                                              data!.walletAddress.toString();
+                                        });
+                                        print(data?.walletAddress.toString());
+                                      },
+                                    ),
+                                  ),
                                   Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
@@ -649,8 +745,7 @@ class _PatientChangeDoctorState extends State<PatientChangeDoctor> {
 
                                   var old_hospital_address = EthereumAddress.fromHex(_formKey
                                       .currentState?.value["old_hospital_address"]);
-                                  var new_hospital_address = EthereumAddress.fromHex(_formKey
-                                      .currentState?.value["new_hospital_address"]);
+                                  var new_hospital_address = EthereumAddress.fromHex(algoliaDoctorAddress);
                                   // var doctorAddress = EthereumAddress.fromHex("  ");
                                   estimateGasFunction(
                                       old_hospital_address,

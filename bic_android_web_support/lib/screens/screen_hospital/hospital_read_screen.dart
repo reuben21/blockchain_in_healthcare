@@ -1,32 +1,21 @@
-import 'dart:convert';
-import 'dart:typed_data';
-import 'package:bic_android_web_support/screens/screen_hospital/hospital_access_list.dart';
-import 'package:bic_android_web_support/screens/screen_hospital/revoke_access_screen.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:algolia/algolia.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import '../../helpers/Algolia.dart';
 import '../../helpers/keys.dart' as keys;
 import 'package:bic_android_web_support/providers/ipfs.dart';
 import 'package:bic_android_web_support/providers/wallet.dart';
-import 'package:bic_android_web_support/screens/screen_hospital/hospital_details.dart';
-import 'package:bic_android_web_support/screens/screen_patient/patient_details.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:velocity_x/src/extensions/context_ext.dart';
-import 'package:velocity_x/src/extensions/num_ext.dart';
-import 'package:velocity_x/velocity_x.dart';
 import 'package:web3dart/credentials.dart';
-import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
+import '../../model_class/hospital.dart';
 
-import '../Widgets/CustomButtonGen.dart';
-import '../Widgets/CustomCard.dart';
-import 'grant_access_screen.dart';
 
 class HospitalReadScreen extends StatefulWidget {
   static const routeName = '/hospital-screen';
@@ -38,6 +27,13 @@ class HospitalReadScreen extends StatefulWidget {
 }
 
 class _HospitalReadScreenState extends State<HospitalReadScreen> {
+  Algolia algolia = Application.algolia;
+  String algoliaHospitalAddress = "";
+  String algoliaDoctorAddress = "";
+  TextEditingController _textFieldController = TextEditingController();
+
+
+
   final _formKey = GlobalKey<FormBuilderState>();
 
   String? role;
@@ -186,26 +182,125 @@ class _HospitalReadScreenState extends State<HospitalReadScreen> {
                           child: Column(
                             children: [
                               Padding(
-                                  padding: const EdgeInsets.all(15),
-                                  child: formBuilderTextFieldWidget(
-                                      TextInputType.text,
-                                      '',
-                                      'address',
-                                      'Hospital Address',
-                                      Image.asset(
-                                          "assets/icons/key-100.png",
-                                          color: Theme
-                                              .of(context)
+                                padding: const EdgeInsets.all(15.0),
+                                child: DropdownSearch<HospitalHit>(
+                                  searchFieldProps: TextFieldProps(
+                                    controller: _textFieldController,
+                                    decoration: InputDecoration(
+                                      suffixIcon: IconButton(
+                                        icon: const Icon(Icons.clear),
+                                        onPressed: () {
+                                          _textFieldController.clear();
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  isFilteredOnline: true,
+                                  label: "Hospital Address",
+                                  selectedItem:HospitalHit(walletAddress: algoliaHospitalAddress==""?"Select Address":algoliaHospitalAddress, userEmail: '', registerOnce: '', userName: ''),
+
+
+                                  mode: Mode.DIALOG,
+                                  showSearchBox: true,
+                                  onFind: (String? filter) async {
+                                    print(filter);
+                                    AlgoliaQuery query = algolia.instance
+                                        .index('Hospitals')
+                                        .query(filter!);
+                                    query =
+                                        query.facetFilter('registerOnce');
+                                    // var models = HospitalHit.fromJson(query.parameters);
+                                    // Get Result/Objects
+                                    AlgoliaQuerySnapshot snap =
+                                    await query.getObjects();
+
+                                    List _list = snap.hits;
+                                    List<HospitalHit> _newList = snap.hits
+                                        .map((item) =>
+                                        HospitalHit.fromJson(item.data))
+                                        .toList();
+                                    return _newList;
+                                  },
+                                  popupItemBuilder: (BuildContext context,
+                                      HospitalHit? item, bool isSelected) {
+                                    return Container(
+                                      child: ListTile(
+                                        selected: isSelected,
+                                        title: Text(item?.userName ?? ''),
+                                        subtitle: Text(item?.walletAddress
+                                            ?.toString() ??
+                                            ''),
+
+                                      ),
+                                    );
+                                  },
+                                  dropDownButton: Container(),
+                                  dropdownSearchDecoration: InputDecoration(
+                                    constraints: BoxConstraints.tightFor(
+                                        width: 320, height: 60),
+                                    // helperText: 'hello',
+                                    labelText: "Hospital",
+                                    prefixIcon: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Image.asset(
+                                        "assets/icons/wallet.png",
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                        width: 20,
+                                        height: 10,
+                                        scale: 0.2,
+                                        fit: BoxFit.contain,
+                                      ),
+                                    ),
+                                  ),
+                                  dropdownBuilder:
+                                      (context, selectedItems) {
+                                    var walletAddress =
+                                    selectedItems?.walletAddress.toString();
+
+                                    return Text(
+                                      walletAddress.toString(),
+                                      style: TextStyle(
+                                          color: Theme.of(context)
                                               .colorScheme
-                                              .primary,
-                                          scale: 4,
-                                          width: 15,
-                                          height: 15),
-                                      false,
-                                      [
-                                        FormBuilderValidators.required(
-                                            context),
-                                      ])),
+                                              .primary),
+                                    );
+
+                                    // return Wrap(
+                                    //   children: selectedItems.map((e) => item(e)).toList(),
+                                    // );
+                                  },
+                                  onChanged: (data) {
+                                    setState(() {
+                                      algoliaHospitalAddress =
+                                          data!.walletAddress.toString();
+                                    });
+                                    print(data?.walletAddress.toString());
+                                  },
+                                ),
+                              ),
+                              // Padding(
+                              //     padding: const EdgeInsets.all(15),
+                              //     child: formBuilderTextFieldWidget(
+                              //         TextInputType.text,
+                              //         '',
+                              //         'address',
+                              //         'Hospital Address',
+                              //         Image.asset(
+                              //             "assets/icons/key-100.png",
+                              //             color: Theme
+                              //                 .of(context)
+                              //                 .colorScheme
+                              //                 .primary,
+                              //             scale: 4,
+                              //             width: 15,
+                              //             height: 15),
+                              //         false,
+                              //         [
+                              //           FormBuilderValidators.required(
+                              //               context),
+                              //         ])),
 
                             ],
                           )),
@@ -231,8 +326,8 @@ class _HospitalReadScreenState extends State<HospitalReadScreen> {
                             // var dbResponse =
                             // await WalletSharedPreference
                             //     .getWalletDetails();
-                            print(_formKey
-                                .currentState?.value["address"]);
+                            // print(_formKey
+                            //     .currentState?.value["address"]);
                             // Wallet newWallet = Wallet.fromJson(
                             //     dbResponse!['walletEncryptedKey']
                             //         .toString(),
@@ -242,12 +337,12 @@ class _HospitalReadScreenState extends State<HospitalReadScreen> {
                             // myAddress = await credentialsNew
                             //     .extractAddress();
                             // uploadImage(credentialsNew, myAddress);
-                            String address = _formKey
-                                .currentState?.value["address"];
+                            // String address = _formKey
+                            //     .currentState?.value["address"];
                             // setState(() {
                             //   patientAddress;
                             // });
-                            fetchHospitalData(EthereumAddress.fromHex(address));
+                            fetchHospitalData(EthereumAddress.fromHex(algoliaHospitalAddress));
                           }
                         },
                       ),
@@ -480,25 +575,25 @@ class _HospitalReadScreenState extends State<HospitalReadScreen> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
-                              ListTile(
-                                leading: Image.asset(
-                                    "assets/icons/checked-user-male-100.png",
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .primary,
-                                    width: 35,
-                                    height: 35),
-                                title: Text("Role",
-                                    style: textStyleForName),
-                                subtitle: Text(
-                                  role!,
-                                  style: GoogleFonts.montserrat(
-                                    color: Colors.black
-                                        .withOpacity(0.6),
-                                    fontSize: 15,
-                                  ),
-                                ),
-                              ),
+                              // ListTile(
+                              //   leading: Image.asset(
+                              //       "assets/icons/checked-user-male-100.png",
+                              //       color: Theme.of(context)
+                              //           .colorScheme
+                              //           .primary,
+                              //       width: 35,
+                              //       height: 35),
+                              //   title: Text("Role",
+                              //       style: textStyleForName),
+                              //   subtitle: Text(
+                              //     role!,
+                              //     style: GoogleFonts.montserrat(
+                              //       color: Colors.black
+                              //           .withOpacity(0.6),
+                              //       fontSize: 15,
+                              //     ),
+                              //   ),
+                              // ),
                               ListTile(
                                 leading: Image.asset(
                                     "assets/icons/hospital-count-100.png",

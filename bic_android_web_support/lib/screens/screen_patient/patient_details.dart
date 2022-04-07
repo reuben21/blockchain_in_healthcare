@@ -12,22 +12,17 @@ import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_place/google_place.dart' as google_place;
 import 'package:provider/provider.dart';
 import 'package:web3dart/credentials.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:algolia/algolia.dart';
+import '../../helpers/Algolia.dart';
 import '../../model_class/hospital.dart';
-import '../Widgets/FlutterDropdownSearch.dart';
 
-class Application {
-  static final Algolia algolia = Algolia.init(
-    applicationId: '4ZUDJZ4TXK',
-    apiKey: 'e5b22538596c47fb6a45afa521e3f006',
-  );
-}
+
 
 class PatientStoreDetails extends StatefulWidget {
-
   static const routeName = '/patient-store-details';
 
   final String? patientName;
@@ -52,59 +47,48 @@ class PatientStoreDetails extends StatefulWidget {
 
 class _PatientStoreDetailsState extends State<PatientStoreDetails> {
   Algolia algolia = Application.algolia;
-  final _formKey = GlobalKey<FormBuilderState>();
-  String _searchText = "";
-  String algoliaHospitalAddress="";
-  String algoliaDoctorAddress="";
-
-
-  List<HospitalHit> _hitsList = [];
-
+  String algoliaHospitalAddress = "";
+  String algoliaDoctorAddress = "";
   TextEditingController _textFieldController = TextEditingController();
 
 
-  Future<void> _getSearchResult(String filter) async {
-    AlgoliaQuery query = algolia.instance.index('Hospitals').query(filter);
-        // var models = HospitalHit.fromJson(query.parameters);
-    // Get Result/Objects
-    AlgoliaQuerySnapshot snap = await query.getObjects();
+  final _formKey = GlobalKey<FormBuilderState>();
 
-    // print(snap.hits);
-    // AlgoliaObjectSnapshot _list = snap.hits t;
-    print(snap.hits.map((e) => print(e.data)));
-    var hitsList = snap.hits.map((item) => HospitalHit.fromJson(item.data)).toList();
-    setState(() {
-      _hitsList = hitsList;
-    });
-  }
+
+
+
+
+
+
+
+
+
 
   String walletAdd = '';
-  final TextEditingController hospitalAddress =
-      TextEditingController.fromValue(TextEditingValue.empty);
 
-  final TextEditingController doctorAddress =
-      TextEditingController.fromValue(TextEditingValue.empty);
 
   void _showErrorDialog(String message) {
     showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
-          title: Text('An Error Occurred'),
-          content: Text(message),
-          actions: <Widget>[
-            TextButton(
-                onPressed: () {
-                  Navigator.of(ctx).pop();
-                },
-                child: Text('Okay'))
-          ],
-        ));
+              title: Text('An Error Occurred'),
+              content: Text(message),
+              actions: <Widget>[
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(ctx).pop();
+                    },
+                    child: Text('Okay'))
+              ],
+            ));
   }
+
   @override
   void initState() {
+    super.initState();
     getWalletFromDatabase();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
-    super.initState();
+    // googlePlace = google_place.GooglePlace("AIzaSyClmEY1sR0lgC2aXImNwGZ9TIk7z0LfsfQ");
     // _textFieldController.addListener(() {
     //   if (_searchText != _textFieldController.text) {
     //     setState(() {
@@ -122,8 +106,8 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
 
     setState(() {
       walletAdd;
-      hospitalAddress.text = widget.patientHospitalAddress!;
-      doctorAddress.text = widget.patientDoctorAddress!;
+      algoliaHospitalAddress = widget.patientHospitalAddress!;
+      algoliaDoctorAddress = widget.patientDoctorAddress!;
     });
   }
 
@@ -133,7 +117,7 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
       EthereumAddress hospitalAddress,
       EthereumAddress doctorAddress,
       EthereumAddress walletAddress,
-      Credentials credentials) async {
+      Credentials credentials ) async {
     var gasEstimation =
         await Provider.of<GasEstimationModel>(context, listen: false)
             .estimateGasForContractFunction(walletAddress, "storePatient", [
@@ -151,7 +135,7 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
     var doctorDetails = await Provider.of<FirebaseModel>(context, listen: false)
         .checkIfDoctorIsPresent(doctorAddress.hex);
     if (hospitalDetails == true) {
-      if(doctorDetails == true) {
+      if (doctorDetails == true) {
         return showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
@@ -206,24 +190,28 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                   borderRadius: BorderRadius.circular(9),
                                 ),
                                 child: ListTile(
-                                  leading: Image.asset("assets/icons/wallet.png",
-                                      color:
-                                      Theme.of(context).colorScheme.secondary,
+                                  leading: Image.asset(
+                                      "assets/icons/wallet.png",
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
                                       width: 35,
                                       height: 35),
                                   title: Text('From Wallet Address',
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
-                                        color:
-                                        Theme.of(context).colorScheme.secondary,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary,
                                       )),
                                   subtitle: Text(
                                     walletAddress.hex.toString(),
                                     style: TextStyle(
                                       fontSize: 15,
-                                      color:
-                                      Theme.of(context).colorScheme.secondary,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
                                     ),
                                   ),
                                 ),
@@ -276,24 +264,28 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                   borderRadius: BorderRadius.circular(9),
                                 ),
                                 child: ListTile(
-                                  trailing: Image.asset("assets/icons/wallet.png",
-                                      color:
-                                      Theme.of(context).colorScheme.secondary,
+                                  trailing: Image.asset(
+                                      "assets/icons/wallet.png",
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
                                       width: 35,
                                       height: 35),
                                   title: Text('To Wallet Address',
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
-                                        color:
-                                        Theme.of(context).colorScheme.secondary,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary,
                                       )),
                                   subtitle: Text(
                                     gasEstimation['contractAddress'].toString(),
                                     style: TextStyle(
                                       fontSize: 15,
-                                      color:
-                                      Theme.of(context).colorScheme.secondary,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
                                     ),
                                   ),
                                 ),
@@ -322,7 +314,8 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
                                     "Ether Amount: ",
-                                    style: Theme.of(context).textTheme.bodyText1,
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1,
                                     textAlign: TextAlign.left,
                                   ),
                                 ),
@@ -332,8 +325,10 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    gasEstimation['actualAmountInWei'].toString(),
-                                    style: Theme.of(context).textTheme.bodyText1,
+                                    gasEstimation['actualAmountInWei']
+                                        .toString(),
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1,
                                     textAlign: TextAlign.left,
                                   ),
                                 ),
@@ -354,7 +349,8 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
                                     "Gas Estimate: ",
-                                    style: Theme.of(context).textTheme.bodyText1,
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1,
                                     textAlign: TextAlign.left,
                                   ),
                                 ),
@@ -366,7 +362,8 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                   child: Text(
                                     gasEstimation['gasEstimate'].toString() +
                                         " units",
-                                    style: Theme.of(context).textTheme.bodyText1,
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1,
                                     textAlign: TextAlign.left,
                                   ),
                                 ),
@@ -385,7 +382,8 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
                                     "Gas Price: ",
-                                    style: Theme.of(context).textTheme.bodyText1,
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1,
                                     textAlign: TextAlign.left,
                                   ),
                                 ),
@@ -395,8 +393,10 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    gasEstimation['gasPrice'].toString() + " Wei",
-                                    style: Theme.of(context).textTheme.bodyText1,
+                                    gasEstimation['gasPrice'].toString() +
+                                        " Wei",
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1,
                                     textAlign: TextAlign.left,
                                   ),
                                 ),
@@ -406,9 +406,9 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                           Row(children: const <Widget>[
                             Expanded(
                               child: Divider(
-                                // thickness: 2,
-                                // color: Colors.grey,
-                              ),
+                                  // thickness: 2,
+                                  // color: Colors.grey,
+                                  ),
                             ),
                           ]),
                           const SizedBox(
@@ -459,7 +459,8 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                       FloatingActionButton.extended(
                         heroTag: "confirmPay",
                         backgroundColor: Theme.of(context).colorScheme.primary,
-                        foregroundColor: Theme.of(context).colorScheme.secondary,
+                        foregroundColor:
+                            Theme.of(context).colorScheme.secondary,
                         onPressed: () async {
                           executeTransaction(
                               patientName,
@@ -467,9 +468,7 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                               hospitalAddress,
                               doctorAddress,
                               walletAddress,
-                              credentials
-
-                              );
+                              credentials);
                         },
                         icon: const Icon(Icons.add_circle_outline_outlined),
                         label: const Text('Confirm Pay'),
@@ -495,9 +494,7 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
     } else {
       _showErrorDialog("Hospital Address is Incorrect");
     }
-
   }
-
 
   Future<void> executeTransaction(
       String patientName,
@@ -509,8 +506,10 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
     var status = await Provider.of<FirebaseModel>(context, listen: false)
         .storeUserRegistrationStatus(walletAddress.hex);
 
-    if (status == true) {
-      var transactionHash =
+
+      try {
+        if (status == true) {
+          var transactionHash =
           await Provider.of<WalletModel>(context, listen: false).writeContract(
               "storePatient",
               [
@@ -522,10 +521,9 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
               ],
               credentials);
 
-        Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
-
-    } else if (status == false) {
-      var transactionHash =
+          Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
+        } else if (status == false) {
+          var transactionHash =
           await Provider.of<WalletModel>(context, listen: false).writeContract(
               "storePatient",
               [
@@ -536,21 +534,26 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                 walletAddress
               ],
               credentials);
-      var hospitalRequest =
+          var hospitalRequest =
           await Provider.of<FirebaseModel>(context, listen: false)
               .sendHospitalRequest(hospitalAddress.hex, walletAddress.hex);
-      var addToDoctorList =
+          var addToDoctorList =
           await Provider.of<FirebaseModel>(context, listen: false)
               .addPatientToDoctorList(
-                  doctorAddress.hex, walletAddress.hex, patientName);
-      var firebaseStatus =
+              doctorAddress.hex, walletAddress.hex, patientName);
+          var firebaseStatus =
           await Provider.of<FirebaseModel>(context, listen: false)
               .storeTransaction(transactionHash);
 
-      if (firebaseStatus) {
-        Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
+          if (firebaseStatus) {
+            Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
+          }
+        }
+
+      } catch (error) {
+        _showErrorDialog(error.toString());
       }
-    }
+
   }
 
   InputDecoration dynamicInputDecoration(String labelText, Image? icon) {
@@ -578,6 +581,7 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
       ),
     );
   }
+
   Widget formBuilderTextFieldWidget(
       TextInputType inputTextType,
       String initialValue,
@@ -674,7 +678,7 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                     height: 10,
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.all(5.0),
+                                    padding: const EdgeInsets.all(15.0),
                                     child: Container(
                                       height: 50,
                                       width: double.infinity,
@@ -727,159 +731,92 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                   //   items:_hitsList ,
                                   //   dropdownHeight: 300,
                                   // ),
-                                Padding(
-                                  padding: const EdgeInsets.all(15.0),
-                                  child: DropdownSearch<HospitalHit>(
-                                    searchFieldProps: TextFieldProps(
-                                      controller: _textFieldController,
-                                      decoration: InputDecoration(
-                                        suffixIcon: IconButton(
-                                          icon: Icon(Icons.clear),
-                                          onPressed: () {
-                                            _textFieldController.clear();
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                    isFilteredOnline: true,
-                                    label: "Hospital Address",
-                                    filterFn: (user, filter) => user!.userFilterByCreationDate(filter!),
-                                    mode: Mode.BOTTOM_SHEET,
-                                    showSearchBox: true,
-                                    onFind: (String? filter) async {
-                                      print(filter);
-                                      AlgoliaQuery query = algolia.instance.index('Hospitals').query(filter!);
-                                      query = query.facetFilter('registerOnce');
-                                      // var models = HospitalHit.fromJson(query.parameters);
-                                      // Get Result/Objects
-                                      AlgoliaQuerySnapshot snap = await query.getObjects();
-
-
-                                      List _list= snap.hits;
-                                      List<HospitalHit> _newList =  snap.hits.map((item) => HospitalHit.fromJson(item.data)).toList();
-                                      return _newList;
-                                    },
-
-                                    popupItemBuilder: (
-                                        BuildContext context, HospitalHit? item, bool isSelected) {
-                                      return Container(
-
-
-                                        child: ListTile(
-                                          selected: isSelected,
-                                          title: Text(item?.userName ?? ''),
-                                          subtitle: Text(item?.walletAddress?.toString() ?? ''),
-                                          leading: CircleAvatar(
-                                            // this does not work - throws 404 error
-                                            // backgroundImage: NetworkImage(item.avatar ?? ''),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    dropDownButton: Container(),
-                                    dropdownSearchDecoration: InputDecoration(
-                                      constraints: BoxConstraints.tightFor(width: 320,height: 60),
-                                      // helperText: 'hello',
-                                      labelText: "Hospital",
-                                      prefixIcon: Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: Image.asset(
-                                          "assets/icons/wallet.png",
-                                          color:
-                                          Theme.of(context).colorScheme.primary,
-                                          width: 20,height: 10,scale: 0.2,fit: BoxFit.contain,
-                                        ),
-                                      ),
-
-
-
-                                    ),
-                                    dropdownBuilder: (context,selectedItems) {
-                                      var walletAddress = selectedItems?.userName.toString();
-
-                                      return
-                                            Text(
-                                              walletAddress.toString(),
-
-                                              style: TextStyle(color: Theme.of(context).colorScheme.primary),
-                                            );
-
-                                      // return Wrap(
-                                      //   children: selectedItems.map((e) => item(e)).toList(),
-                                      // );
-                                    },
-                                    onChanged: (data) {
-                                      setState(() {
-                                        algoliaHospitalAddress = data!.walletAddress.toString();
-                                      });
-                                      print(data?.walletAddress.toString());
-                                    },
-                                  ),
-                                ),
+                                  // HOSPITAL ADDRESS
                                   Padding(
                                     padding: const EdgeInsets.all(15.0),
                                     child: DropdownSearch<HospitalHit>(
+                                      searchFieldProps: TextFieldProps(
+                                        controller: _textFieldController,
+                                        decoration: InputDecoration(
+                                          suffixIcon: IconButton(
+                                            icon: Icon(Icons.clear),
+                                            onPressed: () {
+                                              _textFieldController.clear();
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                      isFilteredOnline: true,
+                                      label: "Hospital Address",
+                                      selectedItem:HospitalHit(walletAddress: algoliaHospitalAddress==""?"Select Address":algoliaHospitalAddress, userEmail: '', registerOnce: '', userName: ''),
 
-                                      label: "Doctor Address",
 
-                                      mode: Mode.BOTTOM_SHEET,
+                                      mode: Mode.DIALOG,
                                       showSearchBox: true,
                                       onFind: (String? filter) async {
-                                        AlgoliaQuery query = algolia.instance.index('Doctors').query(filter!).setLength(1);
-                                        query = query.facetFilter('registerOnce');
+                                        print(filter);
+                                        AlgoliaQuery query = algolia.instance
+                                            .index('Hospitals')
+                                            .query(filter!);
+                                        query =
+                                            query.facetFilter('registerOnce');
                                         // var models = HospitalHit.fromJson(query.parameters);
                                         // Get Result/Objects
-                                        AlgoliaQuerySnapshot snap = await query.getObjects();
+                                        AlgoliaQuerySnapshot snap =
+                                            await query.getObjects();
 
-
-                                        List _list= snap.hits;
-                                        List<HospitalHit> _newList =  snap.hits.map((item) => HospitalHit.fromJson(item.data)).toList();
+                                        List _list = snap.hits;
+                                        List<HospitalHit> _newList = snap.hits
+                                            .map((item) =>
+                                                HospitalHit.fromJson(item.data))
+                                            .toList();
                                         return _newList;
                                       },
-
-                                      popupItemBuilder: (
-                                          BuildContext context, HospitalHit? item, bool isSelected) {
+                                      popupItemBuilder: (BuildContext context,
+                                          HospitalHit? item, bool isSelected) {
                                         return Container(
-
-
                                           child: ListTile(
                                             selected: isSelected,
                                             title: Text(item?.userName ?? ''),
-                                            subtitle: Text(item?.walletAddress?.toString() ?? ''),
-                                            leading: CircleAvatar(
-                                              // this does not work - throws 404 error
-                                              // backgroundImage: NetworkImage(item.avatar ?? ''),
-                                            ),
+                                            subtitle: Text(item?.walletAddress
+                                                    ?.toString() ??
+                                                ''),
+
                                           ),
                                         );
                                       },
                                       dropDownButton: Container(),
                                       dropdownSearchDecoration: InputDecoration(
-                                        constraints: BoxConstraints.tightFor(width: 320,height: 60),
+                                        constraints: BoxConstraints.tightFor(
+                                            width: 320, height: 60),
                                         // helperText: 'hello',
                                         labelText: "Hospital",
                                         prefixIcon: Padding(
                                           padding: const EdgeInsets.all(10.0),
                                           child: Image.asset(
                                             "assets/icons/wallet.png",
-                                            color:
-                                            Theme.of(context).colorScheme.primary,
-                                            width: 20,height: 10,scale: 0.2,fit: BoxFit.contain,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            width: 20,
+                                            height: 10,
+                                            scale: 0.2,
+                                            fit: BoxFit.contain,
                                           ),
                                         ),
-
-
-
                                       ),
-                                      dropdownBuilder: (context,selectedItems) {
-                                        var walletAddress = selectedItems?.userName.toString();
+                                      dropdownBuilder:
+                                          (context, selectedItems) {
+                                        var walletAddress =
+                                            selectedItems?.walletAddress.toString();
 
-                                        return
-                                          Text(
-                                            walletAddress.toString(),
-
-                                            style: TextStyle(color: Theme.of(context).colorScheme.primary),
-                                          );
+                                        return Text(
+                                          walletAddress.toString(),
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary),
+                                        );
 
                                         // return Wrap(
                                         //   children: selectedItems.map((e) => item(e)).toList(),
@@ -887,26 +824,184 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                       },
                                       onChanged: (data) {
                                         setState(() {
-                                          algoliaDoctorAddress = data!.walletAddress.toString();
+                                          algoliaHospitalAddress =
+                                              data!.walletAddress.toString();
                                         });
                                         print(data?.walletAddress.toString());
                                       },
                                     ),
                                   ),
+                                  // DOCTOR ADDRESS
                                   Padding(
-                                    padding: const EdgeInsets.all(15),
-                                    child: WalletAddressInputField(
-                                      controller: hospitalAddress,
-                                      hintText: "Hospital Address",
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: DropdownSearch<HospitalHit>(
+                                      selectedItem:HospitalHit(walletAddress:algoliaDoctorAddress==""?"Select Address":algoliaDoctorAddress,  userEmail: '', registerOnce: '', userName: ''),
+                                      
+                                      label: "Doctor Address",
+                                      isFilteredOnline: true,
+                                      mode: Mode.DIALOG,
+                                      showSearchBox: true,
+                                      onFind: (String? filter) async {
+                                        AlgoliaQuery query = algolia.instance
+                                            .index('Doctors')
+                                            .query(filter!)
+                                            .setLength(1);
+                                        query =
+                                            query.facetFilter('registerOnce');
+                                        // var models = HospitalHit.fromJson(query.parameters);
+                                        // Get Result/Objects
+                                        AlgoliaQuerySnapshot snap =
+                                            await query.getObjects();
+
+                                        List _list = snap.hits;
+                                        List<HospitalHit> _newList = snap.hits
+                                            .map((item) =>
+                                                HospitalHit.fromJson(item.data))
+                                            .toList();
+                                        return _newList;
+                                      },
+                                      popupItemBuilder: (BuildContext context,
+                                          HospitalHit? item, bool isSelected) {
+                                        return Container(
+                                          child: ListTile(
+                                            selected: isSelected,
+                                            title: Text(item?.userName ?? ''),
+                                            subtitle: Text(item?.walletAddress
+                                                    .toString() ??
+                                                ''),
+
+                                          ),
+                                        );
+                                      },
+                                      dropDownButton: Container(),
+                                      dropdownSearchDecoration: InputDecoration(
+                                        constraints: BoxConstraints.tightFor(
+                                            width: 320, height: 60),
+                                        // helperText: 'hello',
+                                        labelText: "Hospital",
+                                        prefixIcon: Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: Image.asset(
+                                            "assets/icons/wallet.png",
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            width: 20,
+                                            height: 10,
+                                            scale: 0.2,
+                                            fit: BoxFit.contain,
+                                          ),
+                                        ),
+                                      ),
+                                      dropdownBuilder:
+                                          (context, selectedItems) {
+                                        var walletAddress =
+                                            selectedItems?.walletAddress.toString();
+
+                                        return Text(
+                                          walletAddress.toString(),
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary),
+                                        );
+
+                                        // return Wrap(
+                                        //   children: selectedItems.map((e) => item(e)).toList(),
+                                        // );
+                                      },
+                                      onChanged: (data) {
+                                        setState(() {
+                                          algoliaDoctorAddress =
+                                              data!.walletAddress.toString();
+                                        });
+                                        print(data?.walletAddress.toString());
+                                      },
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(15),
-                                    child: WalletAddressInputField(
-                                      controller: doctorAddress,
-                                      hintText: "Doctor Address",
-                                    ),
-                                  ),
+                                  // Padding(
+                                  //   padding: const EdgeInsets.all(15.0),
+                                  //   child: DropdownSearch<google_place.AutocompletePrediction>(
+                                  //     selectedItem: google_place.AutocompletePrediction.fromJson({"description":locationDescription == ""? "Select Location":locationDescription}),
+                                  //     label: "Patient Location",
+                                  //     mode: Mode.BOTTOM_SHEET,
+                                  //     isFilteredOnline: true,
+                                  //     showSearchBox: true,
+                                  //     onFind: (String? filter) async {
+                                  //       var result = await googlePlace.autocomplete.get(filter!);
+                                  //       if (result != null && result.predictions != null && mounted) {
+                                  //
+                                  //         return  result.predictions!.toList();
+                                  //
+                                  //
+                                  //       }
+                                  //       return  result!.predictions!.toList();
+                                  //     },
+                                  //     popupItemBuilder: (BuildContext context,
+                                  //         google_place.AutocompletePrediction? item, bool isSelected) {
+                                  //       return Container(
+                                  //         child: ListTile(
+                                  //           selected: isSelected,
+                                  //           title: Text(item?.description ?? ''),
+                                  //         ),
+                                  //       );
+                                  //     },
+                                  //     dropDownButton: Container(),
+                                  //     dropdownSearchDecoration: InputDecoration(
+                                  //       constraints: BoxConstraints.tightFor(
+                                  //           width: 320, height: 60),
+                                  //       // helperText: 'hello',
+                                  //       labelText: "Hospital",
+                                  //       prefixIcon: Padding(
+                                  //         padding: const EdgeInsets.all(10.0),
+                                  //         child: Image.asset(
+                                  //           "assets/icons/address-100.png",
+                                  //           color: Theme.of(context)
+                                  //               .colorScheme
+                                  //               .primary,
+                                  //           width: 20,
+                                  //           height: 10,
+                                  //           scale: 0.2,
+                                  //           fit: BoxFit.contain,
+                                  //         ),
+                                  //       ),
+                                  //     ),
+                                  //     dropdownBuilder:
+                                  //         (context, selectedItems) {
+                                  //       var walletAddress =
+                                  //       selectedItems?.description.toString();
+                                  //
+                                  //       return Text(
+                                  //         walletAddress.toString(),
+                                  //         style: TextStyle(
+                                  //             color: Theme.of(context)
+                                  //                 .colorScheme
+                                  //                 .primary),
+                                  //       );
+                                  //
+                                  //       // return Wrap(
+                                  //       //   children: selectedItems.map((e) => item(e)).toList(),
+                                  //       // );
+                                  //     },
+                                  //     onChanged: (data) async {
+                                  //       google_place.DetailsResult detailsResult;
+                                  //       var result = await googlePlace.details.get(data!.placeId.toString());
+                                  //
+                                  //       setState(() {
+                                  //         locationDescription = data.description.toString();
+                                  //         lat =  result!.result!.geometry!.location!.lat;
+                                  //         lng = result.result!.geometry!.location!.lng;
+                                  //       });
+                                  //
+                                  //
+                                  //       // setState(() {
+                                  //       //   algoliaDoctorAddress =
+                                  //       //       data!.walletAddress.toString();
+                                  //       // });
+                                  //       print("Lat: ${lat.toString()}, Lng: ${lng.toString()}");
+                                  //     },
+                                  //   ),
+                                  // ),
                                   Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
@@ -939,8 +1034,9 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                       decoration: dynamicInputDecoration(
                                         'Date of Birth',
                                         Image.asset("assets/icons/key-100.png",
-                                            color:
-                                            Theme.of(context).colorScheme.primary,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
                                             scale: 4,
                                             width: 15,
                                             height: 15),
@@ -989,7 +1085,7 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                             height: 15),
                                         border: OutlineInputBorder(
                                           borderRadius:
-                                          BorderRadius.circular(25.0),
+                                              BorderRadius.circular(25.0),
                                         ),
                                         labelStyle: const TextStyle(
                                           color: Color(0xFF6200EE),
@@ -998,19 +1094,19 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                           borderSide: BorderSide(
                                               color: Color(0xFF6200EE)),
                                           borderRadius:
-                                          BorderRadius.circular(25.0),
+                                              BorderRadius.circular(25.0),
                                         ),
                                         focusedErrorBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
                                               color: Color(0xFF6200EE)),
                                           borderRadius:
-                                          BorderRadius.circular(25.0),
+                                              BorderRadius.circular(25.0),
                                         ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
                                               color: Color(0xFF6200EE)),
                                           borderRadius:
-                                          BorderRadius.circular(25.0),
+                                              BorderRadius.circular(25.0),
                                         ),
                                       ),
                                       // initialValue: 'Male',
@@ -1025,9 +1121,9 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                         'Female',
                                       ]
                                           .map((gender) => DropdownMenuItem(
-                                        value: gender,
-                                        child: Text('$gender'),
-                                      ))
+                                                value: gender,
+                                                child: Text('$gender'),
+                                              ))
                                           .toList(),
                                     ),
                                   ),
@@ -1107,17 +1203,18 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                     "patient_name": _formKey
                                         .currentState?.value["patient_name"],
                                     "patient_hospital_address":
-                                        hospitalAddress.text,
+                                        algoliaHospitalAddress,
                                     "patient_doctor_address":
-                                        doctorAddress.text,
-                                    "patient_address": _formKey
-                                        .currentState?.value["patient_address"],
+                                        algoliaDoctorAddress,
+                                    "patient_address": _formKey.currentState
+                                        ?.value["patient_address"],
                                     "patient_dateOfBirth": _formKey
-                                        .currentState?.value["dateOfBirth"].toString(),
+                                        .currentState?.value["dateOfBirth"]
+                                        .toString(),
                                     "patient_phone_no": _formKey.currentState
                                         ?.value["patient_phone_no"],
-                                    "patient_gender": _formKey.currentState
-                                        ?.value["patient_gender"],
+                                    "patient_gender": _formKey
+                                        .currentState?.value["patient_gender"],
 
                                     "wallet_address": walletAdd,
 
@@ -1148,8 +1245,11 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                         await credentialsNew.extractAddress();
 
                                     var hospitalAddressEth =
-                                        EthereumAddress.fromHex(hospitalAddress.text);
-                                    var doctorAddressEth = EthereumAddress.fromHex(doctorAddress.text);
+                                        EthereumAddress.fromHex(
+                                            algoliaHospitalAddress);
+                                    var doctorAddressEth =
+                                        EthereumAddress.fromHex(
+                                            algoliaDoctorAddress);
                                     estimateGasFunction(
                                         _formKey.currentState
                                             ?.value["patient_name"],

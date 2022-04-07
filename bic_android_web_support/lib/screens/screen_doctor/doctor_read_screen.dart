@@ -1,15 +1,18 @@
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:algolia/algolia.dart';
 import 'package:bic_android_web_support/databases/wallet_shared_preferences.dart';
 import 'package:bic_android_web_support/providers/provider_doctor/model_doctor.dart';
 import 'package:bic_android_web_support/screens/screen_doctor/doctor_prescription_form.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../helpers/Algolia.dart';
 import '../../helpers/keys.dart' as keys;
 import 'package:bic_android_web_support/providers/ipfs.dart';
 import 'package:bic_android_web_support/providers/wallet.dart';
@@ -24,6 +27,7 @@ import 'package:web3dart/credentials.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
 
+import '../../model_class/hospital.dart';
 import '../Widgets/CustomButtonGen.dart';
 import '../Widgets/CustomCard.dart';
 import 'doctor_change_hospital.dart';
@@ -40,6 +44,8 @@ class DoctorReadScreen extends StatefulWidget {
 }
 
 class _DoctorReadScreenState extends State<DoctorReadScreen> {
+  Algolia algolia = Application.algolia;
+  String algoliaDoctorAddress = "";
   final _formKey = GlobalKey<FormBuilderState>();
   String? role;
   late String doctorName;
@@ -210,24 +216,111 @@ class _DoctorReadScreenState extends State<DoctorReadScreen> {
                             child: Column(
                               children: [
                                 Padding(
-                                    padding: const EdgeInsets.all(15),
-                                    child: formBuilderTextFieldWidget(
-                                        TextInputType.text,
-                                        '',
-                                        'address',
-                                        'Doctor Address',
-                                        Image.asset("assets/icons/key-100.png",
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: DropdownSearch<HospitalHit>(
+                                    selectedItem:HospitalHit(walletAddress:algoliaDoctorAddress==""?"Select Address":algoliaDoctorAddress,  userEmail: '', registerOnce: '', userName: ''),
+
+                                    label: "Doctor Address",
+                                    isFilteredOnline: true,
+                                    mode: Mode.DIALOG,
+                                    showSearchBox: true,
+                                    onFind: (String? filter) async {
+                                      AlgoliaQuery query = algolia.instance
+                                          .index('Doctors')
+                                          .query(filter!)
+                                          .setLength(1);
+                                      query =
+                                          query.facetFilter('registerOnce');
+                                      // var models = HospitalHit.fromJson(query.parameters);
+                                      // Get Result/Objects
+                                      AlgoliaQuerySnapshot snap =
+                                      await query.getObjects();
+
+                                      List _list = snap.hits;
+                                      List<HospitalHit> _newList = snap.hits
+                                          .map((item) =>
+                                          HospitalHit.fromJson(item.data))
+                                          .toList();
+                                      return _newList;
+                                    },
+                                    popupItemBuilder: (BuildContext context,
+                                        HospitalHit? item, bool isSelected) {
+                                      return Container(
+                                        child: ListTile(
+                                          selected: isSelected,
+                                          title: Text(item?.userName ?? ''),
+                                          subtitle: Text(item?.walletAddress
+                                              .toString() ??
+                                              ''),
+
+                                        ),
+                                      );
+                                    },
+                                    dropDownButton: Container(),
+                                    dropdownSearchDecoration: InputDecoration(
+                                      constraints: BoxConstraints.tightFor(
+                                          width: 320, height: 60),
+                                      // helperText: 'hello',
+                                      labelText: "Hospital",
+                                      prefixIcon: Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Image.asset(
+                                          "assets/icons/wallet.png",
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                          width: 20,
+                                          height: 10,
+                                          scale: 0.2,
+                                          fit: BoxFit.contain,
+                                        ),
+                                      ),
+                                    ),
+                                    dropdownBuilder:
+                                        (context, selectedItems) {
+                                      var walletAddress =
+                                      selectedItems?.walletAddress.toString();
+
+                                      return Text(
+                                        walletAddress.toString(),
+                                        style: TextStyle(
                                             color: Theme.of(context)
                                                 .colorScheme
-                                                .primary,
-                                            scale: 4,
-                                            width: 15,
-                                            height: 15),
-                                        false,
-                                        [
-                                          FormBuilderValidators.required(
-                                              context),
-                                        ])),
+                                                .primary),
+                                      );
+
+                                      // return Wrap(
+                                      //   children: selectedItems.map((e) => item(e)).toList(),
+                                      // );
+                                    },
+                                    onChanged: (data) {
+                                      setState(() {
+                                        algoliaDoctorAddress =
+                                            data!.walletAddress.toString();
+                                      });
+                                      print(data?.walletAddress.toString());
+                                    },
+                                  ),
+                                ),
+                                // Padding(
+                                //     padding: const EdgeInsets.all(15),
+                                //     child: formBuilderTextFieldWidget(
+                                //         TextInputType.text,
+                                //         '',
+                                //         'address',
+                                //         'Doctor Address',
+                                //         Image.asset("assets/icons/key-100.png",
+                                //             color: Theme.of(context)
+                                //                 .colorScheme
+                                //                 .primary,
+                                //             scale: 4,
+                                //             width: 15,
+                                //             height: 15),
+                                //         false,
+                                //         [
+                                //           FormBuilderValidators.required(
+                                //               context),
+                                //         ])),
                               ],
                             )),
                         ListTile(
@@ -245,7 +338,7 @@ class _DoctorReadScreenState extends State<DoctorReadScreen> {
                               // var dbResponse =
                               // await WalletSharedPreference
                               //     .getWalletDetails();
-                              print(_formKey.currentState?.value["address"]);
+                              // print(_formKey.currentState?.value["address"]);
                               // Wallet newWallet = Wallet.fromJson(
                               //     dbResponse!['walletEncryptedKey']
                               //         .toString(),
@@ -255,12 +348,12 @@ class _DoctorReadScreenState extends State<DoctorReadScreen> {
                               // myAddress = await credentialsNew
                               //     .extractAddress();
                               // uploadImage(credentialsNew, myAddress);
-                              String address =
-                                  _formKey.currentState?.value["address"];
+                              // String address =
+                              //     _formKey.currentState?.value["address"];
                               // setState(() {
                               //   patientAddress;
                               // });
-                              fetchDoctorData(EthereumAddress.fromHex(address));
+                              fetchDoctorData(EthereumAddress.fromHex(algoliaDoctorAddress));
                             }
                           },
                         ),
@@ -349,22 +442,22 @@ class _DoctorReadScreenState extends State<DoctorReadScreen> {
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
-                                ListTile(
-                                  leading: Image.asset(
-                                      "assets/icons/checked-user-male-100.png",
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      width: 35,
-                                      height: 35),
-                                  title: Text('Role', style: textStyleForName),
-                                  subtitle: Text(
-                                    role.toString(),
-                                    style: GoogleFonts.montserrat(
-                                      color: Colors.black.withOpacity(0.6),
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ),
+                                // ListTile(
+                                //   leading: Image.asset(
+                                //       "assets/icons/checked-user-male-100.png",
+                                //       color:
+                                //           Theme.of(context).colorScheme.primary,
+                                //       width: 35,
+                                //       height: 35),
+                                //   title: Text('Role', style: textStyleForName),
+                                //   subtitle: Text(
+                                //     role.toString(),
+                                //     style: GoogleFonts.montserrat(
+                                //       color: Colors.black.withOpacity(0.6),
+                                //       fontSize: 15,
+                                //     ),
+                                //   ),
+                                // ),
                                 ListTile(
                                   leading: Image.asset(
                                       "assets/icons/icons8-medical-doctor-100.png",

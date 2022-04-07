@@ -1,3 +1,4 @@
+import 'package:algolia/algolia.dart';
 import 'package:bic_android_web_support/databases/wallet_shared_preferences.dart';
 import 'package:bic_android_web_support/providers/gas_estimation.dart';
 import 'package:bic_android_web_support/providers/ipfs.dart';
@@ -13,6 +14,8 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:provider/provider.dart';
 import 'package:web3dart/credentials.dart';
 
+import '../../helpers/Algolia.dart';
+
 class HospitalDetailScreen extends StatefulWidget {
   static const routeName = '/hospital-detail-screen';
 
@@ -21,6 +24,12 @@ class HospitalDetailScreen extends StatefulWidget {
 }
 
 class _HospitalDetailScreenState extends State<HospitalDetailScreen> {
+  Algolia algolia = Application.algolia;
+  String algoliaHospitalAddress = "";
+  String algoliaDoctorAddress = "";
+  TextEditingController _textFieldController = TextEditingController();
+
+
   FirebaseAuth auth = FirebaseAuth.instance;
 
   final _formKey = GlobalKey<FormBuilderState>();
@@ -377,6 +386,21 @@ class _HospitalDetailScreenState extends State<HospitalDetailScreen> {
       ),
     );
   }
+  void _showErrorDialog(String message) {
+    showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text('An Error Occurred'),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+                child: Text('Okay'))
+          ],
+        ));
+  }
 
   Future<void> executeTransaction(
       String hospitalName,
@@ -384,17 +408,22 @@ class _HospitalDetailScreenState extends State<HospitalDetailScreen> {
       EthereumAddress walletAddress,
 
       Credentials credentials) async {
-    var transactionHash = await Provider.of<WalletModel>(context, listen: false)
-        .writeContract("storeHospital",
-            [hospitalName, ipfsHash, walletAddress], credentials);
+    try {
+      var transactionHash = await Provider.of<WalletModel>(context, listen: false)
+          .writeContract("storeHospital",
+          [hospitalName, ipfsHash, walletAddress], credentials);
 
-    var firebaseStatus =
-        await Provider.of<FirebaseModel>(context, listen: false)
-            .storeTransaction(transactionHash);
+      var firebaseStatus =
+      await Provider.of<FirebaseModel>(context, listen: false)
+          .storeTransaction(transactionHash);
 
-    if (firebaseStatus) {
-      Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
+      if (firebaseStatus) {
+        Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
+      }
+    } catch (error) {
+      _showErrorDialog(error.toString());
     }
+
   }
 
   Widget formBuilderTextFieldWidget(

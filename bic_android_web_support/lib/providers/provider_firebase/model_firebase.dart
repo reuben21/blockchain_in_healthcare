@@ -146,7 +146,7 @@ class FirebaseModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> storeUserRegistrationStatus(String walletAddressOfUser) async {
+  Future<bool> storeUserRegistrationStatus(String walletAddressOfUser ) async {
     try {
       String? userType = await WalletSharedPreference.getUserType();
       firestore.CollectionReference? users = await getFirestoreDocument(userType!);

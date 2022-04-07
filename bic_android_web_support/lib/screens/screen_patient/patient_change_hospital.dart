@@ -1,3 +1,4 @@
+import 'package:algolia/algolia.dart';
 import 'package:bic_android_web_support/databases/wallet_shared_preferences.dart';
 import 'package:bic_android_web_support/providers/gas_estimation.dart';
 import 'package:bic_android_web_support/providers/ipfs.dart';
@@ -6,12 +7,16 @@ import 'package:bic_android_web_support/providers/provider_firebase/model_fireba
 import 'package:bic_android_web_support/providers/wallet.dart';
 import 'package:bic_android_web_support/screens/Tabs/tabs_screen.dart';
 import 'package:bic_android_web_support/screens/screens_auth/background.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:provider/provider.dart';
 import 'package:web3dart/credentials.dart';
+
+import '../../helpers/Algolia.dart';
+import '../../model_class/hospital.dart';
 
 class PatientChangeHospital extends StatefulWidget {
   static const routeName = '/patient-change-hospital';
@@ -30,6 +35,12 @@ class PatientChangeHospital extends StatefulWidget {
 }
 
 class _PatientChangeHospitalState extends State<PatientChangeHospital> {
+  Algolia algolia = Application.algolia;
+  String algoliaHospitalAddress = "";
+  String algoliaDoctorAddress = "";
+  TextEditingController _textFieldController = TextEditingController();
+
+
   final _formKey = GlobalKey<FormBuilderState>();
 
   String walletAdd = '';
@@ -550,26 +561,104 @@ class _PatientChangeHospitalState extends State<PatientChangeHospital> {
                                                 context),
                                           ])),
                                   Padding(
-                                      padding: const EdgeInsets.all(15),
-                                      child: formBuilderTextFieldWidget(
-                                          TextInputType.text,
-                                          '0x72ec479eb474b3b737e30d265773f9e7a2d0b031',
-                                          'new_hospital_address',
-                                          'New Hospital Wallet Address',
-                                          Image.asset(
-                                              "assets/icons/wallet.png",
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: DropdownSearch<HospitalHit>(
+                                      searchFieldProps: TextFieldProps(
+                                        controller: _textFieldController,
+                                        decoration: InputDecoration(
+                                          suffixIcon: IconButton(
+                                            icon: Icon(Icons.clear),
+                                            onPressed: () {
+                                              _textFieldController.clear();
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                      isFilteredOnline: true,
+                                      label: "Hospital Address",
+                                      selectedItem:HospitalHit(walletAddress: algoliaHospitalAddress==""?"Select Address":algoliaHospitalAddress, userEmail: '', registerOnce: '', userName: ''),
+
+
+                                      mode: Mode.DIALOG,
+                                      showSearchBox: true,
+                                      onFind: (String? filter) async {
+                                        print(filter);
+                                        AlgoliaQuery query = algolia.instance
+                                            .index('Hospitals')
+                                            .query(filter!);
+                                        query =
+                                            query.facetFilter('registerOnce');
+                                        // var models = HospitalHit.fromJson(query.parameters);
+                                        // Get Result/Objects
+                                        AlgoliaQuerySnapshot snap =
+                                        await query.getObjects();
+
+                                        List _list = snap.hits;
+                                        List<HospitalHit> _newList = snap.hits
+                                            .map((item) =>
+                                            HospitalHit.fromJson(item.data))
+                                            .toList();
+                                        return _newList;
+                                      },
+                                      popupItemBuilder: (BuildContext context,
+                                          HospitalHit? item, bool isSelected) {
+                                        return Container(
+                                          child: ListTile(
+                                            selected: isSelected,
+                                            title: Text(item?.userName ?? ''),
+                                            subtitle: Text(item?.walletAddress
+                                                ?.toString() ??
+                                                ''),
+
+                                          ),
+                                        );
+                                      },
+                                      dropDownButton: Container(),
+                                      dropdownSearchDecoration: InputDecoration(
+                                        constraints: BoxConstraints.tightFor(
+                                            width: 320, height: 60),
+                                        // helperText: 'hello',
+                                        labelText: "Hospital",
+                                        prefixIcon: Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: Image.asset(
+                                            "assets/icons/wallet.png",
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            width: 20,
+                                            height: 10,
+                                            scale: 0.2,
+                                            fit: BoxFit.contain,
+                                          ),
+                                        ),
+                                      ),
+                                      dropdownBuilder:
+                                          (context, selectedItems) {
+                                        var walletAddress =
+                                        selectedItems?.walletAddress.toString();
+
+                                        return Text(
+                                          walletAddress.toString(),
+                                          style: TextStyle(
                                               color: Theme.of(context)
                                                   .colorScheme
-                                                  .primary,
-                                              scale: 4,
-                                              width: 15,
-                                              height: 15),
-                                          false,
-                                          [
-                                            FormBuilderValidators.required(
-                                                context),
-                                          ])),
+                                                  .primary),
+                                        );
 
+                                        // return Wrap(
+                                        //   children: selectedItems.map((e) => item(e)).toList(),
+                                        // );
+                                      },
+                                      onChanged: (data) {
+                                        setState(() {
+                                          algoliaHospitalAddress =
+                                              data!.walletAddress.toString();
+                                        });
+                                        print(data?.walletAddress.toString());
+                                      },
+                                    ),
+                                  ),
 
                                   Padding(
                                       padding: const EdgeInsets.all(15),
@@ -618,8 +707,7 @@ class _PatientChangeHospitalState extends State<PatientChangeHospital> {
 
                                   "old_hospital_address": _formKey
                                       .currentState?.value["old_hospital_address"],
-                                  "new_hospital_address": _formKey
-                                      .currentState?.value["new_hospital_address"],
+                                  "new_hospital_address": algoliaHospitalAddress,
                                   "wallet_address": walletAdd,
                                   // "lastName4": ["Coutinho", "Coutinho", "Coutinho"],
                                   // "age": 30
@@ -650,8 +738,7 @@ class _PatientChangeHospitalState extends State<PatientChangeHospital> {
 
                                   var old_hospital_address = EthereumAddress.fromHex(_formKey
                                       .currentState?.value["old_hospital_address"]);
-                                  var new_hospital_address = EthereumAddress.fromHex(_formKey
-                                      .currentState?.value["new_hospital_address"]);
+                                  var new_hospital_address = EthereumAddress.fromHex(algoliaHospitalAddress);
                                   // var doctorAddress = EthereumAddress.fromHex("  ");
                                   estimateGasFunction(
                                       old_hospital_address,

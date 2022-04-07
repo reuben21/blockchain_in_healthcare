@@ -77,6 +77,11 @@ dependencies:
   dropdown_search: ^2.0.1
 
   algolia: ^1.0.4
+
+  google_place: ^0.4.7
+
+
+
   
 
 
