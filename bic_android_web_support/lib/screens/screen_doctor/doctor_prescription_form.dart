@@ -865,7 +865,6 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                                     .currentState?.value["patientAddress"]);
                             estimateGasFunction(
                                 hashReceived,
-                                doctorHospitalAddress!,
                                 myAddress,
                                 patientAddress,
                                 _formPatient.currentState?.value["validTill"],
@@ -890,7 +889,6 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
 
   Future<void> estimateGasFunction(
       String _prescriptionRecordHash,
-      EthereumAddress hospitalAddress,
       EthereumAddress doctorAddress,
       EthereumAddress patientAddress,
       DateTime expiryDateTime,
@@ -898,7 +896,7 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
     var gasEstimation =
         await Provider.of<GasEstimationModel>(context, listen: false)
             .estimateGasForContractFunction(
-                doctorAddress, "setPrescriptionRecordByDoctor", [
+                doctorAddress, "setPrescriptionRecord", [
       _prescriptionRecordHash,
       doctorAddress,
       patientAddress,
@@ -1250,7 +1248,7 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
       Credentials credentials) async {
     var transactionHash = await Provider.of<WalletModel>(context, listen: false)
         .writeContract(
-            "setPrescriptionRecordByDoctor",
+            "setPrescriptionRecord",
             [
               _prescriptionRecordHash,
               doctorAddress,

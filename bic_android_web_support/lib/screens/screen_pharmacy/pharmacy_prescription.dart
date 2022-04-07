@@ -31,12 +31,12 @@ class _PharmacyPrescriptionScreenState
   Widget build(BuildContext context) {
 
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          elevation: 0,
-          automaticallyImplyLeading: false,
-          title: const Text("Pharmacy Prescription"),
-        ),
+        // appBar: AppBar(
+        //   backgroundColor: Theme.of(context).colorScheme.primary,
+        //   elevation: 0,
+        //   automaticallyImplyLeading: false,
+        //   title: const Text("Pharmacy Prescription"),
+        // ),
         body: SingleChildScrollView(
           child: Container(
             width: double.infinity,

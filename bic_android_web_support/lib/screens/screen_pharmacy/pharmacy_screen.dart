@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../helpers/keys.dart' as keys;
@@ -117,30 +118,107 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
         child: Container(
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8),
-                child: SizedBox(
+              pharmacyIpfsHash['pharmacy_owner_name'] == ''
+                      ? Container(
+                    height: 800,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Theme.of(context).colorScheme.primary,
+                            Theme.of(context).colorScheme.primaryVariant,
+                          ],
+                        )),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding:
+                          const EdgeInsets.symmetric(vertical: 80),
+                          child: SvgPicture.asset(
+                            "assets/images/undraw_secure.svg",
+                            height: 220,
+                          ),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Start By",
+                              style: GoogleFonts.montserrat(
+                                color: Theme.of(context).colorScheme.secondary,
+                                fontSize: 25,
+                              ),
+                            ),
+                            Text(
+                              "Registering Yourself",
+                              style: GoogleFonts.montserrat(
+                                color: Theme.of(context).colorScheme.secondary,
+                                fontSize: 25,
+                              ),
+
+                            ),
+                            Text(
+                              "On the Blockchain",
+                              style: GoogleFonts.montserrat(
+                                color: Theme.of(context).colorScheme.secondary,
+                                fontSize: 25,
+                              ),
+
+                            ),
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 30,right: 75),
+                              child: FloatingActionButton.extended(
+                                heroTag: "registerOnBlockchain",
+                                backgroundColor:
+                                Theme.of(context).colorScheme.secondary,
+                                foregroundColor:
+                                Theme.of(context).colorScheme.primary,
+                                onPressed: ()  {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => PharmacyStoreDetails(
+                                        pharmacyName: pharmacyIpfsHash['pharmacy_name'],
+                                        pharmacyOwnerName:
+                                        pharmacyIpfsHash['pharmacy_owner_name'],
+                                        pharmacyAddress:
+                                        pharmacyIpfsHash['pharmacy_address'],
+                                        pharmacyYearOrigin:
+                                        pharmacyIpfsHash['pharmacy_year_origin'],
+                                        pharmacyPhoneNo:
+                                        pharmacyIpfsHash['pharmacy_phone_no'],
+                                      ),
+                                    ),
+                                  );
+                                },
+                                // icon: Image.asset(
+                                //     "assets/icons/registration-100.png",
+                                //     color: Theme.of(context).colorScheme.secondary,
+                                //     width: 25,
+                                //     fit: BoxFit.fill,
+                                //     height: 25),
+                                label: Text('Register Now',style: GoogleFonts.montserrat(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontSize: 18,
+                                ) ,),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  )
+                      :  SizedBox(
                   width: double.infinity,
                   height: 450,
-                  child: pharmacyIpfsHash['pharmacy_owner_name'] == ''
-                      ? Card(
-                          borderOnForeground: true,
-                          clipBehavior: Clip.antiAlias,
-                          shape: RoundedRectangleBorder(
-                            // side: BorderSide(
-                            //     color: Theme.of(context).colorScheme.primary,
-                            //     width: 2),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: const ListTile(
-                            leading: Icon(Icons.arrow_drop_down_circle),
-                            title: Text(
-                              "Not Registered on Blockchain",
-                              style: TextStyle(fontSize: 15),
-                            ),
-                          ),
-                        )
-                      : Card(
+                  child:Card(
                           borderOnForeground: true,
                           clipBehavior: Clip.antiAlias,
                           shape: RoundedRectangleBorder(
@@ -310,11 +388,11 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
                           ),
                         ),
                 ),
-              ),
+
               SizedBox(
                 height: 5,
               ),
-              CustomButtonGen(cardText:'Store or Update Pharmacy Details',onPressed:()=>{
+              pharmacyIpfsHash['pharmacy_owner_name'] == ''? Container():CustomButtonGen(cardText:'Store or Update Pharmacy Details',onPressed:()=>{
                 Navigator.push(
                   context,
                   MaterialPageRoute(
