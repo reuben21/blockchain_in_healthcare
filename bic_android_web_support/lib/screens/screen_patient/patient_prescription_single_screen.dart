@@ -637,11 +637,7 @@ class _PatientPrescriptionSingleScreenState
                       child: Column(
                         children: [
                           ListTile(
-                            title: Text(
-                              "Record Id: ${medicalRecordCount
-                                  .toString()}",
-                              style: textStyleForName,
-                            ),
+
                             subtitle: Text(
                               "Medicines: ",
                               style: TextStyle(
