@@ -54,7 +54,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
   String walletAdd = '';
 
   final TextEditingController hospitalAddress =
-      TextEditingController.fromValue(TextEditingValue.empty);
+  TextEditingController.fromValue(TextEditingValue.empty);
 
   @override
   void initState() {
@@ -72,17 +72,16 @@ class _DoctorDetailsState extends State<DoctorDetails> {
     });
   }
 
-  Future<void> estimateGasFunction(
-      String doctorName,
+  Future<void> estimateGasFunction(String doctorName,
       String ipfsHash,
       EthereumAddress walletAddress,
       EthereumAddress hospitalAddress,
       Credentials credentials,
       String doctorsHospitalAddress) async {
     var gasEstimation =
-        await Provider.of<GasEstimationModel>(context, listen: false)
-            .estimateGasForContractFunction(walletAddress, "storeDoctor",
-                [doctorName, ipfsHash, hospitalAddress, walletAddress]);
+    await Provider.of<GasEstimationModel>(context, listen: false)
+        .estimateGasForContractFunction(walletAddress, "storeDoctor",
+        [doctorName, ipfsHash, hospitalAddress, walletAddress]);
     print(gasEstimation);
     // var hospitalDetails =
     //     await Provider.of<FirebaseModel>(context, listen: false)
@@ -92,371 +91,446 @@ class _DoctorDetailsState extends State<DoctorDetails> {
 
     return showDialog(
       context: context,
-      builder: (ctx) => AlertDialog(
-        insetPadding: EdgeInsets.all(15),
-        backgroundColor: Theme.of(context).colorScheme.secondary,
-        title: Text(
-          "Confirmation Screen",
-          style: Theme.of(context).textTheme.bodyText1,
-        ),
-        content: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          // color: Theme.of(context).colorScheme.secondary,
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Center(
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Container(
-                    height: 90,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            Theme.of(context).colorScheme.primary,
-                            Colors.purpleAccent.withOpacity(0.9),
-                            // Colors.lightBlueAccent,
-                          ]),
-                      borderRadius: BorderRadius.circular(9),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 65,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  colors: [
-                                    Theme.of(context).colorScheme.primary,
-                                    Colors.purpleAccent.withOpacity(0.9),
-                                    // Colors.lightBlueAccent,
-                                  ]),
-                              borderRadius: BorderRadius.circular(9),
-                            ),
-                            child: ListTile(
-                              leading: Image.asset("assets/icons/wallet.png",
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                  width: 35,
-                                  height: 35),
-                              title: Text('From Wallet Address',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color:
-                                        Theme.of(context).colorScheme.secondary,
-                                  )),
-                              subtitle: Text(
-                                walletAddress.hex.toString(),
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                ),
-                              ),
-                            ),
-                            // Padding(
-                            //   padding: const EdgeInsets.all(10.0),
-                            //   child: Text(
-                            //     widget.address,style: TextStyle(fontSize: 20),
-                            //   ),
-                            // ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Container(
-                    height: 90,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            Colors.purpleAccent.withOpacity(0.9),
-                            Theme.of(context).colorScheme.primary,
-
-                            // Colors.lightBlueAccent,
-                          ]),
-                      borderRadius: BorderRadius.circular(9),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 65,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  colors: [
-                                    Colors.purpleAccent.withOpacity(0.9),
-                                    Theme.of(context).colorScheme.primary,
-
-                                    // Colors.lightBlueAccent,
-                                  ]),
-                              borderRadius: BorderRadius.circular(9),
-                            ),
-                            child: ListTile(
-                              trailing: Image.asset("assets/icons/wallet.png",
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                  width: 35,
-                                  height: 35),
-                              title: Text('To Wallet Address',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color:
-                                        Theme.of(context).colorScheme.secondary,
-                                  )),
-                              subtitle: Text(
-                                gasEstimation['contractAddress'].toString(),
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                ),
-                              ),
-                            ),
-                            // Padding(
-                            //   padding: const EdgeInsets.all(10.0),
-                            //   child: Text(
-                            //     widget.address,style: TextStyle(fontSize: 20),
-                            //   ),
-                            // ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Column(
+      builder: (ctx) =>
+          AlertDialog(
+            insetPadding: EdgeInsets.all(15),
+            backgroundColor: Theme
+                .of(context)
+                .colorScheme
+                .secondary,
+            title: Text(
+              "Confirmation Screen",
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .bodyText1,
+            ),
+            content: Container(
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width,
+              // color: Theme.of(context).colorScheme.secondary,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Center(
+                  child: Column(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            fit: FlexFit.loose,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                "Ether Amount: ",
-                                style: Theme.of(context).textTheme.bodyText1,
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
-                          ),
-                          Flexible(
-                            fit: FlexFit.loose,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                gasEstimation['actualAmountInWei'].toString(),
-                                style: Theme.of(context).textTheme.bodyText1,
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
-                          ),
-                        ],
+                      const SizedBox(
+                        height: 15,
                       ),
-                      // Expanded(child: Divider()),
-                      Row(children: <Widget>[
-                        Expanded(child: Divider()),
-                      ]),
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            fit: FlexFit.loose,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                "Gas Estimate: ",
-                                style: Theme.of(context).textTheme.bodyText1,
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
-                          ),
-                          Flexible(
-                            fit: FlexFit.loose,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                gasEstimation['gasEstimate'].toString() +
-                                    " units",
-                                style: Theme.of(context).textTheme.bodyText1,
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(children: <Widget>[
-                        Expanded(child: Divider()),
-                      ]),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            fit: FlexFit.loose,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                "Gas Price: ",
-                                style: Theme.of(context).textTheme.bodyText1,
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
-                          ),
-                          Flexible(
-                            fit: FlexFit.loose,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                gasEstimation['gasPrice'].toString() + " Wei",
-                                style: Theme.of(context).textTheme.bodyText1,
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(children: <Widget>[
-                        Expanded(
-                          child: Divider(
-                              // thickness: 2,
-                              // color: Colors.grey,
-                              ),
+                      Container(
+                        height: 90,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                Theme
+                                    .of(context)
+                                    .colorScheme
+                                    .primary,
+                                Colors.purpleAccent.withOpacity(0.9),
+                                // Colors.lightBlueAccent,
+                              ]),
+                          borderRadius: BorderRadius.circular(9),
                         ),
-                      ]),
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 65,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                      colors: [
+                                        Theme
+                                            .of(context)
+                                            .colorScheme
+                                            .primary,
+                                        Colors.purpleAccent.withOpacity(0.9),
+                                        // Colors.lightBlueAccent,
+                                      ]),
+                                  borderRadius: BorderRadius.circular(9),
+                                ),
+                                child: ListTile(
+                                  leading: Image.asset(
+                                      "assets/icons/wallet.png",
+                                      color:
+                                      Theme
+                                          .of(context)
+                                          .colorScheme
+                                          .secondary,
+                                      width: 35,
+                                      height: 35),
+                                  title: Text('From Wallet Address',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color:
+                                        Theme
+                                            .of(context)
+                                            .colorScheme
+                                            .secondary,
+                                      )),
+                                  subtitle: Text(
+                                    walletAddress.hex.toString(),
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      color:
+                                      Theme
+                                          .of(context)
+                                          .colorScheme
+                                          .secondary,
+                                    ),
+                                  ),
+                                ),
+                                // Padding(
+                                //   padding: const EdgeInsets.all(10.0),
+                                //   child: Text(
+                                //     widget.address,style: TextStyle(fontSize: 20),
+                                //   ),
+                                // ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                       const SizedBox(
                         height: 15,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            fit: FlexFit.loose,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                "(Approx.) Total Ether Amount: ",
-                                style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700),
-                                textAlign: TextAlign.left,
+                      Container(
+                        height: 90,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                Colors.purpleAccent.withOpacity(0.9),
+                                Theme
+                                    .of(context)
+                                    .colorScheme
+                                    .primary,
+
+                                // Colors.lightBlueAccent,
+                              ]),
+                          borderRadius: BorderRadius.circular(9),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 65,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                      colors: [
+                                        Colors.purpleAccent.withOpacity(0.9),
+                                        Theme
+                                            .of(context)
+                                            .colorScheme
+                                            .primary,
+
+                                        // Colors.lightBlueAccent,
+                                      ]),
+                                  borderRadius: BorderRadius.circular(9),
+                                ),
+                                child: ListTile(
+                                  trailing: Image.asset(
+                                      "assets/icons/wallet.png",
+                                      color:
+                                      Theme
+                                          .of(context)
+                                          .colorScheme
+                                          .secondary,
+                                      width: 35,
+                                      height: 35),
+                                  title: Text('To Wallet Address',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color:
+                                        Theme
+                                            .of(context)
+                                            .colorScheme
+                                            .secondary,
+                                      )),
+                                  subtitle: Text(
+                                    gasEstimation['contractAddress'].toString(),
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      color:
+                                      Theme
+                                          .of(context)
+                                          .colorScheme
+                                          .secondary,
+                                    ),
+                                  ),
+                                ),
+                                // Padding(
+                                //   padding: const EdgeInsets.all(10.0),
+                                //   child: Text(
+                                //     widget.address,style: TextStyle(fontSize: 20),
+                                //   ),
+                                // ),
                               ),
-                            ),
+                            ],
                           ),
-                          Flexible(
-                            fit: FlexFit.loose,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                gasEstimation['totalAmount'].toString() +
-                                    " ETH",
-                                style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w500),
-                                textAlign: TextAlign.left,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Flexible(
+                                fit: FlexFit.loose,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Ether Amount: ",
+                                    style: Theme
+                                        .of(context)
+                                        .textTheme
+                                        .bodyText1,
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ),
+                              ),
+                              Flexible(
+                                fit: FlexFit.loose,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    gasEstimation['actualAmountInWei']
+                                        .toString(),
+                                    style: Theme
+                                        .of(context)
+                                        .textTheme
+                                        .bodyText1,
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          // Expanded(child: Divider()),
+                          Row(children: <Widget>[
+                            Expanded(child: Divider()),
+                          ]),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Flexible(
+                                fit: FlexFit.loose,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Gas Estimate: ",
+                                    style: Theme
+                                        .of(context)
+                                        .textTheme
+                                        .bodyText1,
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ),
+                              ),
+                              Flexible(
+                                fit: FlexFit.loose,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    gasEstimation['gasEstimate'].toString() +
+                                        " units",
+                                    style: Theme
+                                        .of(context)
+                                        .textTheme
+                                        .bodyText1,
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(children: <Widget>[
+                            Expanded(child: Divider()),
+                          ]),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Flexible(
+                                fit: FlexFit.loose,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Gas Price: ",
+                                    style: Theme
+                                        .of(context)
+                                        .textTheme
+                                        .bodyText1,
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ),
+                              ),
+                              Flexible(
+                                fit: FlexFit.loose,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    gasEstimation['gasPrice'].toString() +
+                                        " Wei",
+                                    style: Theme
+                                        .of(context)
+                                        .textTheme
+                                        .bodyText1,
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(children: <Widget>[
+                            Expanded(
+                              child: Divider(
+                                // thickness: 2,
+                                // color: Colors.grey,
                               ),
                             ),
+                          ]),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Flexible(
+                                fit: FlexFit.loose,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "(Approx.) Total Ether Amount: ",
+                                    style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w700),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ),
+                              ),
+                              Flexible(
+                                fit: FlexFit.loose,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    gasEstimation['totalAmount'].toString() +
+                                        " ETH",
+                                    style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(children: <Widget>[
+                            Expanded(child: Divider()),
+                          ]),
+                          const SizedBox(
+                            height: 15,
                           ),
                         ],
                       ),
-                      Row(children: <Widget>[
-                        Expanded(child: Divider()),
-                      ]),
-                      const SizedBox(
-                        height: 15,
-                      ),
+                      FloatingActionButton.extended(
+                        heroTag: "confirmPay",
+                        backgroundColor: Theme
+                            .of(context)
+                            .colorScheme
+                            .primary,
+                        foregroundColor: Theme
+                            .of(context)
+                            .colorScheme
+                            .secondary,
+                        onPressed: () async {
+                          print("RNA");
+                          executeTransaction(
+                              doctorName, ipfsHash, walletAddress,
+                              hospitalAddress, credentials);
+                        },
+                        icon: const Icon(Icons.add_circle_outline_outlined),
+                        label: const Text('Confirm Pay'),
+                      )
                     ],
                   ),
-                  FloatingActionButton.extended(
-                    heroTag: "confirmPay",
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    foregroundColor: Theme.of(context).colorScheme.secondary,
-                    onPressed: () async {
-                      print("RNA");
-                      executeTransaction(doctorName, ipfsHash, walletAddress,
-                          hospitalAddress, credentials);
-                    },
-                    icon: const Icon(Icons.add_circle_outline_outlined),
-                    label: const Text('Confirm Pay'),
-                  )
-                ],
+                ),
               ),
             ),
+            actions: <Widget>[
+              // ElevatedButton(
+              //   onPressed: () {
+              //     Navigator.of(ctx).pop();
+              //   },
+              //   child: const Text("okay"),
+              // ),
+            ],
           ),
-        ),
-        actions: <Widget>[
-          // ElevatedButton(
-          //   onPressed: () {
-          //     Navigator.of(ctx).pop();
-          //   },
-          //   child: const Text("okay"),
-          // ),
-        ],
-      ),
     );
   }
+
   void _showErrorDialog(String message) {
     showDialog(
         context: context,
-        builder: (ctx) => AlertDialog(
-          title: Text('An Error Occurred'),
-          content: Text(message),
-          actions: <Widget>[
-            TextButton(
-                onPressed: () {
-                  Navigator.of(ctx).pop();
-                },
-                child: Text('Okay'))
-          ],
-        ));
+        builder: (ctx) =>
+            AlertDialog(
+              title: Text('An Error Occurred'),
+              content: Text(message),
+              actions: <Widget>[
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(ctx).pop();
+                    },
+                    child: Text('Okay'))
+              ],
+            ));
   }
 
-  Future<void> executeTransaction(
-      String doctorName,
+  Future<void> executeTransaction(String doctorName,
       String ipfsHash,
       EthereumAddress walletAddress,
       EthereumAddress hospitalAddress,
       Credentials credentials) async {
     var status = await Provider.of<FirebaseModel>(context, listen: false)
         .storeUserRegistrationStatus(walletAddress.hex);
-    if (status) {
+    print(status);
+    if (status == false) {
       try {
         var transactionHash =
         await Provider.of<WalletModel>(context, listen: false).writeContract(
             "storeDoctor",
             [doctorName, ipfsHash, hospitalAddress, walletAddress],
             credentials);
-
+        print("Going for Hi"+hospitalAddress.hex+"..."+walletAddress.hex);
         var hospitalRequest =
         await Provider.of<FirebaseModel>(context, listen: false)
             .sendHospitalRequest(hospitalAddress.hex, walletAddress.hex);
+        print("Going for Hi");
         var firebaseStatus =
         await Provider.of<FirebaseModel>(context, listen: false)
             .storeTransaction(transactionHash);
@@ -464,12 +538,30 @@ class _DoctorDetailsState extends State<DoctorDetails> {
         if (firebaseStatus) {
           Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
         }
-      } catch (error ) {
+      } catch (error) {
         _showErrorDialog(error.toString());
       }
+    } else if (status == true) {
+      try {
+        var transactionHash =
+        await Provider.of<WalletModel>(context, listen: false).writeContract(
+            "storeDoctor",
+            [doctorName, ipfsHash, hospitalAddress, walletAddress],
+            credentials);
 
+        var firebaseStatus =
+        await Provider.of<FirebaseModel>(context, listen: false)
+            .storeTransaction(transactionHash);
+
+        if (firebaseStatus) {
+          Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
+        }
+      } catch (error) {
+        _showErrorDialog(error.toString());
+      }
     }
   }
+
   InputDecoration dynamicInputDecoration(String labelText, Image? icon) {
     return InputDecoration(
       // helperText: 'hello',
@@ -495,8 +587,8 @@ class _DoctorDetailsState extends State<DoctorDetails> {
       ),
     );
   }
-  Widget formBuilderTextFieldWidget(
-      TextInputType inputTextType,
+
+  Widget formBuilderTextFieldWidget(TextInputType inputTextType,
       String initialValue,
       String fieldName,
       String labelText,
@@ -543,14 +635,19 @@ class _DoctorDetailsState extends State<DoctorDetails> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery
+        .of(context)
+        .size;
     return Scaffold(
       // appBar: AppBar(
       //   elevation: 0,
       // ),
       body: SingleChildScrollView(
         child: Container(
-          height: MediaQuery.of(context).size.height + 100,
+          height: MediaQuery
+              .of(context)
+              .size
+              .height + 100,
           child: Column(
             children: [
               SingleChildScrollView(
@@ -561,7 +658,10 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                       children: [
                         Text(
                           'Doctors Detail',
-                          style: Theme.of(context).textTheme.headline1,
+                          style: Theme
+                              .of(context)
+                              .textTheme
+                              .headline1,
                         ),
                         // SizedBox(height: size.height * 0.03),
                         FormBuilder(
@@ -596,7 +696,8 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                           'Doctor Name',
                                           Image.asset(
                                               "assets/icons/name-100.png",
-                                              color: Theme.of(context)
+                                              color: Theme
+                                                  .of(context)
                                                   .colorScheme
                                                   .primary,
                                               scale: 4,
@@ -616,7 +717,8 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                       decoration: dynamicInputDecoration(
                                         'Date of Birth',
                                         Image.asset("assets/icons/key-100.png",
-                                            color: Theme.of(context)
+                                            color: Theme
+                                                .of(context)
                                                 .colorScheme
                                                 .primary,
                                             scale: 4,
@@ -638,7 +740,8 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                           'Address',
                                           Image.asset(
                                               "assets/icons/key-100.png",
-                                              color: Theme.of(context)
+                                              color: Theme
+                                                  .of(context)
                                                   .colorScheme
                                                   .primary,
                                               scale: 4,
@@ -655,6 +758,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                       searchFieldProps: TextFieldProps(
                                         controller: _textFieldController,
                                         decoration: InputDecoration(
+                                          labelText: "Enter Hospital Name",
                                           suffixIcon: IconButton(
                                             icon: Icon(Icons.clear),
                                             onPressed: () {
@@ -667,9 +771,9 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                       label: "Hospital Address",
                                       selectedItem: HospitalHit(
                                           walletAddress:
-                                              algoliaHospitalAddress == ""
-                                                  ? "Select Address"
-                                                  : algoliaHospitalAddress,
+                                          algoliaHospitalAddress == ""
+                                              ? "Select Address"
+                                              : algoliaHospitalAddress,
                                           userEmail: '',
                                           registerOnce: '',
                                           userName: ''),
@@ -685,24 +789,49 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                         // var models = HospitalHit.fromJson(query.parameters);
                                         // Get Result/Objects
                                         AlgoliaQuerySnapshot snap =
-                                            await query.getObjects();
+                                        await query.getObjects();
 
                                         List _list = snap.hits;
                                         List<HospitalHit> _newList = snap.hits
                                             .map((item) =>
-                                                HospitalHit.fromJson(item.data))
+                                            HospitalHit.fromJson(item.data))
                                             .toList();
                                         return _newList;
                                       },
                                       popupItemBuilder: (BuildContext context,
                                           HospitalHit? item, bool isSelected) {
-                                        return Container(
-                                          child: ListTile(
-                                            selected: isSelected,
-                                            title: Text(item?.userName ?? ''),
-                                            subtitle: Text(item?.walletAddress
-                                                    ?.toString() ??
-                                                ''),
+                                        return Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: Theme
+                                                  .of(context)
+                                                  .colorScheme
+                                                  .primaryVariant,
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(12.0),
+                                              ),
+                                            ),
+                                            child: ListTile(
+                                              selected: isSelected,
+                                              title: Text(item?.userName == null
+                                                  ? ""
+                                                  : "${item?.userName}" +
+                                                  (item?.registerOnce
+                                                      .toLowerCase() == "false"
+                                                      ? " (Not on Blockchain)"
+                                                      : "")),
+                                              subtitle: Text(item?.walletAddress
+                                                  ?.toString() == null
+                                                  ? ""
+                                                  : "${item?.walletAddress
+                                                  ?.toString().substring(
+                                                  0, 6)}" + "..." +
+                                                  "${item?.walletAddress
+                                                      ?.toString().lastCharc(
+                                                      5)}"),
+
+                                            ),
                                           ),
                                         );
                                       },
@@ -716,7 +845,8 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                           padding: const EdgeInsets.all(10.0),
                                           child: Image.asset(
                                             "assets/icons/wallet.png",
-                                            color: Theme.of(context)
+                                            color: Theme
+                                                .of(context)
                                                 .colorScheme
                                                 .primary,
                                             width: 20,
@@ -735,7 +865,8 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                         return Text(
                                           walletAddress.toString(),
                                           style: TextStyle(
-                                              color: Theme.of(context)
+                                              color: Theme
+                                                  .of(context)
                                                   .colorScheme
                                                   .primary),
                                         );
@@ -769,7 +900,8 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                           'Phone no',
                                           Image.asset(
                                               "assets/icons/key-100.png",
-                                              color: Theme.of(context)
+                                              color: Theme
+                                                  .of(context)
                                                   .colorScheme
                                                   .primary,
                                               scale: 4,
@@ -789,7 +921,8 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                         labelText: "Gender",
                                         prefixIcon: Image.asset(
                                             "assets/icons/user-100.png",
-                                            color: Theme.of(context)
+                                            color: Theme
+                                                .of(context)
                                                 .colorScheme
                                                 .primary,
                                             scale: 4,
@@ -797,7 +930,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                             height: 15),
                                         border: OutlineInputBorder(
                                           borderRadius:
-                                              BorderRadius.circular(25.0),
+                                          BorderRadius.circular(25.0),
                                         ),
                                         labelStyle: const TextStyle(
                                           color: Color(0xFF6200EE),
@@ -806,19 +939,19 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                           borderSide: BorderSide(
                                               color: Color(0xFF6200EE)),
                                           borderRadius:
-                                              BorderRadius.circular(25.0),
+                                          BorderRadius.circular(25.0),
                                         ),
                                         focusedErrorBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
                                               color: Color(0xFF6200EE)),
                                           borderRadius:
-                                              BorderRadius.circular(25.0),
+                                          BorderRadius.circular(25.0),
                                         ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
                                               color: Color(0xFF6200EE)),
                                           borderRadius:
-                                              BorderRadius.circular(25.0),
+                                          BorderRadius.circular(25.0),
                                         ),
                                       ),
                                       // initialValue: 'Male',
@@ -832,10 +965,11 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                         'Male',
                                         'Female',
                                       ]
-                                          .map((gender) => DropdownMenuItem(
-                                                value: gender,
-                                                child: Text('$gender'),
-                                              ))
+                                          .map((gender) =>
+                                          DropdownMenuItem(
+                                            value: gender,
+                                            child: Text('$gender'),
+                                          ))
                                           .toList(),
                                     ),
                                   ),
@@ -848,7 +982,8 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                           'Wallet Password',
                                           Image.asset(
                                               "assets/icons/key-100.png",
-                                              color: Theme.of(context)
+                                              color: Theme
+                                                  .of(context)
                                                   .colorScheme
                                                   .primary,
                                               scale: 4,
@@ -870,9 +1005,15 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                           child: FloatingActionButton.extended(
                             heroTag: "doctorStoreDetailsButton",
                             backgroundColor:
-                                Theme.of(context).colorScheme.primary,
+                            Theme
+                                .of(context)
+                                .colorScheme
+                                .primary,
                             foregroundColor:
-                                Theme.of(context).colorScheme.secondary,
+                            Theme
+                                .of(context)
+                                .colorScheme
+                                .secondary,
                             onPressed: () async {
                               _formKey.currentState?.save();
                               if (_formKey.currentState?.validate() != null) {
@@ -885,7 +1026,8 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                   "doctor_name": _formKey
                                       .currentState?.value["doctor_name"],
                                   "doctor_age": _formKey
-                                      .currentState?.value["doctor_age"].toIso8601String(),
+                                      .currentState?.value["doctor_age"]
+                                      .toIso8601String(),
                                   "doctor_address": _formKey
                                       .currentState?.value["doctor_address"],
                                   "hospital_address": algoliaHospitalAddress,
@@ -898,8 +1040,8 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                   // "age": 30
                                 };
                                 var hashReceived = await Provider.of<IPFSModel>(
-                                        context,
-                                        listen: false)
+                                    context,
+                                    listen: false)
                                     .sendData(objText);
                                 print("hashReceived ------" +
                                     hashReceived.toString());
@@ -917,11 +1059,11 @@ class _DoctorDetailsState extends State<DoctorDetails> {
 
                                   credentialsNew = newWallet.privateKey;
                                   myAddress =
-                                      await credentialsNew.extractAddress();
+                                  await credentialsNew.extractAddress();
 
                                   var hospitalAddressEth =
-                                      EthereumAddress.fromHex(
-                                          algoliaHospitalAddress);
+                                  EthereumAddress.fromHex(
+                                      algoliaHospitalAddress);
                                   // var doctorAddress = EthereumAddress.fromHex("  ");
                                   estimateGasFunction(
                                       _formKey
@@ -937,7 +1079,10 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                               }
                             },
                             icon: Image.asset("assets/icons/sign_in.png",
-                                color: Theme.of(context).colorScheme.secondary,
+                                color: Theme
+                                    .of(context)
+                                    .colorScheme
+                                    .secondary,
                                 width: 25,
                                 fit: BoxFit.fill,
                                 height: 25),
@@ -955,4 +1100,9 @@ class _DoctorDetailsState extends State<DoctorDetails> {
       ),
     );
   }
+}
+
+
+extension E on String {
+  String lastCharc(int n) => substring(length - n);
 }

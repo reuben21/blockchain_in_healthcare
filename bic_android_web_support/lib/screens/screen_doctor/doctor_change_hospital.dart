@@ -564,6 +564,7 @@ class _DoctorChangeHospitalState extends State<DoctorChangeHospital> {
                                       searchFieldProps: TextFieldProps(
                                         controller: _textFieldController,
                                         decoration: InputDecoration(
+                                          labelText: "Enter Hospital Name",
                                           suffixIcon: IconButton(
                                             icon: Icon(Icons.clear),
                                             onPressed: () {
@@ -572,6 +573,7 @@ class _DoctorChangeHospitalState extends State<DoctorChangeHospital> {
                                           ),
                                         ),
                                       ),
+
                                       isFilteredOnline: true,
                                       label: "Hospital Address",
                                       selectedItem:HospitalHit(walletAddress: algoliaHospitalAddress==""?"Select Address":algoliaHospitalAddress, userEmail: '', registerOnce: '', userName: ''),
@@ -600,14 +602,26 @@ class _DoctorChangeHospitalState extends State<DoctorChangeHospital> {
                                       },
                                       popupItemBuilder: (BuildContext context,
                                           HospitalHit? item, bool isSelected) {
-                                        return Container(
-                                          child: ListTile(
-                                            selected: isSelected,
-                                            title: Text(item?.userName ?? ''),
-                                            subtitle: Text(item?.walletAddress
-                                                ?.toString() ??
-                                                ''),
+                                        return Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primaryVariant,
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(12.0),
+                                              ),
+                                            ),
+                                            child: ListTile(
+                                              selected: isSelected,
+                                              title: Text(item?.userName == null ? "" :"${item?.userName}"+ (item?.registerOnce.toLowerCase() == "false"?" (Not on Blockchain)":"") ),
+                                              subtitle: Text(item?.walletAddress
+                                                  ?.toString() == null ?"":"${item?.walletAddress
+                                                  ?.toString().substring(0,6)}"+"..."+"${item?.walletAddress
+                                                  ?.toString().lastCharc(5)}"),
 
+                                            ),
                                           ),
                                         );
                                       },
@@ -768,4 +782,8 @@ class _DoctorChangeHospitalState extends State<DoctorChangeHospital> {
       ),
     );
   }
+}
+
+extension E on String {
+  String lastCharc(int n) => substring(length - n);
 }

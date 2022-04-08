@@ -121,359 +121,336 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
     // var doctorDetails = await Provider.of<FirebaseModel>(context, listen: false)
     //     .checkIfDoctorIsPresent(doctorAddress.hex);
 
-        return showDialog(
-          context: context,
-          builder: (ctx) => AlertDialog(
-            insetPadding: EdgeInsets.all(15),
-            backgroundColor: Theme.of(context).colorScheme.secondary,
-            title: Text(
-              "Confirmation Screen",
-              style: Theme.of(context).textTheme.bodyText1,
-            ),
-            content: Container(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              // color: Theme.of(context).colorScheme.secondary,
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Center(
-                  child: Column(
-                    children: [
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      Container(
-                        height: 90,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: [
-                                Theme.of(context).colorScheme.primary,
-                                Colors.purpleAccent.withOpacity(0.9),
-                                // Colors.lightBlueAccent,
-                              ]),
-                          borderRadius: BorderRadius.circular(9),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Container(
-                                height: 65,
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                      begin: Alignment.topLeft,
-                                      end: Alignment.bottomRight,
-                                      colors: [
-                                        Theme.of(context).colorScheme.primary,
-                                        Colors.purpleAccent.withOpacity(0.9),
-                                        // Colors.lightBlueAccent,
-                                      ]),
-                                  borderRadius: BorderRadius.circular(9),
-                                ),
-                                child: ListTile(
-                                  leading: Image.asset(
-                                      "assets/icons/wallet.png",
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondary,
-                                      width: 35,
-                                      height: 35),
-                                  title: Text('From Wallet Address',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .secondary,
-                                      )),
-                                  subtitle: Text(
-                                    walletAddress.hex.toString(),
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondary,
-                                    ),
-                                  ),
-                                ),
-                                // Padding(
-                                //   padding: const EdgeInsets.all(10.0),
-                                //   child: Text(
-                                //     widget.address,style: TextStyle(fontSize: 20),
-                                //   ),
-                                // ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      Container(
-                        height: 90,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: [
-                                Colors.purpleAccent.withOpacity(0.9),
-                                Theme.of(context).colorScheme.primary,
-
-                                // Colors.lightBlueAccent,
-                              ]),
-                          borderRadius: BorderRadius.circular(9),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Container(
-                                height: 65,
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                      begin: Alignment.topLeft,
-                                      end: Alignment.bottomRight,
-                                      colors: [
-                                        Colors.purpleAccent.withOpacity(0.9),
-                                        Theme.of(context).colorScheme.primary,
-
-                                        // Colors.lightBlueAccent,
-                                      ]),
-                                  borderRadius: BorderRadius.circular(9),
-                                ),
-                                child: ListTile(
-                                  trailing: Image.asset(
-                                      "assets/icons/wallet.png",
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondary,
-                                      width: 35,
-                                      height: 35),
-                                  title: Text('To Wallet Address',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .secondary,
-                                      )),
-                                  subtitle: Text(
-                                    gasEstimation['contractAddress'].toString(),
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondary,
-                                    ),
-                                  ),
-                                ),
-                                // Padding(
-                                //   padding: const EdgeInsets.all(10.0),
-                                //   child: Text(
-                                //     widget.address,style: TextStyle(fontSize: 20),
-                                //   ),
-                                // ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      Column(
+    return showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        insetPadding: EdgeInsets.all(15),
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+        title: Text(
+          "Confirmation Screen",
+          style: Theme.of(context).textTheme.bodyText1,
+        ),
+        content: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          // color: Theme.of(context).colorScheme.secondary,
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Center(
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Container(
+                    height: 90,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Theme.of(context).colorScheme.primary,
+                            Colors.purpleAccent.withOpacity(0.9),
+                            // Colors.lightBlueAccent,
+                          ]),
+                      borderRadius: BorderRadius.circular(9),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Column(
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Flexible(
-                                fit: FlexFit.loose,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    "Ether Amount: ",
-                                    style:
-                                        Theme.of(context).textTheme.bodyText1,
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ),
-                              ),
-                              Flexible(
-                                fit: FlexFit.loose,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    gasEstimation['actualAmountInWei']
-                                        .toString(),
-                                    style:
-                                        Theme.of(context).textTheme.bodyText1,
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          // Expanded(child: Divider()),
-                          Row(children: <Widget>[
-                            Expanded(child: Divider()),
-                          ]),
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Flexible(
-                                fit: FlexFit.loose,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    "Gas Estimate: ",
-                                    style:
-                                        Theme.of(context).textTheme.bodyText1,
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ),
-                              ),
-                              Flexible(
-                                fit: FlexFit.loose,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    gasEstimation['gasEstimate'].toString() +
-                                        " units",
-                                    style:
-                                        Theme.of(context).textTheme.bodyText1,
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(children: <Widget>[
-                            Expanded(child: Divider()),
-                          ]),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Flexible(
-                                fit: FlexFit.loose,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    "Gas Price: ",
-                                    style:
-                                        Theme.of(context).textTheme.bodyText1,
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ),
-                              ),
-                              Flexible(
-                                fit: FlexFit.loose,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    gasEstimation['gasPrice'].toString() +
-                                        " Wei",
-                                    style:
-                                        Theme.of(context).textTheme.bodyText1,
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(children: const <Widget>[
-                            Expanded(
-                              child: Divider(
-                                  // thickness: 2,
-                                  // color: Colors.grey,
-                                  ),
+                          Container(
+                            height: 65,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [
+                                    Theme.of(context).colorScheme.primary,
+                                    Colors.purpleAccent.withOpacity(0.9),
+                                    // Colors.lightBlueAccent,
+                                  ]),
+                              borderRadius: BorderRadius.circular(9),
                             ),
-                          ]),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Flexible(
-                                fit: FlexFit.loose,
-                                child: Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Text(
-                                    "(Approx.) Total Ether Amount: ",
-                                    style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w700),
-                                    textAlign: TextAlign.left,
-                                  ),
+                            child: ListTile(
+                              leading: Image.asset("assets/icons/wallet.png",
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                  width: 35,
+                                  height: 35),
+                              title: Text('From Wallet Address',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
+                                  )),
+                              subtitle: Text(
+                                walletAddress.hex.toString(),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
                                 ),
                               ),
-                              Flexible(
-                                fit: FlexFit.loose,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    gasEstimation['totalAmount'].toString() +
-                                        " ETH",
-                                    style: const TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w500),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(children: const <Widget>[
-                            Expanded(child: Divider()),
-                          ]),
-                          const SizedBox(
-                            height: 15,
+                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.all(10.0),
+                            //   child: Text(
+                            //     widget.address,style: TextStyle(fontSize: 20),
+                            //   ),
+                            // ),
                           ),
                         ],
                       ),
-                      FloatingActionButton.extended(
-                        heroTag: "confirmPay",
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                        foregroundColor:
-                            Theme.of(context).colorScheme.secondary,
-                        onPressed: () async {
-                          executeTransaction(
-                              patientName,
-                              ipfsHash,
-                              hospitalAddress,
-                              doctorAddress,
-                              walletAddress,
-                              credentials);
-                        },
-                        icon: const Icon(Icons.add_circle_outline_outlined),
-                        label: const Text('Confirm Pay'),
-                      )
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Container(
+                    height: 90,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Colors.purpleAccent.withOpacity(0.9),
+                            Theme.of(context).colorScheme.primary,
+
+                            // Colors.lightBlueAccent,
+                          ]),
+                      borderRadius: BorderRadius.circular(9),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 65,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [
+                                    Colors.purpleAccent.withOpacity(0.9),
+                                    Theme.of(context).colorScheme.primary,
+
+                                    // Colors.lightBlueAccent,
+                                  ]),
+                              borderRadius: BorderRadius.circular(9),
+                            ),
+                            child: ListTile(
+                              trailing: Image.asset("assets/icons/wallet.png",
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                  width: 35,
+                                  height: 35),
+                              title: Text('To Wallet Address',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
+                                  )),
+                              subtitle: Text(
+                                gasEstimation['contractAddress'].toString(),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                ),
+                              ),
+                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.all(10.0),
+                            //   child: Text(
+                            //     widget.address,style: TextStyle(fontSize: 20),
+                            //   ),
+                            // ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(
+                            fit: FlexFit.loose,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "Ether Amount: ",
+                                style: Theme.of(context).textTheme.bodyText1,
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                          ),
+                          Flexible(
+                            fit: FlexFit.loose,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                gasEstimation['actualAmountInWei'].toString(),
+                                style: Theme.of(context).textTheme.bodyText1,
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      // Expanded(child: Divider()),
+                      Row(children: <Widget>[
+                        Expanded(child: Divider()),
+                      ]),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(
+                            fit: FlexFit.loose,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "Gas Estimate: ",
+                                style: Theme.of(context).textTheme.bodyText1,
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                          ),
+                          Flexible(
+                            fit: FlexFit.loose,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                gasEstimation['gasEstimate'].toString() +
+                                    " units",
+                                style: Theme.of(context).textTheme.bodyText1,
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(children: <Widget>[
+                        Expanded(child: Divider()),
+                      ]),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(
+                            fit: FlexFit.loose,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "Gas Price: ",
+                                style: Theme.of(context).textTheme.bodyText1,
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                          ),
+                          Flexible(
+                            fit: FlexFit.loose,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                gasEstimation['gasPrice'].toString() + " Wei",
+                                style: Theme.of(context).textTheme.bodyText1,
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(children: const <Widget>[
+                        Expanded(
+                          child: Divider(
+                              // thickness: 2,
+                              // color: Colors.grey,
+                              ),
+                        ),
+                      ]),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Flexible(
+                            fit: FlexFit.loose,
+                            child: Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(
+                                "(Approx.) Total Ether Amount: ",
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w700),
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                          ),
+                          Flexible(
+                            fit: FlexFit.loose,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                gasEstimation['totalAmount'].toString() +
+                                    " ETH",
+                                style: const TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500),
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(children: const <Widget>[
+                        Expanded(child: Divider()),
+                      ]),
+                      const SizedBox(
+                        height: 15,
+                      ),
                     ],
                   ),
-                ),
+                  FloatingActionButton.extended(
+                    heroTag: "confirmPay",
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    foregroundColor: Theme.of(context).colorScheme.secondary,
+                    onPressed: () async {
+                      executeTransaction(patientName, ipfsHash, hospitalAddress,
+                          doctorAddress, walletAddress, credentials);
+                    },
+                    icon: const Icon(Icons.add_circle_outline_outlined),
+                    label: const Text('Confirm Pay'),
+                  )
+                ],
               ),
             ),
-            actions: <Widget>[
-              // ElevatedButton(
-              //   onPressed: () {
-              //     Navigator.of(ctx).pop();
-              //   },
-              //   child: const Text("okay"),
-              // ),
-            ],
           ),
-        );
-
+        ),
+        actions: <Widget>[
+          // ElevatedButton(
+          //   onPressed: () {
+          //     Navigator.of(ctx).pop();
+          //   },
+          //   child: const Text("okay"),
+          // ),
+        ],
+      ),
+    );
   }
 
   Future<void> executeTransaction(
@@ -718,6 +695,7 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                       searchFieldProps: TextFieldProps(
                                         controller: _textFieldController,
                                         decoration: InputDecoration(
+                                          labelText: "Enter Hospital Name",
                                           suffixIcon: IconButton(
                                             icon: Icon(Icons.clear),
                                             onPressed: () {
@@ -759,13 +737,26 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                       },
                                       popupItemBuilder: (BuildContext context,
                                           HospitalHit? item, bool isSelected) {
-                                        return Container(
-                                          child: ListTile(
-                                            selected: isSelected,
-                                            title: Text(item?.userName ?? ''),
-                                            subtitle: Text(item?.walletAddress
-                                                    ?.toString() ??
-                                                ''),
+                                        return Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primaryVariant,
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(12.0),
+                                              ),
+                                            ),
+                                            child: ListTile(
+                                              selected: isSelected,
+                                              title: Text(item?.userName == null ? "" :"${item?.userName}"+ (item?.registerOnce.toLowerCase() == "false"?" (Not on Blockchain)":"") ),
+                                              subtitle: Text(item?.walletAddress
+                                                      ?.toString() == null ?"":"${item?.walletAddress
+                                                  ?.toString().substring(0,6)}"+"..."+"${item?.walletAddress
+                                                  ?.toString().lastCharc(5)}"),
+
+                                            ),
                                           ),
                                         );
                                       },
@@ -820,6 +811,18 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                   Padding(
                                     padding: const EdgeInsets.all(15.0),
                                     child: DropdownSearch<HospitalHit>(
+                                      searchFieldProps: TextFieldProps(
+                                        controller: _textFieldController,
+                                        decoration: InputDecoration(
+                                          labelText: "Enter Doctor Name",
+                                          suffixIcon: IconButton(
+                                            icon: Icon(Icons.clear),
+                                            onPressed: () {
+                                              _textFieldController.clear();
+                                            },
+                                          ),
+                                        ),
+                                      ),
                                       selectedItem: HospitalHit(
                                           walletAddress:
                                               algoliaDoctorAddress == ""
@@ -853,13 +856,26 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                       },
                                       popupItemBuilder: (BuildContext context,
                                           HospitalHit? item, bool isSelected) {
-                                        return Container(
-                                          child: ListTile(
-                                            selected: isSelected,
-                                            title: Text(item?.userName ?? ''),
-                                            subtitle: Text(item?.walletAddress
-                                                    .toString() ??
-                                                ''),
+                                        return Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primaryVariant,
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(12.0),
+                                              ),
+                                            ),
+                                            child: ListTile(
+                                              selected: isSelected,
+                                              title: Text(item?.userName == null ? "" :"${item?.userName}"+ (item?.registerOnce.toLowerCase() == "false"?" (Not on Blockchain)":"") ),
+                                              subtitle: Text(item?.walletAddress
+                                                  ?.toString() == null ?"":"${item?.walletAddress
+                                                  ?.toString().substring(0,6)}"+"..."+"${item?.walletAddress
+                                                  ?.toString().lastCharc(5)}"),
+
+                                            ),
                                           ),
                                         );
                                       },
@@ -910,89 +926,7 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                       },
                                     ),
                                   ),
-                                  // Padding(
-                                  //   padding: const EdgeInsets.all(15.0),
-                                  //   child: DropdownSearch<google_place.AutocompletePrediction>(
-                                  //     selectedItem: google_place.AutocompletePrediction.fromJson({"description":locationDescription == ""? "Select Location":locationDescription}),
-                                  //     label: "Patient Location",
-                                  //     mode: Mode.BOTTOM_SHEET,
-                                  //     isFilteredOnline: true,
-                                  //     showSearchBox: true,
-                                  //     onFind: (String? filter) async {
-                                  //       var result = await googlePlace.autocomplete.get(filter!);
-                                  //       if (result != null && result.predictions != null && mounted) {
-                                  //
-                                  //         return  result.predictions!.toList();
-                                  //
-                                  //
-                                  //       }
-                                  //       return  result!.predictions!.toList();
-                                  //     },
-                                  //     popupItemBuilder: (BuildContext context,
-                                  //         google_place.AutocompletePrediction? item, bool isSelected) {
-                                  //       return Container(
-                                  //         child: ListTile(
-                                  //           selected: isSelected,
-                                  //           title: Text(item?.description ?? ''),
-                                  //         ),
-                                  //       );
-                                  //     },
-                                  //     dropDownButton: Container(),
-                                  //     dropdownSearchDecoration: InputDecoration(
-                                  //       constraints: BoxConstraints.tightFor(
-                                  //           width: 320, height: 60),
-                                  //       // helperText: 'hello',
-                                  //       labelText: "Hospital",
-                                  //       prefixIcon: Padding(
-                                  //         padding: const EdgeInsets.all(10.0),
-                                  //         child: Image.asset(
-                                  //           "assets/icons/address-100.png",
-                                  //           color: Theme.of(context)
-                                  //               .colorScheme
-                                  //               .primary,
-                                  //           width: 20,
-                                  //           height: 10,
-                                  //           scale: 0.2,
-                                  //           fit: BoxFit.contain,
-                                  //         ),
-                                  //       ),
-                                  //     ),
-                                  //     dropdownBuilder:
-                                  //         (context, selectedItems) {
-                                  //       var walletAddress =
-                                  //       selectedItems?.description.toString();
-                                  //
-                                  //       return Text(
-                                  //         walletAddress.toString(),
-                                  //         style: TextStyle(
-                                  //             color: Theme.of(context)
-                                  //                 .colorScheme
-                                  //                 .primary),
-                                  //       );
-                                  //
-                                  //       // return Wrap(
-                                  //       //   children: selectedItems.map((e) => item(e)).toList(),
-                                  //       // );
-                                  //     },
-                                  //     onChanged: (data) async {
-                                  //       google_place.DetailsResult detailsResult;
-                                  //       var result = await googlePlace.details.get(data!.placeId.toString());
-                                  //
-                                  //       setState(() {
-                                  //         locationDescription = data.description.toString();
-                                  //         lat =  result!.result!.geometry!.location!.lat;
-                                  //         lng = result.result!.geometry!.location!.lng;
-                                  //       });
-                                  //
-                                  //
-                                  //       // setState(() {
-                                  //       //   algoliaDoctorAddress =
-                                  //       //       data!.walletAddress.toString();
-                                  //       // });
-                                  //       print("Lat: ${lat.toString()}, Lng: ${lng.toString()}");
-                                  //     },
-                                  //   ),
-                                  // ),
+                                  
                                   Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
@@ -1251,7 +1185,8 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
                                             myAddress,
                                             credentialsNew);
                                       } catch (error) {
-                                        _showErrorDialog("Please Select Appropriate Address");
+                                        _showErrorDialog(
+                                            "Please Select Appropriate Address");
                                       }
                                     } else {
                                       print("validation failed");
@@ -1282,4 +1217,7 @@ class _PatientStoreDetailsState extends State<PatientStoreDetails> {
       ),
     );
   }
+}
+extension E on String {
+  String lastCharc(int n) => substring(length - n);
 }

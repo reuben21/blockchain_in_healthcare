@@ -36,6 +36,8 @@ class PatientReadScreen extends StatefulWidget {
 class _PatientReadScreenState extends State<PatientReadScreen> {
   Algolia algolia = Application.algolia;
   String algoliaPatientAddress = "";
+  TextEditingController _textFieldController = TextEditingController();
+
   final _formKey = GlobalKey<FormBuilderState>();
   
   String? role;
@@ -155,7 +157,18 @@ class _PatientReadScreenState extends State<PatientReadScreen> {
                                 padding: const EdgeInsets.all(15.0),
                                 child: DropdownSearch<HospitalHit>(
                                   selectedItem:HospitalHit(walletAddress:algoliaPatientAddress==""?"Select Address":algoliaPatientAddress,  userEmail: '', registerOnce: '', userName: ''),
-
+                                  searchFieldProps: TextFieldProps(
+                                    controller: _textFieldController,
+                                    decoration: InputDecoration(
+                                      labelText: "Enter Patient Name",
+                                      suffixIcon: IconButton(
+                                        icon: Icon(Icons.clear),
+                                        onPressed: () {
+                                          _textFieldController.clear();
+                                        },
+                                      ),
+                                    ),
+                                  ),
                                   label: "Patient Address",
                                   isFilteredOnline: true,
                                   mode: Mode.DIALOG,
@@ -181,14 +194,26 @@ class _PatientReadScreenState extends State<PatientReadScreen> {
                                   },
                                   popupItemBuilder: (BuildContext context,
                                       HospitalHit? item, bool isSelected) {
-                                    return Container(
-                                      child: ListTile(
-                                        selected: isSelected,
-                                        title: Text(item?.userName ?? ''),
-                                        subtitle: Text(item?.walletAddress
-                                            .toString() ??
-                                            ''),
+                                    return Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primaryVariant,
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(12.0),
+                                          ),
+                                        ),
+                                        child: ListTile(
+                                          selected: isSelected,
+                                          title: Text(item?.userName == null ? "" :"${item?.userName}"+ (item?.registerOnce.toLowerCase() == "false"?" (Not on Blockchain)":"") ),
+                                          subtitle: Text(item?.walletAddress
+                                              ?.toString() == null ?"":"${item?.walletAddress
+                                              ?.toString().substring(0,6)}"+"..."+"${item?.walletAddress
+                                              ?.toString().subStringLastChars(5)}"),
 
+                                        ),
                                       ),
                                     );
                                   },
@@ -527,7 +552,7 @@ class _PatientReadScreenState extends State<PatientReadScreen> {
                                               .substring(0, 5) +
                                           "...." +
                                           dataGlobal[2].toString()
-                                              .lastChars(4),
+                                              .subStringLastChars(4),
                                       style: GoogleFonts.montserrat(
                                         color: Colors.black.withOpacity(0.6),
                                         fontSize: 15,
@@ -548,7 +573,7 @@ class _PatientReadScreenState extends State<PatientReadScreen> {
                                               .substring(0, 5) +
                                           "...." +
                                           dataGlobal[3].toString()
-                                              .lastChars(4),
+                                              .subStringLastChars(4),
                                       style: GoogleFonts.montserrat(
                                         color: Colors.black.withOpacity(0.6),
                                         fontSize: 15,

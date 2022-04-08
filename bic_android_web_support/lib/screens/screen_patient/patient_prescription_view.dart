@@ -37,7 +37,7 @@ class _PatientPrescriptionViewGenState extends State<PatientPrescriptionViewGen>
   final _formKey = GlobalKey<FormBuilderState>();
   Algolia algolia = Application.algolia;
   String algoliaPatientAddress = "";
-
+  TextEditingController _textFieldController = TextEditingController();
 
   String walletAdd = '';
   String patientAddress = '';
@@ -568,7 +568,18 @@ class _PatientPrescriptionViewGenState extends State<PatientPrescriptionViewGen>
                                             padding: const EdgeInsets.all(15.0),
                                             child: DropdownSearch<HospitalHit>(
                                               selectedItem:HospitalHit(walletAddress:algoliaPatientAddress==""?"Select Address":algoliaPatientAddress,  userEmail: '', registerOnce: '', userName: ''),
-
+                                              searchFieldProps: TextFieldProps(
+                                                controller: _textFieldController,
+                                                decoration: InputDecoration(
+                                                  labelText: "Enter Patient Name",
+                                                  suffixIcon: IconButton(
+                                                    icon: Icon(Icons.clear),
+                                                    onPressed: () {
+                                                      _textFieldController.clear();
+                                                    },
+                                                  ),
+                                                ),
+                                              ),
                                               label: "Patient Address",
                                               isFilteredOnline: true,
                                               mode: Mode.DIALOG,
@@ -594,14 +605,26 @@ class _PatientPrescriptionViewGenState extends State<PatientPrescriptionViewGen>
                                               },
                                               popupItemBuilder: (BuildContext context,
                                                   HospitalHit? item, bool isSelected) {
-                                                return Container(
-                                                  child: ListTile(
-                                                    selected: isSelected,
-                                                    title: Text(item?.userName ?? ''),
-                                                    subtitle: Text(item?.walletAddress
-                                                        .toString() ??
-                                                        ''),
+                                                return Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .primaryVariant,
+                                                      borderRadius: BorderRadius.all(
+                                                        Radius.circular(12.0),
+                                                      ),
+                                                    ),
+                                                    child: ListTile(
+                                                      selected: isSelected,
+                                                      title: Text(item?.userName == null ? "" :"${item?.userName}"+ (item?.registerOnce.toLowerCase() == "false"?" (Not on Blockchain)":"") ),
+                                                      subtitle: Text(item?.walletAddress
+                                                          ?.toString() == null ?"":"${item?.walletAddress
+                                                          ?.toString().substring(0,6)}"+"..."+"${item?.walletAddress
+                                                          ?.toString().lastCharc(5)}"),
 
+                                                    ),
                                                   ),
                                                 );
                                               },
@@ -773,4 +796,9 @@ class _PatientPrescriptionViewGenState extends State<PatientPrescriptionViewGen>
       ),
     );
   }
+}
+
+
+extension E on String {
+  String lastCharc(int n) => substring(length - n);
 }

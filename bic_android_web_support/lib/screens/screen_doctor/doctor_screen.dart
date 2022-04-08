@@ -99,7 +99,7 @@ class _DoctorRecordScreenState extends State<DoctorRecordScreen> {
         doctorName = data[0].toString();
         doctorIpfsHashData = data[1].toString();
         doctorIpfsHash = doctorData!;
-        role = dataRole[0].toString();
+        role = dataRole[0].toString() == "ACCESS GRANTED BY HOSPITAL" ? "ACCESS GRANTED":"DOCTOR";
       });
     } else {
       setState(() {

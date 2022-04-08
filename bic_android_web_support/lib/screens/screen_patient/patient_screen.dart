@@ -88,9 +88,16 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
     }
 
     if (dataRole[0] != '') {
-      setState(() {
-        role = dataRole[0].toString();
-      });
+      if(dataRole[0] == 'PATIENT') {
+        setState(() {
+          role = dataRole[0].toString();
+        });
+      } else if(dataRole[0] == 'VERIFIED_PATIENT') {
+        setState(() {
+          role = "VERIFIED";
+        });
+      }
+
     } else {
       role = "UNVERIFIED";
     }
@@ -373,7 +380,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                                             .substring(0, 5) +
                                         "...." +
                                         dataGlobal[2].toString()
-                                            .lastChars(4),
+                                            .subStringLastChars(4),
                                     style: GoogleFonts.montserrat(
                                       color: Colors.black.withOpacity(0.6),
                                       fontSize: 15,
@@ -394,7 +401,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                                             .substring(0, 5) +
                                         "...." +
                                         dataGlobal[3].toString()
-                                            .lastChars(4),
+                                            .subStringLastChars(4),
                                     style: GoogleFonts.montserrat(
                                       color: Colors.black.withOpacity(0.6),
                                       fontSize: 15,

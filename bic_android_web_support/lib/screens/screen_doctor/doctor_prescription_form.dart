@@ -31,6 +31,7 @@ class DoctorPrescriptionForm extends StatefulWidget {
 class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
   Algolia algolia = Application.algolia;
   String algoliaPatientAddress = "";
+  TextEditingController _textFieldController = TextEditingController();
 
   final _formPatient = GlobalKey<FormBuilderState>();
   final _formMedicine = GlobalKey<FormBuilderState>();
@@ -160,6 +161,18 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                           Padding(
                             padding: const EdgeInsets.all(15.0),
                             child: DropdownSearch<HospitalHit>(
+                              searchFieldProps: TextFieldProps(
+                                controller: _textFieldController,
+                                decoration: InputDecoration(
+                                  labelText: "Enter Patient Name",
+                                  suffixIcon: IconButton(
+                                    icon: Icon(Icons.clear),
+                                    onPressed: () {
+                                      _textFieldController.clear();
+                                    },
+                                  ),
+                                ),
+                              ),
                               selectedItem:HospitalHit(walletAddress:algoliaPatientAddress==""?"Select Address":algoliaPatientAddress,  userEmail: '', registerOnce: '', userName: ''),
 
                               label: "Patient Address",
@@ -186,14 +199,26 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                               },
                               popupItemBuilder: (BuildContext context,
                                   HospitalHit? item, bool isSelected) {
-                                return Container(
-                                  child: ListTile(
-                                    selected: isSelected,
-                                    title: Text(item?.userName ?? ''),
-                                    subtitle: Text(item?.walletAddress
-                                        .toString() ??
-                                        ''),
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primaryVariant,
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(12.0),
+                                      ),
+                                    ),
+                                    child: ListTile(
+                                      selected: isSelected,
+                                      title: Text(item?.userName == null ? "" :"${item?.userName}"+ (item?.registerOnce.toLowerCase() == "false"?" (Not on Blockchain)":"") ),
+                                      subtitle: Text(item?.walletAddress
+                                          ?.toString() == null ?"":"${item?.walletAddress
+                                          ?.toString().substring(0,6)}"+"..."+"${item?.walletAddress
+                                          ?.toString().lastCharc(5)}"),
 
+                                    ),
                                   ),
                                 );
                               },
@@ -1421,4 +1446,8 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
       ),
     );
   }
+}
+
+extension E on String {
+  String lastCharc(int n) => substring(length - n);
 }
