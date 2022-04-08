@@ -171,12 +171,15 @@ class WalletModel with ChangeNotifier {
       EthereumAddress transactionTo;
       EthereumAddress transactionFrom;
 
+      double ethAmount = double.parse(amount) * 1000000000000000000;
+      print(ethAmount);
+
       String transactionHash = await _client.sendTransaction(
           credentials,
           Transaction(
               from: EthereumAddress.fromHex(senderAddress),
               to: EthereumAddress.fromHex(receiverAddress),
-              value: EtherAmount.fromUnitAndValue(EtherUnit.ether, amount)));
+              value: EtherAmount.fromUnitAndValue(EtherUnit.wei, ethAmount.toStringAsFixed(0).toString())));
 
       TransactionInformation tx =
       await _client.getTransactionByHash(transactionHash);
@@ -374,10 +377,13 @@ class WalletModel with ChangeNotifier {
   Future<Map<String, dynamic>> estimateGas(String senderAddress,
       String receiverAddress, String amount) async {
     try {
+      double ethAmount = double.parse(amount) * 1000000000000000000;
+      print(ethAmount.toStringAsFixed(0).toString());
+
       var gasEstimate = await _client.estimateGas(
           sender: EthereumAddress.fromHex(senderAddress),
           to: EthereumAddress.fromHex(receiverAddress),
-          value: EtherAmount.fromUnitAndValue(EtherUnit.ether, amount));
+          value: EtherAmount.fromUnitAndValue(EtherUnit.wei, ethAmount.toStringAsFixed(0).toString()));
 
       print(gasEstimate);
       var gasPrice = await _client.getGasPrice();
@@ -388,7 +394,7 @@ class WalletModel with ChangeNotifier {
           EtherUnit.wei, gasCostEstimation.toString());
 
       var actualAmountInWei = EtherAmount.fromUnitAndValue(
-          EtherUnit.ether, amount);
+          EtherUnit.ether,  ethAmount.toStringAsFixed(0).toString());
 
       var totalAmount = (gasAmountInWei.getInWei + actualAmountInWei.getInWei) /
           BigInt.from(1000000000000000000);
@@ -398,8 +404,8 @@ class WalletModel with ChangeNotifier {
         "gasEstimate": gasEstimate,
         "gasCostEstimation": gasCostEstimation,
         "gasAmountInWei": gasAmountInWei.getInWei,
-        "actualAmountInWei": actualAmountInWei.getInWei,
-        "totalAmount": totalAmount.toString()
+        "actualAmountInWei": amount,
+        "totalAmount": amount
       };
 
       print(result);

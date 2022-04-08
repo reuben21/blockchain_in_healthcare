@@ -208,7 +208,7 @@ class _TransferScreenState extends State<TransferScreen> {
                                     Theme.of(context).colorScheme.secondary,
                                   )),
                               subtitle: Text(
-                                gasEstimation['contractAddress'].toString(),
+                                receiverAddress.toString(),
                                 style: TextStyle(
                                   fontSize: 15,
                                   color:
@@ -574,6 +574,10 @@ class _TransferScreenState extends State<TransferScreen> {
                       //     scanBarcode();
                       //   },
                       // ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+
                       Center(
                         child: FormBuilder(
                             key: _formKey,
