@@ -37,17 +37,18 @@ class _LoginScreenState extends State<LoginScreen> {
     showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
-          title: const Text('An Error Occurred'),
-          content: Text(message),
-          actions: <Widget>[
-            TextButton(
-                onPressed: () {
-                  Navigator.of(ctx).pop();
-                },
-                child: const Text('Okay'))
-          ],
-        ));
+              title: const Text('An Error Occurred'),
+              content: Text(message),
+              actions: <Widget>[
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(ctx).pop();
+                    },
+                    child: const Text('Okay'))
+              ],
+            ));
   }
+
   void _submit(String emailId, String password, String userType) async {
     print(emailId + " " + password + " " + userType);
     try {
@@ -58,33 +59,29 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (userCredential.user?.uid != null) {
         var status = await Provider.of<WalletModel>(context, listen: false)
-            .signInWithWallet(emailId,userCredential.user?.uid, password, userType);
+            .signInWithWallet(
+                emailId, userCredential.user?.uid, password, userType);
         if (status == false) {
           _showErrorDialog("Please Ensure Your Details Are Correct");
         } else {
           Navigator.of(context).pushNamed(SplashWelcomeScreen.routeName);
-
         }
       }
       //         }).catchError((onError){
       //   _showErrorDialog(onError.toString());
       // });
 
-    }on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         _showErrorDialog('No user found for that email.');
       } else if (e.code == 'wrong-password') {
         _showErrorDialog('Wrong password provided for that user.');
       }
-    // } catch (error) {
-    //   _showErrorDialog(error.toString());
-    // }
+      // } catch (error) {
+      //   _showErrorDialog(error.toString());
+      // }
+    }
   }
-
-
-
-
-}
 
   @override
   Widget build(BuildContext context) {
@@ -92,10 +89,13 @@ class _LoginScreenState extends State<LoginScreen> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         body: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              SingleChildScrollView(
-                child: Background(
+      child: Column(
+        children: <Widget>[
+          SingleChildScrollView(
+            child: Background(
+              child: SingleChildScrollView(
+                child: Container(
+                  height: size.height + 200,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -137,7 +137,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                             width: 15,
                                             height: 15),
                                         border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(25.0),
+                                          borderRadius:
+                                              BorderRadius.circular(25.0),
                                         ),
                                         labelStyle: const TextStyle(
                                           color: Color(0xFF6200EE),
@@ -145,17 +146,20 @@ class _LoginScreenState extends State<LoginScreen> {
                                         errorBorder: OutlineInputBorder(
                                           borderSide: const BorderSide(
                                               color: const Color(0xFF6200EE)),
-                                          borderRadius: BorderRadius.circular(25.0),
+                                          borderRadius:
+                                              BorderRadius.circular(25.0),
                                         ),
                                         focusedErrorBorder: OutlineInputBorder(
                                           borderSide: const BorderSide(
                                               color: Color(0xFF6200EE)),
-                                          borderRadius: BorderRadius.circular(25.0),
+                                          borderRadius:
+                                              BorderRadius.circular(25.0),
                                         ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: const BorderSide(
                                               color: Color(0xFF6200EE)),
-                                          borderRadius: BorderRadius.circular(25.0),
+                                          borderRadius:
+                                              BorderRadius.circular(25.0),
                                         ),
                                       ),
 
@@ -182,25 +186,29 @@ class _LoginScreenState extends State<LoginScreen> {
                                             width: 15,
                                             height: 15),
                                         border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(25.0),
+                                          borderRadius:
+                                              BorderRadius.circular(25.0),
                                         ),
                                         labelStyle: const TextStyle(
                                           color: Color(0xFF6200EE),
                                         ),
                                         errorBorder: OutlineInputBorder(
-                                          borderSide:
-                                          BorderSide(color: Color(0xFF6200EE)),
-                                          borderRadius: BorderRadius.circular(25.0),
+                                          borderSide: BorderSide(
+                                              color: Color(0xFF6200EE)),
+                                          borderRadius:
+                                              BorderRadius.circular(25.0),
                                         ),
                                         focusedErrorBorder: OutlineInputBorder(
-                                          borderSide:
-                                          BorderSide(color: Color(0xFF6200EE)),
-                                          borderRadius: BorderRadius.circular(25.0),
+                                          borderSide: BorderSide(
+                                              color: Color(0xFF6200EE)),
+                                          borderRadius:
+                                              BorderRadius.circular(25.0),
                                         ),
                                         enabledBorder: OutlineInputBorder(
-                                          borderSide:
-                                          BorderSide(color: Color(0xFF6200EE)),
-                                          borderRadius: BorderRadius.circular(25.0),
+                                          borderSide: BorderSide(
+                                              color: Color(0xFF6200EE)),
+                                          borderRadius:
+                                              BorderRadius.circular(25.0),
                                         ),
                                       ),
 
@@ -217,39 +225,45 @@ class _LoginScreenState extends State<LoginScreen> {
                                       labelText: "Type of User",
                                       prefixIcon: Image.asset(
                                           "assets/icons/user-100.png",
-                                          color:
-                                          Theme.of(context).colorScheme.primary,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
                                           scale: 4,
                                           width: 15,
                                           height: 15),
                                       border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(25.0),
+                                        borderRadius:
+                                            BorderRadius.circular(25.0),
                                       ),
                                       labelStyle: const TextStyle(
                                         color: Color(0xFF6200EE),
                                       ),
                                       errorBorder: OutlineInputBorder(
-                                        borderSide:
-                                        BorderSide(color: Color(0xFF6200EE)),
-                                        borderRadius: BorderRadius.circular(25.0),
+                                        borderSide: BorderSide(
+                                            color: Color(0xFF6200EE)),
+                                        borderRadius:
+                                            BorderRadius.circular(25.0),
                                       ),
                                       focusedErrorBorder: OutlineInputBorder(
-                                        borderSide:
-                                        BorderSide(color: Color(0xFF6200EE)),
-                                        borderRadius: BorderRadius.circular(25.0),
+                                        borderSide: BorderSide(
+                                            color: Color(0xFF6200EE)),
+                                        borderRadius:
+                                            BorderRadius.circular(25.0),
                                       ),
                                       enabledBorder: OutlineInputBorder(
-                                        borderSide:
-                                        BorderSide(color: Color(0xFF6200EE)),
-                                        borderRadius: BorderRadius.circular(25.0),
+                                        borderSide: BorderSide(
+                                            color: Color(0xFF6200EE)),
+                                        borderRadius:
+                                            BorderRadius.circular(25.0),
                                       ),
                                     ),
                                     // initialValue: 'Male',
 
                                     allowClear: true,
 
-                                    validator: FormBuilderValidators.compose(
-                                        [FormBuilderValidators.required(context)]),
+                                    validator: FormBuilderValidators.compose([
+                                      FormBuilderValidators.required(context)
+                                    ]),
                                     items: [
                                       'Patient',
                                       'Doctor',
@@ -257,9 +271,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                       'Pharmacy'
                                     ]
                                         .map((gender) => DropdownMenuItem(
-                                      value: gender,
-                                      child: Text('$gender'),
-                                    ))
+                                              value: gender,
+                                              child: Text('$gender'),
+                                            ))
                                         .toList(),
                                   ),
                                 ),
@@ -288,12 +302,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                         if (_formKey.currentState?.validate() !=
                                             false) {
                                           _submit(
-                                              _formKey
-                                                  .currentState?.value["emailId"],
-                                              _formKey
-                                                  .currentState?.value["password"],
-                                              _formKey
-                                                  .currentState?.value["userType"]);
+                                              _formKey.currentState
+                                                  ?.value["emailId"],
+                                              _formKey.currentState
+                                                  ?.value["password"],
+                                              _formKey.currentState
+                                                  ?.value["userType"]);
                                         } else {
                                           print("validation failed");
                                         }
@@ -305,7 +319,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                         // );
                                       },
                                       label: const Text("Login",
-                                          style: TextStyle(color: Colors.white)),
+                                          style:
+                                              TextStyle(color: Colors.white)),
                                     ),
                                   ),
                                 )
@@ -318,45 +333,45 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              // Column(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   //Center Row contents horizontally,
-              //   crossAxisAlignment: CrossAxisAlignment.center,
-              //   //Center Row contents vertically,
-              //   children: <Widget>[
-              //     FloatingActionButton.extended(
-              //       backgroundColor: Theme.of(context).colorScheme.primary,
-              //       foregroundColor: Theme.of(context).colorScheme.secondary,
-              //       onPressed: () async {
-              //         _formKey.currentState?.save();
-              //         if (_formKey.currentState?.validate() != null) {
-              //           _submit(_formKey.currentState?.value["emailId"],
-              //               _formKey.currentState?.value["password"]);
-              //         } else {
-              //           print("validation failed");
-              //         }
-              //         // Navigator.push(
-              //         //   context,
-              //         //   MaterialPageRoute(
-              //         //     builder: (context) => WalletLogin(),
-              //         //   ),
-              //         // );
-              //       },
-              //       // icon: Image.asset(
-              //       //   "assets/icons/sign_in.png",
-              //       //   color: Theme.of(context).backgroundColor,
-              //       //   width: 32,
-              //       //   height: 32,
-              //       // ),
-              //       icon: Icon(FontAwesomeIcons.signInAlt),
-              //       label: const Text('Sign In'),
-              //     ),
-              //   ],
-              // )
-            ],
+            ),
           ),
-        ));
+          // Column(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   //Center Row contents horizontally,
+          //   crossAxisAlignment: CrossAxisAlignment.center,
+          //   //Center Row contents vertically,
+          //   children: <Widget>[
+          //     FloatingActionButton.extended(
+          //       backgroundColor: Theme.of(context).colorScheme.primary,
+          //       foregroundColor: Theme.of(context).colorScheme.secondary,
+          //       onPressed: () async {
+          //         _formKey.currentState?.save();
+          //         if (_formKey.currentState?.validate() != null) {
+          //           _submit(_formKey.currentState?.value["emailId"],
+          //               _formKey.currentState?.value["password"]);
+          //         } else {
+          //           print("validation failed");
+          //         }
+          //         // Navigator.push(
+          //         //   context,
+          //         //   MaterialPageRoute(
+          //         //     builder: (context) => WalletLogin(),
+          //         //   ),
+          //         // );
+          //       },
+          //       // icon: Image.asset(
+          //       //   "assets/icons/sign_in.png",
+          //       //   color: Theme.of(context).backgroundColor,
+          //       //   width: 32,
+          //       //   height: 32,
+          //       // ),
+          //       icon: Icon(FontAwesomeIcons.signInAlt),
+          //       label: const Text('Sign In'),
+          //     ),
+          //   ],
+          // )
+        ],
+      ),
+    ));
   }
-
-
 }
