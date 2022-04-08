@@ -296,13 +296,16 @@ class FirebaseModel with ChangeNotifier {
 
   Future<bool> addPatientToDoctorList(
       String doctorFirebaseId, String walletAddress, patientName) async {
+    String? userType = await WalletSharedPreference.getUserType();
     try {
+      firestore.CollectionReference? users =
+      await getFirestoreDocument('Doctor');
       Map<String, dynamic?> data = {
         "address": walletAddress,
         "patientName": patientName
       };
       if (auth.currentUser?.uid.toString() != null) {
-        userFirestore.doc(doctorFirebaseId).collection("PatientList").add(data);
+        users.doc(doctorFirebaseId).collection("PatientList").add(data);
       }
       return true;
     } on SocketException {

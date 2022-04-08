@@ -331,7 +331,7 @@ class _DoctorReadScreenState extends State<DoctorReadScreen> {
                               color: Theme.of(context).primaryColor,
                               width: 25,
                               height: 25),
-                          title: Text('View Medical Record',
+                          title: Text('View Doctor',
                               style: Theme.of(context).textTheme.bodyText1),
                           onTap: () async {
                             _formKey.currentState?.save();

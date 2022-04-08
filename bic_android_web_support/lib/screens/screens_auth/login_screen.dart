@@ -96,43 +96,130 @@ class _LoginScreenState extends State<LoginScreen> {
             children: <Widget>[
               SingleChildScrollView(
                 child: Background(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Login',
-                        style: TextStyle(fontSize: 20, color: Colors.purple),
-                      ),
-                      SizedBox(height: size.height * 0.03),
-                      SvgPicture.asset(
-                        "assets/icons/login.svg",
-                        height: size.height * 0.35,
-                      ),
-                      SizedBox(height: size.height * 0.03),
-                      FormBuilder(
-                        key: _formKey,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        child: Padding(
-                          padding: const EdgeInsets.all(25.0),
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: <Widget>[
-                                const SizedBox(
-                                  height: 40,
-                                ),
-                                Padding(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Login',
+                          style: TextStyle(fontSize: 20, color: Colors.purple),
+                        ),
+                        SizedBox(height: size.height * 0.03),
+                        SvgPicture.asset(
+                          "assets/icons/login.svg",
+                          height: size.height * 0.35,
+                        ),
+                        SizedBox(height: size.height * 0.03),
+                        FormBuilder(
+                          key: _formKey,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          child: Padding(
+                            padding: const EdgeInsets.all(25.0),
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: <Widget>[
+                                  const SizedBox(
+                                    height: 40,
+                                  ),
+                                  Padding(
+                                      padding: const EdgeInsets.all(15),
+                                      child: FormBuilderTextField(
+                                        initialValue: 'hospital_a@gmail.com',
+                                        maxLines: 1,
+                                        name: 'emailId',
+                                        decoration: InputDecoration(
+                                          labelText: 'Email ID',
+                                          prefixIcon: Image.asset(
+                                              "assets/icons/at-sign-100.png",
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                              scale: 4,
+                                              width: 15,
+                                              height: 15),
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(25.0),
+                                          ),
+                                          labelStyle: const TextStyle(
+                                            color: Color(0xFF6200EE),
+                                          ),
+                                          errorBorder: OutlineInputBorder(
+                                            borderSide: const BorderSide(
+                                                color: const Color(0xFF6200EE)),
+                                            borderRadius: BorderRadius.circular(25.0),
+                                          ),
+                                          focusedErrorBorder: OutlineInputBorder(
+                                            borderSide: const BorderSide(
+                                                color: Color(0xFF6200EE)),
+                                            borderRadius: BorderRadius.circular(25.0),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: const BorderSide(
+                                                color: Color(0xFF6200EE)),
+                                            borderRadius: BorderRadius.circular(25.0),
+                                          ),
+                                        ),
+
+                                        // valueTransformer: (text) => num.tryParse(text),
+                                        validator: FormBuilderValidators.compose([
+                                          FormBuilderValidators.required(context)
+                                        ]),
+                                      )),
+                                  Padding(
+                                      padding: const EdgeInsets.all(15),
+                                      child: FormBuilderTextField(
+                                        initialValue: 'Password@123',
+                                        obscureText: true,
+                                        maxLines: 1,
+                                        name: 'password',
+                                        decoration: InputDecoration(
+                                          labelText: 'Password',
+                                          prefixIcon: Image.asset(
+                                              "assets/icons/key-100.png",
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                              scale: 4,
+                                              width: 15,
+                                              height: 15),
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(25.0),
+                                          ),
+                                          labelStyle: const TextStyle(
+                                            color: Color(0xFF6200EE),
+                                          ),
+                                          errorBorder: OutlineInputBorder(
+                                            borderSide:
+                                            BorderSide(color: Color(0xFF6200EE)),
+                                            borderRadius: BorderRadius.circular(25.0),
+                                          ),
+                                          focusedErrorBorder: OutlineInputBorder(
+                                            borderSide:
+                                            BorderSide(color: Color(0xFF6200EE)),
+                                            borderRadius: BorderRadius.circular(25.0),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide:
+                                            BorderSide(color: Color(0xFF6200EE)),
+                                            borderRadius: BorderRadius.circular(25.0),
+                                          ),
+                                        ),
+
+                                        // valueTransformer: (text) => num.tryParse(text),
+                                        validator: FormBuilderValidators.compose([
+                                          FormBuilderValidators.required(context)
+                                        ]),
+                                      )),
+                                  Padding(
                                     padding: const EdgeInsets.all(15),
-                                    child: FormBuilderTextField(
-                                      initialValue: 'hospital_a@gmail.com',
-                                      maxLines: 1,
-                                      name: 'emailId',
+                                    child: FormBuilderDropdown(
+                                      name: 'userType',
                                       decoration: InputDecoration(
-                                        labelText: 'Email ID',
+                                        labelText: "Type of User",
                                         prefixIcon: Image.asset(
-                                            "assets/icons/at-sign-100.png",
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primary,
+                                            "assets/icons/user-100.png",
+                                            color:
+                                            Theme.of(context).colorScheme.primary,
                                             scale: 4,
                                             width: 15,
                                             height: 15),
@@ -143,178 +230,93 @@ class _LoginScreenState extends State<LoginScreen> {
                                           color: Color(0xFF6200EE),
                                         ),
                                         errorBorder: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                              color: const Color(0xFF6200EE)),
+                                          borderSide:
+                                          BorderSide(color: Color(0xFF6200EE)),
                                           borderRadius: BorderRadius.circular(25.0),
                                         ),
                                         focusedErrorBorder: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                              color: Color(0xFF6200EE)),
+                                          borderSide:
+                                          BorderSide(color: Color(0xFF6200EE)),
                                           borderRadius: BorderRadius.circular(25.0),
                                         ),
                                         enabledBorder: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                              color: Color(0xFF6200EE)),
+                                          borderSide:
+                                          BorderSide(color: Color(0xFF6200EE)),
                                           borderRadius: BorderRadius.circular(25.0),
                                         ),
                                       ),
+                                      // initialValue: 'Male',
 
-                                      // valueTransformer: (text) => num.tryParse(text),
-                                      validator: FormBuilderValidators.compose([
-                                        FormBuilderValidators.required(context)
-                                      ]),
-                                    )),
-                                Padding(
-                                    padding: const EdgeInsets.all(15),
-                                    child: FormBuilderTextField(
-                                      initialValue: 'Password@123',
-                                      obscureText: true,
-                                      maxLines: 1,
-                                      name: 'password',
-                                      decoration: InputDecoration(
-                                        labelText: 'Password',
-                                        prefixIcon: Image.asset(
-                                            "assets/icons/key-100.png",
+                                      allowClear: true,
+
+                                      validator: FormBuilderValidators.compose(
+                                          [FormBuilderValidators.required(context)]),
+                                      items: [
+                                        'Patient',
+                                        'Doctor',
+                                        'Hospital',
+                                        'Pharmacy'
+                                      ]
+                                          .map((gender) => DropdownMenuItem(
+                                        value: gender,
+                                        child: Text('$gender'),
+                                      ))
+                                          .toList(),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  Container(
+                                    height: 50,
+                                    width: size.width * 0.8,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(25),
+                                      child: ElevatedButton.icon(
+                                        icon: Image.asset(
+                                            "assets/icons/login-right-100.png",
                                             color: Theme.of(context)
                                                 .colorScheme
-                                                .primary,
-                                            scale: 4,
-                                            width: 15,
-                                            height: 15),
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(25.0),
-                                        ),
-                                        labelStyle: const TextStyle(
-                                          color: Color(0xFF6200EE),
-                                        ),
-                                        errorBorder: OutlineInputBorder(
-                                          borderSide:
-                                          BorderSide(color: Color(0xFF6200EE)),
-                                          borderRadius: BorderRadius.circular(25.0),
-                                        ),
-                                        focusedErrorBorder: OutlineInputBorder(
-                                          borderSide:
-                                          BorderSide(color: Color(0xFF6200EE)),
-                                          borderRadius: BorderRadius.circular(25.0),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide:
-                                          BorderSide(color: Color(0xFF6200EE)),
-                                          borderRadius: BorderRadius.circular(25.0),
-                                        ),
-                                      ),
-
-                                      // valueTransformer: (text) => num.tryParse(text),
-                                      validator: FormBuilderValidators.compose([
-                                        FormBuilderValidators.required(context)
-                                      ]),
-                                    )),
-                                Padding(
-                                  padding: const EdgeInsets.all(15),
-                                  child: FormBuilderDropdown(
-                                    name: 'userType',
-                                    decoration: InputDecoration(
-                                      labelText: "Type of User",
-                                      prefixIcon: Image.asset(
-                                          "assets/icons/user-100.png",
-                                          color:
-                                          Theme.of(context).colorScheme.primary,
-                                          scale: 4,
-                                          width: 15,
-                                          height: 15),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(25.0),
-                                      ),
-                                      labelStyle: const TextStyle(
-                                        color: Color(0xFF6200EE),
-                                      ),
-                                      errorBorder: OutlineInputBorder(
-                                        borderSide:
-                                        BorderSide(color: Color(0xFF6200EE)),
-                                        borderRadius: BorderRadius.circular(25.0),
-                                      ),
-                                      focusedErrorBorder: OutlineInputBorder(
-                                        borderSide:
-                                        BorderSide(color: Color(0xFF6200EE)),
-                                        borderRadius: BorderRadius.circular(25.0),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide:
-                                        BorderSide(color: Color(0xFF6200EE)),
-                                        borderRadius: BorderRadius.circular(25.0),
+                                                .secondary,
+                                            scale: 1,
+                                            width: 25,
+                                            height: 25),
+                                        // padding: EdgeInsets.symmetric(
+                                        //     vertical: 20, horizontal: 40),
+                                        // color: Theme.of(context).colorScheme.primary,
+                                        onPressed: () async {
+                                          _formKey.currentState?.save();
+                                          if (_formKey.currentState?.validate() !=
+                                              false) {
+                                            _submit(
+                                                _formKey
+                                                    .currentState?.value["emailId"],
+                                                _formKey
+                                                    .currentState?.value["password"],
+                                                _formKey
+                                                    .currentState?.value["userType"]);
+                                          } else {
+                                            print("validation failed");
+                                          }
+                                          // Navigator.push(
+                                          //   context,
+                                          //   MaterialPageRoute(
+                                          //     builder: (context) => WalletLogin(),
+                                          //   ),
+                                          // );
+                                        },
+                                        label: const Text("Login",
+                                            style: TextStyle(color: Colors.white)),
                                       ),
                                     ),
-                                    // initialValue: 'Male',
-
-                                    allowClear: true,
-
-                                    validator: FormBuilderValidators.compose(
-                                        [FormBuilderValidators.required(context)]),
-                                    items: [
-                                      'Patient',
-                                      'Doctor',
-                                      'Hospital',
-                                      'Pharmacy'
-                                    ]
-                                        .map((gender) => DropdownMenuItem(
-                                      value: gender,
-                                      child: Text('$gender'),
-                                    ))
-                                        .toList(),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                Container(
-                                  height: 50,
-                                  width: size.width * 0.8,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(25),
-                                    child: ElevatedButton.icon(
-                                      icon: Image.asset(
-                                          "assets/icons/login-right-100.png",
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .secondary,
-                                          scale: 1,
-                                          width: 25,
-                                          height: 25),
-                                      // padding: EdgeInsets.symmetric(
-                                      //     vertical: 20, horizontal: 40),
-                                      // color: Theme.of(context).colorScheme.primary,
-                                      onPressed: () async {
-                                        _formKey.currentState?.save();
-                                        if (_formKey.currentState?.validate() !=
-                                            false) {
-                                          _submit(
-                                              _formKey
-                                                  .currentState?.value["emailId"],
-                                              _formKey
-                                                  .currentState?.value["password"],
-                                              _formKey
-                                                  .currentState?.value["userType"]);
-                                        } else {
-                                          print("validation failed");
-                                        }
-                                        // Navigator.push(
-                                        //   context,
-                                        //   MaterialPageRoute(
-                                        //     builder: (context) => WalletLogin(),
-                                        //   ),
-                                        // );
-                                      },
-                                      label: const Text("Login",
-                                          style: TextStyle(color: Colors.white)),
-                                    ),
-                                  ),
-                                )
-                              ],
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),

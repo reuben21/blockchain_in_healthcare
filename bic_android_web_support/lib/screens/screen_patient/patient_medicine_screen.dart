@@ -4,6 +4,7 @@ import 'package:bic_android_web_support/screens/screen_patient/patient_medical_r
 import 'package:bic_android_web_support/screens/screen_patient/patient_medical_record_creation.dart';
 import 'package:bic_android_web_support/screens/screen_patient/patient_medical_record_view.dart';
 import 'package:bic_android_web_support/screens/screen_patient/prescription_screen.dart';
+import 'package:bic_android_web_support/screens/screen_pharmacy/pharmacy_read_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -233,7 +234,7 @@ class _PatientMedicineScreenState extends State<PatientMedicineScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => PrescriptionScreen(),
+                              builder: (context) => PharmacyReadScreen(),
                             ),
                           )
                         },

@@ -4,9 +4,10 @@ import 'package:bic_android_web_support/providers/wallet.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '../../databases/wallet_shared_preferences.dart';
 import '../../helpers/http_exception.dart' as exception;
 import '../../helpers/keys.dart' as keys;
-
+import 'package:cloud_firestore/cloud_firestore.dart' as firestore;
 
 class DoctorPatientList extends StatefulWidget {
   static const routeName = '/hospital-access-list';
@@ -18,6 +19,41 @@ class DoctorPatientList extends StatefulWidget {
 class _DoctorPatientListState extends State<DoctorPatientList> {
   final String screenName = "view_wallet.dart";
   FirebaseAuth auth = FirebaseAuth.instance;
+  firestore.CollectionReference? users;
+  String? walletAddress;
+
+  Future<firestore.CollectionReference?> getFirestoreDocument(
+      String userType) async {
+    if (userType == 'Patient') {
+      firestore.CollectionReference patientFirestore =
+      firestore.FirebaseFirestore.instance.collection('Patient');
+      return patientFirestore;
+    } else if (userType == 'Doctor') {
+      firestore.CollectionReference doctorFirestore =
+      firestore.FirebaseFirestore.instance.collection('Doctor');
+      return doctorFirestore;
+    } else if (userType == 'Hospital') {
+      firestore.CollectionReference hospitalFirestore =
+      firestore.FirebaseFirestore.instance.collection('Hospital');
+      return hospitalFirestore;
+    } else if (userType == 'Pharmacy') {
+      firestore.CollectionReference pharmacyFirestore =
+      firestore.FirebaseFirestore.instance.collection('Pharmacy');
+      return pharmacyFirestore;
+    }
+
+    return null;
+  }
+
+  Future<void> getCollectionReferenceData() async {
+    String? userType = await WalletSharedPreference.getUserType();
+    var walletDetails = await WalletSharedPreference.getWalletDetails();
+    users = await getFirestoreDocument(userType!);
+    setState(() {
+      users;
+      walletAddress = walletDetails!['walletAddress'];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +70,8 @@ class _DoctorPatientListState extends State<DoctorPatientList> {
           actions: <Widget>[]),
       body: SingleChildScrollView(
         child: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance
-              .collection('users')
-              .doc(auth.currentUser?.uid)
+          stream: users
+              ?.doc(walletAddress)
               .collection("PatientList")
               .limit(10)
               .snapshots(),
@@ -127,3 +162,6 @@ class _DoctorPatientListState extends State<DoctorPatientList> {
     );
   }
 }
+
+
+

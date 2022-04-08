@@ -324,7 +324,7 @@ class _HospitalReadScreenState extends State<HospitalReadScreen> {
                                 .primaryColor,
                             width: 25,
                             height: 25),
-                        title: Text('View Medical Record',
+                        title: Text('View Hospital',
                             style: Theme
                                 .of(context)
                                 .textTheme

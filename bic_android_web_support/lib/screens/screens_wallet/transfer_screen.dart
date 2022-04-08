@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bic_android_web_support/databases/wallet_shared_preferences.dart';
+import 'package:bic_android_web_support/providers/crypto_api.dart';
 import 'package:bic_android_web_support/providers/gas_estimation.dart';
 import 'package:bic_android_web_support/screens/Widgets/WalletAddressInputFile.dart';
 import 'package:bic_android_web_support/screens/screens_auth/background.dart';
@@ -38,6 +39,7 @@ class _TransferScreenState extends State<TransferScreen> {
 
   late String dropDownCurrentValue;
   late String scannedAddress;
+  double? rsRate;
 
   final TextEditingController receiverAddress =
       TextEditingController.fromValue(TextEditingValue.empty);
@@ -58,6 +60,11 @@ class _TransferScreenState extends State<TransferScreen> {
   void dispose() {
     super.dispose();
   }
+
+  // Future<void> getWalletFromDatabase() async {
+  //   var crypto = await Provider.of<CryptoApiModel>(context,listen: false).getCryptoDataForEthInr();
+  //
+  // }
 
   Future<void> estimateGasFunction(
 
