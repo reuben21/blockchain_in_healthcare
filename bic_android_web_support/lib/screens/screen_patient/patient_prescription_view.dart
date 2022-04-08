@@ -40,6 +40,7 @@ class _PatientPrescriptionViewGenState extends State<PatientPrescriptionViewGen>
   TextEditingController _textFieldController = TextEditingController();
 
   String walletAdd = '';
+
   String patientAddress = '';
   BigInt medicalRecordCount = BigInt.from(0);
 
@@ -95,10 +96,12 @@ class _PatientPrescriptionViewGenState extends State<PatientPrescriptionViewGen>
 
     var data = await Provider.of<PharmacyModel>(context, listen: false)
         .readContract("getMedicalRecordCountForPatient", [address]);
+
     print(data);
     setState(() {
       walletAdd = address.hex.toString();
       medicalRecordCount = data[0];
+
     });
   }
 
@@ -772,7 +775,7 @@ class _PatientPrescriptionViewGenState extends State<PatientPrescriptionViewGen>
                                                             recordNumber: position + 1,
                                                             walletAddress:
                                                             EthereumAddress.fromHex(
-                                                                patientAddress),
+                                                                algoliaPatientAddress),
                                                           ),
                                                     ),
                                                   );

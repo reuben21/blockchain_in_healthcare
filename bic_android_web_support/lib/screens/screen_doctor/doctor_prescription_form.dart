@@ -954,6 +954,7 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                                 .currentState?.value["validTill"]
                             .toIso8601String(),
                             "medicineList": medicineList,
+                            "description": "Other Details",
                           };
                           print(objText);
                           var hashReceived = await Provider.of<IPFSModel>(
