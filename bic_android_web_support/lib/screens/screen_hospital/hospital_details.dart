@@ -29,7 +29,6 @@ class _HospitalDetailScreenState extends State<HospitalDetailScreen> {
   String algoliaDoctorAddress = "";
   TextEditingController _textFieldController = TextEditingController();
 
-
   FirebaseAuth auth = FirebaseAuth.instance;
 
   final _formKey = GlobalKey<FormBuilderState>();
@@ -43,12 +42,8 @@ class _HospitalDetailScreenState extends State<HospitalDetailScreen> {
     });
   }
 
-  Future<void> estimateGasFunction(
-      String hospitalName,
-      String ipfsHash,
-      EthereumAddress walletAddress,
-
-      Credentials credentials) async {
+  Future<void> estimateGasFunction(String hospitalName, String ipfsHash,
+      EthereumAddress walletAddress, Credentials credentials) async {
     var gasEstimation =
         await Provider.of<GasEstimationModel>(context, listen: false)
             .estimateGasForContractFunction(walletAddress, "storeHospital",
@@ -364,8 +359,8 @@ class _HospitalDetailScreenState extends State<HospitalDetailScreen> {
                     backgroundColor: Theme.of(context).colorScheme.primary,
                     foregroundColor: Theme.of(context).colorScheme.secondary,
                     onPressed: () async {
-                      executeTransaction(hospitalName, ipfsHash, walletAddress,
-                           credentials);
+                      executeTransaction(
+                          hospitalName, ipfsHash, walletAddress, credentials);
                     },
                     icon: const Icon(Icons.add_circle_outline_outlined),
                     label: const Text('Confirm Pay'),
@@ -386,44 +381,59 @@ class _HospitalDetailScreenState extends State<HospitalDetailScreen> {
       ),
     );
   }
+
   void _showErrorDialog(String message) {
     showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
-          title: Text('An Error Occurred'),
-          content: Text(message),
-          actions: <Widget>[
-            TextButton(
-                onPressed: () {
-                  Navigator.of(ctx).pop();
-                },
-                child: Text('Okay'))
-          ],
-        ));
+              title: Text('An Error Occurred'),
+              content: Text(message),
+              actions: <Widget>[
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(ctx).pop();
+                    },
+                    child: Text('Okay'))
+              ],
+            ));
   }
 
-  Future<void> executeTransaction(
-      String hospitalName,
-      String ipfsHash,
-      EthereumAddress walletAddress,
-
-      Credentials credentials) async {
+  Future<void> executeTransaction(String hospitalName, String ipfsHash,
+      EthereumAddress walletAddress, Credentials credentials) async {
     try {
-      var transactionHash = await Provider.of<WalletModel>(context, listen: false)
-          .writeContract("storeHospital",
-          [hospitalName, ipfsHash, walletAddress], credentials);
+      var status = await Provider.of<FirebaseModel>(context, listen: false)
+          .storeUserRegistrationStatus(walletAddress.hex);
+      print(status);
+      if (status == true) {
+        var transactionHash =
+            await Provider.of<WalletModel>(context, listen: false)
+                .writeContract("storeHospital",
+                    [hospitalName, ipfsHash, walletAddress], credentials);
 
-      var firebaseStatus =
-      await Provider.of<FirebaseModel>(context, listen: false)
-          .storeTransaction(transactionHash);
+        var firebaseStatus =
+            await Provider.of<FirebaseModel>(context, listen: false)
+                .storeTransaction(transactionHash);
 
-      if (firebaseStatus) {
-        Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
+        if (firebaseStatus) {
+          Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
+        }
+      } else if (status == false) {
+        var transactionHash =
+            await Provider.of<WalletModel>(context, listen: false)
+                .writeContract("storeHospital",
+                    [hospitalName, ipfsHash, walletAddress], credentials);
+
+        var firebaseStatus =
+            await Provider.of<FirebaseModel>(context, listen: false)
+                .storeTransaction(transactionHash);
+
+        if (firebaseStatus) {
+          Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
+        }
       }
     } catch (error) {
       _showErrorDialog(error.toString());
     }
-
   }
 
   InputDecoration dynamicInputDecoration(String labelText, Image? icon) {
@@ -672,8 +682,9 @@ class _HospitalDetailScreenState extends State<HospitalDetailScreen> {
                                 Map<String, dynamic> objText = {
                                   "hospitalName": _formKey
                                       .currentState?.value["hospitalName"],
-                                  "origin":
-                                      _formKey.currentState?.value["origin"].toIso8601String(),
+                                  "origin": _formKey
+                                      .currentState?.value["origin"]
+                                      .toIso8601String(),
                                   "address":
                                       _formKey.currentState?.value["address"],
                                   "hospitalPhoneNo": _formKey

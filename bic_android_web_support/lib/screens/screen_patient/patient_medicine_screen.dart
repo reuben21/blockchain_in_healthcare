@@ -244,6 +244,38 @@ class _PatientMedicineScreenState extends State<PatientMedicineScreen> {
                             height: 20) ,
                         cardText: 'View Pharmacy\'s Data',
                       ),
+                      CustomButtonGen(
+                        onPressed: () => {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>DoctorReadScreen(),
+                            ),
+                          )
+                        },
+                        imageAsset:
+                        Image.asset("assets/icons/icons8-stethoscope-100.png",
+                            color: Theme.of(context).primaryColor,
+                            width: 20,
+                            height: 20) ,
+                        cardText: 'View Doctor\'s Data',
+                      ),
+                      CustomButtonGen(
+                        onPressed: () => {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HospitalReadScreen(),
+                            ),
+                          )
+                        },
+                        imageAsset:
+                        Image.asset("assets/icons/icons8-hospital-sign-100.png",
+                            color: Theme.of(context).primaryColor,
+                            width: 20,
+                            height: 20) ,
+                        cardText: 'View Hospital\'s Data',
+                      ),
                     ],
                   ),
 

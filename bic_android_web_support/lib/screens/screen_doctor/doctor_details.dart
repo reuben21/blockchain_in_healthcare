@@ -828,7 +828,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                                  .toString().substring(
                                                   0, 6)}" + "..." +
                                                   "${item?.walletAddress
-                                                      ?.toString().lastCharc(
+                                                      .toString().lastCharc(
                                                       5)}"),
 
                                             ),

@@ -505,22 +505,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                               height: 20),
                           cardText: 'Store or Update Patient on Blockchain',
                         ),
-                        CustomButtonGen(
-                          onPressed: () => {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>DoctorReadScreen(),
-                              ),
-                            )
-                          },
-                          imageAsset:
-                          Image.asset("assets/icons/icons8-stethoscope-100.png",
-                              color: Theme.of(context).primaryColor,
-                              width: 20,
-                              height: 20) ,
-                          cardText: 'View Doctor\'s Data',
-                        ),
+
                         CustomButtonGen(
                           onPressed: () => {
                             Navigator.push(
@@ -537,22 +522,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                               height: 20),
                           cardText: 'Change Doctor',
                         ),
-                        CustomButtonGen(
-                          onPressed: () => {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => HospitalReadScreen(),
-                              ),
-                            )
-                          },
-                          imageAsset:
-                          Image.asset("assets/icons/icons8-hospital-sign-100.png",
-                              color: Theme.of(context).primaryColor,
-                              width: 20,
-                              height: 20) ,
-                          cardText: 'View Hospital\'s Data',
-                        ),
+
                         CustomButtonGen(
                           onPressed: () => {
                             Navigator.push(

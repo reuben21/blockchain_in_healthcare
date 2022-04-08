@@ -393,20 +393,57 @@ class _PharmacyStoreDetailsState extends State<PharmacyStoreDetails> {
     );
   }
 
+  void _showErrorDialog(String message) {
+    showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text('An Error Occurred'),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+                child: Text('Okay'))
+          ],
+        ));
+  }
+
   Future<void> executeTransaction(String pharmacyName, String ipfsHash,
       EthereumAddress walletAddress, Credentials credentials) async {
-    var transactionHash =
-        await Provider.of<PharmacyModel>(context, listen: false).writeContract(
-            "storePharmacy",
-            [pharmacyName, ipfsHash, walletAddress],
-            credentials);
+    var status = await Provider.of<FirebaseModel>(context, listen: false)
+        .storeUserRegistrationStatus(walletAddress.hex);
+    print(status);
+    try {
+      if (status == true) {
+        var transactionHash =
+            await Provider.of<PharmacyModel>(context, listen: false)
+                .writeContract("storePharmacy",
+                    [pharmacyName, ipfsHash, walletAddress], credentials);
 
-    var firebaseStatus =
-        await Provider.of<FirebaseModel>(context, listen: false)
-            .storeTransaction(transactionHash);
+        var firebaseStatus =
+            await Provider.of<FirebaseModel>(context, listen: false)
+                .storeTransaction(transactionHash);
 
-    if (firebaseStatus) {
-      Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
+        if (firebaseStatus) {
+          Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
+        }
+      } else if (status == false) {
+        var transactionHash =
+            await Provider.of<PharmacyModel>(context, listen: false)
+                .writeContract("storePharmacy",
+                    [pharmacyName, ipfsHash, walletAddress], credentials);
+
+        var firebaseStatus =
+            await Provider.of<FirebaseModel>(context, listen: false)
+                .storeTransaction(transactionHash);
+
+        if (firebaseStatus) {
+          Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
+        }
+      }
+    } catch (error) {
+      _showErrorDialog(error.toString());
     }
   }
 
