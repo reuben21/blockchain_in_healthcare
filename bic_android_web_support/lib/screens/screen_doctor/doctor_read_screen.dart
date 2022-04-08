@@ -270,9 +270,9 @@ class _DoctorReadScreenState extends State<DoctorReadScreen> {
                                             selected: isSelected,
                                             title: Text(item?.userName == null ? "" :"${item?.userName}"+ (item?.registerOnce.toLowerCase() == "false"?" (Not on Blockchain)":"") ),
                                             subtitle: Text(item?.walletAddress
-                                                ?.toString() == null ?"":"${item?.walletAddress
-                                                ?.toString().substring(0,6)}"+"..."+"${item?.walletAddress
-                                                ?.toString().lastCharcfunc(5)}"),
+                                                .toString() == null ?"":"${item?.walletAddress
+                                                .toString().substring(0,6)}"+"..."+"${item?.walletAddress
+                                                .toString().lastCharcfunc(5)}"),
 
                                           ),
                                         ),

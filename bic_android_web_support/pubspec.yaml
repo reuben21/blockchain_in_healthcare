@@ -79,6 +79,7 @@ dependencies:
   algolia: ^1.0.4
 
   google_place: ^0.4.7
+  badges: ^2.0.2
 
 
 

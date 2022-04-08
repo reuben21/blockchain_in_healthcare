@@ -17,12 +17,10 @@ class GrantRoleScreen extends StatefulWidget {
   static const routeName = '/hospital-detail-screen';
 
   final String? address;
+  final String? id;
 
+  const GrantRoleScreen({this.address = "", this.id = ""});
 
-  const GrantRoleScreen({
-     this.address = "",
-
-  });
   @override
   _GrantRoleScreenState createState() => _GrantRoleScreenState();
 }
@@ -41,15 +39,19 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
   }
 
   Future<void> estimateGasFunction(
-      EthereumAddress walletAddress,String role) async {
-    Credentials hospitalCredentials = await Provider.of<WalletModel>(context, listen: false).walletCredentials;
-    EthereumAddress hospitalAddress = await hospitalCredentials.extractAddress();
+      EthereumAddress walletAddress, String role) async {
+    Credentials hospitalCredentials =
+        await Provider.of<WalletModel>(context, listen: false)
+            .walletCredentials;
+    EthereumAddress hospitalAddress =
+        await hospitalCredentials.extractAddress();
     var gasEstimation =
-    await Provider.of<GasEstimationModel>(context, listen: false)
-        .estimateGasForContractFunction(hospitalAddress, "grantRoleFromHospital",
-        [hospitalAddress, walletAddress,role]);
+        await Provider.of<GasEstimationModel>(context, listen: false)
+            .estimateGasForContractFunction(
+                hospitalAddress,
+                "grantRoleFromHospital",
+                [hospitalAddress, walletAddress, role]);
     print(gasEstimation);
-
 
     return showDialog(
       context: context,
@@ -107,7 +109,7 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
                             child: ListTile(
                               leading: Image.asset("assets/icons/wallet.png",
                                   color:
-                                  Theme.of(context).colorScheme.secondary,
+                                      Theme.of(context).colorScheme.secondary,
                                   width: 35,
                                   height: 35),
                               title: Text('From Wallet Address',
@@ -115,14 +117,14 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                     color:
-                                    Theme.of(context).colorScheme.secondary,
+                                        Theme.of(context).colorScheme.secondary,
                                   )),
                               subtitle: Text(
                                 walletAddress.hex.toString(),
                                 style: TextStyle(
                                   fontSize: 15,
                                   color:
-                                  Theme.of(context).colorScheme.secondary,
+                                      Theme.of(context).colorScheme.secondary,
                                 ),
                               ),
                             ),
@@ -177,7 +179,7 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
                             child: ListTile(
                               trailing: Image.asset("assets/icons/wallet.png",
                                   color:
-                                  Theme.of(context).colorScheme.secondary,
+                                      Theme.of(context).colorScheme.secondary,
                                   width: 35,
                                   height: 35),
                               title: Text('To Wallet Address',
@@ -185,14 +187,14 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                     color:
-                                    Theme.of(context).colorScheme.secondary,
+                                        Theme.of(context).colorScheme.secondary,
                                   )),
                               subtitle: Text(
                                 gasEstimation['contractAddress'].toString(),
                                 style: TextStyle(
                                   fontSize: 15,
                                   color:
-                                  Theme.of(context).colorScheme.secondary,
+                                      Theme.of(context).colorScheme.secondary,
                                 ),
                               ),
                             ),
@@ -305,9 +307,9 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
                       Row(children: <Widget>[
                         Expanded(
                           child: Divider(
-                            // thickness: 2,
-                            // color: Colors.grey,
-                          ),
+                              // thickness: 2,
+                              // color: Colors.grey,
+                              ),
                         ),
                       ]),
                       const SizedBox(
@@ -360,7 +362,7 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
                     backgroundColor: Theme.of(context).colorScheme.primary,
                     foregroundColor: Theme.of(context).colorScheme.secondary,
                     onPressed: () async {
-                      executeTransaction(hospitalAddress,walletAddress,role,
+                      executeTransaction(hospitalAddress, walletAddress, role,
                           hospitalCredentials);
                     },
                     icon: const Icon(Icons.add_circle_outline_outlined),
@@ -385,21 +387,23 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
 
   Future<void> executeTransaction(
       EthereumAddress hospitalAddress,
-      EthereumAddress walletAddress,String role,
+      EthereumAddress walletAddress,
+      String role,
       Credentials credentials) async {
     var transactionHash = await Provider.of<WalletModel>(context, listen: false)
         .writeContract("grantRoleFromHospital",
-        [ hospitalAddress, walletAddress,role],credentials);
-
-    var firebaseStatus =
+            [hospitalAddress, walletAddress, role], credentials);
+    var roleUpdateRequest =
     await Provider.of<FirebaseModel>(context, listen: false)
-        .storeTransaction(transactionHash);
+        .updateRequestStatus(hospitalAddress.hex,widget.id.toString());
+    var firebaseStatus =
+        await Provider.of<FirebaseModel>(context, listen: false)
+            .storeTransaction(transactionHash);
 
     if (firebaseStatus) {
       Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
     }
   }
-
 
   Widget formBuilderTextFieldWidget(
       TextInputType inputTextType,
@@ -509,7 +513,7 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
                                             height: 15),
                                         border: OutlineInputBorder(
                                           borderRadius:
-                                          BorderRadius.circular(25.0),
+                                              BorderRadius.circular(25.0),
                                         ),
                                         labelStyle: const TextStyle(
                                           color: Color(0xFF6200EE),
@@ -518,19 +522,19 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
                                           borderSide: BorderSide(
                                               color: Color(0xFF6200EE)),
                                           borderRadius:
-                                          BorderRadius.circular(25.0),
+                                              BorderRadius.circular(25.0),
                                         ),
                                         focusedErrorBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
                                               color: Color(0xFF6200EE)),
                                           borderRadius:
-                                          BorderRadius.circular(25.0),
+                                              BorderRadius.circular(25.0),
                                         ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
                                               color: Color(0xFF6200EE)),
                                           borderRadius:
-                                          BorderRadius.circular(25.0),
+                                              BorderRadius.circular(25.0),
                                         ),
                                       ),
                                       // initialValue: 'Male',
@@ -547,23 +551,23 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
                                         'DOCTOR'
                                       ]
                                           .map((gender) => DropdownMenuItem(
-                                        value: gender,
-                                        child: Text('$gender'),
-                                      ))
+                                                value: gender,
+                                                child: Text('$gender'),
+                                              ))
                                           .toList(),
                                     ),
                                   ),
-
 
                                   Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: formBuilderTextFieldWidget(
                                           TextInputType.streetAddress,
-                                          widget.address == ''? '':widget.address.toString(),
+                                          widget.address == ''
+                                              ? ''
+                                              : widget.address.toString(),
                                           'walletAddress',
                                           'Wallet Address',
-                                          Image.asset(
-                                              "assets/icons/wallet.png",
+                                          Image.asset("assets/icons/wallet.png",
                                               color: Theme.of(context)
                                                   .colorScheme
                                                   .primary,
@@ -596,7 +600,6 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
                                             FormBuilderValidators.required(
                                                 context),
                                           ])),
-
                                 ],
                               ),
                             ),
@@ -608,9 +611,9 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
                           child: FloatingActionButton.extended(
                             heroTag: "StoreGrantRoleScreen",
                             backgroundColor:
-                            Theme.of(context).colorScheme.primary,
+                                Theme.of(context).colorScheme.primary,
                             foregroundColor:
-                            Theme.of(context).colorScheme.secondary,
+                                Theme.of(context).colorScheme.secondary,
                             onPressed: () async {
                               _formKey.currentState?.save();
                               if (_formKey.currentState?.validate() != null) {
@@ -620,14 +623,14 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
                                 // _formKey.currentState?.value["gender"];
                                 // _formKey.currentState?.value["password"]
 
-                                String doctorAddress = _formKey.currentState?.value["walletAddress"];
+                                String doctorAddress = _formKey
+                                    .currentState?.value["walletAddress"];
 
                                 Credentials credentialsNew;
                                 EthereumAddress myAddress;
                                 var dbResponse = await WalletSharedPreference
                                     .getWalletDetails();
-                                print(
-                                    _formKey.currentState?.value["password"]);
+                                print(_formKey.currentState?.value["password"]);
                                 Wallet newWallet = Wallet.fromJson(
                                     dbResponse!['walletEncryptedKey']
                                         .toString(),
@@ -635,15 +638,13 @@ class _GrantRoleScreenState extends State<GrantRoleScreen> {
 
                                 credentialsNew = newWallet.privateKey;
                                 myAddress =
-                                await credentialsNew.extractAddress();
+                                    await credentialsNew.extractAddress();
                                 print(myAddress.hex);
 
-                                  estimateGasFunction(
-                                      EthereumAddress.fromHex(doctorAddress),_formKey.currentState?.value["role"]
-                                      );
-                                  // executeTransaction(myAddress, EthereumAddress.fromHex(doctorAddress), credentialsNew);
-
-
+                                estimateGasFunction(
+                                    EthereumAddress.fromHex(doctorAddress),
+                                    _formKey.currentState?.value["role"]);
+                                // executeTransaction(myAddress, EthereumAddress.fromHex(doctorAddress), credentialsNew);
 
                               } else {
                                 print("validation failed");

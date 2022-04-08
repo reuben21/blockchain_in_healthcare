@@ -1,30 +1,21 @@
-import 'dart:convert';
-import 'dart:typed_data';
-import 'package:bic_android_web_support/screens/screen_hospital/hospital_access_list.dart';
-import 'package:bic_android_web_support/screens/screen_hospital/revoke_access_screen.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:badges/badges.dart';
 import '../../helpers/keys.dart' as keys;
 import 'package:bic_android_web_support/providers/ipfs.dart';
 import 'package:bic_android_web_support/providers/wallet.dart';
 import 'package:bic_android_web_support/screens/screen_hospital/hospital_details.dart';
-import 'package:bic_android_web_support/screens/screen_patient/patient_details.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:velocity_x/src/extensions/context_ext.dart';
-import 'package:velocity_x/src/extensions/num_ext.dart';
-import 'package:velocity_x/velocity_x.dart';
 import 'package:web3dart/credentials.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
-
+import '../Tabs/access_tab.dart';
 import '../Widgets/CustomButtonGen.dart';
-import '../Widgets/CustomCard.dart';
-import 'grant_access_screen.dart';
+import '../Widgets/CustomButtonGenBadge.dart';
+
 
 class HospitalScreen extends StatefulWidget {
   static const routeName = '/hospital-screen';
@@ -559,24 +550,25 @@ class _HospitalScreenState extends State<HospitalScreen> {
                   ),),
                 ],
               ),
-              CustomButtonGen(cardText:'Users To Approve',onPressed:()=>{
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => HospitalAccessList()),
-                )
-              },imageAsset:Image.asset(
-                "assets/icons/icons8-tasklist-100.png",
-                color: Theme.of(context).primaryColor,
-                width: 20,
-                height: 20,
-                fit: BoxFit.contain,
-                alignment: Alignment.center,
-              ),),
-            ],
+          CustomButtonGen(cardText:'Users To Approve',onPressed:()=>{
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AccessTabs()),
+                  )
+                },imageAsset:Image.asset(
+                  "assets/icons/icons8-tasklist-100.png",
+                  color: Theme.of(context).primaryColor,
+                  width: 20,
+                  height: 20,
+                  fit: BoxFit.contain,
+                  alignment: Alignment.center,
+                ),),
+              ]),
+
           ),
         ),
-      ),
-    );
+      );
+
   }
 }

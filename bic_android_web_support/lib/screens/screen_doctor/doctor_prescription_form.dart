@@ -214,9 +214,9 @@ class _DoctorPrescriptionFormState extends State<DoctorPrescriptionForm> {
                                       selected: isSelected,
                                       title: Text(item?.userName == null ? "" :"${item?.userName}"+ (item?.registerOnce.toLowerCase() == "false"?" (Not on Blockchain)":"") ),
                                       subtitle: Text(item?.walletAddress
-                                          ?.toString() == null ?"":"${item?.walletAddress
-                                          ?.toString().substring(0,6)}"+"..."+"${item?.walletAddress
-                                          ?.toString().lastCharc(5)}"),
+                                          .toString() == null ?"":"${item?.walletAddress
+                                          .toString().substring(0,6)}"+"..."+"${item?.walletAddress
+                                          .toString().lastCharc(5)}"),
 
                                     ),
                                   ),

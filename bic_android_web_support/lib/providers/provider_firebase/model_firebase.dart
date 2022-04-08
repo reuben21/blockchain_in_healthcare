@@ -242,6 +242,30 @@ class FirebaseModel with ChangeNotifier {
   //     throw exception.HttpException(error.toString());
   //   }
   // }
+  Future<bool> updateRequestStatus(
+      String hospitalFirebaseId,String id) async {
+
+    try {
+      Map<String, dynamic?> data = {
+        "granted": true
+      };
+      if (auth.currentUser?.uid.toString() != null) {
+        firestore.CollectionReference? users =
+        await getFirestoreDocument('Hospital');
+
+        users.doc(hospitalFirebaseId).collection("AccessControl").doc(id).update(data);
+      }
+      return true;
+    } on SocketException {
+      throw exception.HttpException("No Internet connection 😑");
+    } on HttpException {
+      throw exception.HttpException("Couldn't find the post 😱");
+    } on FormatException {
+      throw exception.HttpException("Bad response format 👎");
+    } catch (error) {
+      throw exception.HttpException(error.toString());
+    }
+  }
 
   Future<bool> sendHospitalRequest(
       String hospitalFirebaseId, String doctorAddress) async {

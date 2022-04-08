@@ -822,10 +822,10 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                                       ? " (Not on Blockchain)"
                                                       : "")),
                                               subtitle: Text(item?.walletAddress
-                                                  ?.toString() == null
+                                                  .toString() == null
                                                   ? ""
                                                   : "${item?.walletAddress
-                                                  ?.toString().substring(
+                                                 .toString().substring(
                                                   0, 6)}" + "..." +
                                                   "${item?.walletAddress
                                                       ?.toString().lastCharc(

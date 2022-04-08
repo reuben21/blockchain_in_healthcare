@@ -9,14 +9,14 @@ import '../../helpers/http_exception.dart' as exception;
 import '../../helpers/keys.dart' as keys;
 import 'grant_access_screen.dart';
 
-class HospitalAccessList extends StatefulWidget {
+class HospitalAccessListGranted extends StatefulWidget {
   static const routeName = '/hospital-access-list';
 
   @override
-  _HospitalAccessListState createState() => _HospitalAccessListState();
+  _HospitalAccessListGrantedState createState() => _HospitalAccessListGrantedState();
 }
 
-class _HospitalAccessListState extends State<HospitalAccessList> {
+class _HospitalAccessListGrantedState extends State<HospitalAccessListGranted> {
   final String screenName = "view_wallet.dart";
   FirebaseAuth auth = FirebaseAuth.instance;
   firestore.CollectionReference? users;
@@ -81,7 +81,7 @@ class _HospitalAccessListState extends State<HospitalAccessList> {
         child: StreamBuilder<firestore.QuerySnapshot>(
           stream: users
               ?.doc(walletAddress)
-              .collection("AccessControl")
+              .collection("AccessControl").where("granted",isEqualTo: true)
               .limit(10)
               .snapshots(),
           builder:
@@ -103,6 +103,7 @@ class _HospitalAccessListState extends State<HospitalAccessList> {
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: documents?.length,
                         itemBuilder: (BuildContext context, int position) {
+
                           return Padding(
                             padding: const EdgeInsets.all(8),
                             child: Card(
@@ -149,7 +150,7 @@ class _HospitalAccessListState extends State<HospitalAccessList> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) =>
-                                                    GrantRoleScreen(address:documents[position]['address']),
+                                                    GrantRoleScreen(address:documents[position]['address'],id:documents[position].id),
                                               ),
                                             );
                                     },
