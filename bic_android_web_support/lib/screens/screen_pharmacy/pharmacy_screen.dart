@@ -152,7 +152,7 @@ class _PharmacyRecordScreenState extends State<PharmacyRecordScreen> {
                               ),
                             ),
                             Text(
-                              "Registering Yourself",
+                              "Registering Pharmacy",
                               style: GoogleFonts.montserrat(
                                 color: Theme.of(context).colorScheme.secondary,
                                 fontSize: 25,

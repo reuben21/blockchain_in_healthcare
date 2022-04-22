@@ -87,7 +87,7 @@ class GasEstimationModel with ChangeNotifier {
 
   Future<Map<String, dynamic>> estimateGasForContractFunction(
       EthereumAddress senderAddress, String functionName,List<dynamic> params) async {
-    // try {
+
       DeployedContract contract = await getDeployedContract();
 
       var gasEstimate = await _client.estimateGas(
@@ -122,14 +122,6 @@ class GasEstimationModel with ChangeNotifier {
 
       notifyListeners();
       return result;
-    // } on SocketException {
-    //   throw exception.HttpException("No Internet connection 😑");
-    // } on HttpException {
-    //   throw exception.HttpException("Couldn't find the post 😱");
-    // } on FormatException {
-    //   throw exception.HttpException("Bad response format 👎");
-    // } catch (error) {
-    //   throw exception.HttpException(error.toString());
-    // }
+
   }
 }

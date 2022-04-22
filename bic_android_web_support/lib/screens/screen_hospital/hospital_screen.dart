@@ -118,8 +118,9 @@ class _HospitalScreenState extends State<HospitalScreen> {
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                               colors: [
-                                Theme.of(context).colorScheme.primary,
                                 Theme.of(context).colorScheme.primaryVariant,
+                                Theme.of(context).colorScheme.primary,
+
                               ],
                             )),
                             child: Column(
@@ -128,7 +129,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 80),
                                   child: SvgPicture.asset(
-                                    "assets/images/undraw_secure.svg",
+                                    "assets/images/undraw_medicine.svg",
                                     height: 220,
                                   ),
                                 ),
@@ -143,7 +144,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
                                       ),
                                     ),
                                     Text(
-                                      "Registering Yourself",
+                                      "Registering Hospital",
                                       style: GoogleFonts.montserrat(
                                         color: Theme.of(context).colorScheme.secondary,
                                         fontSize: 25,

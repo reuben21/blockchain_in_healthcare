@@ -159,6 +159,16 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 10),
+                                child: Text(
+                                  "Hello Patient !",
+                                  style: GoogleFonts.montserrat(
+                                    color: Theme.of(context).colorScheme.secondary,
+                                    fontSize: 30,
+                                  ),
+                                ),
+                              ),
                               Text(
                                 "Start By",
                                 style: GoogleFonts.montserrat(
